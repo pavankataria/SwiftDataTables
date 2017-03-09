@@ -5,6 +5,10 @@
 [![License](https://img.shields.io/cocoapods/l/SwiftDataTables.svg?style=flat)](http://cocoapods.org/pods/SwiftDataTables)
 [![Platform](https://img.shields.io/cocoapods/p/SwiftDataTables.svg?style=flat)](http://cocoapods.org/pods/SwiftDataTables)
 
+`SwiftDataTables` allows you to display grid-like data sets in a nicely formatted table for iOS. The main goal for the end-user are to be able to obtain useful information from the table as quickly as possible with the following features: ordering, searching, and paging; where as for the developer is to allow for easy implementation with extensible options. 
+
+This package was inspired by Javascript's DataTables package.
+
 ## Example
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
