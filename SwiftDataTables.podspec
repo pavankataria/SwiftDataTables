@@ -30,7 +30,7 @@ SwiftDataTables allows you to display grid-like data sets in a nicely formatted 
 
   s.ios.deployment_target = '8.0'
 
-  s.source_files = 'SwiftDataTables/*'
+  s.source_files = 'SwiftDataTables/**/*'
   # Classes/**/*'
   
   # s.resource_bundles = {

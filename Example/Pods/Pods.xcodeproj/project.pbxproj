@@ -11,6 +11,8 @@
 		04E67A60A59D89EDD0FA3954807BACA2 /* Pods-SwiftDataTables_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 384C6C6A4148C520C98D0600D7393727 /* Pods-SwiftDataTables_Example-dummy.m */; };
 		051A816D6DD0CAE13496DDCFE0829167 /* UIImage+Diff.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8012AD8A72934F350BDA8C90157813 /* UIImage+Diff.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		055835A025E38405EA9EC5218E6FE1E3 /* ExampleMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7510C71C3B6495347C01469BB81376A6 /* ExampleMetadata.swift */; };
+		055EEDE71E71937F001C4918 /* DataTableSortable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 055EEDE61E71937F001C4918 /* DataTableSortable.swift */; };
+		055EEDEC1E719436001C4918 /* CollectionViewSupplementaryElementRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 055EEDEB1E719436001C4918 /* CollectionViewSupplementaryElementRepresentable.swift */; };
 		07722FBCF6B380961B9D2832D5883F45 /* BeGreaterThan.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F8491C368290A8B20C9EF13A6C6EE6 /* BeGreaterThan.swift */; settings = {COMPILER_FLAGS = "-DPRODUCT_NAME=Nimble/Nimble"; }; };
 		094973D2D2F1E3B2E772F93C8147C6B9 /* UIApplication+StrictKeyWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = FA68CDEB565662C3E1B336DB7D1493CA /* UIApplication+StrictKeyWindow.m */; };
 		0AEC20AACF9B10846830274E3B2AA6FD /* BeLogical.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D38D8EEA17091B69D8228F090F3D137 /* BeLogical.swift */; settings = {COMPILER_FLAGS = "-DPRODUCT_NAME=Nimble/Nimble"; }; };
@@ -235,6 +237,10 @@
 		055EEDE11E716421001C4918 /* PaginationHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaginationHeaderViewModel.swift; sourceTree = "<group>"; };
 		055EEDE21E716421001C4918 /* SwiftDataTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataTable.swift; sourceTree = "<group>"; };
 		055EEDE31E716421001C4918 /* SwiftDataTableFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataTableFlowLayout.swift; sourceTree = "<group>"; };
+		055EEDE61E71937F001C4918 /* DataTableSortable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataTableSortable.swift; sourceTree = "<group>"; };
+		055EEDE91E7193AB001C4918 /* CollectionViewCellRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCellRepresentable.swift; sourceTree = "<group>"; };
+		055EEDEA1E7193AB001C4918 /* VirtualPositionTrackable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualPositionTrackable.swift; sourceTree = "<group>"; };
+		055EEDEB1E719436001C4918 /* CollectionViewSupplementaryElementRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewSupplementaryElementRepresentable.swift; sourceTree = "<group>"; };
 		06C301E6CBB530F76B07ADC535E93109 /* Nimble.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Nimble.xcconfig; sourceTree = "<group>"; };
 		0A7E756AD1BF0435FA50430ED8652004 /* QuickConfiguration.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = QuickConfiguration.m; path = Sources/QuickObjectiveC/Configuration/QuickConfiguration.m; sourceTree = "<group>"; };
 		0AB3A49F2F919C4A0822DA6F4BB67C0F /* NMBExceptionCapture.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = NMBExceptionCapture.m; path = Sources/NimbleObjectiveC/NMBExceptionCapture.m; sourceTree = "<group>"; };
@@ -480,17 +486,19 @@
 		055EEDCA1E716421001C4918 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				055EEDCB1E716421001C4918 /* DataCell */,
+				055EEDE81E7193AB001C4918 /* Protocols */,
+				055EEDE61E71937F001C4918 /* DataTableSortable.swift */,
+				055EEDE21E716421001C4918 /* SwiftDataTable.swift */,
+				055EEDE31E716421001C4918 /* SwiftDataTableFlowLayout.swift */,
 				055EEDD01E716421001C4918 /* DataStore.swift */,
 				055EEDD11E716421001C4918 /* DataStructureModel.swift */,
 				055EEDD21E716421001C4918 /* DataTableConfiguration.swift */,
 				055EEDD31E716421001C4918 /* DataTableSortType.swift */,
 				055EEDD41E716421001C4918 /* Extensions */,
+				055EEDCB1E716421001C4918 /* DataCell */,
 				055EEDD61E716421001C4918 /* HeaderFooter */,
 				055EEDDA1E716421001C4918 /* MenuLengthHeader */,
 				055EEDDE1E716421001C4918 /* PaginationHeader */,
-				055EEDE21E716421001C4918 /* SwiftDataTable.swift */,
-				055EEDE31E716421001C4918 /* SwiftDataTableFlowLayout.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -542,6 +550,16 @@
 				055EEDE11E716421001C4918 /* PaginationHeaderViewModel.swift */,
 			);
 			path = PaginationHeader;
+			sourceTree = "<group>";
+		};
+		055EEDE81E7193AB001C4918 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				055EEDEB1E719436001C4918 /* CollectionViewSupplementaryElementRepresentable.swift */,
+				055EEDE91E7193AB001C4918 /* CollectionViewCellRepresentable.swift */,
+				055EEDEA1E7193AB001C4918 /* VirtualPositionTrackable.swift */,
+			);
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 		10435EF2FCF6FE3F3B8BBA9465426A73 /* Support Files */ = {
@@ -1292,11 +1310,13 @@
 			files = (
 				506D761F91EC3583789A837C559972FE /* FBSnapshotTestCase-dummy.m in Sources */,
 				BE14F2198CDB0DAD98A567981D21C7A1 /* FBSnapshotTestCase.m in Sources */,
+				055EEDE71E71937F001C4918 /* DataTableSortable.swift in Sources */,
 				DB7A106243AC974FC7EBEB00B506C786 /* FBSnapshotTestCasePlatform.m in Sources */,
 				A4F69F3477A935285620AC3031C5C848 /* FBSnapshotTestController.m in Sources */,
 				1AB7934C16CE49DE196FFC7BE7278287 /* SwiftSupport.swift in Sources */,
 				094973D2D2F1E3B2E772F93C8147C6B9 /* UIApplication+StrictKeyWindow.m in Sources */,
 				69DA8B003216466C60F029CBD79897F1 /* UIImage+Compare.m in Sources */,
+				055EEDEC1E719436001C4918 /* CollectionViewSupplementaryElementRepresentable.swift in Sources */,
 				35DD05FD595A6FE7F5A0692D12E319DC /* UIImage+Diff.m in Sources */,
 				756564ABAF2892FE7140C92A1CDDCF65 /* UIImage+Snapshot.m in Sources */,
 			);
