@@ -22,7 +22,7 @@ pod "SwiftDataTables"
 
 ## Author
 
-pavankataria, kataria.pavan@gmail.com
+Pavan Kataria
 
 ## License
 

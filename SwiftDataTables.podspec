@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
   s.name             = 'SwiftDataTables'
   s.version          = '0.1.0'
-  s.summary          = 'A short description of SwiftDataTables.'
+  s.summary          = 'A Swift Data Table package that allows ordering, searching, and paging with extensible options.'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -18,19 +18,20 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+SwiftDataTables allows you to display grid-like data sets in a nicely formatted table for iOS. The main goal for the end-user are to be able to obtain useful information from the table as quickly as possible with the following features: ordering, searching, and paging; where as for the developer is to allow for easy implementation with extensible options. This package was inspired by Javascript's DataTables package.
                        DESC
 
   s.homepage         = 'https://github.com/pavankataria/SwiftDataTables'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'pavankataria' => 'kataria.pavan@gmail.com' }
+  s.author           = { 'pavankataria' => 'info@pavankataria.com' }
   s.source           = { :git => 'https://github.com/pavankataria/SwiftDataTables.git', :tag => s.version.to_s }
-  # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
+  # s.social_media_url = 'https://twitter.com/pavan_kataria'
 
   s.ios.deployment_target = '8.0'
 
-  s.source_files = 'SwiftDataTables/Classes/**/*'
+  s.source_files = 'SwiftDataTables/*'
+  # Classes/**/*'
   
   # s.resource_bundles = {
   #   'SwiftDataTables' => ['SwiftDataTables/Assets/*.png']

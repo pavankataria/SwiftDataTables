@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionReusableView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="U6b-Vx-4bR" customClass="DataHeaderFooter" customModule="SwiftDataTables" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="80" height="70"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ID" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6ld-fA-9ry">
+                    <rect key="frame" x="15" y="5" width="35" height="60"/>
+                    <constraints>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="20" id="2Xd-ZX-4ys"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3b5-XP-sWJ">
+                    <rect key="frame" x="55" y="21" width="20" height="29"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="20" id="PSY-E0-2Fg"/>
+                        <constraint firstAttribute="width" secondItem="3b5-XP-sWJ" secondAttribute="height" multiplier="9:13" id="Y7W-7N-ryB"/>
+                    </constraints>
+                </imageView>
+            </subviews>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="3b5-XP-sWJ" secondAttribute="trailing" constant="5" id="C1O-2a-f4t"/>
+                <constraint firstItem="6ld-fA-9ry" firstAttribute="top" secondItem="U6b-Vx-4bR" secondAttribute="top" constant="5" id="EME-7U-ucS"/>
+                <constraint firstItem="6ld-fA-9ry" firstAttribute="leading" secondItem="U6b-Vx-4bR" secondAttribute="leading" constant="15" id="aav-LF-Zed"/>
+                <constraint firstItem="3b5-XP-sWJ" firstAttribute="leading" secondItem="6ld-fA-9ry" secondAttribute="trailing" constant="5" id="dLW-GI-2ij"/>
+                <constraint firstAttribute="bottom" secondItem="6ld-fA-9ry" secondAttribute="bottom" constant="5" id="pWD-9e-WRg"/>
+                <constraint firstItem="3b5-XP-sWJ" firstAttribute="centerY" secondItem="U6b-Vx-4bR" secondAttribute="centerY" id="yOq-yL-RPj"/>
+            </constraints>
+            <connections>
+                <outlet property="sortingImageView" destination="3b5-XP-sWJ" id="KN1-nU-S9r"/>
+                <outlet property="titleLabel" destination="6ld-fA-9ry" id="JR0-D8-ucs"/>
+            </connections>
+            <point key="canvasLocation" x="228" y="-5"/>
+        </collectionReusableView>
+    </objects>
+</document>
