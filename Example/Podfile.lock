@@ -12,7 +12,7 @@ PODS:
     - Nimble
     - Quick
   - Quick (1.0.0)
-  - SwiftDataTables (0.1.3)
+  - SwiftDataTables (0.2)
 
 DEPENDENCIES:
   - FBSnapshotTestCase
@@ -23,15 +23,15 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   SwiftDataTables:
-    :path: ../
+    :path: "../"
 
 SPEC CHECKSUMS:
   FBSnapshotTestCase: 094f9f314decbabe373b87cc339bea235a63e07a
   Nimble: 415e3aa3267e7bc2c96b05fa814ddea7bb686a29
   Nimble-Snapshots: e743439f26c2fa99d8f7e0d7c01c99bcb40aa6f2
   Quick: 8024e4a47e6cc03a9d5245ef0948264fc6d27cff
-  SwiftDataTables: 8f2a09c4e49aa6a84b26aa5d2a10c84dc15a27e0
+  SwiftDataTables: 7288dc422bf6f2db5727a4996e8fe1f2a9bff2b7
 
 PODFILE CHECKSUM: 9948d9c085c4f798f028aaa1e7597151e452280e
 
-COCOAPODS: 1.1.1
+COCOAPODS: 1.2.0
