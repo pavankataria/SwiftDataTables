@@ -33,10 +33,9 @@ Pod::Spec.new do |s|
   # Classes/**/*'
 
   s.resource_bundles = {
-    'SwiftDataTables' => ['SwiftDataTables/Assets/*.xcassets']
+    'SwiftDataTables' => ['SwiftDataTables/SwiftDataTables.bundle']
   }
   s.resources    = 'SwiftDataTables/SwiftDataTables.bundle'
-
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'

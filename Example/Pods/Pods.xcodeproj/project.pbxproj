@@ -240,7 +240,6 @@
 		03F296C4A593A03240EAC157F47687C9 /* CwlDarwinDefinitions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CwlDarwinDefinitions.swift; path = Sources/Lib/CwlPreconditionTesting/CwlPreconditionTesting/CwlDarwinDefinitions.swift; sourceTree = "<group>"; };
 		0401507CF8C223BBA0935EF757D1293D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.0.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
 		05CB1B981E72BDA800FFB88C /* .gitkeep */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
-		05CB1B991E72BDA800FFB88C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0604D7CACDED26FA1E4AFF7BAB60146B /* CollectionViewCellRepresentable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CollectionViewCellRepresentable.swift; sourceTree = "<group>"; };
 		06C301E6CBB530F76B07ADC535E93109 /* Nimble.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Nimble.xcconfig; sourceTree = "<group>"; };
 		0A7E756AD1BF0435FA50430ED8652004 /* QuickConfiguration.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = QuickConfiguration.m; path = Sources/QuickObjectiveC/Configuration/QuickConfiguration.m; sourceTree = "<group>"; };
@@ -511,7 +510,6 @@
 			isa = PBXGroup;
 			children = (
 				05CB1B981E72BDA800FFB88C /* .gitkeep */,
-				05CB1B991E72BDA800FFB88C /* Assets.xcassets */,
 			);
 			path = Assets;
 			sourceTree = "<group>";
