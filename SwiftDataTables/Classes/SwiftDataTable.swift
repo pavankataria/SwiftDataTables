@@ -109,7 +109,6 @@ public class SwiftDataTable: UIView {
     //TODO: Abstract away the registering of classes so that a user can register their own nibs or classes.
     func registerCell(collectionView: UICollectionView){
         let dataCellIdentifier = String(describing: DataCell.self)
-
         let podBundle = Bundle(for: SwiftDataTable.self)
 
         

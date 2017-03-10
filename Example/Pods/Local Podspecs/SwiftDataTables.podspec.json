@@ -21,7 +21,8 @@
   "source_files": "SwiftDataTables/**/*",
   "resource_bundles": {
     "SwiftDataTables": [
-      "SwiftDataTables/Assets/*.xcassets"
+      "SwiftDataTables/SwiftDataTables.bundle"
     ]
-  }
+  },
+  "resources": "SwiftDataTables/SwiftDataTables.bundle"
 }

@@ -26,7 +26,7 @@ class DataHeaderFooter: UICollectionReusableView {
     
     func setup(viewModel: DataHeaderFooterViewModel) {
         self.titleLabel.text = viewModel.data
-        self.sortingImageView.image = UIImage(named: viewModel.imageForSortingElement ?? "")
+        self.sortingImageView.image = viewModel.imageForSortingElement
         
 //        viewModel.modelUpdated = { [weak self] viewModel in
 //            self?.update(viewModel: viewModel)
