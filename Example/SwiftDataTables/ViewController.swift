@@ -58,7 +58,6 @@ extension ViewController {
     }
     
     func data() -> [[String]]{
-        
         let dataSet = exampleDataSet()
         return dataSet //[["lol"]]//array/
     }
