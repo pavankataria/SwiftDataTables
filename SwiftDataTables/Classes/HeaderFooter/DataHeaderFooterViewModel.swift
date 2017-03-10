@@ -19,7 +19,7 @@ public class DataHeaderFooterViewModel: DataTableSortable {
     
     public var sortType: DataTableSortType
     
-    var imageForSortingElement: String? {
+    var imageStringForSortingElement: String? {
         switch self.sortType {
         case .hidden:
             return nil
@@ -30,6 +30,21 @@ public class DataHeaderFooterViewModel: DataTableSortable {
         case .descending:
             return "column-sort-descending"
         }
+    }
+    var imageForSortingElement: UIImage? {
+        guard let imageName = self.imageStringForSortingElement else {
+            return nil
+        }
+        let bundle = Bundle(for: DataHeaderFooter.self)
+        guard
+            let url = bundle.url(forResource: "SwiftDataTables", withExtension: "bundle"),
+            let imageBundle = Bundle(url: url),
+            let imagePath = imageBundle.path(forResource: imageName, ofType: "png"),
+            let image = UIImage(contentsOfFile: imagePath)
+            else {
+            return nil
+        }
+        return image
     }
     
     //MARK: - Events
