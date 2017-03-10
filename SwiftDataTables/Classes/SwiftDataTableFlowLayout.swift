@@ -104,10 +104,12 @@ class SwiftDataTableFlowLayout: UICollectionViewFlowLayout {
         var attributes = self.cache.filter{ $0.frame.intersects(rect) }
 
         //MARK: Menu Length
-        let menuLengthIndexPath = IndexPath(index: 0)
-        if let menuLengthAttributes = self.layoutAttributesForSupplementaryView(ofKind:
-            SwiftDataTable.SupplementaryViewType.menuLengthHeader.rawValue, at: menuLengthIndexPath){
-            attributes.append(menuLengthAttributes)
+        if self.dataTable.shouldShowSearchSection(){
+            let menuLengthIndexPath = IndexPath(index: 0)
+            if let menuLengthAttributes = self.layoutAttributesForSupplementaryView(ofKind:
+                SwiftDataTable.SupplementaryViewType.menuLengthHeader.rawValue, at: menuLengthIndexPath){
+                attributes.append(menuLengthAttributes)
+            }
         }
 
         //MARK: Column Headers
@@ -127,10 +129,12 @@ class SwiftDataTableFlowLayout: UICollectionViewFlowLayout {
         }
         
         //MARK: Pagination
-        let paginationIndexPath = IndexPath(index: 0)
-        if let paginationAttributes = self.layoutAttributesForSupplementaryView(ofKind:
-            SwiftDataTable.SupplementaryViewType.paginationHeader.rawValue, at: paginationIndexPath){
-            attributes.append(paginationAttributes)
+        if self.dataTable.shouldShowPaginationSection() {
+            let paginationIndexPath = IndexPath(index: 0)
+            if let paginationAttributes = self.layoutAttributesForSupplementaryView(ofKind:
+                SwiftDataTable.SupplementaryViewType.paginationHeader.rawValue, at: paginationIndexPath){
+                attributes.append(paginationAttributes)
+            }
         }
         return attributes
     }

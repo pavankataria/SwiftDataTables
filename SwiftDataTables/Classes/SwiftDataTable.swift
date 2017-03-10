@@ -356,9 +356,19 @@ extension SwiftDataTable {
     func shouldSectionHeadersFloat() -> Bool {
         return true
     }
+    
     func shouldSectionFootersFloat() -> Bool {
         return true
     }
+    
+    func shouldShowSearchSection() -> Bool {
+        return false
+    }
+    
+    func shouldShowPaginationSection() -> Bool {
+        return false
+    }
+    
     func heightForSectionFooter() -> CGFloat {
         return 50
     }
@@ -400,11 +410,18 @@ extension SwiftDataTable {
     }
     
     func heightForMenuLengthView() -> CGFloat {
+        guard self.shouldShowSearchSection() else {
+            return 0
+        }
         return 35
     }
     
     func heightForPaginationView() -> CGFloat {
+        guard self.shouldShowPaginationSection() else {
+            return 0
+        }
         return 35
+            
     }
     
     func showVerticalScrollBars() -> Bool {
