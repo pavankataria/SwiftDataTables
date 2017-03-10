@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 public protocol DataCellRowRepresentable {
-    func dataCellRowRepresentable() -> String
+    func dataCellRowRepresentable() -> [String]
 }
