@@ -31,3 +31,13 @@ Pavan Kataria
 ## License
 
 SwiftDataTables is available under the MIT license. See the LICENSE file for more info.
+
+## Contributing
+
+1. Create an issue and describe your idea
+2. [Fork it] (https://github.com/pavankataria/SwiftDataTables/fork)
+3. Create your feature branch (`git checkout -b my-new-feature`)
+4. Commit your changes (`git commit -am 'Add some feature'`)
+5. Publish the branch (`git push origin my-new-feature`)
+6. Create a new Pull Request
+7. Profit! :white_check_mark:
