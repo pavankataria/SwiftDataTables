@@ -12,7 +12,7 @@ import Foundation
 //struct DataTableColumnModel {
 //    
 //}
-struct DataStructureModel {
+public struct DataStructureModel {
     
     //MARK: - Private Properties
     private var shouldFitTitles: Bool = true

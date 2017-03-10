@@ -10,13 +10,14 @@ import Foundation
 import UIKit
 
 
-class DataHeaderFooterViewModel: DataTableSortable {
+public class DataHeaderFooterViewModel: DataTableSortable {
+
     //MARK: - Properties
     let data: String
     var indexPath: IndexPath! // Questionable
     var dataTable: SwiftDataTable!
     
-    var sortType: DataTableSortType
+    public var sortType: DataTableSortType
     
     var imageForSortingElement: String? {
         switch self.sortType {

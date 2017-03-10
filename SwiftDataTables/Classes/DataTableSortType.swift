@@ -9,7 +9,7 @@
 import Foundation
 
 
-enum DataTableSortType: String {
+public enum DataTableSortType: String {
     case hidden
     case unspecified
     case ascending

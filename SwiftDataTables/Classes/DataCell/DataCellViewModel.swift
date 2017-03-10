@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class DataCellViewModel: VirtualPositionTrackable, CollectionViewCellRepresentable {
+open class DataCellViewModel: VirtualPositionTrackable, CollectionViewCellRepresentable {
     //MARK: - Public Properties
     var xPositionRunningTotal: CGFloat?  = nil
     var yPositionRunningTotal: CGFloat?  = nil

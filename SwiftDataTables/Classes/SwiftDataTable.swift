@@ -9,7 +9,7 @@
 import UIKit
 
 
-class SwiftDataTable: UIView {
+public class SwiftDataTable: UIView {
     
     public enum SupplementaryViewType: String {
         /// Single header positioned at the top above the column section
@@ -81,7 +81,7 @@ class SwiftDataTable: UIView {
     fileprivate var menuLengthViewModel: MenuLengthHeaderViewModel!
     
     //MARK: - Lifecycle
-    init(data: [[String]],
+    public init(data: [[String]],
          headerTitles: [String],
          frame: CGRect = .zero)
     {
@@ -93,7 +93,7 @@ class SwiftDataTable: UIView {
         self.collectionView.reloadData()
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     deinit {
@@ -143,7 +143,7 @@ class SwiftDataTable: UIView {
     }
 }
 
-extension SwiftDataTable {
+public extension SwiftDataTable {
     func createDataModels(with data: DataStructureModel){
         self.dataStructure = data
     }
@@ -185,20 +185,20 @@ extension SwiftDataTable: UICollectionViewDelegateFlowLayout {
 
 
 extension SwiftDataTable: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.dataStructure.columnCount
     }
     
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
+    public func numberOfSections(in collectionView: UICollectionView) -> Int {
         return self.rowViewModels.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
          let cell = self.rowViewModels[indexPath.section][indexPath.row].dequeueCell(collectionView: collectionView, indexPath: indexPath)
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
+    public func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
         let kind = SupplementaryViewType(kind: elementKind)
         switch kind {
         case .paginationHeader, .menuLengthHeader:
@@ -207,7 +207,7 @@ extension SwiftDataTable: UICollectionViewDataSource {
             view.backgroundColor = UIColor.white
         }
     }
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+    public func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard let cellViewModel = self.rowViewModels[safe: indexPath.section]?[safe: indexPath.row] else {
             return
         }
@@ -219,7 +219,7 @@ extension SwiftDataTable: UICollectionViewDataSource {
         }
     }
     
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let elementKind = SupplementaryViewType(kind: kind)
         let viewModel: CollectionViewSupplementaryElementRepresentable
         switch elementKind {
@@ -250,7 +250,7 @@ extension SwiftDataTable {
 
 //MARK: - UICollection View Delegate
 extension SwiftDataTable: UIScrollViewDelegate {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if self.disableScrollViewLeftBounce() {
             if (self.collectionView.contentOffset.x <= 0) {
                 self.collectionView.contentOffset.x = 0

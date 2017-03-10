@@ -7,6 +7,6 @@
 //
 
 import Foundation
-protocol DataTableSortable {
+public protocol DataTableSortable {
     var sortType: DataTableSortType { get set }
 }
