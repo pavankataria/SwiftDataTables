@@ -105,22 +105,27 @@ public class SwiftDataTable: UIView {
     func deviceOrientationWillChange() {
         self.layout?.clearLayoutCache()
     }
+    
+    //TODO: Abstract away the registering of classes so that a user can register their own nibs or classes.
     func registerCell(collectionView: UICollectionView){
         let dataCellIdentifier = String(describing: DataCell.self)
 
-        collectionView.register(UINib(nibName: dataCellIdentifier, bundle: nil), forCellWithReuseIdentifier: dataCellIdentifier)
+        let podBundle = Bundle(for: SwiftDataTable.self)
+
+        
+        collectionView.register(UINib(nibName: dataCellIdentifier, bundle: podBundle), forCellWithReuseIdentifier: dataCellIdentifier)
         
         let headerIdentifier = String(describing: DataHeaderFooter.self)
-        collectionView.register(UINib(nibName: headerIdentifier, bundle: nil), forSupplementaryViewOfKind: SupplementaryViewType.columnHeader.rawValue, withReuseIdentifier: headerIdentifier)
+        collectionView.register(UINib(nibName: headerIdentifier, bundle: podBundle), forSupplementaryViewOfKind: SupplementaryViewType.columnHeader.rawValue, withReuseIdentifier: headerIdentifier)
         
-        collectionView.register(UINib(nibName:  headerIdentifier, bundle: nil), forSupplementaryViewOfKind: SupplementaryViewType.footerHeader.rawValue, withReuseIdentifier: headerIdentifier)
+        collectionView.register(UINib(nibName:  headerIdentifier, bundle: podBundle), forSupplementaryViewOfKind: SupplementaryViewType.footerHeader.rawValue, withReuseIdentifier: headerIdentifier)
         
         let paginationIdentifier = String(describing: PaginationHeader.self)
-        collectionView.register(UINib(nibName: paginationIdentifier, bundle: nil), forSupplementaryViewOfKind: SupplementaryViewType.paginationHeader.rawValue, withReuseIdentifier: paginationIdentifier)
+        collectionView.register(UINib(nibName: paginationIdentifier, bundle: podBundle), forSupplementaryViewOfKind: SupplementaryViewType.paginationHeader.rawValue, withReuseIdentifier: paginationIdentifier)
         
         let menuLengthIdentifier = String(describing: MenuLengthHeader.self)
         
-        collectionView.register(UINib(nibName: menuLengthIdentifier, bundle: nil), forSupplementaryViewOfKind: SupplementaryViewType.menuLengthHeader.rawValue, withReuseIdentifier: menuLengthIdentifier)
+        collectionView.register(UINib(nibName: menuLengthIdentifier, bundle: podBundle), forSupplementaryViewOfKind: SupplementaryViewType.menuLengthHeader.rawValue, withReuseIdentifier: menuLengthIdentifier)
     }
     
     func set(data: [[String]], headerTitles: [String]){
