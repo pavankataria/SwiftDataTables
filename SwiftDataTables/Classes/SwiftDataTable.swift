@@ -268,7 +268,7 @@ extension SwiftDataTable: UIScrollViewDelegate {
         if self.disableScrollViewRightBounce(){
             let maxX = self.collectionView.contentSize.width-self.collectionView.frame.width
             if (self.collectionView.contentOffset.x >= maxX){
-                self.collectionView.contentOffset.x = maxX-1
+                self.collectionView.contentOffset.x = max(maxX-1, 0)
             }
         }
         if self.disableScrollViewBottomBounce(){
