@@ -43,8 +43,11 @@ public struct DataStructureModel {
         self.headerTitles = headerTitles
         let unfilteredData = data
         let sanitisedData = unfilteredData.filter({ currentRowData in
-            return currentRowData.count == self.columnCount
+            //Trim column count for current row to the number of headers present
+            let rowWithPreferredColumnCount = Array(currentRowData.prefix(upTo: self.columnCount))
+            return rowWithPreferredColumnCount.count == self.columnCount
         })
+        
         self.data = sanitisedData//sanitisedData
         self.shouldFitTitles = shouldMakeTitlesFitInColumn
         self.columnAverageContentLength = self.processColumnDataAverages(data: self.data)
