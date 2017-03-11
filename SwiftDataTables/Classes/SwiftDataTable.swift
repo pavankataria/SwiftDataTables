@@ -329,7 +329,7 @@ extension SwiftDataTable {
         self.reloadEverything()
     }
     
-    private func applyDefaultColumnOrder(_ columnOrder: DataTableColumnOrder){
+    fileprivate func applyDefaultColumnOrder(_ columnOrder: DataTableColumnOrder){
         self.highlight(column: columnOrder.index)
         self.applyColumnOrder(columnOrder)
         self.sort(column: columnOrder.index, sort: self.headerViewModels[columnOrder.index].sortType)

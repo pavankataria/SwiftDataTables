@@ -10,11 +10,17 @@ import Foundation
 
 
 public struct DataTableColumnOrder {
+    //MARK: - Properties
     let index: Int
     let order: DataTableSortType
+    public init(index: Int, order: DataTableSortType){
+        self.index = index
+        self.order = order
+    }
 }
 public struct DataTableConfiguration {
-    
-//    let shouldShowFooters: Bool
-    var defaultOrdering: DataTableColumnOrder? = nil
+    public var defaultOrdering: DataTableColumnOrder? = nil
+    public init(){
+        
+    }
 }
