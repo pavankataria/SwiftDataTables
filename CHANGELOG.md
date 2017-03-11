@@ -1,5 +1,20 @@
 # Change Log
 
+## [0.2.5](https://github.com/pavankataria/SwiftDataTables/tree/0.2.5) (2017-03-10)
+[Full Changelog](https://github.com/pavankataria/SwiftDataTables/compare/0.2.4...0.2.5)
+
+## [0.2.4](https://github.com/pavankataria/SwiftDataTables/tree/0.2.4) (2017-03-10)
+[Full Changelog](https://github.com/pavankataria/SwiftDataTables/compare/0.2.3...0.2.4)
+
+## [0.2.3](https://github.com/pavankataria/SwiftDataTables/tree/0.2.3) (2017-03-10)
+[Full Changelog](https://github.com/pavankataria/SwiftDataTables/compare/0.2.2...0.2.3)
+
+## [0.2.2](https://github.com/pavankataria/SwiftDataTables/tree/0.2.2) (2017-03-10)
+[Full Changelog](https://github.com/pavankataria/SwiftDataTables/compare/0.2.1...0.2.2)
+
+## [0.2.1](https://github.com/pavankataria/SwiftDataTables/tree/0.2.1) (2017-03-10)
+[Full Changelog](https://github.com/pavankataria/SwiftDataTables/compare/0.2...0.2.1)
+
 ## [0.2](https://github.com/pavankataria/SwiftDataTables/tree/0.2) (2017-03-10)
 [Full Changelog](https://github.com/pavankataria/SwiftDataTables/compare/0.1.1...0.2)
 
