@@ -30,7 +30,7 @@ class ViewController: UIViewController {
         self.view.backgroundColor = UIColor.white
         
         var options = DataTableConfiguration()
-        options.defaultOrdering = DataTableColumnOrder(index: 3, order: .descending)
+        options.defaultOrdering = DataTableColumnOrder(index: 1, order: .ascending)
             
             
         self.dataTable = SwiftDataTable(
