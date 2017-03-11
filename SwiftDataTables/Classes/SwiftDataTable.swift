@@ -92,7 +92,6 @@ public class SwiftDataTable: UIView {
         self.set(data: data, headerTitles: headerTitles)
         
         self.registerObservers()
-        self.collectionView.reloadData()
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -129,15 +128,17 @@ public class SwiftDataTable: UIView {
         collectionView.register(UINib(nibName: menuLengthIdentifier, bundle: podBundle), forSupplementaryViewOfKind: SupplementaryViewType.menuLengthHeader.rawValue, withReuseIdentifier: menuLengthIdentifier)
     }
     
-    public override var frame: CGRect {
-        get {
-            return super.frame
-        }
-        set {
-            super.frame = frame
-            self.calculateColumnWidths()
-        }
-    }
+//    public override var frame: CGRect {
+//        get {
+//            return super.frame
+//        }
+//        set {
+//            super.frame = frame
+////            if frame != .zero {
+////                self.calculateColumnWidths()
+////            }
+//        }
+//    }
     func set(data: [[String]], headerTitles: [String]){
         self.dataStructure = DataStructureModel(data: data, headerTitles: headerTitles)
         self.createDataCellViewModels(with: self.dataStructure)
@@ -145,37 +146,36 @@ public class SwiftDataTable: UIView {
         self.calculateColumnWidths()
     }
     
-    private func calculateColumnWidths(){
+    func calculateColumnWidths(){
         //calculate the automatic widths for each column
         self.columnWidths.removeAll()
         for columnIndex in Array(0..<self.numberOfHeaderColumns()) {
             self.columnWidths.append(self.automaticWidthForColumn(index: columnIndex))
         }
-        //if content width is smaller than ipad width
         
-        let totalColumnWidth = self.columnWidths.reduce(0, +)
-        
-        let totalWidth = self.collectionView.frame.width
-        
-        let gap: CGFloat = totalWidth - totalColumnWidth
-        
-        
-        
-        //        let percentageUnit = 100.0/totalColumnWidth
-        
-        if totalColumnWidth < totalWidth {
-            //calculate the percentage width presence of each column in relation to the frame width of the collection view
-            for columnIndex in Array(0..<self.columnWidths.count) {
-                let columnWidth = self.columnWidths[columnIndex]
-                let columnWidthPercentagePresence = columnWidth / totalColumnWidth
-                //add result of gap size divided by percentage column width to each column automatic width.
-                let gapPortionToDistributeToCurrentColumn = gap * columnWidthPercentagePresence
-                //apply final result of each column width to the column width array.
-                self.columnWidths[columnIndex] = columnWidth + gapPortionToDistributeToCurrentColumn
-            }
+        if self.shouldContentWidthScaleToFillFrame(){
+            self.scaleToFillColumnWidths()
         }
     }
     
+    func scaleToFillColumnWidths(){
+        //if content width is smaller than ipad width
+        let totalColumnWidth = self.columnWidths.reduce(0, +)
+        let totalWidth = self.frame.width
+        let gap: CGFloat = totalWidth - totalColumnWidth
+        guard totalColumnWidth < totalWidth else {
+            return
+        }
+        //calculate the percentage width presence of each column in relation to the frame width of the collection view
+        for columnIndex in Array(0..<self.columnWidths.count) {
+            let columnWidth = self.columnWidths[columnIndex]
+            let columnWidthPercentagePresence = columnWidth / totalColumnWidth
+            //add result of gap size divided by percentage column width to each column automatic width.
+            let gapPortionToDistributeToCurrentColumn = gap * columnWidthPercentagePresence
+            //apply final result of each column width to the column width array.
+            self.columnWidths[columnIndex] = columnWidth + gapPortionToDistributeToCurrentColumn
+        }
+    }
     //MARK: - Events
 //    public func tapped(headerView: DataHeaderFooterViewModel){
 ////        self.headerViewModels.forEach { if $0.data != headerView.data { $0.toggleToDefault() } }
@@ -397,6 +397,10 @@ extension SwiftDataTable {
         return self.dataStructure.footerTitles.count
     }
     
+    
+    func shouldContentWidthScaleToFillFrame() -> Bool{
+        return true
+    }
     func shouldSectionHeadersFloat() -> Bool {
         return true
     }
@@ -432,6 +436,7 @@ extension SwiftDataTable {
     /// - Parameter index: The column index
     /// - Returns: The automatic width of the column irrespective of the Data Grid frame width
     func automaticWidthForColumn(index: Int) -> CGFloat {
+        print(self.frame.width)
         let columnAverage: CGFloat = CGFloat(dataStructure.averageDataLengthForColumn(index: index))
         let sortingArrowVisualElementWidth: CGFloat = 20 // This is ugly
         let averageDataColumnWidth: CGFloat = columnAverage * self.pixelsPerCharacter() + sortingArrowVisualElementWidth

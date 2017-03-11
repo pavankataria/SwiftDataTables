@@ -37,11 +37,8 @@ class ViewController: UIViewController {
         self.dataTable.backgroundColor = UIColor.init(red: 235/255, green: 235/255, blue: 235/255, alpha: 1)
         
         //25/255, green: 33/255, blue: 39/255, alpha: 1)
-        
         self.dataTable.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        
         self.dataTable.frame = self.view.bounds
-        
         self.view.addSubview(self.dataTable);
     }
 }
