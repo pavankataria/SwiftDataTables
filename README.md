@@ -1,6 +1,6 @@
 # SwiftDataTables
 
-[![CI Status](http://img.shields.io/travis/pavankataria/SwiftDataTables.svg?style=flat)](https://travis-ci.org/pavankataria/SwiftDataTables)
+<!--[![CI Status](http://img.shields.io/travis/pavankataria/SwiftDataTables.svg?style=flat)](https://travis-ci.org/pavankataria/SwiftDataTables)-->
 [![Version](https://img.shields.io/cocoapods/v/SwiftDataTables.svg?style=flat)](http://cocoapods.org/pods/SwiftDataTables)
 [![License](https://img.shields.io/cocoapods/l/SwiftDataTables.svg?style=flat)](http://cocoapods.org/pods/SwiftDataTables)
 [![Platform](https://img.shields.io/cocoapods/p/SwiftDataTables.svg?style=flat)](http://cocoapods.org/pods/SwiftDataTables)
