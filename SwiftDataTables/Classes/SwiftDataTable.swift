@@ -84,12 +84,13 @@ public class SwiftDataTable: UIView {
     //MARK: - Lifecycle
     public init(data: [[String]],
          headerTitles: [String],
+         options: DataTableConfiguration = DataTableConfiguration(),
          frame: CGRect = .zero)
     {
 //        self.dataStructure = DataStructureModel(data: data, headerTitles: headerTitles)
         super.init(frame: frame)
         
-        self.set(data: data, headerTitles: headerTitles)
+        self.set(data: data, headerTitles: headerTitles, options: options)
         
         self.registerObservers()
     }
@@ -128,24 +129,22 @@ public class SwiftDataTable: UIView {
         collectionView.register(UINib(nibName: menuLengthIdentifier, bundle: podBundle), forSupplementaryViewOfKind: SupplementaryViewType.menuLengthHeader.rawValue, withReuseIdentifier: menuLengthIdentifier)
     }
     
-//    public override var frame: CGRect {
-//        get {
-//            return super.frame
-//        }
-//        set {
-//            super.frame = frame
-////            if frame != .zero {
-////                self.calculateColumnWidths()
-////            }
-//        }
-//    }
-    func set(data: [[String]], headerTitles: [String]){
+    func set(data: [[String]], headerTitles: [String], options: DataTableConfiguration? = nil){
         self.dataStructure = DataStructureModel(data: data, headerTitles: headerTitles)
         self.createDataCellViewModels(with: self.dataStructure)
         self.layout = SwiftDataTableFlowLayout(dataTable: self)
         self.calculateColumnWidths()
+        self.applyOptions(options)
     }
     
+    func applyOptions(_ options: DataTableConfiguration?){
+        guard let options = options else {
+            return
+        }
+        if let defaultOrdering = options.defaultOrdering {
+            self.applyDefaultColumnOrder(defaultOrdering)
+        }
+    }
     func calculateColumnWidths(){
         //calculate the automatic widths for each column
         self.columnWidths.removeAll()
@@ -330,6 +329,12 @@ extension SwiftDataTable {
         self.reloadEverything()
     }
     
+    private func applyDefaultColumnOrder(_ columnOrder: DataTableColumnOrder){
+        self.highlight(column: columnOrder.index)
+        self.applyColumnOrder(columnOrder)
+        self.sort(column: columnOrder.index, sort: self.headerViewModels[columnOrder.index].sortType)
+    }
+    
     func didTapColumn(index: IndexPath) {
         defer {
             self.update()
@@ -367,6 +372,18 @@ extension SwiftDataTable {
             $0[column].highlighted = true
         }
     }
+
+    func applyColumnOrder(_ columnOrder: DataTableColumnOrder){
+        Array(0..<self.headerViewModels.count).forEach {
+            if columnOrder.index == $0 {
+                self.headerViewModels[$0].sortType = columnOrder.order
+            }
+            else {
+                self.headerViewModels[$0].sortType.toggleToDefault()
+            }
+        }
+    }
+
     
     func toggleSortArrows(column: Int){
         Array(0..<self.headerViewModels.count).forEach {

@@ -9,8 +9,12 @@
 import Foundation
 
 
-
-struct DataTableConfiguration {
+public struct DataTableColumnOrder {
+    let index: Int
+    let order: DataTableSortType
+}
+public struct DataTableConfiguration {
     
-    let shouldShowFooters: Bool
+//    let shouldShowFooters: Bool
+    var defaultOrdering: DataTableColumnOrder? = nil
 }
