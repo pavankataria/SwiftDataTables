@@ -29,9 +29,14 @@ class ViewController: UIViewController {
         
         self.view.backgroundColor = UIColor.white
         
+        var options = DataTableConfiguration()
+        options.defaultOrdering = DataTableColumnOrder(index: 1, order: .ascending)
+            
+            
         self.dataTable = SwiftDataTable(
             data: self.data(),
-            headerTitles: self.columnHeaders()
+            headerTitles: self.columnHeaders(),
+            options: options
         )
         
         self.dataTable.backgroundColor = UIColor.init(red: 235/255, green: 235/255, blue: 235/255, alpha: 1)
