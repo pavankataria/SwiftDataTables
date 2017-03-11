@@ -389,6 +389,11 @@ extension SwiftDataTable {
         return max(averageDataColumnWidth, max(self.minimumColumnWidth(), self.minimumHeaderColumnWidth(index: index)))
     }
     
+    
+    func calculateContentWidth() -> CGFloat {
+        return Array(0..<self.numberOfColumns()).reduce(self.widthForRowHeader()) { $0 + self.widthForColumn(index: $1)}
+    }
+    
     func heightForRow(index: Int) -> CGFloat {
         return 44
     }
@@ -400,6 +405,7 @@ extension SwiftDataTable {
     func minimumColumnWidth() -> CGFloat {
         return 70
     }
+    
     func minimumHeaderColumnWidth(index: Int) -> CGFloat {
         return CGFloat(self.pixelsPerCharacter() * CGFloat(self.dataStructure.headerTitles[index].characters.count))
     }

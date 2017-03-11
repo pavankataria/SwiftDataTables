@@ -91,7 +91,7 @@ class SwiftDataTableFlowLayout: UICollectionViewFlowLayout {
     }
     
     override var collectionViewContentSize: CGSize {
-        let width = Array(0..<self.dataTable.numberOfColumns()).reduce(self.dataTable.widthForRowHeader()) { $0 + self.dataTable.widthForColumn(index: $1)}
+        let width = self.dataTable.calculateContentWidth()
         let height = Array(0..<self.dataTable.numberOfRows()).reduce(self.dataTable.heightForSectionHeader() + self.dataTable.heightForSectionFooter() + self.dataTable.heightForPaginationView() + self.dataTable.heightForMenuLengthView()) {
                 $0 + self.dataTable.heightForRow(index: $1) + self.dataTable.heightOfInterRowSpacing()
         }

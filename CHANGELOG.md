@@ -18,7 +18,7 @@
 ## [0.2](https://github.com/pavankataria/SwiftDataTables/tree/0.2) (2017-03-10)
 [Full Changelog](https://github.com/pavankataria/SwiftDataTables/compare/0.1.1...0.2)
 
-**Merged pull requests:**
+**Implemented enhancements:**
 
 - Image bundle [\#1](https://github.com/pavankataria/SwiftDataTables/pull/1) ([pavankataria](https://github.com/pavankataria))
 

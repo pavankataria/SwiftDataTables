@@ -51,9 +51,9 @@ extension ViewController {
             "Id",
             "Name",
             "Email",
-            "Number",
-            "City",
-            "Balance"
+            "Number"
+//            "City",
+//            "Balance"
         ]
     }
     
