@@ -53,14 +53,19 @@ extension ViewController {
             "Id",
             "Name",
             "Email",
-            "Number"
-//            "City",
-//            "Balance"
+            "Number",
+            "City",
+            "Balance"
         ]
     }
     
-    func data() -> [[String]]{
-        let dataSet = exampleDataSet()
-        return dataSet //[["lol"]]//array/
+    func data() -> [[DataTableValueType]]{
+        //This would be your json object
+        let dataSet: [[Any]] = exampleDataSet()
+        return dataSet.map {
+            $0.flatMap {
+                return DataTableValueType($0)
+            }
+        }
     }
 }

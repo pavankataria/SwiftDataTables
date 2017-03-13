@@ -12,6 +12,8 @@ import Foundation
 //This will probably make sorting easier and could potenntially allow us to get rid of this class
 
 public enum DataTableValueType {
+    
+    //MARK: - Properties
     case string(String)
     case int(Int)
     case float(Float)
@@ -29,6 +31,21 @@ public enum DataTableValueType {
             case .double(let value):
                 return String(value)
             }
+        }
+    }
+    
+    public init?(_ value: Any){
+        if let value = value as? Int {
+            self = .int(value)
+        }
+        else if let value = value as? Float {
+            self = .float(value)
+        }
+        else if let value = value as? Double {
+            self = .double(value)
+        }
+        else {
+            self = .string(String(describing: value))
         }
     }
 }
