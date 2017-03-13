@@ -34,18 +34,29 @@ public enum DataTableValueType {
         }
     }
     
-    public init?(_ value: Any){
-        if let value = value as? Int {
+    public init(_ value: Any){
+        //Determine the actual type first
+        switch value {
+        case let value as Int:
             self = .int(value)
-        }
-        else if let value = value as? Float {
+        case let value as Float:
             self = .float(value)
-        }
-        else if let value = value as? Double {
+        case let value as Double:
             self = .double(value)
-        }
-        else {
-            self = .string(String(describing: value))
+        default:
+            let temporaryStringRepresentation = String(describing: value)
+            if let value = Int(temporaryStringRepresentation) {
+                self = .int(value)
+            }
+            else if let value = Float(temporaryStringRepresentation) {
+                self = .float(value)
+            }
+            else if let value = Double(temporaryStringRepresentation) {
+                self = .double(value)
+            }
+            else {
+                self = .string(temporaryStringRepresentation)
+            }
         }
     }
 }

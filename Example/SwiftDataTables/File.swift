@@ -13,7 +13,7 @@ public func exampleDataSet() -> [[Any]] {
         [1,"Meggie Block","Rosamond29@gmail.com","(397) 102-5456 x371","Emilioshire","876.06"],
         [2,"Waldo Sporer","Martina.Barrows@hotmail.com","(726) 447-9616 x726","Port Jedediahfurt","220.69"],
         [3,"Vickie Stroman","Parker40@hotmail.com","1-347-447-3401 x491","Delbertberg","340.64"],
-        [4,"Kiley Denesik","Ida.Murphy2@hotmail.com","069.128.7032","South Aidaside","271.01"],
+        [[4,"Kiley Denesik","Ida.Murphy2@hotmail.com","069.128.7032","South Aidaside","271.01"],
         [5,"Shanie Langworth","Gennaro1@yahoo.com","185-323-3421","Ileneville","342.04"],
         [6,"Clifford Greenfelder","Rowena.Kessler@yahoo.com","1-445-170-5544 x69505","Zboncakburgh","660.10"],
         [7,"Lurline Rolfson","Quincy_Cole76@yahoo.com","1-839-002-7378 x36811","New Mitchelshire","401.82"],
