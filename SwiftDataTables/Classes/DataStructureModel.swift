@@ -20,7 +20,7 @@ public struct DataStructureModel {
         return headerTitles.count// ?? 0
     }
     //MARK: - Public Properties
-    var data = [[String]]()
+    var data = DataTableContent()
     var headerTitles = [String]()
     var footerTitles = [String]()
     var shouldFootersShowSortingElement: Bool = false
@@ -29,11 +29,11 @@ public struct DataStructureModel {
     
     //MARK: - Lifecycle
     init() {
-        self.init(data: [[String]](), headerTitles: [String]())
+        self.init(data: DataTableContent(), headerTitles: [String]())
     }
     
     init(
-        data: [[String]], headerTitles: [String],
+        data: DataTableContent, headerTitles: [String],
         shouldMakeTitlesFitInColumn: Bool = true,
         shouldDisplayFooterHeaders: Bool = true
         //sortableColumns: [Int] // This will map onto which column can be sortable
@@ -72,12 +72,12 @@ public struct DataStructureModel {
 
     //extension DataStructureModel {
     //Finds the average content length in each column
-    private func processColumnDataAverages(data: [[String]]) -> [Float] {
+    private func processColumnDataAverages(data: DataTableContent) -> [Float] {
         var columnContentAverages = [Float]()
         for column in Array(0..<self.headerTitles.count) {
             let averageForCurrentColumn = Array(0..<data.count).reduce(0){
-                let text = data[$1][column]
-                return $0 + text.characters.count
+                let dataType: DataTableValueType = data[$1][column]
+                return $0 + dataType.stringRepresentation.characters.count
             }
             columnContentAverages.append(Float(averageForCurrentColumn)/Float(data.count))
         }

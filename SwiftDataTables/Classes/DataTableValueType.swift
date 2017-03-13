@@ -16,4 +16,19 @@ public enum DataTableValueType {
     case int(Int)
     case float(Float)
     case double(Double)
+    
+    var stringRepresentation: String {
+        get {
+            switch self {
+            case .string(let value):
+                return String(value)
+            case .int(let value):
+                return String(value)
+            case .float(let value):
+                return String(value)
+            case .double(let value):
+                return String(value)
+            }
+        }
+    }
 }

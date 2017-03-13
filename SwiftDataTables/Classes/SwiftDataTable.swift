@@ -8,9 +8,9 @@
 
 import UIKit
 
+public typealias DataTableContent = [[DataTableValueType]]
 
 public class SwiftDataTable: UIView {
-    
     public enum SupplementaryViewType: String {
         /// Single header positioned at the top above the column section
         case paginationHeader = "SwiftDataTablePaginationHeader"
@@ -82,17 +82,30 @@ public class SwiftDataTable: UIView {
     fileprivate var columnWidths = [CGFloat]()
 
     //MARK: - Lifecycle
-    public init(data: [[String]],
+    
+    public init(data: [[DataTableValueType]],
+                headerTitles: [String],
+                options: DataTableConfiguration = DataTableConfiguration(),
+                frame: CGRect = .zero)
+    {
+        super.init(frame: frame)
+        
+        self.set(data: data, headerTitles: headerTitles, options: options)
+        self.registerObservers()
+        
+        
+    }
+    public convenience init(data: [[String]],
          headerTitles: [String],
          options: DataTableConfiguration = DataTableConfiguration(),
          frame: CGRect = .zero)
     {
-//        self.dataStructure = DataStructureModel(data: data, headerTitles: headerTitles)
-        super.init(frame: frame)
+        self.init(
+            data: data.map { $0.map { .string($0) }},
+            headerTitles: headerTitles,
+            frame: frame
+        )
         
-        self.set(data: data, headerTitles: headerTitles, options: options)
-        
-        self.registerObservers()
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -129,7 +142,7 @@ public class SwiftDataTable: UIView {
         collectionView.register(UINib(nibName: menuLengthIdentifier, bundle: podBundle), forSupplementaryViewOfKind: SupplementaryViewType.menuLengthHeader.rawValue, withReuseIdentifier: menuLengthIdentifier)
     }
     
-    func set(data: [[String]], headerTitles: [String], options: DataTableConfiguration? = nil){
+    func set(data: [[DataTableValueType]], headerTitles: [String], options: DataTableConfiguration? = nil){
         self.dataStructure = DataStructureModel(data: data, headerTitles: headerTitles)
         self.createDataCellViewModels(with: self.dataStructure)
         self.layout = SwiftDataTableFlowLayout(dataTable: self)
