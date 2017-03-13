@@ -370,12 +370,8 @@ extension SwiftDataTable {
         switch by {
         case .ascending:
             self.rowViewModels = self.rowViewModels.sorted(by: ascendingOrder)
-            break;
         case .descending:
             self.rowViewModels = self.rowViewModels.sorted(by: descendingOrder)
-            break;
-        default:
-            break;
         }
     }
     

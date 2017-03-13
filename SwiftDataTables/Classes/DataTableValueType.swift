@@ -32,3 +32,9 @@ public enum DataTableValueType {
         }
     }
 }
+
+extension DataTableValueType: Comparable {
+    public static func == (lhs: DataTableValueType, rhs: DataTableValueType) -> Bool {
+        return lhs.stringRepresentation == rhs.stringRepresentation
+    }
+}
