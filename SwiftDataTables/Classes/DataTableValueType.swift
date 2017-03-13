@@ -37,4 +37,18 @@ extension DataTableValueType: Comparable {
     public static func == (lhs: DataTableValueType, rhs: DataTableValueType) -> Bool {
         return lhs.stringRepresentation == rhs.stringRepresentation
     }
+    public static func < (lhs: DataTableValueType, rhs: DataTableValueType) -> Bool {
+        switch (lhs, rhs) {
+        case (.string(let lhsValue), .string(let rhsValue)):
+            return lhsValue < rhsValue
+        case (.int(let lhsValue), .int(let rhsValue)):
+            return lhsValue < rhsValue
+        case (.float(let lhsValue), .float(let rhsValue)):
+            return lhsValue < rhsValue
+        case (.double(let lhsValue), .double(let rhsValue)):
+            return lhsValue < rhsValue
+        default:
+            return lhs.stringRepresentation < rhs.stringRepresentation
+        }
+    }
 }

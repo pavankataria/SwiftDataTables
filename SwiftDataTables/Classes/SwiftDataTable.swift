@@ -372,6 +372,8 @@ extension SwiftDataTable {
             self.rowViewModels = self.rowViewModels.sorted(by: ascendingOrder)
         case .descending:
             self.rowViewModels = self.rowViewModels.sorted(by: descendingOrder)
+        default:
+            break
         }
     }
     
