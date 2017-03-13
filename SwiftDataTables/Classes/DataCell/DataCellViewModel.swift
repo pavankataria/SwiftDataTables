@@ -10,16 +10,19 @@ import Foundation
 import UIKit
 
 open class DataCellViewModel: VirtualPositionTrackable, CollectionViewCellRepresentable {
+    
     //MARK: - Public Properties
     var xPositionRunningTotal: CGFloat?  = nil
     var yPositionRunningTotal: CGFloat?  = nil
     var virtualHeight: CGFloat = 0
-    let data: String
+    let data: DataTableValueType
     var highlighted: Bool = false
+    
     //MARK: - Lifecycle
-    init(data: String){
+    init(data: DataTableValueType){
         self.data = data
     }
+    
     static func registerCell(collectionView: UICollectionView) {
         let identifier = String(describing: DataCell.self)
         let nib = UINib(nibName: identifier, bundle: nil)
