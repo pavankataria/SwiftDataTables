@@ -14,10 +14,11 @@ open class DataCellViewModel: VirtualPositionTrackable, CollectionViewCellRepres
     var xPositionRunningTotal: CGFloat?  = nil
     var yPositionRunningTotal: CGFloat?  = nil
     var virtualHeight: CGFloat = 0
-    let data: String
+    let data: DataTableValueType
+    
     var highlighted: Bool = false
     //MARK: - Lifecycle
-    init(data: String){
+    init(data: DataTableValueType){
         self.data = data
     }
     static func registerCell(collectionView: UICollectionView) {

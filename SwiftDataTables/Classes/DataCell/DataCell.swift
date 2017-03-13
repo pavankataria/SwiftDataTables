@@ -15,11 +15,6 @@ class DataCell: UICollectionViewCell {
     
     //MARK: - Lifecycle
     func setup(_ viewModel: DataCellViewModel){
-        self.dataLabel.text = viewModel.data
-        
-//        self.highlight(viewModel.highlighted)
+        self.dataLabel.text = viewModel.data.stringRepresentation
     }
-//    var representedElementKind = {
-//        
-//    }
 }
