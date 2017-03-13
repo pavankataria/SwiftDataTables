@@ -1,7 +1,29 @@
 # Change Log
 
-## [0.2.5](https://github.com/pavankataria/SwiftDataTables/tree/0.2.5) (2017-03-10)
-[Full Changelog](https://github.com/pavankataria/SwiftDataTables/compare/0.2.4...0.2.5)
+## [0.3.0](https://github.com/pavankataria/SwiftDataTables/tree/0.3.0) (2017-03-13)
+[Full Changelog](https://github.com/pavankataria/SwiftDataTables/compare/0.2.7...0.3.0)
+
+**Implemented enhancements:**
+
+- Improved sorting algorithm - Automatically Infer the type of the data passed in! [\#4](https://github.com/pavankataria/SwiftDataTables/pull/4) ([pavankataria](https://github.com/pavankataria))
+
+## [0.2.7](https://github.com/pavankataria/SwiftDataTables/tree/0.2.7) (2017-03-11)
+[Full Changelog](https://github.com/pavankataria/SwiftDataTables/compare/0.2.6...0.2.7)
+
+**Implemented enhancements:**
+
+- Implements Default ordering configuration [\#3](https://github.com/pavankataria/SwiftDataTables/pull/3) ([pavankataria](https://github.com/pavankataria))
+
+## [0.2.6](https://github.com/pavankataria/SwiftDataTables/tree/0.2.6) (2017-03-11)
+[Full Changelog](https://github.com/pavankataria/SwiftDataTables/compare/0.2.4...0.2.6)
+
+**Implemented enhancements:**
+
+- Scale to fill content view [\#2](https://github.com/pavankataria/SwiftDataTables/pull/2) ([pavankataria](https://github.com/pavankataria))
+
+**Fixed bugs:**
+
+- Scale to fill content view [\#2](https://github.com/pavankataria/SwiftDataTables/pull/2) ([pavankataria](https://github.com/pavankataria))
 
 ## [0.2.4](https://github.com/pavankataria/SwiftDataTables/tree/0.2.4) (2017-03-10)
 [Full Changelog](https://github.com/pavankataria/SwiftDataTables/compare/0.2.3...0.2.4)
