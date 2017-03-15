@@ -10,6 +10,7 @@ import UIKit
 
 public typealias DataTableContent = [[DataTableValueType]]
 
+@available(iOS 10.0, *)
 public class SwiftDataTable: UIView {
     public enum SupplementaryViewType: String {
         /// Single header positioned at the top above the column section
@@ -31,7 +32,6 @@ public class SwiftDataTable: UIView {
             self = elementKind
         }
     }
-    
     
     let highlightedColours = [
         UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1),
@@ -80,9 +80,43 @@ public class SwiftDataTable: UIView {
     fileprivate var paginationViewModel: PaginationHeaderViewModel!
     fileprivate var menuLengthViewModel: MenuLengthHeaderViewModel!
     fileprivate var columnWidths = [CGFloat]()
-
-    //MARK: - Lifecycle
     
+    
+    fileprivate var refreshControl: UIRefreshControl! = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl.addTarget(self,
+                                 action: #selector(refreshOptions(sender:)),
+                                 for: .valueChanged)
+        return refreshControl
+    }()
+
+    //MARK: - Events
+    var refreshEvent: (() -> Void)? = nil {
+        didSet {
+            if refreshEvent != nil {
+                self.collectionView.refreshControl = self.refreshControl
+            }
+            else {
+                self.refreshControl = nil
+                self.collectionView.refreshControl = nil
+            }
+        }
+    }
+    
+//    var showRefreshControl: Bool {
+//        didSet {
+//            if
+//            self.refreshControl
+//        }
+//    }
+//    lazy var aClient:Clinet! = {
+//        var _aClient = Clinet(ClinetSession.shared())
+//        _aClient.delegate = self
+//        return _aClient
+//    }()
+    
+    //MARK: - Lifecycle
     public init(data: [[DataTableValueType]],
                 headerTitles: [String],
                 options: DataTableConfiguration = DataTableConfiguration(),
@@ -105,7 +139,6 @@ public class SwiftDataTable: UIView {
             headerTitles: headerTitles,
             frame: frame
         )
-        
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -188,14 +221,6 @@ public class SwiftDataTable: UIView {
             self.columnWidths[columnIndex] = columnWidth + gapPortionToDistributeToCurrentColumn
         }
     }
-    //MARK: - Events
-//    public func tapped(headerView: DataHeaderFooterViewModel){
-////        self.headerViewModels.forEach { if $0.data != headerView.data { $0.toggleToDefault() } }
-////        self.footerViewModels.forEach { if $0 != headerView.data { $0.toggleToDefault() } }
-//        
-//        self.dataStructure.data = self.dataStructure.data.reversed()
-//        self.reloadEverything()
-//    }
     
     public func reloadEverything(){
         self.layout?.clearLayoutCache()
@@ -209,7 +234,6 @@ public extension SwiftDataTable {
     }
     func createDataCellViewModels(with dataStructure: DataStructureModel){// -> [[DataCellViewModel]] {
         //1. Create the headers
-        
         self.headerViewModels = Array(0..<(dataStructure.headerTitles.count)).map {
             let headerViewModel = DataHeaderFooterViewModel(
                 data: dataStructure.headerTitles[$0],
@@ -336,6 +360,21 @@ extension SwiftDataTable: UIScrollViewDelegate {
     }
 }
 
+//MARK: - Refresh
+extension SwiftDataTable {
+    @objc fileprivate func refreshOptions(sender: UIRefreshControl) {
+        self.refreshEvent?()
+    }
+
+    func beginRefreshing(){
+        self.refreshControl.beginRefreshing()
+    }
+    
+    func endRefresh(){
+        self.refreshControl.endRefreshing()
+    }
+}
+
 extension SwiftDataTable {
     func update(){
         print("\nUpdate")
@@ -395,7 +434,6 @@ extension SwiftDataTable {
         }
     }
 
-    
     func toggleSortArrows(column: Int){
         Array(0..<self.headerViewModels.count).forEach {
             if column == $0 {
@@ -470,18 +508,6 @@ extension SwiftDataTable {
         let averageDataColumnWidth: CGFloat = columnAverage * self.pixelsPerCharacter() + sortingArrowVisualElementWidth
         return max(averageDataColumnWidth, max(self.minimumColumnWidth(), self.minimumHeaderColumnWidth(index: index)))
     }
-//    func automaticWidthForAllColumns(){
-//        let automaticCalculatedWidth: CGFloat = Array(0..<self.numberOfHeaderColumns())
-//            .reduce(0.0){
-//            return $0 + self.automaticWidthForColumn(index: $1)
-//        }
-//        
-//        if automaticCalculatedWidth < self.collectionView.frame.width {
-//            let emptyGap = self.collectionView.frame.width - automaticCalculatedWidth
-//            
-//        }
-////        return automaticCalculatedWidth
-//    }
     
     func widthForColumn(index: Int) -> CGFloat {
         return self.columnWidths[index]
@@ -524,7 +550,6 @@ extension SwiftDataTable {
             return 0
         }
         return 35
-            
     }
     
     func showVerticalScrollBars() -> Bool {
