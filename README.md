@@ -5,6 +5,7 @@
 [![GitHub issues](https://img.shields.io/github/issues/pavankataria/SwiftDataTables.svg)](https://github.com/pavankataria/SwiftDataTables/issues)
 [![Version](https://img.shields.io/cocoapods/v/SwiftDataTables.svg?style=flat)](http://cocoapods.org/pods/SwiftDataTables)
 [![License](https://img.shields.io/cocoapods/l/SwiftDataTables.svg?style=flat)](http://cocoapods.org/pods/SwiftDataTables)
+[![CocoaPods](https://img.shields.io/cocoapods/dt/SwiftDataTables.svg)]()
 
 `SwiftDataTables` allows you to display grid-like data sets in a nicely formatted table for iOS. The main goal for the end-user are to be able to obtain useful information from the table as quickly as possible with the following features: ordering, searching, and paging; where as for the developer is to allow for easy implementation with extensible options. 
 
