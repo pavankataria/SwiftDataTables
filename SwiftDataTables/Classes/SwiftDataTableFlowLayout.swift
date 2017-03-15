@@ -89,7 +89,6 @@ class SwiftDataTableFlowLayout: UICollectionViewFlowLayout {
         )
         
         self.collectionView?.showsVerticalScrollIndicator = self.dataTable.showVerticalScrollBars()
-        
         self.collectionView?.showsHorizontalScrollIndicator = self.dataTable.showHorizontalScrollBars()
     }
     
@@ -173,15 +172,14 @@ extension SwiftDataTableFlowLayout {
     override func layoutAttributesForSupplementaryView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         let kind = SwiftDataTable.SupplementaryViewType(kind: elementKind)
         switch kind {
-        case .searchHeader: return self.layoutAttributesForMenuLengthView(at: indexPath)
+        case .searchHeader: return self.layoutAttributesForHeaderView(at: indexPath)
         case .columnHeader: return self.layoutAttributesForColumnHeaderView(at: indexPath)
         case .footerHeader: return self.layoutAttributesForColumnFooterView(at: indexPath)
         case .paginationHeader:  return self.layoutAttributesForPaginationView(at: indexPath)
         }
     }
     
-    
-    func layoutAttributesForMenuLengthView(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+    func layoutAttributesForHeaderView(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         let attribute = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: SwiftDataTable.SupplementaryViewType.searchHeader.rawValue, with: indexPath)
         let x: CGFloat = self.dataTable.collectionView.contentOffset.x
         let y: CGFloat = 0
@@ -196,12 +194,11 @@ extension SwiftDataTableFlowLayout {
         )
         attribute.zIndex = 5
         
-        if self.dataTable.shouldSectionHeadersFloat(){
+        if self.dataTable.shouldSearchHeaderFloat(){
             let yOffsetTopView: CGFloat = self.dataTable.collectionView.contentOffset.y
             attribute.frame.origin.y = yOffsetTopView
             attribute.zIndex += 1
         }
-        
         return attribute
     }
     
@@ -219,10 +216,15 @@ extension SwiftDataTableFlowLayout {
             width: width,
             height: height
         )
+        
         attribute.zIndex = 2
+        
         //This should call the delegate method whether or not the headers should float.
-        if self.dataTable.shouldSectionHeadersFloat(){
-            let yScrollOffsetPosition = self.dataTable.heightForSearchView() + self.collectionView!.contentOffset.y
+        if self.dataTable.shouldSectionHeadersFloat() {
+            var yScrollOffsetPosition = self.dataTable.heightForSearchView() + self.collectionView!.contentOffset.y
+            if false == self.dataTable.shouldSearchHeaderFloat(){
+                yScrollOffsetPosition = max(self.dataTable.heightForSearchView(), self.collectionView!.contentOffset.y)
+            }
             attribute.frame.origin.y = yScrollOffsetPosition//max(yScrollOffsetPosition, attribute.frame.origin.y)
             attribute.zIndex += 1
         }
@@ -244,6 +246,7 @@ extension SwiftDataTableFlowLayout {
             width: width,
             height: height
         )
+        
         attribute.zIndex = 2
         //This should call the delegate method whether or not the headers should float.
         if self.dataTable.shouldSectionFootersFloat(){

@@ -53,6 +53,7 @@ public class SwiftDataTable: UIView {
         collectionView.allowsMultipleSelection = true
         collectionView.dataSource = self
         collectionView.delegate = self
+
         self.addSubview(collectionView)
         self.registerCell(collectionView: collectionView)
         return collectionView
@@ -476,6 +477,10 @@ extension SwiftDataTable {
         return true
     }
     
+    func shouldSearchHeaderFloat() -> Bool {
+        return false
+    }
+    
     func shouldShowSearchSection() -> Bool {
         return true
     }
@@ -560,6 +565,8 @@ extension SwiftDataTable {
     func showHorizontalScrollBars() -> Bool {
         return false
     }
+    
+    
 }
 
 
