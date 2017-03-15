@@ -228,21 +228,21 @@
 		7DEF21227A9E0A672F52277BE275EF9E /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				D6E801D8109B27ABF2C29EB0C82DCF8C /* SwiftDataTable.swift */,
+				DA0A3B002A6F00B48748D52241622DCE /* SwiftDataTableFlowLayout.swift */,
+				057C454D1E7944B400B3F747 /* DataTableSearchTextField.swift */,
 				24C5B75DC8BB1D3AC33E13F348A6FD17 /* DataStore.swift */,
 				B6B09B046705E533AEAE674DAD999AE2 /* DataStructureModel.swift */,
 				7545976213A79CF058DF04F103DA13F5 /* DataTableConfiguration.swift */,
 				758C2C1E7462638527091ADC27FBC27E /* DataTableSortable.swift */,
 				FD3A7ED43AABB75248525A0E205BDAE4 /* DataTableSortType.swift */,
 				DA7ECB32F073B7A01296671D9C29E01C /* DataTableValueType.swift */,
-				D6E801D8109B27ABF2C29EB0C82DCF8C /* SwiftDataTable.swift */,
-				DA0A3B002A6F00B48748D52241622DCE /* SwiftDataTableFlowLayout.swift */,
 				9DF386D91D557BC7C32220A418A3580F /* DataCell */,
 				622366AF1820CF887AB0D17EAA765D1D /* Extensions */,
 				C6E7C30C3C108CF7210E29AF8F74BA51 /* HeaderFooter */,
 				457C12057ABCC332009AA524E13FA70B /* MenuLengthHeader */,
 				E0138C9574692E135E92BA4D19C072BF /* PaginationHeader */,
 				DE208CE36A0B4FC548333CB6E7ED0ED8 /* Protocols */,
-				057C454D1E7944B400B3F747 /* DataTableSearchTextField.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";

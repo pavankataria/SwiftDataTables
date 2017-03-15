@@ -22,7 +22,7 @@ public class SwiftDataTable: UIView {
         case footerHeader = "SwiftDataTableFooterHeader"
         
         /// Single header positioned at the bottom below the footer section.
-        case menuLengthHeader = "SwiftDataTableMenuLengthHeader"
+        case searchHeader = "SwiftDataTableMenuLengthHeader"
         
         init(kind: String){
             guard let elementKind = SupplementaryViewType(rawValue: kind) else {
@@ -171,7 +171,7 @@ public class SwiftDataTable: UIView {
         
         let menuLengthIdentifier = String(describing: MenuLengthHeader.self)
         
-        collectionView.register(UINib(nibName: menuLengthIdentifier, bundle: podBundle), forSupplementaryViewOfKind: SupplementaryViewType.menuLengthHeader.rawValue, withReuseIdentifier: menuLengthIdentifier)
+        collectionView.register(UINib(nibName: menuLengthIdentifier, bundle: podBundle), forSupplementaryViewOfKind: SupplementaryViewType.searchHeader.rawValue, withReuseIdentifier: menuLengthIdentifier)
     }
     
     func set(data: [[DataTableValueType]], headerTitles: [String], options: DataTableConfiguration? = nil){
@@ -284,7 +284,7 @@ extension SwiftDataTable: UICollectionViewDataSource {
     public func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
         let kind = SupplementaryViewType(kind: elementKind)
         switch kind {
-        case .paginationHeader, .menuLengthHeader:
+        case .paginationHeader, .searchHeader:
             view.backgroundColor = UIColor.darkGray
         default:
             view.backgroundColor = UIColor.white
@@ -306,7 +306,7 @@ extension SwiftDataTable: UICollectionViewDataSource {
         let elementKind = SupplementaryViewType(kind: kind)
         let viewModel: CollectionViewSupplementaryElementRepresentable
         switch elementKind {
-        case .menuLengthHeader: viewModel = self.menuLengthViewModel
+        case .searchHeader: viewModel = self.menuLengthViewModel
         case .columnHeader: viewModel = self.headerViewModels[indexPath.index]
         case .footerHeader: viewModel = self.footerViewModels[indexPath.index]
         case .paginationHeader: viewModel = self.paginationViewModel
@@ -462,10 +462,14 @@ extension SwiftDataTable {
         return self.dataStructure.footerTitles.count
     }
     
+    func showsSearchBar() -> Bool {
+        return true
+    }
     
     func shouldContentWidthScaleToFillFrame() -> Bool{
         return true
     }
+    
     func shouldSectionHeadersFloat() -> Bool {
         return true
     }

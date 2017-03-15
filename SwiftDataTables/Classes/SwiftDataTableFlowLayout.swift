@@ -107,7 +107,7 @@ class SwiftDataTableFlowLayout: UICollectionViewFlowLayout {
         if self.dataTable.shouldShowSearchSection(){
             let menuLengthIndexPath = IndexPath(index: 0)
             if let menuLengthAttributes = self.layoutAttributesForSupplementaryView(ofKind:
-                SwiftDataTable.SupplementaryViewType.menuLengthHeader.rawValue, at: menuLengthIndexPath){
+                SwiftDataTable.SupplementaryViewType.searchHeader.rawValue, at: menuLengthIndexPath){
                 attributes.append(menuLengthAttributes)
             }
         }
@@ -170,7 +170,7 @@ extension SwiftDataTableFlowLayout {
     override func layoutAttributesForSupplementaryView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         let kind = SwiftDataTable.SupplementaryViewType(kind: elementKind)
         switch kind {
-        case .menuLengthHeader: return self.layoutAttributesForMenuLengthView(at: indexPath)
+        case .searchHeader: return self.layoutAttributesForMenuLengthView(at: indexPath)
         case .columnHeader: return self.layoutAttributesForColumnHeaderView(at: indexPath)
         case .footerHeader: return self.layoutAttributesForColumnFooterView(at: indexPath)
         case .paginationHeader:  return self.layoutAttributesForPaginationView(at: indexPath)
@@ -179,7 +179,7 @@ extension SwiftDataTableFlowLayout {
     
     
     func layoutAttributesForMenuLengthView(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-        let attribute = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: SwiftDataTable.SupplementaryViewType.menuLengthHeader.rawValue, with: indexPath)
+        let attribute = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: SwiftDataTable.SupplementaryViewType.searchHeader.rawValue, with: indexPath)
         let x: CGFloat = self.dataTable.collectionView.contentOffset.x
         let y: CGFloat = 0
         let width = self.dataTable.collectionView.bounds.width
