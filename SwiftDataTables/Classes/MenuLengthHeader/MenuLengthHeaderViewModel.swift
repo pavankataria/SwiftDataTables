@@ -10,7 +10,8 @@ import Foundation
 import UIKit
 
 class MenuLengthHeaderViewModel {
-    
+    //MARK: - Events
+    var searchTextFieldDidChangeEvent: ((String) -> Void)? = nil
 }
 
 extension MenuLengthHeaderViewModel: CollectionViewSupplementaryElementRepresentable {
@@ -42,6 +43,9 @@ extension MenuLengthHeaderViewModel: CollectionViewSupplementaryElementRepresent
 
 extension MenuLengthHeaderViewModel {
     @objc func textFieldDidChange(textField: UITextField){
-        print("textChanged: \(textField.text)")
+        guard let text = textField.text else {
+            return
+        }
+        self.searchTextFieldDidChangeEvent?(text)
     }
 }
