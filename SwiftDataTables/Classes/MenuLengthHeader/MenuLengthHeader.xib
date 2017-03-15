@@ -29,6 +29,9 @@
                 <constraint firstItem="DOC-jB-HBT" firstAttribute="leading" secondItem="U6b-Vx-4bR" secondAttribute="leading" id="TuV-3D-Rdw"/>
                 <constraint firstItem="DOC-jB-HBT" firstAttribute="top" secondItem="U6b-Vx-4bR" secondAttribute="top" id="wxc-AO-AJO"/>
             </constraints>
+            <connections>
+                <outlet property="searchTextField" destination="DOC-jB-HBT" id="qtM-lp-X9Y"/>
+            </connections>
             <point key="canvasLocation" x="-57.5" y="63.5"/>
         </collectionReusableView>
     </objects>

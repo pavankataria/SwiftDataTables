@@ -39,3 +39,9 @@ extension MenuLengthHeaderViewModel: CollectionViewSupplementaryElementRepresent
         return headerView
     }
 }
+
+extension MenuLengthHeaderViewModel {
+    @objc func textFieldDidChange(textField: UITextField){
+        print("textChanged: \(textField.text)")
+    }
+}
