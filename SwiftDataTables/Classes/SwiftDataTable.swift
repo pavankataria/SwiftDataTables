@@ -609,27 +609,31 @@ extension SwiftDataTable {
             self.searchRowViewModels = nil
             //DONT DELETE ORIGINAL CACHE FOR LAYOUTATTRIBUTES
             //MAYBE KEEP TWO COPIES.. ONE FOR SEARCH AND ONE FOR DEFAULT
-//            self.reloadEverything()
+            self.reloadEverything()
             return
         }
-        self.searchRowViewModels = []
-//        self.reloadEverything()
-        
-        Array(0..<self.rowViewModels.count).forEach{
-            let row = self.rowViewModels[$0]
+        self.searchRowViewModels = self.filteredResults(with: needle, on: self.rowViewModels)
+        print("needle: \(needle), rows found: \(self.searchRowViewModels!.count)")
+        self.reloadEverything()
+    }
+    
+    private func filteredResults(with needle: String, on originalArray: DataTableViewModelContent) -> DataTableViewModelContent {
+        var filteredSet = DataTableViewModelContent()
+        Array(0..<originalArray.count).forEach{
+            let row = originalArray[$0]
             //Add some sort of index array so we use that to iterate through the columns
             //The idnex array will be defined by the column definition inside the configuration object provided by the user
             //Index array might look like this [1, 3, 4]. Which means only those columns should be searched into
             for item in row {
                 let stringData: String = item.data.stringRepresentation.lowercased()
                 if stringData.lowercased().range(of: needle) != nil{
-                    self.searchRowViewModels?.append(row)
+                    filteredSet.append(row)
                     //Stop searching through the rest of the columns in the same row and break
                     break;
                 }
             }
         }
-        print("needle: \(needle), rows found: \(self.searchRowViewModels!.count)")
-        self.reloadEverything()
+        
+        return filteredSet
     }
 }

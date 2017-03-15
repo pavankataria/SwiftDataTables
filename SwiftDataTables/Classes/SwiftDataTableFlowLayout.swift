@@ -60,7 +60,7 @@ class SwiftDataTableFlowLayout: UICollectionViewFlowLayout {
             let currentRowYOffset = Array(0..<row).reduce(defaultUpperHeight) { $0 + self.dataTable.heightForRow(index: $1) + self.dataTable.heightOfInterRowSpacing() }
             yOffsets.append(currentRowYOffset)
         }
-        print("prepare layout with \(counter+1) rows")
+//        print("prepare layout with \(counter) rows")
         
         
         //Item equals the current item in the row
