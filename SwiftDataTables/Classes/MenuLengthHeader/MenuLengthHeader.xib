@@ -15,18 +15,19 @@
             <rect key="frame" x="0.0" y="0.0" width="505" height="69"/>
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Menu Length Options" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xm8-gq-2pj">
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="LOL" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DOC-jB-HBT" customClass="DataTableSearchTextField" customModule="SwiftDataTables" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="505" height="69"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="textColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
+                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
             </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstItem="Xm8-gq-2pj" firstAttribute="leading" secondItem="U6b-Vx-4bR" secondAttribute="leading" id="Pl0-NG-DuT"/>
-                <constraint firstAttribute="bottom" secondItem="Xm8-gq-2pj" secondAttribute="bottom" id="REK-V7-g3c"/>
-                <constraint firstAttribute="trailing" secondItem="Xm8-gq-2pj" secondAttribute="trailing" id="RnX-rb-WEq"/>
-                <constraint firstItem="Xm8-gq-2pj" firstAttribute="top" secondItem="U6b-Vx-4bR" secondAttribute="top" id="d5d-Es-nrI"/>
+                <constraint firstAttribute="trailing" secondItem="DOC-jB-HBT" secondAttribute="trailing" id="37y-te-Sl8"/>
+                <constraint firstAttribute="bottom" secondItem="DOC-jB-HBT" secondAttribute="bottom" id="SLK-c5-Yzw"/>
+                <constraint firstItem="DOC-jB-HBT" firstAttribute="leading" secondItem="U6b-Vx-4bR" secondAttribute="leading" id="TuV-3D-Rdw"/>
+                <constraint firstItem="DOC-jB-HBT" firstAttribute="top" secondItem="U6b-Vx-4bR" secondAttribute="top" id="wxc-AO-AJO"/>
             </constraints>
             <point key="canvasLocation" x="-57.5" y="63.5"/>
         </collectionReusableView>

@@ -7,46 +7,46 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		04D3A2072D43BBF4D1BFDFD45F859226 /* DataCellLayoutAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE1F7C243C8D194CB6C5DFC46CE2597 /* DataCellLayoutAttributes.swift */; };
 		04E67A60A59D89EDD0FA3954807BACA2 /* Pods-SwiftDataTables_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 384C6C6A4148C520C98D0600D7393727 /* Pods-SwiftDataTables_Example-dummy.m */; };
-		057C454E1E7944B400B3F747 /* DataTableSearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 057C454D1E7944B400B3F747 /* DataTableSearchTextField.swift */; };
 		081E967D67DC9BED078AAC67DDB50B6A /* SwiftDataTables.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7CD548E01AB1C82543F72FC3ACDE740B /* SwiftDataTables.bundle */; };
-		0C4C3FD1B0C3881E2A7BA491A0E3CDE7 /* DataHeaderFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F51A0022452EF1EFD995A3C901C8035 /* DataHeaderFooter.swift */; };
+		0AC82994E79C72757A7C838A957E514A /* DataTableValueType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4EE833874126E5AF2AA48DB3395A88D /* DataTableValueType.swift */; };
+		0E4DA195C1DD249BC36F46704E6479E5 /* DataHeaderFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2BFF8086A7BBEE3511BF1A27D50091 /* DataHeaderFooter.swift */; };
+		0EDC34D3842A179C17600AF096B5FD74 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4C9491808FD1FFE914DCAFAD7D2386 /* DataStore.swift */; };
 		13DC5749947421DFD00ECF07EDF28D52 /* SwiftDataTables-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 78A14C8773B4B9CD3ADB324703A6D84D /* SwiftDataTables-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		155AF45595400F755AD7510330CE2E2D /* CollectionViewSupplementaryElementRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D230D9B285E4DB6BE57283D0DA369B9 /* CollectionViewSupplementaryElementRepresentable.swift */; };
+		1682199B9F2387EAB9F0AE264D73BF64 /* DataCellLayoutAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5DBDD794DC94DD50E8634CB2C820BB /* DataCellLayoutAttributes.swift */; };
+		1D5412B8BE164CC40AB37056472738A0 /* column-sort-ascending.png in Sources */ = {isa = PBXBuildFile; fileRef = F1473A9A43EE02DA71DEF3040C95FD04 /* column-sort-ascending.png */; };
+		1FB1428BB6E1A60FD7E3A379816CFF40 /* SwiftDataTableFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD4E394D6FE142F7550AFFFC101A045 /* SwiftDataTableFlowLayout.swift */; };
+		24F7481937E91176DD274096E22F65B0 /* PaginationHeader.xib in Sources */ = {isa = PBXBuildFile; fileRef = 48CFB127CFA921DC3DCEFF98D9ABE2C4 /* PaginationHeader.xib */; };
+		260D49F616F0784BD9D51B7EB6CDC051 /* PaginationHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1224A3CF41ABF565DE4D754A763937CC /* PaginationHeader.swift */; };
+		27B9153C7A19C109271A4606EFE3E633 /* DataTableSortable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2E83AB3AB39BF705EE3F1638D6B29F /* DataTableSortable.swift */; };
 		292E3B98E782786FCBD6C3F3F53F5507 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBB3DE36805AF21409EC968A9691732F /* Foundation.framework */; };
-		2AF491F84ACD4C8AFDBC5725149D67BB /* DataTableSortable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 758C2C1E7462638527091ADC27FBC27E /* DataTableSortable.swift */; };
-		2E26B4E84EFC5D6AD20E456938B92982 /* column-sort-descending.png in Sources */ = {isa = PBXBuildFile; fileRef = C5ED1D2C95803E58A72D6699C4F0DC03 /* column-sort-descending.png */; };
-		35BC77868CC47151547D08C4BE923246 /* DataCell.xib in Sources */ = {isa = PBXBuildFile; fileRef = 58396C00E501273D8D517F4680C5497B /* DataCell.xib */; };
-		361C0FD3E09385E01C9851B26F2C61BE /* DataTableValueType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7ECB32F073B7A01296671D9C29E01C /* DataTableValueType.swift */; };
-		3C5F558833ACE66DDAD220135719D273 /* SwiftDataTables-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 29529D22A36CCD1CF3C8A3E37CF8AA82 /* SwiftDataTables-dummy.m */; };
-		3C70FA40AE67C09E1DFA28AFC3DCC226 /* DataStructureModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B09B046705E533AEAE674DAD999AE2 /* DataStructureModel.swift */; };
+		2A02F59F62B6257E91B36ABE5DE187E5 /* DataCell.xib in Sources */ = {isa = PBXBuildFile; fileRef = 5445F32930D137199F2797334ADE657C /* DataCell.xib */; };
+		3BFE5A7673FE26C58192AE4A4804FB14 /* column-sort-descending.png in Sources */ = {isa = PBXBuildFile; fileRef = 8010CB43D447228DB2F3EE74CF263D14 /* column-sort-descending.png */; };
 		414F302D223415907C50295B635EAACF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBB3DE36805AF21409EC968A9691732F /* Foundation.framework */; };
-		5CBA47C5F7B5145795D38A11F28FBC39 /* MenuLengthHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF66442B3706F72C3360B21A22E47D8 /* MenuLengthHeaderViewModel.swift */; };
-		62005E546AAD30CC92BAD45F5D788875 /* PaginationHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A1BB62F579338FB5B3D1B46593C516 /* PaginationHeader.swift */; };
+		447D725629DFA0BD37D78278F9BAA7E9 /* CollectionViewSupplementaryElementRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A11813CA7C50E41A73FD7F6A7FA1FE /* CollectionViewSupplementaryElementRepresentable.swift */; };
+		4F625F11B00F2A82C79A58683EAE5ED6 /* DataCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2ED54993F40761375E7A5530B7B5F9 /* DataCellViewModel.swift */; };
+		54186B6BB64AA1385130D4CFDF8C1C32 /* DataCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8AF054D142EAEC82F6E543C5EDC8B4D /* DataCell.swift */; };
+		5ADFDE8DC6E446CEB2F64949A4C64807 /* DataCellRowRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4328688BC5F6D3F5EEB1AED82637E62A /* DataCellRowRepresentable.swift */; };
+		604D321EF4346D8126333D5309EABDCE /* MenuLengthHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B41D17014B3C074EDB0CCD2736C0808 /* MenuLengthHeaderViewModel.swift */; };
 		687712BFB353D8BDC08E7CE1F089A761 /* Pods-SwiftDataTables_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 5277C1C4F649828D9CEE62AF4D307B53 /* Pods-SwiftDataTables_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6A754488F2940DEE2BE0B4680D30B830 /* DataTableConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7545976213A79CF058DF04F103DA13F5 /* DataTableConfiguration.swift */; };
-		6BCD50C7C8D2AEFE81B6DC028BD64892 /* DataTableSortType.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3A7ED43AABB75248525A0E205BDAE4 /* DataTableSortType.swift */; };
-		6D296F7C0DD65616E31298E40A4200C5 /* DataHeaderFooterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692C83EA7BDB5F20630C8A087F6D4189 /* DataHeaderFooterViewModel.swift */; };
+		6A05AC585F344B122E7D07F157D73C90 /* VirtualPositionTrackable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E122E61E1C8C49B04CF74BCCFA6161B /* VirtualPositionTrackable.swift */; };
 		73ED7945DE34869F021F0ABCDA39FD5D /* Pods-SwiftDataTables_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = A4A7D10DFC80274683FA6D5D7CB30045 /* Pods-SwiftDataTables_Tests-dummy.m */; };
-		7E79D622172995458EE3F96123FBC676 /* VirtualPositionTrackable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09B4FE2CBBA7486FA032F19F7C6EC1D1 /* VirtualPositionTrackable.swift */; };
-		872F4A71132D099AEA08A1EA096F3D4C /* MenuLengthHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC435B597A1AB28EFC1D91289A40A4E6 /* MenuLengthHeader.swift */; };
-		8CD7C202E24196AC12F79C16FF4E6D87 /* column-sort-unspecified.png in Sources */ = {isa = PBXBuildFile; fileRef = C51B1CBE13F43FCA0ED53371BD6546BA /* column-sort-unspecified.png */; };
-		8F4CAE912203890EB984FE7D249E1647 /* column-sort-ascending.png in Sources */ = {isa = PBXBuildFile; fileRef = 5CBE07CBEF0A9F6D1115A9DCD2EEA50C /* column-sort-ascending.png */; };
+		879F2DA5C13B4A0B6D519FF3BEC59C48 /* DataHeaderFooter.xib in Sources */ = {isa = PBXBuildFile; fileRef = A0CF2E9F66B58735D143648B30DF58D4 /* DataHeaderFooter.xib */; };
+		8B9C0C7AC4570DD2E90E213607105E40 /* DataTableConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = B29B0F533FE64494E873A1152A0341C7 /* DataTableConfiguration.swift */; };
+		90EF5F0AEE0C81BA83CB8ADC4AAC9183 /* SwiftDataTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AB3AACE6A2F1AFB21B65E918C6BD945 /* SwiftDataTable.swift */; };
+		9FDCB4FCBE392492BD993DB008E0E331 /* DataHeaderFooterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281CBD36BC8026945D142671328F8C7D /* DataHeaderFooterViewModel.swift */; };
+		A038ED326D306EF638F005DC25DDC868 /* DataStructureModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19146F6458BB58D305987C6D05D75DDB /* DataStructureModel.swift */; };
+		A420CBA695BC6A5D41FDDB3556683361 /* column-sort-unspecified.png in Sources */ = {isa = PBXBuildFile; fileRef = BBACAFE153377B02F371E7CEBE6CFE4D /* column-sort-unspecified.png */; };
 		A87D6C482F0E32A837FF84052D383EE2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBB3DE36805AF21409EC968A9691732F /* Foundation.framework */; };
-		AAB0D3BF1DCF998A416345AD0D3FA94A /* DataHeaderFooter.xib in Sources */ = {isa = PBXBuildFile; fileRef = 5FE39D66642A56668EE1C80FE219DEBC /* DataHeaderFooter.xib */; };
-		AB8F247AEAD41BB1641A263D940D263C /* MenuLengthHeader.xib in Sources */ = {isa = PBXBuildFile; fileRef = 7DBB33DAE7B794564F6FA560075614C8 /* MenuLengthHeader.xib */; };
-		B5FDE273BF516D8426A0002E3CC2DB22 /* SwiftDataTable+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD804FA3D8F3F6364A5D9D007B80856 /* SwiftDataTable+Extensions.swift */; };
-		C17B750075715E03B148AC604FAEE825 /* SwiftDataTableFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0A3B002A6F00B48748D52241622DCE /* SwiftDataTableFlowLayout.swift */; };
+		AA38751546A71EEA92F93C1D73090288 /* MenuLengthHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1800F12E1FCB665A56571DAEDFA4A3E2 /* MenuLengthHeader.swift */; };
+		ADFAD95B15D0B645F6F6FDEE5A3F87A4 /* PaginationHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4EFD0DC1BEDDDE8D0946323DCAF903 /* PaginationHeaderViewModel.swift */; };
 		C18134F7C0F58091AC9EA05ECEA44E6F /* Pods-SwiftDataTables_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 3CC4698961C3BFC187A9932973FDBA01 /* Pods-SwiftDataTables_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C26D4DCB949EAFBCCAE561F9F62A736B /* PaginationHeader.xib in Sources */ = {isa = PBXBuildFile; fileRef = 70B187106D06C52BCE59600E80CACA8E /* PaginationHeader.xib */; };
-		C69882855206EA713FE1C6427851B34C /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24C5B75DC8BB1D3AC33E13F348A6FD17 /* DataStore.swift */; };
-		C864273AF5D17F7176186DAFEF19AB3D /* PaginationHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D33697A87B8F44DDE9797AA32060CD8B /* PaginationHeaderViewModel.swift */; };
-		DE23705BA788F762AEC564940DC5B258 /* DataCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFE8D2B2475153C3B82873CBD1500D5 /* DataCellViewModel.swift */; };
-		FB1A49A5265FEF672D6190A5D46A937C /* CollectionViewCellRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F5F6B5F09B6B3170BEF01CA41B2823A /* CollectionViewCellRepresentable.swift */; };
-		FC2A9D3708B5820E0C0304E5EF1C14CD /* DataCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CB8888EBCDDEA599EB73C4DB608B5A /* DataCell.swift */; };
-		FD73735DACD60D5B0A36E1A9CD3F8A0B /* DataCellRowRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A3C43C936854AC7B9E3E96FBAFFFB3 /* DataCellRowRepresentable.swift */; };
-		FFAF529B34E378B0F1BA092DB2768A50 /* SwiftDataTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6E801D8109B27ABF2C29EB0C82DCF8C /* SwiftDataTable.swift */; };
+		C4F12AAD947E94A55DAE928D29577396 /* DataTableSearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D9B4AA17DB4832284C840A91D56FB0 /* DataTableSearchTextField.swift */; };
+		CACC1A90A6AE7ED12653C4E1E6335A2F /* DataTableSortType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90D3D7ADBC49A31D8FEB1F60C052DE9 /* DataTableSortType.swift */; };
+		CE4A90BF76D93DFCC04D3DCE233D3657 /* CollectionViewCellRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 915E0818C20643221F40E1DD18875ABB /* CollectionViewCellRepresentable.swift */; };
+		D3358DC10F15C090C59F1B46BCC5AFE4 /* SwiftDataTable+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0D9A758F5D07A5B156C972F7EC6C73 /* SwiftDataTable+Extensions.swift */; };
+		E5B9CC9B9DB447A50C0720093EC0D21E /* SwiftDataTables-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 29529D22A36CCD1CF3C8A3E37CF8AA82 /* SwiftDataTables-dummy.m */; };
+		FA72CBA68B50E5EBDCD25648C81BA9AA /* MenuLengthHeader.xib in Sources */ = {isa = PBXBuildFile; fileRef = 61FDDE21982EEE8A070F64045882C0AF /* MenuLengthHeader.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,67 +61,67 @@
 
 /* Begin PBXFileReference section */
 		026CC3068F40BE2D05647A2410B36B3B /* Pods-SwiftDataTables_Tests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SwiftDataTables_Tests-resources.sh"; sourceTree = "<group>"; };
-		057C454D1E7944B400B3F747 /* DataTableSearchTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataTableSearchTextField.swift; sourceTree = "<group>"; };
-		09B4FE2CBBA7486FA032F19F7C6EC1D1 /* VirtualPositionTrackable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = VirtualPositionTrackable.swift; sourceTree = "<group>"; };
+		0E4C9491808FD1FFE914DCAFAD7D2386 /* DataStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
 		1037553484562CE309A3013538712A90 /* Pods_SwiftDataTables_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwiftDataTables_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1224A3CF41ABF565DE4D754A763937CC /* PaginationHeader.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PaginationHeader.swift; sourceTree = "<group>"; };
 		15D74D4F308C07A9FF50DFDA2A0736D9 /* Pods-SwiftDataTables_Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-SwiftDataTables_Example.modulemap"; sourceTree = "<group>"; };
+		1800F12E1FCB665A56571DAEDFA4A3E2 /* MenuLengthHeader.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MenuLengthHeader.swift; sourceTree = "<group>"; };
 		18B3638F5AD13E6EBCB7FBA837D1D5AD /* Pods-SwiftDataTables_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-SwiftDataTables_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
-		1AD804FA3D8F3F6364A5D9D007B80856 /* SwiftDataTable+Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "SwiftDataTable+Extensions.swift"; sourceTree = "<group>"; };
-		24C5B75DC8BB1D3AC33E13F348A6FD17 /* DataStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
+		19146F6458BB58D305987C6D05D75DDB /* DataStructureModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataStructureModel.swift; sourceTree = "<group>"; };
+		281CBD36BC8026945D142671328F8C7D /* DataHeaderFooterViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataHeaderFooterViewModel.swift; sourceTree = "<group>"; };
 		29529D22A36CCD1CF3C8A3E37CF8AA82 /* SwiftDataTables-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SwiftDataTables-dummy.m"; sourceTree = "<group>"; };
 		33462704076851C1B758B976F53B9A0C /* Pods-SwiftDataTables_Example-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SwiftDataTables_Example-frameworks.sh"; sourceTree = "<group>"; };
+		34D9B4AA17DB4832284C840A91D56FB0 /* DataTableSearchTextField.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataTableSearchTextField.swift; sourceTree = "<group>"; };
 		384C6C6A4148C520C98D0600D7393727 /* Pods-SwiftDataTables_Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-SwiftDataTables_Example-dummy.m"; sourceTree = "<group>"; };
 		396D3B52F501B58F711A7301DAD62C34 /* SwiftDataTables-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftDataTables-prefix.pch"; sourceTree = "<group>"; };
 		3CC4698961C3BFC187A9932973FDBA01 /* Pods-SwiftDataTables_Tests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-SwiftDataTables_Tests-umbrella.h"; sourceTree = "<group>"; };
-		3CFE8D2B2475153C3B82873CBD1500D5 /* DataCellViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataCellViewModel.swift; sourceTree = "<group>"; };
-		3D230D9B285E4DB6BE57283D0DA369B9 /* CollectionViewSupplementaryElementRepresentable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CollectionViewSupplementaryElementRepresentable.swift; sourceTree = "<group>"; };
-		3F51A0022452EF1EFD995A3C901C8035 /* DataHeaderFooter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataHeaderFooter.swift; sourceTree = "<group>"; };
 		3FCF927BF691F6711D8A34DA24DE0727 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4328688BC5F6D3F5EEB1AED82637E62A /* DataCellRowRepresentable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataCellRowRepresentable.swift; sourceTree = "<group>"; };
+		48CFB127CFA921DC3DCEFF98D9ABE2C4 /* PaginationHeader.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; path = PaginationHeader.xib; sourceTree = "<group>"; };
 		4A7A00092F7F68FE9EB3EDD8772E3635 /* SwiftDataTables.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = SwiftDataTables.modulemap; sourceTree = "<group>"; };
 		4AF636A6C261B4B22000184FC87CE66A /* Pods-SwiftDataTables_Example-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SwiftDataTables_Example-resources.sh"; sourceTree = "<group>"; };
 		5277C1C4F649828D9CEE62AF4D307B53 /* Pods-SwiftDataTables_Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-SwiftDataTables_Example-umbrella.h"; sourceTree = "<group>"; };
-		58396C00E501273D8D517F4680C5497B /* DataCell.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; path = DataCell.xib; sourceTree = "<group>"; };
-		5CBE07CBEF0A9F6D1115A9DCD2EEA50C /* column-sort-ascending.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "column-sort-ascending.png"; sourceTree = "<group>"; };
-		5FE39D66642A56668EE1C80FE219DEBC /* DataHeaderFooter.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; path = DataHeaderFooter.xib; sourceTree = "<group>"; };
-		5FF66442B3706F72C3360B21A22E47D8 /* MenuLengthHeaderViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MenuLengthHeaderViewModel.swift; sourceTree = "<group>"; };
-		692C83EA7BDB5F20630C8A087F6D4189 /* DataHeaderFooterViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataHeaderFooterViewModel.swift; sourceTree = "<group>"; };
-		6F5F6B5F09B6B3170BEF01CA41B2823A /* CollectionViewCellRepresentable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CollectionViewCellRepresentable.swift; sourceTree = "<group>"; };
-		70B187106D06C52BCE59600E80CACA8E /* PaginationHeader.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; path = PaginationHeader.xib; sourceTree = "<group>"; };
+		5445F32930D137199F2797334ADE657C /* DataCell.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; path = DataCell.xib; sourceTree = "<group>"; };
+		5B41D17014B3C074EDB0CCD2736C0808 /* MenuLengthHeaderViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MenuLengthHeaderViewModel.swift; sourceTree = "<group>"; };
+		5DD4E394D6FE142F7550AFFFC101A045 /* SwiftDataTableFlowLayout.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SwiftDataTableFlowLayout.swift; sourceTree = "<group>"; };
+		61FDDE21982EEE8A070F64045882C0AF /* MenuLengthHeader.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; path = MenuLengthHeader.xib; sourceTree = "<group>"; };
+		6E122E61E1C8C49B04CF74BCCFA6161B /* VirtualPositionTrackable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = VirtualPositionTrackable.swift; sourceTree = "<group>"; };
 		73E22285CF26946E7AD06B00512B3C37 /* SwiftDataTables.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftDataTables.xcconfig; sourceTree = "<group>"; };
-		7545976213A79CF058DF04F103DA13F5 /* DataTableConfiguration.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataTableConfiguration.swift; sourceTree = "<group>"; };
-		758C2C1E7462638527091ADC27FBC27E /* DataTableSortable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataTableSortable.swift; sourceTree = "<group>"; };
 		77FCE7AAEC3AB0B69D0D0F1E47526A55 /* Pods-SwiftDataTables_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SwiftDataTables_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		78A14C8773B4B9CD3ADB324703A6D84D /* SwiftDataTables-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftDataTables-umbrella.h"; sourceTree = "<group>"; };
+		7AB3AACE6A2F1AFB21B65E918C6BD945 /* SwiftDataTable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SwiftDataTable.swift; sourceTree = "<group>"; };
+		7B5DBDD794DC94DD50E8634CB2C820BB /* DataCellLayoutAttributes.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataCellLayoutAttributes.swift; sourceTree = "<group>"; };
 		7CD548E01AB1C82543F72FC3ACDE740B /* SwiftDataTables.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; path = SwiftDataTables.bundle; sourceTree = "<group>"; };
-		7DBB33DAE7B794564F6FA560075614C8 /* MenuLengthHeader.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; path = MenuLengthHeader.xib; sourceTree = "<group>"; };
+		8010CB43D447228DB2F3EE74CF263D14 /* column-sort-descending.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "column-sort-descending.png"; sourceTree = "<group>"; };
 		80EFFBC331D7B75C7689F478B728663E /* Pods-SwiftDataTables_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SwiftDataTables_Example.release.xcconfig"; sourceTree = "<group>"; };
-		81A1BB62F579338FB5B3D1B46593C516 /* PaginationHeader.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PaginationHeader.swift; sourceTree = "<group>"; };
 		86C31390A6D99B60A5D28F7BF13FB249 /* Pods-SwiftDataTables_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SwiftDataTables_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		86FA0E63F942A371F612D17FC46F527F /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8EE1F7C243C8D194CB6C5DFC46CE2597 /* DataCellLayoutAttributes.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataCellLayoutAttributes.swift; sourceTree = "<group>"; };
+		8F2BFF8086A7BBEE3511BF1A27D50091 /* DataHeaderFooter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataHeaderFooter.swift; sourceTree = "<group>"; };
+		915E0818C20643221F40E1DD18875ABB /* CollectionViewCellRepresentable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CollectionViewCellRepresentable.swift; sourceTree = "<group>"; };
 		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		96CB8888EBCDDEA599EB73C4DB608B5A /* DataCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataCell.swift; sourceTree = "<group>"; };
 		9A707D5DA18A0996ADF3231840835908 /* Pods_SwiftDataTables_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwiftDataTables_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9B2ED54993F40761375E7A5530B7B5F9 /* DataCellViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataCellViewModel.swift; sourceTree = "<group>"; };
 		9C520E0139094370E530D4155DD50D34 /* SwiftDataTables.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftDataTables.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9F2E83AB3AB39BF705EE3F1638D6B29F /* DataTableSortable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataTableSortable.swift; sourceTree = "<group>"; };
+		A0CF2E9F66B58735D143648B30DF58D4 /* DataHeaderFooter.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; path = DataHeaderFooter.xib; sourceTree = "<group>"; };
 		A4A7D10DFC80274683FA6D5D7CB30045 /* Pods-SwiftDataTables_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-SwiftDataTables_Tests-dummy.m"; sourceTree = "<group>"; };
+		A8AF054D142EAEC82F6E543C5EDC8B4D /* DataCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataCell.swift; sourceTree = "<group>"; };
 		A9497FD77AFF9D1079B44445D1536828 /* Pods-SwiftDataTables_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-SwiftDataTables_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
 		AE3FA8C289BB2B0213DFCD9351E770DC /* Pods-SwiftDataTables_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-SwiftDataTables_Tests.modulemap"; sourceTree = "<group>"; };
-		B6B09B046705E533AEAE674DAD999AE2 /* DataStructureModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataStructureModel.swift; sourceTree = "<group>"; };
-		B8A3C43C936854AC7B9E3E96FBAFFFB3 /* DataCellRowRepresentable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataCellRowRepresentable.swift; sourceTree = "<group>"; };
+		B29B0F533FE64494E873A1152A0341C7 /* DataTableConfiguration.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataTableConfiguration.swift; sourceTree = "<group>"; };
+		BB0D9A758F5D07A5B156C972F7EC6C73 /* SwiftDataTable+Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "SwiftDataTable+Extensions.swift"; sourceTree = "<group>"; };
+		BBACAFE153377B02F371E7CEBE6CFE4D /* column-sort-unspecified.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "column-sort-unspecified.png"; sourceTree = "<group>"; };
 		BC0FD0FEE4B07056B1C991A1EC970739 /* Pods-SwiftDataTables_Tests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SwiftDataTables_Tests-frameworks.sh"; sourceTree = "<group>"; };
-		C51B1CBE13F43FCA0ED53371BD6546BA /* column-sort-unspecified.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "column-sort-unspecified.png"; sourceTree = "<group>"; };
-		C5ED1D2C95803E58A72D6699C4F0DC03 /* column-sort-descending.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "column-sort-descending.png"; sourceTree = "<group>"; };
+		BE4EFD0DC1BEDDDE8D0946323DCAF903 /* PaginationHeaderViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PaginationHeaderViewModel.swift; sourceTree = "<group>"; };
+		C4EE833874126E5AF2AA48DB3395A88D /* DataTableValueType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataTableValueType.swift; sourceTree = "<group>"; };
 		CBB3DE36805AF21409EC968A9691732F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		D2C50F93E3FF19DF9139E95FCA488BA4 /* Pods-SwiftDataTables_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SwiftDataTables_Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		D33697A87B8F44DDE9797AA32060CD8B /* PaginationHeaderViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PaginationHeaderViewModel.swift; sourceTree = "<group>"; };
-		D6E801D8109B27ABF2C29EB0C82DCF8C /* SwiftDataTable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SwiftDataTable.swift; sourceTree = "<group>"; };
-		DA0A3B002A6F00B48748D52241622DCE /* SwiftDataTableFlowLayout.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SwiftDataTableFlowLayout.swift; sourceTree = "<group>"; };
-		DA7ECB32F073B7A01296671D9C29E01C /* DataTableValueType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataTableValueType.swift; sourceTree = "<group>"; };
+		D90D3D7ADBC49A31D8FEB1F60C052DE9 /* DataTableSortType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataTableSortType.swift; sourceTree = "<group>"; };
 		DB26733A19DEE294A032B66575C90AEA /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		DC435B597A1AB28EFC1D91289A40A4E6 /* MenuLengthHeader.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MenuLengthHeader.swift; sourceTree = "<group>"; };
+		E1A11813CA7C50E41A73FD7F6A7FA1FE /* CollectionViewSupplementaryElementRepresentable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CollectionViewSupplementaryElementRepresentable.swift; sourceTree = "<group>"; };
 		EC083CA7691E49596D895262F66C5B93 /* Pods-SwiftDataTables_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SwiftDataTables_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
+		F1473A9A43EE02DA71DEF3040C95FD04 /* column-sort-ascending.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "column-sort-ascending.png"; sourceTree = "<group>"; };
 		F1E6C461F1C5604D58CFD9E8581D3A94 /* Pods-SwiftDataTables_Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SwiftDataTables_Example-acknowledgements.plist"; sourceTree = "<group>"; };
-		FD3A7ED43AABB75248525A0E205BDAE4 /* DataTableSortType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataTableSortType.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,32 +170,54 @@
 			path = "Target Support Files/Pods-SwiftDataTables_Example";
 			sourceTree = "<group>";
 		};
-		3E0D795ABA8D0AA008CF45EBFE23D733 /* SwiftDataTables.bundle */ = {
+		2F990587AC3B986CB654E8FC27082921 /* MenuLengthHeader */ = {
 			isa = PBXGroup;
 			children = (
-				5CBE07CBEF0A9F6D1115A9DCD2EEA50C /* column-sort-ascending.png */,
-				C5ED1D2C95803E58A72D6699C4F0DC03 /* column-sort-descending.png */,
-				C51B1CBE13F43FCA0ED53371BD6546BA /* column-sort-unspecified.png */,
-			);
-			path = SwiftDataTables.bundle;
-			sourceTree = "<group>";
-		};
-		457C12057ABCC332009AA524E13FA70B /* MenuLengthHeader */ = {
-			isa = PBXGroup;
-			children = (
-				DC435B597A1AB28EFC1D91289A40A4E6 /* MenuLengthHeader.swift */,
-				7DBB33DAE7B794564F6FA560075614C8 /* MenuLengthHeader.xib */,
-				5FF66442B3706F72C3360B21A22E47D8 /* MenuLengthHeaderViewModel.swift */,
+				1800F12E1FCB665A56571DAEDFA4A3E2 /* MenuLengthHeader.swift */,
+				61FDDE21982EEE8A070F64045882C0AF /* MenuLengthHeader.xib */,
+				5B41D17014B3C074EDB0CCD2736C0808 /* MenuLengthHeaderViewModel.swift */,
 			);
 			path = MenuLengthHeader;
 			sourceTree = "<group>";
 		};
-		622366AF1820CF887AB0D17EAA765D1D /* Extensions */ = {
+		3306E6F17987221B42826806A851A923 /* SwiftDataTables.bundle */ = {
 			isa = PBXGroup;
 			children = (
-				1AD804FA3D8F3F6364A5D9D007B80856 /* SwiftDataTable+Extensions.swift */,
+				F1473A9A43EE02DA71DEF3040C95FD04 /* column-sort-ascending.png */,
+				8010CB43D447228DB2F3EE74CF263D14 /* column-sort-descending.png */,
+				BBACAFE153377B02F371E7CEBE6CFE4D /* column-sort-unspecified.png */,
 			);
-			path = Extensions;
+			path = SwiftDataTables.bundle;
+			sourceTree = "<group>";
+		};
+		4FA2D830EA5AA49F6FB259C295644814 /* SwiftDataTables */ = {
+			isa = PBXGroup;
+			children = (
+				90FCC83B0EA68CB1DD52EBBA8CCA3531 /* Classes */,
+				3306E6F17987221B42826806A851A923 /* SwiftDataTables.bundle */,
+			);
+			path = SwiftDataTables;
+			sourceTree = "<group>";
+		};
+		5F088D4B8E77F214E91F82169E5DF9FE /* PaginationHeader */ = {
+			isa = PBXGroup;
+			children = (
+				1224A3CF41ABF565DE4D754A763937CC /* PaginationHeader.swift */,
+				48CFB127CFA921DC3DCEFF98D9ABE2C4 /* PaginationHeader.xib */,
+				BE4EFD0DC1BEDDDE8D0946323DCAF903 /* PaginationHeaderViewModel.swift */,
+			);
+			path = PaginationHeader;
+			sourceTree = "<group>";
+		};
+		5FBD99A5DED4570C24F2FF9C7839B0F5 /* DataCell */ = {
+			isa = PBXGroup;
+			children = (
+				A8AF054D142EAEC82F6E543C5EDC8B4D /* DataCell.swift */,
+				5445F32930D137199F2797334ADE657C /* DataCell.xib */,
+				7B5DBDD794DC94DD50E8634CB2C820BB /* DataCellLayoutAttributes.swift */,
+				9B2ED54993F40761375E7A5530B7B5F9 /* DataCellViewModel.swift */,
+			);
+			path = DataCell;
 			sourceTree = "<group>";
 		};
 		6F3829022BF39FC6AAF751676A132072 /* Resources */ = {
@@ -204,6 +226,17 @@
 				C0E85F095D6B95C898ABC4A065CE2698 /* SwiftDataTables */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		6FC49C523238F040A13CC3F0707EA125 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				915E0818C20643221F40E1DD18875ABB /* CollectionViewCellRepresentable.swift */,
+				E1A11813CA7C50E41A73FD7F6A7FA1FE /* CollectionViewSupplementaryElementRepresentable.swift */,
+				4328688BC5F6D3F5EEB1AED82637E62A /* DataCellRowRepresentable.swift */,
+				6E122E61E1C8C49B04CF74BCCFA6161B /* VirtualPositionTrackable.swift */,
+			);
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 		7531C8F8DE19F1AA3C8A7AC97A91DC29 /* iOS */ = {
@@ -225,28 +258,6 @@
 			);
 			sourceTree = "<group>";
 		};
-		7DEF21227A9E0A672F52277BE275EF9E /* Classes */ = {
-			isa = PBXGroup;
-			children = (
-				D6E801D8109B27ABF2C29EB0C82DCF8C /* SwiftDataTable.swift */,
-				DA0A3B002A6F00B48748D52241622DCE /* SwiftDataTableFlowLayout.swift */,
-				057C454D1E7944B400B3F747 /* DataTableSearchTextField.swift */,
-				24C5B75DC8BB1D3AC33E13F348A6FD17 /* DataStore.swift */,
-				B6B09B046705E533AEAE674DAD999AE2 /* DataStructureModel.swift */,
-				7545976213A79CF058DF04F103DA13F5 /* DataTableConfiguration.swift */,
-				758C2C1E7462638527091ADC27FBC27E /* DataTableSortable.swift */,
-				FD3A7ED43AABB75248525A0E205BDAE4 /* DataTableSortType.swift */,
-				DA7ECB32F073B7A01296671D9C29E01C /* DataTableValueType.swift */,
-				9DF386D91D557BC7C32220A418A3580F /* DataCell */,
-				622366AF1820CF887AB0D17EAA765D1D /* Extensions */,
-				C6E7C30C3C108CF7210E29AF8F74BA51 /* HeaderFooter */,
-				457C12057ABCC332009AA524E13FA70B /* MenuLengthHeader */,
-				E0138C9574692E135E92BA4D19C072BF /* PaginationHeader */,
-				DE208CE36A0B4FC548333CB6E7ED0ED8 /* Protocols */,
-			);
-			path = Classes;
-			sourceTree = "<group>";
-		};
 		8558C28D56B0F1833537529A4873189A /* Targets Support Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -254,6 +265,28 @@
 				9654D02CE6516AA89ECAC06B710F7969 /* Pods-SwiftDataTables_Tests */,
 			);
 			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		90FCC83B0EA68CB1DD52EBBA8CCA3531 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				34D9B4AA17DB4832284C840A91D56FB0 /* DataTableSearchTextField.swift */,
+				5DD4E394D6FE142F7550AFFFC101A045 /* SwiftDataTableFlowLayout.swift */,
+				0E4C9491808FD1FFE914DCAFAD7D2386 /* DataStore.swift */,
+				19146F6458BB58D305987C6D05D75DDB /* DataStructureModel.swift */,
+				B29B0F533FE64494E873A1152A0341C7 /* DataTableConfiguration.swift */,
+				9F2E83AB3AB39BF705EE3F1638D6B29F /* DataTableSortable.swift */,
+				D90D3D7ADBC49A31D8FEB1F60C052DE9 /* DataTableSortType.swift */,
+				C4EE833874126E5AF2AA48DB3395A88D /* DataTableValueType.swift */,
+				7AB3AACE6A2F1AFB21B65E918C6BD945 /* SwiftDataTable.swift */,
+				5FBD99A5DED4570C24F2FF9C7839B0F5 /* DataCell */,
+				ADFF8D727187B584BF991FCDDAFC19E9 /* Extensions */,
+				CA8C5D9264EAB22AAB22F465425BC725 /* HeaderFooter */,
+				2F990587AC3B986CB654E8FC27082921 /* MenuLengthHeader */,
+				5F088D4B8E77F214E91F82169E5DF9FE /* PaginationHeader */,
+				6FC49C523238F040A13CC3F0707EA125 /* Protocols */,
+			);
+			path = Classes;
 			sourceTree = "<group>";
 		};
 		91F49031BEC3D2C49579FAEEDB8B6C71 /* Support Files */ = {
@@ -288,15 +321,12 @@
 			path = "Target Support Files/Pods-SwiftDataTables_Tests";
 			sourceTree = "<group>";
 		};
-		9DF386D91D557BC7C32220A418A3580F /* DataCell */ = {
+		ADFF8D727187B584BF991FCDDAFC19E9 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				96CB8888EBCDDEA599EB73C4DB608B5A /* DataCell.swift */,
-				58396C00E501273D8D517F4680C5497B /* DataCell.xib */,
-				8EE1F7C243C8D194CB6C5DFC46CE2597 /* DataCellLayoutAttributes.swift */,
-				3CFE8D2B2475153C3B82873CBD1500D5 /* DataCellViewModel.swift */,
+				BB0D9A758F5D07A5B156C972F7EC6C73 /* SwiftDataTable+Extensions.swift */,
 			);
-			path = DataCell;
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		B7171DEBFA788BC102839F52AEBCD24D /* SwiftDataTables */ = {
@@ -304,7 +334,7 @@
 			children = (
 				6F3829022BF39FC6AAF751676A132072 /* Resources */,
 				91F49031BEC3D2C49579FAEEDB8B6C71 /* Support Files */,
-				EF49D79784EACE3A2D8180D71361BD1D /* SwiftDataTables */,
+				4FA2D830EA5AA49F6FB259C295644814 /* SwiftDataTables */,
 			);
 			name = SwiftDataTables;
 			path = ../..;
@@ -336,35 +366,14 @@
 			path = SwiftDataTables;
 			sourceTree = "<group>";
 		};
-		C6E7C30C3C108CF7210E29AF8F74BA51 /* HeaderFooter */ = {
+		CA8C5D9264EAB22AAB22F465425BC725 /* HeaderFooter */ = {
 			isa = PBXGroup;
 			children = (
-				3F51A0022452EF1EFD995A3C901C8035 /* DataHeaderFooter.swift */,
-				5FE39D66642A56668EE1C80FE219DEBC /* DataHeaderFooter.xib */,
-				692C83EA7BDB5F20630C8A087F6D4189 /* DataHeaderFooterViewModel.swift */,
+				8F2BFF8086A7BBEE3511BF1A27D50091 /* DataHeaderFooter.swift */,
+				A0CF2E9F66B58735D143648B30DF58D4 /* DataHeaderFooter.xib */,
+				281CBD36BC8026945D142671328F8C7D /* DataHeaderFooterViewModel.swift */,
 			);
 			path = HeaderFooter;
-			sourceTree = "<group>";
-		};
-		DE208CE36A0B4FC548333CB6E7ED0ED8 /* Protocols */ = {
-			isa = PBXGroup;
-			children = (
-				6F5F6B5F09B6B3170BEF01CA41B2823A /* CollectionViewCellRepresentable.swift */,
-				3D230D9B285E4DB6BE57283D0DA369B9 /* CollectionViewSupplementaryElementRepresentable.swift */,
-				B8A3C43C936854AC7B9E3E96FBAFFFB3 /* DataCellRowRepresentable.swift */,
-				09B4FE2CBBA7486FA032F19F7C6EC1D1 /* VirtualPositionTrackable.swift */,
-			);
-			path = Protocols;
-			sourceTree = "<group>";
-		};
-		E0138C9574692E135E92BA4D19C072BF /* PaginationHeader */ = {
-			isa = PBXGroup;
-			children = (
-				81A1BB62F579338FB5B3D1B46593C516 /* PaginationHeader.swift */,
-				70B187106D06C52BCE59600E80CACA8E /* PaginationHeader.xib */,
-				D33697A87B8F44DDE9797AA32060CD8B /* PaginationHeaderViewModel.swift */,
-			);
-			path = PaginationHeader;
 			sourceTree = "<group>";
 		};
 		EEF66512A6A08E618028B0E9655A87E5 /* Development Pods */ = {
@@ -373,15 +382,6 @@
 				B7171DEBFA788BC102839F52AEBCD24D /* SwiftDataTables */,
 			);
 			name = "Development Pods";
-			sourceTree = "<group>";
-		};
-		EF49D79784EACE3A2D8180D71361BD1D /* SwiftDataTables */ = {
-			isa = PBXGroup;
-			children = (
-				7DEF21227A9E0A672F52277BE275EF9E /* Classes */,
-				3E0D795ABA8D0AA008CF45EBFE23D733 /* SwiftDataTables.bundle */,
-			);
-			path = SwiftDataTables;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -453,7 +453,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E37FE4BE49E660A00455BBA146E635D8 /* Build configuration list for PBXNativeTarget "SwiftDataTables" */;
 			buildPhases = (
-				2157F92E17631A4C1CA868A796384A80 /* Sources */,
+				CAEB5397CC474D90720E2777964FD0E9 /* Sources */,
 				5203177A10482D5BE9424CDDB4F41031 /* Frameworks */,
 				FFFB985261598D8E39F3C5288C548319 /* Resources */,
 				2088B95A042860FA554F033730639BCD /* Headers */,
@@ -475,11 +475,6 @@
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0700;
-				TargetAttributes = {
-					35A7856F4E4D9B71B975A5AF937288AB = {
-						LastSwiftMigration = 0820;
-					};
-				};
 			};
 			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -512,48 +507,10 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		2157F92E17631A4C1CA868A796384A80 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				FB1A49A5265FEF672D6190A5D46A937C /* CollectionViewCellRepresentable.swift in Sources */,
-				155AF45595400F755AD7510330CE2E2D /* CollectionViewSupplementaryElementRepresentable.swift in Sources */,
-				8F4CAE912203890EB984FE7D249E1647 /* column-sort-ascending.png in Sources */,
-				2E26B4E84EFC5D6AD20E456938B92982 /* column-sort-descending.png in Sources */,
-				8CD7C202E24196AC12F79C16FF4E6D87 /* column-sort-unspecified.png in Sources */,
-				FC2A9D3708B5820E0C0304E5EF1C14CD /* DataCell.swift in Sources */,
-				35BC77868CC47151547D08C4BE923246 /* DataCell.xib in Sources */,
-				04D3A2072D43BBF4D1BFDFD45F859226 /* DataCellLayoutAttributes.swift in Sources */,
-				FD73735DACD60D5B0A36E1A9CD3F8A0B /* DataCellRowRepresentable.swift in Sources */,
-				DE23705BA788F762AEC564940DC5B258 /* DataCellViewModel.swift in Sources */,
-				0C4C3FD1B0C3881E2A7BA491A0E3CDE7 /* DataHeaderFooter.swift in Sources */,
-				AAB0D3BF1DCF998A416345AD0D3FA94A /* DataHeaderFooter.xib in Sources */,
-				6D296F7C0DD65616E31298E40A4200C5 /* DataHeaderFooterViewModel.swift in Sources */,
-				C69882855206EA713FE1C6427851B34C /* DataStore.swift in Sources */,
-				3C70FA40AE67C09E1DFA28AFC3DCC226 /* DataStructureModel.swift in Sources */,
-				6A754488F2940DEE2BE0B4680D30B830 /* DataTableConfiguration.swift in Sources */,
-				2AF491F84ACD4C8AFDBC5725149D67BB /* DataTableSortable.swift in Sources */,
-				6BCD50C7C8D2AEFE81B6DC028BD64892 /* DataTableSortType.swift in Sources */,
-				361C0FD3E09385E01C9851B26F2C61BE /* DataTableValueType.swift in Sources */,
-				872F4A71132D099AEA08A1EA096F3D4C /* MenuLengthHeader.swift in Sources */,
-				AB8F247AEAD41BB1641A263D940D263C /* MenuLengthHeader.xib in Sources */,
-				5CBA47C5F7B5145795D38A11F28FBC39 /* MenuLengthHeaderViewModel.swift in Sources */,
-				62005E546AAD30CC92BAD45F5D788875 /* PaginationHeader.swift in Sources */,
-				C26D4DCB949EAFBCCAE561F9F62A736B /* PaginationHeader.xib in Sources */,
-				C864273AF5D17F7176186DAFEF19AB3D /* PaginationHeaderViewModel.swift in Sources */,
-				B5FDE273BF516D8426A0002E3CC2DB22 /* SwiftDataTable+Extensions.swift in Sources */,
-				FFAF529B34E378B0F1BA092DB2768A50 /* SwiftDataTable.swift in Sources */,
-				C17B750075715E03B148AC604FAEE825 /* SwiftDataTableFlowLayout.swift in Sources */,
-				3C5F558833ACE66DDAD220135719D273 /* SwiftDataTables-dummy.m in Sources */,
-				7E79D622172995458EE3F96123FBC676 /* VirtualPositionTrackable.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		46258EB914A04B92B0685814CDFADF4B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				057C454E1E7944B400B3F747 /* DataTableSearchTextField.swift in Sources */,
 				04E67A60A59D89EDD0FA3954807BACA2 /* Pods-SwiftDataTables_Example-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -563,6 +520,44 @@
 			buildActionMask = 2147483647;
 			files = (
 				73ED7945DE34869F021F0ABCDA39FD5D /* Pods-SwiftDataTables_Tests-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CAEB5397CC474D90720E2777964FD0E9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE4A90BF76D93DFCC04D3DCE233D3657 /* CollectionViewCellRepresentable.swift in Sources */,
+				447D725629DFA0BD37D78278F9BAA7E9 /* CollectionViewSupplementaryElementRepresentable.swift in Sources */,
+				1D5412B8BE164CC40AB37056472738A0 /* column-sort-ascending.png in Sources */,
+				3BFE5A7673FE26C58192AE4A4804FB14 /* column-sort-descending.png in Sources */,
+				A420CBA695BC6A5D41FDDB3556683361 /* column-sort-unspecified.png in Sources */,
+				54186B6BB64AA1385130D4CFDF8C1C32 /* DataCell.swift in Sources */,
+				2A02F59F62B6257E91B36ABE5DE187E5 /* DataCell.xib in Sources */,
+				1682199B9F2387EAB9F0AE264D73BF64 /* DataCellLayoutAttributes.swift in Sources */,
+				5ADFDE8DC6E446CEB2F64949A4C64807 /* DataCellRowRepresentable.swift in Sources */,
+				4F625F11B00F2A82C79A58683EAE5ED6 /* DataCellViewModel.swift in Sources */,
+				0E4DA195C1DD249BC36F46704E6479E5 /* DataHeaderFooter.swift in Sources */,
+				879F2DA5C13B4A0B6D519FF3BEC59C48 /* DataHeaderFooter.xib in Sources */,
+				9FDCB4FCBE392492BD993DB008E0E331 /* DataHeaderFooterViewModel.swift in Sources */,
+				0EDC34D3842A179C17600AF096B5FD74 /* DataStore.swift in Sources */,
+				A038ED326D306EF638F005DC25DDC868 /* DataStructureModel.swift in Sources */,
+				8B9C0C7AC4570DD2E90E213607105E40 /* DataTableConfiguration.swift in Sources */,
+				C4F12AAD947E94A55DAE928D29577396 /* DataTableSearchTextField.swift in Sources */,
+				27B9153C7A19C109271A4606EFE3E633 /* DataTableSortable.swift in Sources */,
+				CACC1A90A6AE7ED12653C4E1E6335A2F /* DataTableSortType.swift in Sources */,
+				0AC82994E79C72757A7C838A957E514A /* DataTableValueType.swift in Sources */,
+				AA38751546A71EEA92F93C1D73090288 /* MenuLengthHeader.swift in Sources */,
+				FA72CBA68B50E5EBDCD25648C81BA9AA /* MenuLengthHeader.xib in Sources */,
+				604D321EF4346D8126333D5309EABDCE /* MenuLengthHeaderViewModel.swift in Sources */,
+				260D49F616F0784BD9D51B7EB6CDC051 /* PaginationHeader.swift in Sources */,
+				24F7481937E91176DD274096E22F65B0 /* PaginationHeader.xib in Sources */,
+				ADFAD95B15D0B645F6F6FDEE5A3F87A4 /* PaginationHeaderViewModel.swift in Sources */,
+				D3358DC10F15C090C59F1B46BCC5AFE4 /* SwiftDataTable+Extensions.swift in Sources */,
+				90EF5F0AEE0C81BA83CB8ADC4AAC9183 /* SwiftDataTable.swift in Sources */,
+				1FB1428BB6E1A60FD7E3A379816CFF40 /* SwiftDataTableFlowLayout.swift in Sources */,
+				E5B9CC9B9DB447A50C0720093EC0D21E /* SwiftDataTables-dummy.m in Sources */,
+				6A05AC585F344B122E7D07F157D73C90 /* VirtualPositionTrackable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -626,7 +621,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 77FCE7AAEC3AB0B69D0D0F1E47526A55 /* Pods-SwiftDataTables_Example.debug.xcconfig */;
 			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
@@ -653,7 +647,6 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -771,7 +764,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 80EFFBC331D7B75C7689F478B728663E /* Pods-SwiftDataTables_Example.release.xcconfig */;
 			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
@@ -797,7 +789,6 @@
 				PRODUCT_NAME = Pods_SwiftDataTables_Example;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";

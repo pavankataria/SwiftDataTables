@@ -52,7 +52,7 @@ class SwiftDataTableFlowLayout: UICollectionViewFlowLayout {
         }
         
         //Reduces the computation by calculating the height offset against one column
-        let defaultUpperHeight = self.dataTable.heightForMenuLengthView() + self.dataTable.heightForSectionHeader()
+        let defaultUpperHeight = self.dataTable.heightForSearchView() + self.dataTable.heightForSectionHeader()
         for row in Array(0..<self.dataTable.numberOfRows()){
             let currentRowYOffset = Array(0..<row).reduce(defaultUpperHeight) { $0 + self.dataTable.heightForRow(index: $1) + self.dataTable.heightOfInterRowSpacing() }
             yOffsets.append(currentRowYOffset)
@@ -81,7 +81,7 @@ class SwiftDataTableFlowLayout: UICollectionViewFlowLayout {
         self.collectionView?.scrollIndicatorInsets = UIEdgeInsets(
             top: self.dataTable.shouldSectionHeadersFloat() ? self.dataTable.heightForSectionHeader() + self.dataTable.heightForPaginationView(): 0,
             left: 0,
-            bottom: self.dataTable.shouldSectionFootersFloat() ? self.dataTable.heightForSectionFooter() + self.dataTable.heightForMenuLengthView() : 0,
+            bottom: self.dataTable.shouldSectionFootersFloat() ? self.dataTable.heightForSectionFooter() + self.dataTable.heightForSearchView() : 0,
             right: 0
         )
         
@@ -92,7 +92,7 @@ class SwiftDataTableFlowLayout: UICollectionViewFlowLayout {
     
     override var collectionViewContentSize: CGSize {
         let width = self.dataTable.calculateContentWidth()
-        let height = Array(0..<self.dataTable.numberOfRows()).reduce(self.dataTable.heightForSectionHeader() + self.dataTable.heightForSectionFooter() + self.dataTable.heightForPaginationView() + self.dataTable.heightForMenuLengthView()) {
+        let height = Array(0..<self.dataTable.numberOfRows()).reduce(self.dataTable.heightForSectionHeader() + self.dataTable.heightForSectionFooter() + self.dataTable.heightForPaginationView() + self.dataTable.heightForSearchView()) {
                 $0 + self.dataTable.heightForRow(index: $1) + self.dataTable.heightOfInterRowSpacing()
         }
         return CGSize(width: width, height: height)
@@ -151,7 +151,7 @@ class SwiftDataTableFlowLayout: UICollectionViewFlowLayout {
 extension SwiftDataTableFlowLayout {
     override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
-        let initialRowYPosition = self.dataTable.heightForMenuLengthView() + self.dataTable.heightForSectionHeader()
+        let initialRowYPosition = self.dataTable.heightForSearchView() + self.dataTable.heightForSectionHeader()
         
         let x: CGFloat = Array(0..<indexPath.row).reduce(self.dataTable.widthForRowHeader()) { $0 + self.dataTable.widthForColumn(index: $1)}
         let y = initialRowYPosition + CGFloat(Int(self.dataTable.heightForRow(index: 0)) * indexPath.section)
@@ -183,7 +183,7 @@ extension SwiftDataTableFlowLayout {
         let x: CGFloat = self.dataTable.collectionView.contentOffset.x
         let y: CGFloat = 0
         let width = self.dataTable.collectionView.bounds.width
-        let height = self.dataTable.heightForMenuLengthView()
+        let height = self.dataTable.heightForSearchView()
         
         attribute.frame = CGRect(
             x: max(0, x),
@@ -207,7 +207,7 @@ extension SwiftDataTableFlowLayout {
         //Because the widths can change between columns we need to get a running total for the x position so far up
         //until the currnt column header.
         let x = Array(0..<indexPath.index).reduce(self.dataTable.widthForRowHeader()){$0 + self.dataTable.widthForColumn(index: $1)}
-        let y: CGFloat = self.dataTable.heightForMenuLengthView() /*self.dataTable.heightForPaginationView()*/
+        let y: CGFloat = self.dataTable.heightForSearchView() /*self.dataTable.heightForPaginationView()*/
         let width = self.dataTable.widthForColumn(index: indexPath.index)
         let height = self.dataTable.heightForSectionHeader()
         attribute.frame = CGRect(
@@ -219,7 +219,7 @@ extension SwiftDataTableFlowLayout {
         attribute.zIndex = 2
         //This should call the delegate method whether or not the headers should float.
         if self.dataTable.shouldSectionHeadersFloat(){
-            let yScrollOffsetPosition = self.dataTable.heightForMenuLengthView() + self.collectionView!.contentOffset.y
+            let yScrollOffsetPosition = self.dataTable.heightForSearchView() + self.collectionView!.contentOffset.y
             attribute.frame.origin.y = yScrollOffsetPosition//max(yScrollOffsetPosition, attribute.frame.origin.y)
             attribute.zIndex += 1
         }

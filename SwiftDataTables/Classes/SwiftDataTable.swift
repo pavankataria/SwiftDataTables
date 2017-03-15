@@ -22,7 +22,7 @@ public class SwiftDataTable: UIView {
         case footerHeader = "SwiftDataTableFooterHeader"
         
         /// Single header positioned at the bottom below the footer section.
-        case searchHeader = "SwiftDataTableMenuLengthHeader"
+        case searchHeader = "SwiftDataTableSearchHeader"
         
         init(kind: String){
             guard let elementKind = SupplementaryViewType(rawValue: kind) else {
@@ -284,7 +284,7 @@ extension SwiftDataTable: UICollectionViewDataSource {
     public func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
         let kind = SupplementaryViewType(kind: elementKind)
         switch kind {
-        case .paginationHeader, .searchHeader:
+        case .paginationHeader:
             view.backgroundColor = UIColor.darkGray
         default:
             view.backgroundColor = UIColor.white
@@ -462,10 +462,6 @@ extension SwiftDataTable {
         return self.dataStructure.footerTitles.count
     }
     
-    func showsSearchBar() -> Bool {
-        return true
-    }
-    
     func shouldContentWidthScaleToFillFrame() -> Bool{
         return true
     }
@@ -479,7 +475,7 @@ extension SwiftDataTable {
     }
     
     func shouldShowSearchSection() -> Bool {
-        return false
+        return true
     }
     
     func shouldShowPaginationSection() -> Bool {
@@ -541,11 +537,11 @@ extension SwiftDataTable {
         return 14
     }
     
-    func heightForMenuLengthView() -> CGFloat {
+    func heightForSearchView() -> CGFloat {
         guard self.shouldShowSearchSection() else {
             return 0
         }
-        return 35
+        return 44
     }
     
     func heightForPaginationView() -> CGFloat {
