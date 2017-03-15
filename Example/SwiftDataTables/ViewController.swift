@@ -25,8 +25,8 @@ class ViewController: UIViewController {
         
         super.viewDidLoad()
         
-        self.navigationController?.navigationBar.isTranslucent = false
-        
+//        self.navigationController?.navigationBar.isTranslucent = false
+        self.navigationController?.navigationBar.isHidden = true
         self.view.backgroundColor = UIColor.white
         
         var options = DataTableConfiguration()
@@ -43,7 +43,7 @@ class ViewController: UIViewController {
         
         //25/255, green: 33/255, blue: 39/255, alpha: 1)
         self.dataTable.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        self.dataTable.frame = self.view.bounds
+        self.dataTable.frame = self.view.frame
         self.view.addSubview(self.dataTable);
     }
 }

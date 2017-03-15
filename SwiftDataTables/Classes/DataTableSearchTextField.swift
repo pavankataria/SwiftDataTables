@@ -8,11 +8,12 @@
 
 import UIKit
 
+
 class DataTableSearchTextField: UITextField {
     
     //MARK: - Properties
-    
-    //MARK: - Lifecyc le
+
+    //MARK: - Lifecycle
     override func awakeFromNib() {
         super.awakeFromNib()
         self.setup()
@@ -21,6 +22,7 @@ class DataTableSearchTextField: UITextField {
     public func setup(){
         self.borderStyle = .none
         self.backgroundColor = UIColor.white
+        self.clearButtonMode = .always
     }
     
     override func layoutSubviews() {

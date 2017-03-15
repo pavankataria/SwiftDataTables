@@ -76,6 +76,8 @@ public class SwiftDataTable: UIView {
     fileprivate(set) var headerViewModels = [DataHeaderFooterViewModel]()
     fileprivate(set) var footerViewModels = [DataHeaderFooterViewModel]()
     fileprivate var rowViewModels = [[DataCellViewModel]]()
+    fileprivate var searchRowViewModels: [[DataCellViewModel]]? = nil
+    
     fileprivate var paginationViewModel: PaginationHeaderViewModel!
     fileprivate var menuLengthViewModel: MenuLengthHeaderViewModel!
     fileprivate var columnWidths = [CGFloat]()
@@ -447,7 +449,7 @@ extension SwiftDataTable {
     
     //This is actually mapped to sections
     func numberOfRows() -> Int {
-        return self.rowViewModels.count
+        return self.searchRowViewModels?.count ?? self.rowViewModels.count
     }
     
     func numberOfColumns() -> Int {
@@ -558,4 +560,9 @@ extension SwiftDataTable {
     func showHorizontalScrollBars() -> Bool {
         return false
     }
+}
+
+
+extension SwiftDataTable {
+    
 }

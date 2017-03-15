@@ -53,8 +53,11 @@ class SwiftDataTableFlowLayout: UICollectionViewFlowLayout {
         
         //Reduces the computation by calculating the height offset against one column
         let defaultUpperHeight = self.dataTable.heightForSearchView() + self.dataTable.heightForSectionHeader()
+        print("Default upper height: \(defaultUpperHeight)")
+        
         for row in Array(0..<self.dataTable.numberOfRows()){
             let currentRowYOffset = Array(0..<row).reduce(defaultUpperHeight) { $0 + self.dataTable.heightForRow(index: $1) + self.dataTable.heightOfInterRowSpacing() }
+            print("row: \(row), yOffset: \(currentRowYOffset)")
             yOffsets.append(currentRowYOffset)
         }
         
@@ -79,9 +82,9 @@ class SwiftDataTableFlowLayout: UICollectionViewFlowLayout {
         print("Prepare method: exec-time: \(executionTime)")
         
         self.collectionView?.scrollIndicatorInsets = UIEdgeInsets(
-            top: self.dataTable.shouldSectionHeadersFloat() ? self.dataTable.heightForSectionHeader() + self.dataTable.heightForPaginationView(): 0,
+            top: self.dataTable.shouldSectionHeadersFloat() ? self.dataTable.heightForSectionHeader() + self.dataTable.heightForSearchView(): 0,
             left: 0,
-            bottom: self.dataTable.shouldSectionFootersFloat() ? self.dataTable.heightForSectionFooter() + self.dataTable.heightForSearchView() : 0,
+            bottom: self.dataTable.shouldSectionFootersFloat() ? self.dataTable.heightForSectionFooter() + self.dataTable.heightForPaginationView() : 0,
             right: 0
         )
         
@@ -103,7 +106,7 @@ class SwiftDataTableFlowLayout: UICollectionViewFlowLayout {
         //Item Cells
         var attributes = self.cache.filter{ $0.frame.intersects(rect) }
 
-        //MARK: Menu Length
+        //MARK: Search Header
         if self.dataTable.shouldShowSearchSection(){
             let menuLengthIndexPath = IndexPath(index: 0)
             if let menuLengthAttributes = self.layoutAttributesForSupplementaryView(ofKind:
