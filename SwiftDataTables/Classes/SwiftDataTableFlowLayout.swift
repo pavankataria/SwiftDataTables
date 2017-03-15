@@ -53,13 +53,14 @@ class SwiftDataTableFlowLayout: UICollectionViewFlowLayout {
         
         //Reduces the computation by calculating the height offset against one column
         let defaultUpperHeight = self.dataTable.heightForSearchView() + self.dataTable.heightForSectionHeader()
-        print("Default upper height: \(defaultUpperHeight)")
         
+        var counter = 0
         for row in Array(0..<self.dataTable.numberOfRows()){
+            counter += 1
             let currentRowYOffset = Array(0..<row).reduce(defaultUpperHeight) { $0 + self.dataTable.heightForRow(index: $1) + self.dataTable.heightOfInterRowSpacing() }
-            print("row: \(row), yOffset: \(currentRowYOffset)")
             yOffsets.append(currentRowYOffset)
         }
+        print("prepare layout with \(counter+1) rows")
         
         
         //Item equals the current item in the row
