@@ -10,7 +10,6 @@ import UIKit
 
 public typealias DataTableContent = [[DataTableValueType]]
 
-@available(iOS 10.0, *)
 public class SwiftDataTable: UIView {
     public enum SupplementaryViewType: String {
         /// Single header positioned at the top above the column section
@@ -82,27 +81,27 @@ public class SwiftDataTable: UIView {
     fileprivate var columnWidths = [CGFloat]()
     
     
-    fileprivate var refreshControl: UIRefreshControl! = {
-        let refreshControl = UIRefreshControl()
-        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        refreshControl.addTarget(self,
-                                 action: #selector(refreshOptions(sender:)),
-                                 for: .valueChanged)
-        return refreshControl
-    }()
+//    fileprivate var refreshControl: UIRefreshControl! = {
+//        let refreshControl = UIRefreshControl()
+//        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+//        refreshControl.addTarget(self,
+//                                 action: #selector(refreshOptions(sender:)),
+//                                 for: .valueChanged)
+//        return refreshControl
+//    }()
 
-    //MARK: - Events
-    var refreshEvent: (() -> Void)? = nil {
-        didSet {
-            if refreshEvent != nil {
-                self.collectionView.refreshControl = self.refreshControl
-            }
-            else {
-                self.refreshControl = nil
-                self.collectionView.refreshControl = nil
-            }
-        }
-    }
+//    //MARK: - Events
+//    var refreshEvent: (() -> Void)? = nil {
+//        didSet {
+//            if refreshEvent != nil {
+//                self.collectionView.refreshControl = self.refreshControl
+//            }
+//            else {
+//                self.refreshControl = nil
+//                self.collectionView.refreshControl = nil
+//            }
+//        }
+//    }
     
 //    var showRefreshControl: Bool {
 //        didSet {
@@ -362,17 +361,17 @@ extension SwiftDataTable: UIScrollViewDelegate {
 
 //MARK: - Refresh
 extension SwiftDataTable {
-    @objc fileprivate func refreshOptions(sender: UIRefreshControl) {
-        self.refreshEvent?()
-    }
-
-    func beginRefreshing(){
-        self.refreshControl.beginRefreshing()
-    }
-    
-    func endRefresh(){
-        self.refreshControl.endRefreshing()
-    }
+//    @objc fileprivate func refreshOptions(sender: UIRefreshControl) {
+//        self.refreshEvent?()
+//    }
+//
+//    func beginRefreshing(){
+//        self.refreshControl.beginRefreshing()
+//    }
+//    
+//    func endRefresh(){
+//        self.refreshControl.endRefreshing()
+//    }
 }
 
 extension SwiftDataTable {
