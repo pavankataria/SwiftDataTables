@@ -10,7 +10,7 @@
 
 This package was inspired by Javascript's DataTables package.
 
-## Example
+## Demo Project Included
 
 To run the example project do the following:
 1) Download the repo, alternatively you can clone with the following command: `git clone https://github.com/pavankataria/SwiftDataTables`
