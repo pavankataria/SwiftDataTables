@@ -12,7 +12,14 @@ This package was inspired by Javascript's DataTables package.
 
 ## Example
 
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
+To run the example project do the following:
+1) Download the repo from github, alternatively clone the repo with the following command: `git clone https://github.com/pavankataria/SwiftDataTables`
+2) Change directory into the `Example` folder located at `SwiftDataTables/Example`
+3) In your terminal run `pod install`
+4) With Xcode 8 installed, as normal, open the workspace file `SwiftDataTables.xcworkspace`, and not `SwiftDataTables.xcodeproj`
+5) Build and Run.
+
+If you have any questions or wish to make any suggestions, please open an issue with the appropriate label, and I'll get back to you right away. Thank you
 
 ## Requirements
 
