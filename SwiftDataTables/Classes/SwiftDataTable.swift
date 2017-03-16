@@ -637,8 +637,7 @@ extension SwiftDataTable {
     
     
     fileprivate func executeSearch(_ needle: String){
-        return
-        let oldFilteredRowViewModels = self.searchRowViewModels
+        let oldFilteredRowViewModels = self.searchRowViewModels!
         
         if needle.isEmpty {
             //DONT DELETE ORIGINAL CACHE FOR LAYOUTATTRIBUTES
@@ -649,31 +648,37 @@ extension SwiftDataTable {
             self.searchRowViewModels = self.filteredResults(with: needle, on: self.rowViewModels)
             print("needle: \(needle), rows found: \(self.searchRowViewModels!.count)")
         }
-//        self.collectionView.performBatchUpdates({
-//
-//            for (oldIndex, oldRowViewModel) in oldFilteredRowViewModels?.enumerated() {
-//                
-//                if self.filteredNames.contains(oldName) == false {
-//                    
-////                    let indexPath = IndexPath(item: 0, section: oldIndex)
-//                    self.collectionView.deleteSections([oldIndex])
-//                }
-//            }
-//            
-//            for (index, name) in self.filteredNames.enumerated() {
-//                
-//                if oldFilteredNames.contains(name) == false {
-//                    
-////                    let indexPath = IndexPath(item: 0, section: index+1)
-//                    self.collectionView.insertSections([index+1])
-//                }
-//            }
-//            
-//        }, completion: nil)
+        self.collectionView.performBatchUpdates({
+
+            //finding the differences
+            
+            //The current displayed rows - in this case named old - is scanned over.. deleting any entries that are not existing in the newly created filtered list.
+
+            for (oldIndex, oldRowViewModel) in oldFilteredRowViewModels.enumerated() {
+                
+                let index = self.searchRowViewModels.index { rowViewModel in
+                    return oldRowViewModel == rowViewModel
+                }
+                if index == nil {
+                    self.collectionView.deleteSections([oldIndex])
+                }
+            }
+            
+            //Iterates over the new search results and compares them with the current result set displayed - in this case name old - inserting any entries that are not existant in the currently displayed result set
+            
+            for (currentIndex, currentRolwViewModel) in self.searchRowViewModels.enumerated() {
+                let oldIndex = oldFilteredRowViewModels.index { oldRowViewModel in
+                    return currentRolwViewModel == oldRowViewModel
+                }
+                if oldIndex == nil {
+                    self.collectionView.insertSections([currentIndex])
+                }
+            }
+            
+        }, completion: nil)
     }
     
 //    fileprivate func test(){
-//        let searchText = ""
 //        let oldFilteredNames = self.filteredNames!
 //        
 //        if searchText.isEmpty {
@@ -690,6 +695,11 @@ extension SwiftDataTable {
 //        
 //        self.collectionView.performBatchUpdates({
 //            
+//            //finding the differences
+//            
+//            //The current result set named old.. is scanned over.. deleting any entries that are not existant 
+//            //in the newly created filtered list.
+//            
 //            for (oldIndex, oldName) in oldFilteredNames.enumerated() {
 //                
 //                if self.filteredNames.contains(oldName) == false {
@@ -699,6 +709,8 @@ extension SwiftDataTable {
 //                }
 //            }
 //            
+//            
+//            //Iterates over the new search results and compares them with the current result set displayed - in this case name old - inserting any entries that are not existant in the currently displayed result set
 //            for (index, name) in self.filteredNames.enumerated() {
 //                
 //                if oldFilteredNames.contains(name) == false {
