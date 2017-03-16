@@ -43,16 +43,19 @@ public class SwiftDataTable: UIView {
     
     //MARK: - Private Properties
     var currentRowViewModels: DataTableViewModelContent {
+//        return self.searchRowViewModels
         get {
-            return self.searchRowViewModels ?? self.rowViewModels
+//            return self.searchRowViewModels ?? self.rowViewModels
+            return self.searchRowViewModels
         }
         set {
-            if self.searchRowViewModels != nil {
-                self.searchRowViewModels = newValue
-            }
-            else {
-                self.rowViewModels = newValue
-            }
+            self.searchRowViewModels = newValue
+//            if self.searchRowViewModels != nil {
+//                self.searchRowViewModels = newValue
+//            }
+//            else {
+//                self.rowViewModels = newValue
+//            }
         }
     }
 
@@ -91,8 +94,12 @@ public class SwiftDataTable: UIView {
 
     fileprivate(set) var headerViewModels = [DataHeaderFooterViewModel]()
     fileprivate(set) var footerViewModels = [DataHeaderFooterViewModel]()
-    fileprivate var rowViewModels = DataTableViewModelContent()
-    fileprivate var searchRowViewModels: DataTableViewModelContent? = nil
+    fileprivate var rowViewModels = DataTableViewModelContent() {
+        didSet {
+            self.searchRowViewModels = rowViewModels
+        }
+    }
+    fileprivate var searchRowViewModels: DataTableViewModelContent!
     
     fileprivate var paginationViewModel: PaginationHeaderViewModel!
     fileprivate var menuLengthViewModel: MenuLengthHeaderViewModel!
@@ -604,19 +611,6 @@ extension SwiftDataTable {
 
 //MARK: - Search
 extension SwiftDataTable {
-    fileprivate func executeSearch(_ needle: String){
-        guard false == needle.isEmpty else {
-            self.searchRowViewModels = nil
-            //DONT DELETE ORIGINAL CACHE FOR LAYOUTATTRIBUTES
-            //MAYBE KEEP TWO COPIES.. ONE FOR SEARCH AND ONE FOR DEFAULT
-            self.reloadEverything()
-            return
-        }
-        self.searchRowViewModels = self.filteredResults(with: needle, on: self.rowViewModels)
-        print("needle: \(needle), rows found: \(self.searchRowViewModels!.count)")
-        self.reloadEverything()
-    }
-    
     private func filteredResults(with needle: String, on originalArray: DataTableViewModelContent) -> DataTableViewModelContent {
         var filteredSet = DataTableViewModelContent()
         Array(0..<originalArray.count).forEach{
@@ -636,4 +630,84 @@ extension SwiftDataTable {
         
         return filteredSet
     }
+    
+    
+    
+    
+    
+    
+    fileprivate func executeSearch(_ needle: String){
+        return
+        let oldFilteredRowViewModels = self.searchRowViewModels
+        
+        if needle.isEmpty {
+            //DONT DELETE ORIGINAL CACHE FOR LAYOUTATTRIBUTES
+            //MAYBE KEEP TWO COPIES.. ONE FOR SEARCH AND ONE FOR DEFAULT
+            self.searchRowViewModels = self.rowViewModels
+        }
+        else {
+            self.searchRowViewModels = self.filteredResults(with: needle, on: self.rowViewModels)
+            print("needle: \(needle), rows found: \(self.searchRowViewModels!.count)")
+        }
+//        self.collectionView.performBatchUpdates({
+//
+//            for (oldIndex, oldRowViewModel) in oldFilteredRowViewModels?.enumerated() {
+//                
+//                if self.filteredNames.contains(oldName) == false {
+//                    
+////                    let indexPath = IndexPath(item: 0, section: oldIndex)
+//                    self.collectionView.deleteSections([oldIndex])
+//                }
+//            }
+//            
+//            for (index, name) in self.filteredNames.enumerated() {
+//                
+//                if oldFilteredNames.contains(name) == false {
+//                    
+////                    let indexPath = IndexPath(item: 0, section: index+1)
+//                    self.collectionView.insertSections([index+1])
+//                }
+//            }
+//            
+//        }, completion: nil)
+    }
+    
+//    fileprivate func test(){
+//        let searchText = ""
+//        let oldFilteredNames = self.filteredNames!
+//        
+//        if searchText.isEmpty {
+//            
+//            self.filteredNames = self.names
+//        }
+//        else {
+//            
+//            self.filteredNames = self.names.filter({ (name) -> Bool in
+//                
+//                return name.lowercased().contains(searchText.lowercased())
+//            })
+//        }
+//        
+//        self.collectionView.performBatchUpdates({
+//            
+//            for (oldIndex, oldName) in oldFilteredNames.enumerated() {
+//                
+//                if self.filteredNames.contains(oldName) == false {
+//                    
+//                    let indexPath = IndexPath(item: 0, section: oldIndex+1)
+//                    self.collectionView.deleteSections([oldIndex+1])
+//                }
+//            }
+//            
+//            for (index, name) in self.filteredNames.enumerated() {
+//                
+//                if oldFilteredNames.contains(name) == false {
+//                    
+//                    let indexPath = IndexPath(item: 0, section: index+1)
+//                    self.collectionView.insertSections([index+1])
+//                }
+//            }
+//            
+//        }, completion: nil)
+//    }
 }
