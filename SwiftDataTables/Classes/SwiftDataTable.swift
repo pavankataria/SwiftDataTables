@@ -59,7 +59,9 @@ public class SwiftDataTable: UIView {
         }
     }
     
-
+//    fileprivate(set) open lazy var searchBar: UISearchBar = {
+////        let searchBar
+//    }()
     
     //Lazy var
     fileprivate(set) open lazy var collectionView: UICollectionView = {
@@ -67,7 +69,7 @@ public class SwiftDataTable: UIView {
             fatalError("The layout needs to be set first")
         }
         let collectionView = UICollectionView(frame: self.bounds, collectionViewLayout: layout)
-        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+//        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.backgroundColor = UIColor.clear
         collectionView.allowsMultipleSelection = true
         collectionView.dataSource = self
@@ -546,7 +548,7 @@ extension SwiftDataTable {
     }
     
     func shouldShowSearchSection() -> Bool {
-        return false
+        return true
     }
     
     func shouldShowPaginationSection() -> Bool {
