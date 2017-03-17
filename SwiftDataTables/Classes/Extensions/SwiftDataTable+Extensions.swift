@@ -22,3 +22,10 @@ extension Collection where Indices.Iterator.Element == Index {
         return indices.contains(index) ? self[index] : nil
     }
 }
+
+extension UIScrollView {
+    /// Sets content offset to the top.
+    func resetScrollPositionToTop() {
+        self.contentOffset = CGPoint(x: -contentInset.left, y: -contentInset.top)
+    }
+}

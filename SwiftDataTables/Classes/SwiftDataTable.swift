@@ -404,10 +404,13 @@ extension SwiftDataTable {
 
 //MARK: - UICollection View Delegate
 extension SwiftDataTable: UIScrollViewDelegate {
-    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         if(self.searchBar.isFirstResponder){
             self.searchBar.resignFirstResponder()
         }
+    }
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+
         if self.disableScrollViewLeftBounce() {
             if (self.collectionView.contentOffset.x <= 0) {
                 self.collectionView.contentOffset.x = 0
@@ -643,10 +646,16 @@ extension SwiftDataTable {
     
 }
 
-//MARK: - Search
-extension SwiftDataTable {
+//MARK: - Search Bar Delegate
+extension SwiftDataTable: UISearchBarDelegate {
+    public func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        self.executeSearch(searchText)
+    }
+
+    //TODO: Use Regular expression isntead
     private func filteredResults(with needle: String, on originalArray: DataTableViewModelContent) -> DataTableViewModelContent {
         var filteredSet = DataTableViewModelContent()
+        let needle = needle.lowercased()
         Array(0..<originalArray.count).forEach{
             let row = originalArray[$0]
             //Add some sort of index array so we use that to iterate through the columns
@@ -679,8 +688,11 @@ extension SwiftDataTable {
             print("needle: \(needle), rows found: \(self.searchRowViewModels!.count)")
         }
         self.layout?.clearLayoutCache()
-        self.differenceSorter(oldRows: oldFilteredRowViewModels, filteredRows: self.searchRowViewModels,
-                              completion: nil)
+//        self.collectionView.scrollToItem(at: IndexPath(0), at: UICollectionViewScrollPosition.top, animated: false)
+        //So the header view doesn't flash when user is at the bottom of the collectionview and a search result is returned that doesn't feel the screen.
+        self.collectionView.resetScrollPositionToTop()
+        self.differenceSorter(oldRows: oldFilteredRowViewModels, filteredRows: self.searchRowViewModels)
+        
     }
     
     private func differenceSorter(
@@ -714,18 +726,11 @@ extension SwiftDataTable {
                 }
             }
         }, completion: { finished in
+            self.collectionView.reloadItems(at: self.collectionView.indexPathsForVisibleItems)
             if animations == false {
                 UIView.setAnimationsEnabled(true)
             }
             completion?(finished)
         })
-    }
-}
-
-
-
-extension SwiftDataTable: UISearchBarDelegate {
-    public func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        self.executeSearch(searchText.lowercased())
     }
 }
