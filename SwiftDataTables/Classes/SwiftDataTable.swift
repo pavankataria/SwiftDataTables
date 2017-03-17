@@ -58,6 +58,7 @@ public class SwiftDataTable: UIView {
 //            }
         }
     }
+    
 
     
     //Lazy var
@@ -79,6 +80,13 @@ public class SwiftDataTable: UIView {
         return collectionView
     }()
     
+    
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+        let searchBarHeight = self.heightForSearchView()
+        self.collectionView.frame = CGRect.init(x: 0, y: searchBarHeight, width: self.bounds.width, height: self.bounds.height-searchBarHeight)
+    }
+
     fileprivate(set) var layout: SwiftDataTableFlowLayout? = nil {
         didSet {
             if let layout = layout {
@@ -538,7 +546,7 @@ extension SwiftDataTable {
     }
     
     func shouldShowSearchSection() -> Bool {
-        return true
+        return false
     }
     
     func shouldShowPaginationSection() -> Bool {
