@@ -14,7 +14,8 @@ class MenuLengthHeader: UICollectionReusableView {
 //    @IBOutlet var searchTextField: DataTableSearchTextField!
     @IBOutlet var searchBar: UISearchBar!
 
-
+    //MARK: - Events
+    var searchTextDidChange: ((String) -> Void)?
     
     //MARK: - Lifecycle
     override func awakeFromNib() {
@@ -23,8 +24,18 @@ class MenuLengthHeader: UICollectionReusableView {
 
     func setup(_ viewModel: MenuLengthHeaderViewModel){
 //       self.searchTextField.addTarget(viewModel, action: #selector(MenuLengthHeaderViewModel.textFieldDidChange), for: .editingChanged)
-        self.searchBar.delegate = viewModel
+        
+        self.searchTextDidChange = { searchText in
+            viewModel.searchTextFieldDidChangeEvent?(searchText)
+        }
+        self.searchBar.delegate = self
         self.searchBar.searchBarStyle = .minimal
         self.searchBar.placeholder = "Search"// - \(viewModel.count) names"
+    }
+}
+
+extension MenuLengthHeader: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        self.searchTextDidChange?(searchText)
     }
 }
