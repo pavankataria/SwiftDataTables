@@ -15,22 +15,20 @@
             <rect key="frame" x="0.0" y="0.0" width="505" height="69"/>
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="LOL" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DOC-jB-HBT" customClass="DataTableSearchTextField" customModule="SwiftDataTables" customModuleProvider="target">
+                <searchBar contentMode="redraw" searchBarStyle="minimal" translatesAutoresizingMaskIntoConstraints="NO" id="AfP-mW-V51">
                     <rect key="frame" x="0.0" y="0.0" width="505" height="69"/>
-                    <nil key="textColor"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
                     <textInputTraits key="textInputTraits"/>
-                </textField>
+                </searchBar>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="DOC-jB-HBT" secondAttribute="trailing" id="37y-te-Sl8"/>
-                <constraint firstAttribute="bottom" secondItem="DOC-jB-HBT" secondAttribute="bottom" id="SLK-c5-Yzw"/>
-                <constraint firstItem="DOC-jB-HBT" firstAttribute="leading" secondItem="U6b-Vx-4bR" secondAttribute="leading" id="TuV-3D-Rdw"/>
-                <constraint firstItem="DOC-jB-HBT" firstAttribute="top" secondItem="U6b-Vx-4bR" secondAttribute="top" id="wxc-AO-AJO"/>
+                <constraint firstItem="AfP-mW-V51" firstAttribute="top" secondItem="U6b-Vx-4bR" secondAttribute="top" id="1qZ-Pp-LzF"/>
+                <constraint firstItem="AfP-mW-V51" firstAttribute="leading" secondItem="U6b-Vx-4bR" secondAttribute="leading" id="McA-ns-Iev"/>
+                <constraint firstAttribute="trailing" secondItem="AfP-mW-V51" secondAttribute="trailing" id="oI9-iE-bZE"/>
+                <constraint firstAttribute="bottom" secondItem="AfP-mW-V51" secondAttribute="bottom" id="vPu-ls-EOT"/>
             </constraints>
             <connections>
-                <outlet property="searchTextField" destination="DOC-jB-HBT" id="qtM-lp-X9Y"/>
+                <outlet property="searchBar" destination="AfP-mW-V51" id="DuP-ym-8XO"/>
             </connections>
             <point key="canvasLocation" x="-57.5" y="63.5"/>
         </collectionReusableView>

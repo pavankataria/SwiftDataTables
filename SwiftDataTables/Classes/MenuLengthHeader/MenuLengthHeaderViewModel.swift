@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class MenuLengthHeaderViewModel {
+class MenuLengthHeaderViewModel: NSObject {
     //MARK: - Events
     var searchTextFieldDidChangeEvent: ((String) -> Void)? = nil
 }
@@ -48,4 +48,8 @@ extension MenuLengthHeaderViewModel {
         }
         self.searchTextFieldDidChangeEvent?(text)
     }
+}
+
+extension MenuLengthHeaderViewModel: UISearchBarDelegate {
+    
 }
