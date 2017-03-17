@@ -536,7 +536,7 @@ extension SwiftDataTable {
     }
     
     func shouldSectionHeadersFloat() -> Bool {
-        return true
+        return false
     }
     
     func shouldSectionFootersFloat() -> Bool {
@@ -566,7 +566,6 @@ extension SwiftDataTable {
     func widthForRowHeader() -> CGFloat {
         return 0
     }
-    
     
     /// Automatically calcualtes the width the column should be based on the content
     /// in the rows under the column.

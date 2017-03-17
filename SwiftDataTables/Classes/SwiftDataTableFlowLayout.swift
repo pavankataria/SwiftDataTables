@@ -216,12 +216,12 @@ extension SwiftDataTableFlowLayout {
         //Because the widths can change between columns we need to get a running total for the x position so far up
         //until the currnt column header.
         let x = Array(0..<indexPath.index).reduce(self.dataTable.widthForRowHeader()){$0 + self.dataTable.widthForColumn(index: $1)}
-        let y: CGFloat = 0//self.dataTable.heightForSearchView() /*self.dataTable.heightForPaginationView()*/
+        let y: CGFloat = self.collectionView!.contentOffset.y//self.dataTable.heightForSearchView() /*self.dataTable.heightForPaginationView()*/
         let width = self.dataTable.widthForColumn(index: indexPath.index)
         let height = self.dataTable.heightForSectionHeader()
         attribute.frame = CGRect(
             x: max(0.0, x),
-            y: max(0, y),
+            y: min(0, y),
             width: width,
             height: height
         )
@@ -241,9 +241,6 @@ extension SwiftDataTableFlowLayout {
         //This should call the delegate method whether or not the headers should float.
         if self.dataTable.shouldSectionHeadersFloat() {
             var yScrollOffsetPosition = self.collectionView!.contentOffset.y
-            if false == self.dataTable.shouldSearchHeaderFloat(){
-                yScrollOffsetPosition = self.collectionView!.contentOffset.y
-            }
             attribute.frame.origin.y = yScrollOffsetPosition
             attribute.zIndex += 1
         }
