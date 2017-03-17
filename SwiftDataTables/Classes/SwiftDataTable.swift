@@ -59,9 +59,16 @@ public class SwiftDataTable: UIView {
         }
     }
     
-//    fileprivate(set) open lazy var searchBar: UISearchBar = {
-////        let searchBar
-//    }()
+    fileprivate(set) open lazy var searchBar: UISearchBar = {
+        let searchBar = UISearchBar()
+        searchBar.searchBarStyle = .minimal;
+        searchBar.placeholder = "Search";
+        searchBar.delegate = self
+//        searchBar.tintColor = UIColor.white
+        searchBar.barTintColor = UIColor.white
+        self.addSubview(searchBar)
+        return searchBar
+    }()
     
     //Lazy var
     fileprivate(set) open lazy var collectionView: UICollectionView = {
@@ -86,6 +93,7 @@ public class SwiftDataTable: UIView {
     public override func layoutSubviews() {
         super.layoutSubviews()
         let searchBarHeight = self.heightForSearchView()
+        self.searchBar.frame = CGRect.init(x: 0, y: 0, width: self.bounds.width, height: searchBarHeight)
         self.collectionView.frame = CGRect.init(x: 0, y: searchBarHeight, width: self.bounds.width, height: self.bounds.height-searchBarHeight)
     }
 
@@ -159,7 +167,6 @@ public class SwiftDataTable: UIView {
                 frame: CGRect = .zero)
     {
         super.init(frame: frame)
-        
         self.set(data: data, headerTitles: headerTitles, options: options)
         self.registerObservers()
         
@@ -300,20 +307,20 @@ public extension SwiftDataTable {
         }
         self.paginationViewModel = PaginationHeaderViewModel()
         self.menuLengthViewModel = MenuLengthHeaderViewModel()
-        self.bindViewToModels()
+//        self.bindViewToModels()
     }
     
-    //MARK: - Events
-    private func bindViewToModels(){
-        self.menuLengthViewModel.searchTextFieldDidChangeEvent = { [weak self] text in
-            self?.searchTextEntryDidChange(text)
-        }
-    }
-    
-    private func searchTextEntryDidChange(_ text: String){
-        //call delegate function
-        self.executeSearch(text)
-    }
+//    //MARK: - Events
+//    private func bindViewToModels(){
+//        self.menuLengthViewModel.searchTextFieldDidChangeEvent = { [weak self] text in
+//            self?.searchTextEntryDidChange(text)
+//        }
+//    }
+//    
+//    private func searchTextEntryDidChange(_ text: String){
+//        //call delegate function
+//        self.executeSearch(text)
+//    }
 }
 
 extension SwiftDataTable: UICollectionViewDelegateFlowLayout {
@@ -398,6 +405,9 @@ extension SwiftDataTable {
 //MARK: - UICollection View Delegate
 extension SwiftDataTable: UIScrollViewDelegate {
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if(self.searchBar.isFirstResponder){
+            self.searchBar.resignFirstResponder()
+        }
         if self.disableScrollViewLeftBounce() {
             if (self.collectionView.contentOffset.x <= 0) {
                 self.collectionView.contentOffset.x = 0
@@ -536,7 +546,7 @@ extension SwiftDataTable {
     }
     
     func shouldSectionHeadersFloat() -> Bool {
-        return false
+        return true
     }
     
     func shouldSectionFootersFloat() -> Bool {
@@ -556,11 +566,11 @@ extension SwiftDataTable {
     }
     
     func heightForSectionFooter() -> CGFloat {
-        return 50
+        return 44
     }
     
     func heightForSectionHeader() -> CGFloat {
-        return 50
+        return 44
     }
     
     func widthForRowHeader() -> CGFloat {
@@ -678,9 +688,9 @@ extension SwiftDataTable {
         filteredRows: DataTableViewModelContent,
         animations: Bool = false,
         completion: ((Bool) -> Void)? = nil){
-//        if animations == false {
-//            UIView.setAnimationsEnabled(false)
-//        }
+        if animations == false {
+            UIView.setAnimationsEnabled(false)
+        }
         self.collectionView.performBatchUpdates({
             //finding the differences
             
@@ -704,10 +714,18 @@ extension SwiftDataTable {
                 }
             }
         }, completion: { finished in
-//            if animations == false {
-//                UIView.setAnimationsEnabled(true)
-//            }
+            if animations == false {
+                UIView.setAnimationsEnabled(true)
+            }
             completion?(finished)
         })
+    }
+}
+
+
+
+extension SwiftDataTable: UISearchBarDelegate {
+    public func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        self.executeSearch(searchText.lowercased())
     }
 }
