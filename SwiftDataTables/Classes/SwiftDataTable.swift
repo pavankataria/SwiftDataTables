@@ -652,6 +652,10 @@ extension SwiftDataTable: UISearchBarDelegate {
         self.executeSearch(searchText)
     }
 
+    public func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
+    
     //TODO: Use Regular expression isntead
     private func filteredResults(with needle: String, on originalArray: DataTableViewModelContent) -> DataTableViewModelContent {
         var filteredSet = DataTableViewModelContent()
