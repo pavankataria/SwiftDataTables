@@ -71,7 +71,9 @@ public class SwiftDataTable: UIView {
         collectionView.allowsMultipleSelection = true
         collectionView.dataSource = self
         collectionView.delegate = self
-
+        if #available(iOS 10, *) {
+            collectionView.isPrefetchingEnabled = false
+        }
         self.addSubview(collectionView)
         self.registerCell(collectionView: collectionView)
         return collectionView
@@ -321,7 +323,20 @@ extension SwiftDataTable: UICollectionViewDataSource {
         let cell = self.rowModel(at: indexPath).dequeueCell(collectionView: collectionView, indexPath: indexPath)
         return cell
     }
-    
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let numberOfItemsInLine: CGFloat = 6
+        
+        let inset = UIEdgeInsets.zero
+        
+//        let inset = self.collectionView(collectionView, layout: collectionViewLayout, insetForSectionAt: indexPath.section)
+        let minimumInteritemSpacing: CGFloat = 0
+        let contentwidth: CGFloat = minimumInteritemSpacing * (numberOfItemsInLine - 1)
+        let itemWidth = (collectionView.frame.width - inset.left - inset.right - contentwidth) / numberOfItemsInLine
+        let itemHeight: CGFloat = 100
+        
+        return CGSize(width: itemWidth, height: itemHeight)
+
+    }
     public func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
         let kind = SupplementaryViewType(kind: elementKind)
         switch kind {
@@ -632,10 +647,6 @@ extension SwiftDataTable {
     }
     
     
-    
-    
-    
-    
     fileprivate func executeSearch(_ needle: String){
         let oldFilteredRowViewModels = self.searchRowViewModels!
         
@@ -648,14 +659,24 @@ extension SwiftDataTable {
             self.searchRowViewModels = self.filteredResults(with: needle, on: self.rowViewModels)
             print("needle: \(needle), rows found: \(self.searchRowViewModels!.count)")
         }
+        self.layout?.clearLayoutCache()
+        self.differenceSorter(oldRows: oldFilteredRowViewModels, filteredRows: self.searchRowViewModels,
+                              completion: nil)
+    }
+    
+    private func differenceSorter(
+        oldRows: DataTableViewModelContent,
+        filteredRows: DataTableViewModelContent,
+        animations: Bool = false,
+        completion: ((Bool) -> Void)? = nil){
+//        if animations == false {
+//            UIView.setAnimationsEnabled(false)
+//        }
         self.collectionView.performBatchUpdates({
-
             //finding the differences
             
-            //The current displayed rows - in this case named old - is scanned over.. deleting any entries that are not existing in the newly created filtered list.
-
-            for (oldIndex, oldRowViewModel) in oldFilteredRowViewModels.enumerated() {
-                
+            //The currently displayed rows - in this case named old rows - is scanned over.. deleting any entries that are not existing in the newly created filtered list.
+            for (oldIndex, oldRowViewModel) in oldRows.enumerated() {
                 let index = self.searchRowViewModels.index { rowViewModel in
                     return oldRowViewModel == rowViewModel
                 }
@@ -665,61 +686,19 @@ extension SwiftDataTable {
             }
             
             //Iterates over the new search results and compares them with the current result set displayed - in this case name old - inserting any entries that are not existant in the currently displayed result set
-            
-            for (currentIndex, currentRolwViewModel) in self.searchRowViewModels.enumerated() {
-                let oldIndex = oldFilteredRowViewModels.index { oldRowViewModel in
+            for (currentIndex, currentRolwViewModel) in filteredRows.enumerated() {
+                let oldIndex = oldRows.index { oldRowViewModel in
                     return currentRolwViewModel == oldRowViewModel
                 }
                 if oldIndex == nil {
                     self.collectionView.insertSections([currentIndex])
                 }
             }
-            
-        }, completion: nil)
+        }, completion: { finished in
+//            if animations == false {
+//                UIView.setAnimationsEnabled(true)
+//            }
+            completion?(finished)
+        })
     }
-    
-//    fileprivate func test(){
-//        let oldFilteredNames = self.filteredNames!
-//        
-//        if searchText.isEmpty {
-//            
-//            self.filteredNames = self.names
-//        }
-//        else {
-//            
-//            self.filteredNames = self.names.filter({ (name) -> Bool in
-//                
-//                return name.lowercased().contains(searchText.lowercased())
-//            })
-//        }
-//        
-//        self.collectionView.performBatchUpdates({
-//            
-//            //finding the differences
-//            
-//            //The current result set named old.. is scanned over.. deleting any entries that are not existant 
-//            //in the newly created filtered list.
-//            
-//            for (oldIndex, oldName) in oldFilteredNames.enumerated() {
-//                
-//                if self.filteredNames.contains(oldName) == false {
-//                    
-//                    let indexPath = IndexPath(item: 0, section: oldIndex+1)
-//                    self.collectionView.deleteSections([oldIndex+1])
-//                }
-//            }
-//            
-//            
-//            //Iterates over the new search results and compares them with the current result set displayed - in this case name old - inserting any entries that are not existant in the currently displayed result set
-//            for (index, name) in self.filteredNames.enumerated() {
-//                
-//                if oldFilteredNames.contains(name) == false {
-//                    
-//                    let indexPath = IndexPath(item: 0, section: index+1)
-//                    self.collectionView.insertSections([index+1])
-//                }
-//            }
-//            
-//        }, completion: nil)
-//    }
 }

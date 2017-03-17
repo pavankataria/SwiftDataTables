@@ -12,9 +12,14 @@ class SwiftDataTableFlowLayout: UICollectionViewFlowLayout {
     
     //MARK: - Properties
     fileprivate(set) open var dataTable: SwiftDataTable!
+    var insertedIndexPaths = NSMutableArray()
+    var removedIndexPaths = NSMutableArray()
+    var insertedSectionIndices = NSMutableArray()
+    var removedSectionIndices = NSMutableArray()
     
     private var cache = [UICollectionViewLayoutAttributes]()
-    
+    private var filteredCache = [UICollectionViewLayoutAttributes]()
+//    private var filteredCache = [UICollectionViewLayoutAttributes]()
     
     //MARK: - Lifecycle
     init(dataTable: SwiftDataTable){
@@ -88,7 +93,10 @@ class SwiftDataTableFlowLayout: UICollectionViewFlowLayout {
             bottom: self.dataTable.shouldSectionFootersFloat() ? self.dataTable.heightForSectionFooter() + self.dataTable.heightForPaginationView() : 0,
             right: 0
         )
-        
+        self.calculateScrollBarIndicators()
+    }
+    
+    func calculateScrollBarIndicators(){
         self.collectionView?.showsVerticalScrollIndicator = self.dataTable.showVerticalScrollBars()
         self.collectionView?.showsHorizontalScrollIndicator = self.dataTable.showHorizontalScrollBars()
     }
@@ -284,3 +292,47 @@ extension SwiftDataTableFlowLayout {
         return attribute
     }
 }
+
+//MARK: -  Insertions and deletions
+//extension SwiftDataTableFlowLayout {
+//    override func prepare(forCollectionViewUpdates updateItems: [UICollectionViewUpdateItem]) {
+//        super.prepare(forCollectionViewUpdates: updateItems)
+//        
+//        self.insertedIndexPaths     = NSMutableArray()
+//        self.removedIndexPaths      = NSMutableArray()
+//        self.insertedSectionIndices = NSMutableArray()
+//        self.removedSectionIndices  = NSMutableArray()
+//        
+//        for (index, updateItem) in updateItems.enumerated() {
+//            switch updateItem.updateAction {
+//            case .insert:
+//                guard let indexPathAfterUpdate = updateItem.indexPathAfterUpdate else {
+//                    break
+//                }
+//                if indexPathAfterUpdate.item == NSNotFound {
+//                    self.insertedSectionIndices.add(NSNumber(value: indexPathAfterUpdate.section))
+//                }
+//                else {
+//                    self.insertedIndexPaths.add(indexPathAfterUpdate)
+//                }
+//            case .delete:
+//                guard let indexPathBeforeUpdate = updateItem.indexPathBeforeUpdate else {
+//                    break
+//                }
+//                if indexPathBeforeUpdate.item == NSNotFound {
+//                    self.removedSectionIndices.add(NSNumber(value: indexPathBeforeUpdate.section))
+//                }
+//                else {
+//                    self.removedIndexPaths.add(indexPathBeforeUpdate)
+//                }
+//            default:
+//                break
+//            }
+//        }
+//        
+//        print("insertedIndexPaths: \(self.insertedIndexPaths)")
+//        print("removedIndexPaths: \(self.removedIndexPaths)")
+//        print("insertedSectionIndices: \(self.insertedSectionIndices)")
+//        print("removedSectionIndices: \(self.removedSectionIndices)")
+//    }
+//}
