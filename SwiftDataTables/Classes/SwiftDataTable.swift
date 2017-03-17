@@ -9,7 +9,7 @@
 import UIKit
 
 public typealias DataTableContent = [[DataTableValueType]]
-
+public typealias DataTableViewModelContent = [[DataCellViewModel]]
 public class SwiftDataTable: UIView {
     public enum SupplementaryViewType: String {
         /// Single header positioned at the top above the column section
@@ -22,7 +22,7 @@ public class SwiftDataTable: UIView {
         case footerHeader = "SwiftDataTableFooterHeader"
         
         /// Single header positioned at the bottom below the footer section.
-        case menuLengthHeader = "SwiftDataTableMenuLengthHeader"
+        case searchHeader = "SwiftDataTableSearchHeader"
         
         init(kind: String){
             guard let elementKind = SupplementaryViewType(rawValue: kind) else {
@@ -42,22 +42,61 @@ public class SwiftDataTable: UIView {
     ]
     
     //MARK: - Private Properties
+    var currentRowViewModels: DataTableViewModelContent {
+//        return self.searchRowViewModels
+        get {
+//            return self.searchRowViewModels ?? self.rowViewModels
+            return self.searchRowViewModels
+        }
+        set {
+            self.searchRowViewModels = newValue
+//            if self.searchRowViewModels != nil {
+//                self.searchRowViewModels = newValue
+//            }
+//            else {
+//                self.rowViewModels = newValue
+//            }
+        }
+    }
+    
+    fileprivate(set) open lazy var searchBar: UISearchBar = {
+        let searchBar = UISearchBar()
+        searchBar.searchBarStyle = .minimal;
+        searchBar.placeholder = "Search";
+        searchBar.delegate = self
+//        searchBar.tintColor = UIColor.white
+        searchBar.barTintColor = UIColor.white
+        self.addSubview(searchBar)
+        return searchBar
+    }()
+    
     //Lazy var
     fileprivate(set) open lazy var collectionView: UICollectionView = {
         guard let layout = self.layout else {
             fatalError("The layout needs to be set first")
         }
         let collectionView = UICollectionView(frame: self.bounds, collectionViewLayout: layout)
-        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+//        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.backgroundColor = UIColor.clear
         collectionView.allowsMultipleSelection = true
         collectionView.dataSource = self
         collectionView.delegate = self
+        if #available(iOS 10, *) {
+            collectionView.isPrefetchingEnabled = false
+        }
         self.addSubview(collectionView)
         self.registerCell(collectionView: collectionView)
         return collectionView
     }()
     
+    
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+        let searchBarHeight = self.heightForSearchView()
+        self.searchBar.frame = CGRect.init(x: 0, y: 0, width: self.bounds.width, height: searchBarHeight)
+        self.collectionView.frame = CGRect.init(x: 0, y: searchBarHeight, width: self.bounds.width, height: self.bounds.height-searchBarHeight)
+    }
+
     fileprivate(set) var layout: SwiftDataTableFlowLayout? = nil {
         didSet {
             if let layout = layout {
@@ -75,7 +114,13 @@ public class SwiftDataTable: UIView {
 
     fileprivate(set) var headerViewModels = [DataHeaderFooterViewModel]()
     fileprivate(set) var footerViewModels = [DataHeaderFooterViewModel]()
-    fileprivate var rowViewModels = [[DataCellViewModel]]()
+    fileprivate var rowViewModels = DataTableViewModelContent() {
+        didSet {
+            self.searchRowViewModels = rowViewModels
+        }
+    }
+    fileprivate var searchRowViewModels: DataTableViewModelContent!
+    
     fileprivate var paginationViewModel: PaginationHeaderViewModel!
     fileprivate var menuLengthViewModel: MenuLengthHeaderViewModel!
     fileprivate var columnWidths = [CGFloat]()
@@ -116,13 +161,12 @@ public class SwiftDataTable: UIView {
 //    }()
     
     //MARK: - Lifecycle
-    public init(data: [[DataTableValueType]],
+    public init(data: DataTableContent,
                 headerTitles: [String],
                 options: DataTableConfiguration = DataTableConfiguration(),
                 frame: CGRect = .zero)
     {
         super.init(frame: frame)
-        
         self.set(data: data, headerTitles: headerTitles, options: options)
         self.registerObservers()
         
@@ -171,7 +215,7 @@ public class SwiftDataTable: UIView {
         
         let menuLengthIdentifier = String(describing: MenuLengthHeader.self)
         
-        collectionView.register(UINib(nibName: menuLengthIdentifier, bundle: podBundle), forSupplementaryViewOfKind: SupplementaryViewType.menuLengthHeader.rawValue, withReuseIdentifier: menuLengthIdentifier)
+        collectionView.register(UINib(nibName: menuLengthIdentifier, bundle: podBundle), forSupplementaryViewOfKind: SupplementaryViewType.searchHeader.rawValue, withReuseIdentifier: menuLengthIdentifier)
     }
     
     func set(data: [[DataTableValueType]], headerTitles: [String], options: DataTableConfiguration? = nil){
@@ -225,13 +269,16 @@ public class SwiftDataTable: UIView {
         self.layout?.clearLayoutCache()
         self.collectionView.reloadData()
     }
+    public func reloadRowsOnly(){
+        
+    }
 }
 
 public extension SwiftDataTable {
     func createDataModels(with data: DataStructureModel){
         self.dataStructure = data
     }
-    func createDataCellViewModels(with dataStructure: DataStructureModel){// -> [[DataCellViewModel]] {
+    func createDataCellViewModels(with dataStructure: DataStructureModel){// -> DataTableViewModelContent {
         //1. Create the headers
         self.headerViewModels = Array(0..<(dataStructure.headerTitles.count)).map {
             let headerViewModel = DataHeaderFooterViewModel(
@@ -252,7 +299,7 @@ public extension SwiftDataTable {
         }
         
         //2. Create the view models
-        //let viewModels: [[DataCellViewModel]] =
+        //let viewModels: DataTableViewModelContent =
         self.rowViewModels = dataStructure.data.map{ currentRowData in
             return currentRowData.map {
                 return DataCellViewModel(data: $0)
@@ -260,7 +307,20 @@ public extension SwiftDataTable {
         }
         self.paginationViewModel = PaginationHeaderViewModel()
         self.menuLengthViewModel = MenuLengthHeaderViewModel()
+//        self.bindViewToModels()
     }
+    
+//    //MARK: - Events
+//    private func bindViewToModels(){
+//        self.menuLengthViewModel.searchTextFieldDidChangeEvent = { [weak self] text in
+//            self?.searchTextEntryDidChange(text)
+//        }
+//    }
+//    
+//    private func searchTextEntryDidChange(_ text: String){
+//        //call delegate function
+//        self.executeSearch(text)
+//    }
 }
 
 extension SwiftDataTable: UICollectionViewDelegateFlowLayout {
@@ -273,27 +333,38 @@ extension SwiftDataTable: UICollectionViewDataSource {
     }
     
     public func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return self.rowViewModels.count
+        return self.numberOfRows()
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-         let cell = self.rowViewModels[indexPath.section][indexPath.row].dequeueCell(collectionView: collectionView, indexPath: indexPath)
+        let cell = self.rowModel(at: indexPath).dequeueCell(collectionView: collectionView, indexPath: indexPath)
         return cell
     }
-    
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let numberOfItemsInLine: CGFloat = 6
+        
+        let inset = UIEdgeInsets.zero
+        
+//        let inset = self.collectionView(collectionView, layout: collectionViewLayout, insetForSectionAt: indexPath.section)
+        let minimumInteritemSpacing: CGFloat = 0
+        let contentwidth: CGFloat = minimumInteritemSpacing * (numberOfItemsInLine - 1)
+        let itemWidth = (collectionView.frame.width - inset.left - inset.right - contentwidth) / numberOfItemsInLine
+        let itemHeight: CGFloat = 100
+        
+        return CGSize(width: itemWidth, height: itemHeight)
+
+    }
     public func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
         let kind = SupplementaryViewType(kind: elementKind)
         switch kind {
-        case .paginationHeader, .menuLengthHeader:
+        case .paginationHeader:
             view.backgroundColor = UIColor.darkGray
         default:
             view.backgroundColor = UIColor.white
         }
     }
     public func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard let cellViewModel = self.rowViewModels[safe: indexPath.section]?[safe: indexPath.row] else {
-            return
-        }
+        let cellViewModel = self.rowModel(at: indexPath)
         if cellViewModel.highlighted {
             cell.backgroundColor = self.highlightedColours[indexPath.section % 2]
         }
@@ -306,7 +377,7 @@ extension SwiftDataTable: UICollectionViewDataSource {
         let elementKind = SupplementaryViewType(kind: kind)
         let viewModel: CollectionViewSupplementaryElementRepresentable
         switch elementKind {
-        case .menuLengthHeader: viewModel = self.menuLengthViewModel
+        case .searchHeader: viewModel = self.menuLengthViewModel
         case .columnHeader: viewModel = self.headerViewModels[indexPath.index]
         case .footerHeader: viewModel = self.footerViewModels[indexPath.index]
         case .paginationHeader: viewModel = self.paginationViewModel
@@ -333,7 +404,13 @@ extension SwiftDataTable {
 
 //MARK: - UICollection View Delegate
 extension SwiftDataTable: UIScrollViewDelegate {
+    public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        if(self.searchBar.isFirstResponder){
+            self.searchBar.resignFirstResponder()
+        }
+    }
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+
         if self.disableScrollViewLeftBounce() {
             if (self.collectionView.contentOffset.x <= 0) {
                 self.collectionView.contentOffset.x = 0
@@ -407,16 +484,16 @@ extension SwiftDataTable {
         
         switch by {
         case .ascending:
-            self.rowViewModels = self.rowViewModels.sorted(by: ascendingOrder)
+            self.currentRowViewModels = self.currentRowViewModels.sorted(by: ascendingOrder)
         case .descending:
-            self.rowViewModels = self.rowViewModels.sorted(by: descendingOrder)
+            self.currentRowViewModels = self.currentRowViewModels.sorted(by: descendingOrder)
         default:
             break
         }
     }
     
     func highlight(column: Int){
-        self.rowViewModels.forEach {
+        self.currentRowViewModels.forEach {
             $0.forEach { $0.highlighted = false }
             $0[column].highlighted = true
         }
@@ -447,7 +524,12 @@ extension SwiftDataTable {
     
     //This is actually mapped to sections
     func numberOfRows() -> Int {
-        return self.rowViewModels.count
+        return self.currentRowViewModels.count
+    }
+    
+    
+    func rowModel(at indexPath: IndexPath) -> DataCellViewModel {
+        return self.currentRowViewModels[indexPath.section][indexPath.row]
     }
     
     func numberOfColumns() -> Int {
@@ -462,10 +544,10 @@ extension SwiftDataTable {
         return self.dataStructure.footerTitles.count
     }
     
-    
     func shouldContentWidthScaleToFillFrame() -> Bool{
         return true
     }
+    
     func shouldSectionHeadersFloat() -> Bool {
         return true
     }
@@ -474,8 +556,12 @@ extension SwiftDataTable {
         return true
     }
     
-    func shouldShowSearchSection() -> Bool {
+    func shouldSearchHeaderFloat() -> Bool {
         return false
+    }
+    
+    func shouldShowSearchSection() -> Bool {
+        return true
     }
     
     func shouldShowPaginationSection() -> Bool {
@@ -483,17 +569,16 @@ extension SwiftDataTable {
     }
     
     func heightForSectionFooter() -> CGFloat {
-        return 50
+        return 44
     }
     
     func heightForSectionHeader() -> CGFloat {
-        return 50
+        return 44
     }
     
     func widthForRowHeader() -> CGFloat {
         return 0
     }
-    
     
     /// Automatically calcualtes the width the column should be based on the content
     /// in the rows under the column.
@@ -501,7 +586,6 @@ extension SwiftDataTable {
     /// - Parameter index: The column index
     /// - Returns: The automatic width of the column irrespective of the Data Grid frame width
     func automaticWidthForColumn(index: Int) -> CGFloat {
-        print(self.frame.width)
         let columnAverage: CGFloat = CGFloat(dataStructure.averageDataLengthForColumn(index: index))
         let sortingArrowVisualElementWidth: CGFloat = 20 // This is ugly
         let averageDataColumnWidth: CGFloat = columnAverage * self.pixelsPerCharacter() + sortingArrowVisualElementWidth
@@ -537,11 +621,11 @@ extension SwiftDataTable {
         return 14
     }
     
-    func heightForMenuLengthView() -> CGFloat {
+    func heightForSearchView() -> CGFloat {
         guard self.shouldShowSearchSection() else {
             return 0
         }
-        return 35
+        return 44
     }
     
     func heightForPaginationView() -> CGFloat {
@@ -557,5 +641,96 @@ extension SwiftDataTable {
     
     func showHorizontalScrollBars() -> Bool {
         return false
+    }
+    
+    
+}
+
+//MARK: - Search Bar Delegate
+extension SwiftDataTable: UISearchBarDelegate {
+    public func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        self.executeSearch(searchText)
+    }
+
+    //TODO: Use Regular expression isntead
+    private func filteredResults(with needle: String, on originalArray: DataTableViewModelContent) -> DataTableViewModelContent {
+        var filteredSet = DataTableViewModelContent()
+        let needle = needle.lowercased()
+        Array(0..<originalArray.count).forEach{
+            let row = originalArray[$0]
+            //Add some sort of index array so we use that to iterate through the columns
+            //The idnex array will be defined by the column definition inside the configuration object provided by the user
+            //Index array might look like this [1, 3, 4]. Which means only those columns should be searched into
+            for item in row {
+                let stringData: String = item.data.stringRepresentation.lowercased()
+                if stringData.lowercased().range(of: needle) != nil{
+                    filteredSet.append(row)
+                    //Stop searching through the rest of the columns in the same row and break
+                    break;
+                }
+            }
+        }
+        
+        return filteredSet
+    }
+    
+    
+    fileprivate func executeSearch(_ needle: String){
+        let oldFilteredRowViewModels = self.searchRowViewModels!
+        
+        if needle.isEmpty {
+            //DONT DELETE ORIGINAL CACHE FOR LAYOUTATTRIBUTES
+            //MAYBE KEEP TWO COPIES.. ONE FOR SEARCH AND ONE FOR DEFAULT
+            self.searchRowViewModels = self.rowViewModels
+        }
+        else {
+            self.searchRowViewModels = self.filteredResults(with: needle, on: self.rowViewModels)
+            print("needle: \(needle), rows found: \(self.searchRowViewModels!.count)")
+        }
+        self.layout?.clearLayoutCache()
+//        self.collectionView.scrollToItem(at: IndexPath(0), at: UICollectionViewScrollPosition.top, animated: false)
+        //So the header view doesn't flash when user is at the bottom of the collectionview and a search result is returned that doesn't feel the screen.
+        self.collectionView.resetScrollPositionToTop()
+        self.differenceSorter(oldRows: oldFilteredRowViewModels, filteredRows: self.searchRowViewModels)
+        
+    }
+    
+    private func differenceSorter(
+        oldRows: DataTableViewModelContent,
+        filteredRows: DataTableViewModelContent,
+        animations: Bool = false,
+        completion: ((Bool) -> Void)? = nil){
+        if animations == false {
+            UIView.setAnimationsEnabled(false)
+        }
+        self.collectionView.performBatchUpdates({
+            //finding the differences
+            
+            //The currently displayed rows - in this case named old rows - is scanned over.. deleting any entries that are not existing in the newly created filtered list.
+            for (oldIndex, oldRowViewModel) in oldRows.enumerated() {
+                let index = self.searchRowViewModels.index { rowViewModel in
+                    return oldRowViewModel == rowViewModel
+                }
+                if index == nil {
+                    self.collectionView.deleteSections([oldIndex])
+                }
+            }
+            
+            //Iterates over the new search results and compares them with the current result set displayed - in this case name old - inserting any entries that are not existant in the currently displayed result set
+            for (currentIndex, currentRolwViewModel) in filteredRows.enumerated() {
+                let oldIndex = oldRows.index { oldRowViewModel in
+                    return currentRolwViewModel == oldRowViewModel
+                }
+                if oldIndex == nil {
+                    self.collectionView.insertSections([currentIndex])
+                }
+            }
+        }, completion: { finished in
+            self.collectionView.reloadItems(at: self.collectionView.indexPathsForVisibleItems)
+            if animations == false {
+                UIView.setAnimationsEnabled(true)
+            }
+            completion?(finished)
+        })
     }
 }

@@ -15,19 +15,21 @@
             <rect key="frame" x="0.0" y="0.0" width="505" height="69"/>
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Menu Length Options" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xm8-gq-2pj">
+                <searchBar contentMode="redraw" searchBarStyle="minimal" translatesAutoresizingMaskIntoConstraints="NO" id="AfP-mW-V51">
                     <rect key="frame" x="0.0" y="0.0" width="505" height="69"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <nil key="textColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
+                    <textInputTraits key="textInputTraits"/>
+                </searchBar>
             </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstItem="Xm8-gq-2pj" firstAttribute="leading" secondItem="U6b-Vx-4bR" secondAttribute="leading" id="Pl0-NG-DuT"/>
-                <constraint firstAttribute="bottom" secondItem="Xm8-gq-2pj" secondAttribute="bottom" id="REK-V7-g3c"/>
-                <constraint firstAttribute="trailing" secondItem="Xm8-gq-2pj" secondAttribute="trailing" id="RnX-rb-WEq"/>
-                <constraint firstItem="Xm8-gq-2pj" firstAttribute="top" secondItem="U6b-Vx-4bR" secondAttribute="top" id="d5d-Es-nrI"/>
+                <constraint firstItem="AfP-mW-V51" firstAttribute="top" secondItem="U6b-Vx-4bR" secondAttribute="top" id="1qZ-Pp-LzF"/>
+                <constraint firstItem="AfP-mW-V51" firstAttribute="leading" secondItem="U6b-Vx-4bR" secondAttribute="leading" id="McA-ns-Iev"/>
+                <constraint firstAttribute="trailing" secondItem="AfP-mW-V51" secondAttribute="trailing" id="oI9-iE-bZE"/>
+                <constraint firstAttribute="bottom" secondItem="AfP-mW-V51" secondAttribute="bottom" id="vPu-ls-EOT"/>
             </constraints>
+            <connections>
+                <outlet property="searchBar" destination="AfP-mW-V51" id="DuP-ym-8XO"/>
+            </connections>
             <point key="canvasLocation" x="-57.5" y="63.5"/>
         </collectionReusableView>
     </objects>

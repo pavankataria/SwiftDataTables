@@ -12,9 +12,14 @@ class SwiftDataTableFlowLayout: UICollectionViewFlowLayout {
     
     //MARK: - Properties
     fileprivate(set) open var dataTable: SwiftDataTable!
+    var insertedIndexPaths = NSMutableArray()
+    var removedIndexPaths = NSMutableArray()
+    var insertedSectionIndices = NSMutableArray()
+    var removedSectionIndices = NSMutableArray()
     
     private var cache = [UICollectionViewLayoutAttributes]()
-    
+    private var filteredCache = [UICollectionViewLayoutAttributes]()
+//    private var filteredCache = [UICollectionViewLayoutAttributes]()
     
     //MARK: - Lifecycle
     init(dataTable: SwiftDataTable){
@@ -52,11 +57,15 @@ class SwiftDataTableFlowLayout: UICollectionViewFlowLayout {
         }
         
         //Reduces the computation by calculating the height offset against one column
-        let defaultUpperHeight = self.dataTable.heightForMenuLengthView() + self.dataTable.heightForSectionHeader()
+        let defaultUpperHeight = /*self.dataTable.heightForSearchView() + */self.dataTable.heightForSectionHeader()
+        
+        var counter = 0
         for row in Array(0..<self.dataTable.numberOfRows()){
+            counter += 1
             let currentRowYOffset = Array(0..<row).reduce(defaultUpperHeight) { $0 + self.dataTable.heightForRow(index: $1) + self.dataTable.heightOfInterRowSpacing() }
             yOffsets.append(currentRowYOffset)
         }
+//        print("prepare layout with \(counter) rows")
         
         
         //Item equals the current item in the row
@@ -79,20 +88,22 @@ class SwiftDataTableFlowLayout: UICollectionViewFlowLayout {
         print("Prepare method: exec-time: \(executionTime)")
         
         self.collectionView?.scrollIndicatorInsets = UIEdgeInsets(
-            top: self.dataTable.shouldSectionHeadersFloat() ? self.dataTable.heightForSectionHeader() + self.dataTable.heightForPaginationView(): 0,
+            top: self.dataTable.shouldSectionHeadersFloat() ? self.dataTable.heightForSectionHeader()/* + self.dataTable.heightForSearchView()*/: 0,
             left: 0,
-            bottom: self.dataTable.shouldSectionFootersFloat() ? self.dataTable.heightForSectionFooter() + self.dataTable.heightForMenuLengthView() : 0,
+            bottom: self.dataTable.shouldSectionFootersFloat() ? self.dataTable.heightForSectionFooter() + self.dataTable.heightForPaginationView() : 0,
             right: 0
         )
-        
+        self.calculateScrollBarIndicators()
+    }
+    
+    func calculateScrollBarIndicators(){
         self.collectionView?.showsVerticalScrollIndicator = self.dataTable.showVerticalScrollBars()
-        
         self.collectionView?.showsHorizontalScrollIndicator = self.dataTable.showHorizontalScrollBars()
     }
     
     override var collectionViewContentSize: CGSize {
         let width = self.dataTable.calculateContentWidth()
-        let height = Array(0..<self.dataTable.numberOfRows()).reduce(self.dataTable.heightForSectionHeader() + self.dataTable.heightForSectionFooter() + self.dataTable.heightForPaginationView() + self.dataTable.heightForMenuLengthView()) {
+        let height = Array(0..<self.dataTable.numberOfRows()).reduce(self.dataTable.heightForSectionHeader() + self.dataTable.heightForSectionFooter() + self.dataTable.heightForPaginationView()/* + self.dataTable.heightForSearchView()*/) {
                 $0 + self.dataTable.heightForRow(index: $1) + self.dataTable.heightOfInterRowSpacing()
         }
         return CGSize(width: width, height: height)
@@ -103,14 +114,14 @@ class SwiftDataTableFlowLayout: UICollectionViewFlowLayout {
         //Item Cells
         var attributes = self.cache.filter{ $0.frame.intersects(rect) }
 
-        //MARK: Menu Length
-        if self.dataTable.shouldShowSearchSection(){
-            let menuLengthIndexPath = IndexPath(index: 0)
-            if let menuLengthAttributes = self.layoutAttributesForSupplementaryView(ofKind:
-                SwiftDataTable.SupplementaryViewType.menuLengthHeader.rawValue, at: menuLengthIndexPath){
-                attributes.append(menuLengthAttributes)
-            }
-        }
+//        //MARK: Search Header
+//        if self.dataTable.shouldShowSearchSection(){
+//            let menuLengthIndexPath = IndexPath(index: 0)
+//            if let menuLengthAttributes = self.layoutAttributesForSupplementaryView(ofKind:
+//                SwiftDataTable.SupplementaryViewType.searchHeader.rawValue, at: menuLengthIndexPath){
+//                attributes.append(menuLengthAttributes)
+//            }
+//        }
 
         //MARK: Column Headers
         for i in 0..<self.dataTable.numberOfHeaderColumns() {
@@ -151,7 +162,7 @@ class SwiftDataTableFlowLayout: UICollectionViewFlowLayout {
 extension SwiftDataTableFlowLayout {
     override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
-        let initialRowYPosition = self.dataTable.heightForMenuLengthView() + self.dataTable.heightForSectionHeader()
+        let initialRowYPosition = /*self.dataTable.heightForSearchView() + */self.dataTable.heightForSectionHeader()
         
         let x: CGFloat = Array(0..<indexPath.row).reduce(self.dataTable.widthForRowHeader()) { $0 + self.dataTable.widthForColumn(index: $1)}
         let y = initialRowYPosition + CGFloat(Int(self.dataTable.heightForRow(index: 0)) * indexPath.section)
@@ -170,20 +181,19 @@ extension SwiftDataTableFlowLayout {
     override func layoutAttributesForSupplementaryView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         let kind = SwiftDataTable.SupplementaryViewType(kind: elementKind)
         switch kind {
-        case .menuLengthHeader: return self.layoutAttributesForMenuLengthView(at: indexPath)
+        case .searchHeader: return self.layoutAttributesForHeaderView(at: indexPath)
         case .columnHeader: return self.layoutAttributesForColumnHeaderView(at: indexPath)
         case .footerHeader: return self.layoutAttributesForColumnFooterView(at: indexPath)
         case .paginationHeader:  return self.layoutAttributesForPaginationView(at: indexPath)
         }
     }
     
-    
-    func layoutAttributesForMenuLengthView(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-        let attribute = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: SwiftDataTable.SupplementaryViewType.menuLengthHeader.rawValue, with: indexPath)
+    func layoutAttributesForHeaderView(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+        let attribute = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: SwiftDataTable.SupplementaryViewType.searchHeader.rawValue, with: indexPath)
         let x: CGFloat = self.dataTable.collectionView.contentOffset.x
         let y: CGFloat = 0
         let width = self.dataTable.collectionView.bounds.width
-        let height = self.dataTable.heightForMenuLengthView()
+        let height: CGFloat = 0//self.dataTable.heightForSearchView()
         
         attribute.frame = CGRect(
             x: max(0, x),
@@ -193,12 +203,11 @@ extension SwiftDataTableFlowLayout {
         )
         attribute.zIndex = 5
         
-        if self.dataTable.shouldSectionHeadersFloat(){
+        if self.dataTable.shouldSearchHeaderFloat(){
             let yOffsetTopView: CGFloat = self.dataTable.collectionView.contentOffset.y
             attribute.frame.origin.y = yOffsetTopView
             attribute.zIndex += 1
         }
-        
         return attribute
     }
     
@@ -207,20 +216,32 @@ extension SwiftDataTableFlowLayout {
         //Because the widths can change between columns we need to get a running total for the x position so far up
         //until the currnt column header.
         let x = Array(0..<indexPath.index).reduce(self.dataTable.widthForRowHeader()){$0 + self.dataTable.widthForColumn(index: $1)}
-        let y: CGFloat = self.dataTable.heightForMenuLengthView() /*self.dataTable.heightForPaginationView()*/
+        let y: CGFloat = self.collectionView!.contentOffset.y//self.dataTable.heightForSearchView() /*self.dataTable.heightForPaginationView()*/
         let width = self.dataTable.widthForColumn(index: indexPath.index)
         let height = self.dataTable.heightForSectionHeader()
         attribute.frame = CGRect(
             x: max(0.0, x),
-            y: max(0, y),
+            y: min(0, y),
             width: width,
             height: height
         )
+        
         attribute.zIndex = 2
+        
+//        //This should call the delegate method whether or not the headers should float.
+//        if self.dataTable.shouldSectionHeadersFloat() {
+//            var yScrollOffsetPosition = /*self.dataTable.heightForSearchView() + */self.collectionView!.contentOffset.y
+//            if false == self.dataTable.shouldSearchHeaderFloat(){
+//                yScrollOffsetPosition = max(0/*self.dataTable.heightForSearchView()*/, self.collectionView!.contentOffset.y)
+//            }
+//            attribute.frame.origin.y = yScrollOffsetPosition//max(yScrollOffsetPosition, attribute.frame.origin.y)
+//            attribute.zIndex += 1
+//        }
+        
         //This should call the delegate method whether or not the headers should float.
-        if self.dataTable.shouldSectionHeadersFloat(){
-            let yScrollOffsetPosition = self.dataTable.heightForMenuLengthView() + self.collectionView!.contentOffset.y
-            attribute.frame.origin.y = yScrollOffsetPosition//max(yScrollOffsetPosition, attribute.frame.origin.y)
+        if self.dataTable.shouldSectionHeadersFloat() {
+            var yScrollOffsetPosition = self.collectionView!.contentOffset.y
+            attribute.frame.origin.y = yScrollOffsetPosition
             attribute.zIndex += 1
         }
         return attribute
@@ -241,6 +262,7 @@ extension SwiftDataTableFlowLayout {
             width: width,
             height: height
         )
+        
         attribute.zIndex = 2
         //This should call the delegate method whether or not the headers should float.
         if self.dataTable.shouldSectionFootersFloat(){
@@ -277,3 +299,47 @@ extension SwiftDataTableFlowLayout {
         return attribute
     }
 }
+
+//MARK: -  Insertions and deletions
+//extension SwiftDataTableFlowLayout {
+//    override func prepare(forCollectionViewUpdates updateItems: [UICollectionViewUpdateItem]) {
+//        super.prepare(forCollectionViewUpdates: updateItems)
+//        
+//        self.insertedIndexPaths     = NSMutableArray()
+//        self.removedIndexPaths      = NSMutableArray()
+//        self.insertedSectionIndices = NSMutableArray()
+//        self.removedSectionIndices  = NSMutableArray()
+//        
+//        for (index, updateItem) in updateItems.enumerated() {
+//            switch updateItem.updateAction {
+//            case .insert:
+//                guard let indexPathAfterUpdate = updateItem.indexPathAfterUpdate else {
+//                    break
+//                }
+//                if indexPathAfterUpdate.item == NSNotFound {
+//                    self.insertedSectionIndices.add(NSNumber(value: indexPathAfterUpdate.section))
+//                }
+//                else {
+//                    self.insertedIndexPaths.add(indexPathAfterUpdate)
+//                }
+//            case .delete:
+//                guard let indexPathBeforeUpdate = updateItem.indexPathBeforeUpdate else {
+//                    break
+//                }
+//                if indexPathBeforeUpdate.item == NSNotFound {
+//                    self.removedSectionIndices.add(NSNumber(value: indexPathBeforeUpdate.section))
+//                }
+//                else {
+//                    self.removedIndexPaths.add(indexPathBeforeUpdate)
+//                }
+//            default:
+//                break
+//            }
+//        }
+//        
+//        print("insertedIndexPaths: \(self.insertedIndexPaths)")
+//        print("removedIndexPaths: \(self.removedIndexPaths)")
+//        print("insertedSectionIndices: \(self.insertedSectionIndices)")
+//        print("removedSectionIndices: \(self.removedSectionIndices)")
+//    }
+//}

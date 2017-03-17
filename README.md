@@ -1,7 +1,10 @@
 # SwiftDataTables
 
-<!--[![CI Status](http://img.shields.io/travis/pavankataria/SwiftDataTables.svg?style=flat)](https://travis-ci.org/pavankataria/SwiftDataTables)-->
-[![Platform](https://img.shields.io/cocoapods/p/SwiftDataTables.svg?style=flat)](http://cocoapods.org/pods/SwiftDataTables)
+<!--[![CI Status](http://img.shields.io/travis/pavankataria/SwiftDataTables.svg?style=flat)](https://travis-ci.org/pavankataria/SwiftDataTables)
+https://img.shields.io/cocoapods/p/SwiftDataTables.svg
+-->
+[![Platform](https://img.shields.io/badge/%20%20Platform%20%20-iOS-brightgreen.svg?style=flat)](http://cocoapods.org/pods/SwiftDataTables)
+[![Swift Version](https://img.shields.io/badge/%20%20Swift%20Version%20%20-3.0-brightgreen.svg?style=flat)](http://cocoapods.org/pods/SwiftDataTables)
 [![GitHub issues](https://img.shields.io/github/issues/pavankataria/SwiftDataTables.svg)](https://github.com/pavankataria/SwiftDataTables/issues)
 [![Version](https://img.shields.io/cocoapods/v/SwiftDataTables.svg?style=flat)](http://cocoapods.org/pods/SwiftDataTables)
 [![License](https://img.shields.io/cocoapods/l/SwiftDataTables.svg?style=flat)](http://cocoapods.org/pods/SwiftDataTables)
@@ -22,6 +25,9 @@ To run the example project do the following:
 If you have any questions or wish to make any suggestions, please open an issue with the appropriate label, and I'll get back to you right away. Thank you
 
 ## Requirements
++ iOS 8.0+
++ Xcode 8
++ Swift 3
 
 ## Installation
 
