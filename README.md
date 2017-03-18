@@ -16,11 +16,11 @@ This package was inspired by Javascript's DataTables package.
 ## Demo Project Included
 
 To run the example project do the following:
-1) Download or clone the repo (`git clone https://github.com/pavankataria/SwiftDataTables`)
-2) Change directory into the `SwiftDataTables/Example` folder (`cd SwiftDataTables/Example`)
-3) Install pod files (`pod install`)
-4) With Xcode 8 installed, as normal, open the workspace file `SwiftDataTables.xcworkspace`, and not `SwiftDataTables.xcodeproj`
-5) Build and Run.
+1. Download or clone the repo (`git clone https://github.com/pavankataria/SwiftDataTables`)
+2. Change directory into the `SwiftDataTables/Example` folder (`cd SwiftDataTables/Example`)
+3. Install pod files (`pod install`)
+4. With Xcode 8 installed, as normal, open the workspace file `SwiftDataTables.xcworkspace`, and not `SwiftDataTables.xcodeproj`
+5. Build and Run.
 
 If you have any questions or wish to make any suggestions, please open an issue with the appropriate label, and I'll get back to you right away. Thank you
 
@@ -31,12 +31,18 @@ If you have any questions or wish to make any suggestions, please open an issue 
 
 ## Installation
 
-SwiftDataTables is available through [CocoaPods](http://cocoapods.org). To install
-it, simply add the following line to your Podfile:
+#### <img src="https://dl.dropboxusercontent.com/u/11377305/resources/cocoapods.png" width="24" height="24"> [CocoaPods]
+
+[CocoaPods]: http://cocoapods.org
+
+To install it, simply add the following line to your **Podfile**:
 
 ```ruby
 pod "SwiftDataTables"
 ```
+
+Then run `pod install` with CocoaPods 1.1.0.beta.1 or newer.
+
 
 ## Author
 
