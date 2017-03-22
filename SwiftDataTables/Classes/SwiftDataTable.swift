@@ -453,7 +453,7 @@ extension SwiftDataTable {
 
 extension SwiftDataTable {
     func update(){
-        print("\nUpdate")
+//        print("\nUpdate")
         self.reloadEverything()
     }
     
@@ -519,7 +519,7 @@ extension SwiftDataTable {
                 self.headerViewModels[$0].sortType.toggleToDefault()
             }
         }
-        self.headerViewModels.forEach { print($0.sortType) }
+//        self.headerViewModels.forEach { print($0.sortType) }
     }
     
     //This is actually mapped to sections
@@ -659,9 +659,11 @@ extension SwiftDataTable: UISearchBarDelegate {
         searchBar.setShowsCancelButton(false, animated: true)
         searchBar.resignFirstResponder()
     }
+    
     public func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchBar.setShowsCancelButton(true, animated: true)
     }
+    
     public func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         searchBar.setShowsCancelButton(false, animated: true)
     }
@@ -699,7 +701,7 @@ extension SwiftDataTable: UISearchBarDelegate {
         }
         else {
             self.searchRowViewModels = self.filteredResults(with: needle, on: self.rowViewModels)
-            print("needle: \(needle), rows found: \(self.searchRowViewModels!.count)")
+//            print("needle: \(needle), rows found: \(self.searchRowViewModels!.count)")
         }
         self.layout?.clearLayoutCache()
 //        self.collectionView.scrollToItem(at: IndexPath(0), at: UICollectionViewScrollPosition.top, animated: false)

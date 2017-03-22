@@ -24,7 +24,7 @@ extension MenuLengthHeaderViewModel: CollectionViewSupplementaryElementRepresent
     func dequeueView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, for indexPath: IndexPath) -> UICollectionReusableView {
         
         let identifier = String(describing: MenuLengthHeader.self)
-        print("identifier at dequeue: \(identifier)")
+//        print("identifier at dequeue: \(identifier)")
         guard
             let headerView = collectionView.dequeueReusableSupplementaryView(
                 ofKind: kind,

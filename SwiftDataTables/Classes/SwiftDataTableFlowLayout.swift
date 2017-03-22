@@ -85,7 +85,7 @@ class SwiftDataTableFlowLayout: UICollectionViewFlowLayout {
         }
         let methodFinish = Date()
         let executionTime = methodFinish.timeIntervalSince(methodStart)
-        print("Prepare method: exec-time: \(executionTime)")
+//        print("Prepare method: exec-time: \(executionTime)")
         
         self.collectionView?.scrollIndicatorInsets = UIEdgeInsets(
             top: self.dataTable.shouldSectionHeadersFloat() ? self.dataTable.heightForSectionHeader()/* + self.dataTable.heightForSearchView()*/: 0,
