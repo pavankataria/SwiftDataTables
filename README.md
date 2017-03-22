@@ -9,9 +9,18 @@ https://img.shields.io/cocoapods/p/SwiftDataTables.svg
 [![License](https://img.shields.io/badge/%20%20license%20%20-MIT-brightgreen.svg?style=flat)](http://cocoapods.org/pods/SwiftDataTables)
 [![Version](https://img.shields.io/cocoapods/v/SwiftDataTables.svg?style=flat)](http://cocoapods.org/pods/SwiftDataTables)
 
+## About
+
 `SwiftDataTables` allows you to display grid-like data sets in a nicely formatted table for iOS. The main goal for the end-user are to be able to obtain useful information from the table as quickly as possible with the following features: ordering, searching, and paging; where as for the developer is to allow for easy implementation with extensible options. 
 
-This package was inspired by Javascript's DataTables package.
+![animation](/Example/SwiftDataTables-Preview.gif)
+
+
+## Requirements
+
++ iOS 8.0+
++ Xcode 8
++ Swift 3
 
 ## Demo Project Included
 
@@ -24,14 +33,10 @@ To run the example project do the following:
 
 If you have any questions or wish to make any suggestions, please open an issue with the appropriate label, and I'll get back to you right away. Thank you
 
-## Requirements
-+ iOS 8.0+
-+ Xcode 8
-+ Swift 3
 
 ## Installation
 
-#### <img src="https://dl.dropboxusercontent.com/u/11377305/resources/cocoapods.png" width="24" height="24"> [CocoaPods]
+#### <img src="https://dl.dropboxusercontent.com/u/11377305/resources/cocoapods.png" width="23" height="23"> [CocoaPods]
 
 [CocoaPods]: http://cocoapods.org
 
@@ -43,14 +48,13 @@ pod "SwiftDataTables"
 
 Then run `pod install` with CocoaPods 1.1.0.beta.1 or newer.
 
+<br>
 
 ## Author
 
 Pavan Kataria
 
-## License
-
-SwiftDataTables is available under the MIT license. See the LICENSE file for more info.
+<br>
 
 ## Contributing
 
@@ -60,4 +64,18 @@ SwiftDataTables is available under the MIT license. See the LICENSE file for mor
 4. Commit your changes (`git commit -am 'Add some feature'`)
 5. Publish the branch (`git push origin my-new-feature`)
 6. Create a new Pull Request
-7. Profit! :white_check_mark:
+7. Thank you! :white_check_mark:
+
+<br>
+
+## License
+
+SwiftDataTables is available under the MIT license. See the LICENSE file for more info.
+This package was inspired by JQuery's DataTables plugin.
+
+<br>
+
+## Follow us
+
+[![Twitter URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=https://github.com/pavankataria/SwiftDataTables)
+[![Twitter Follow](https://img.shields.io/twitter/follow/pavan_kataria.svg?style=social)](https://twitter.com/pavan_kataria)
