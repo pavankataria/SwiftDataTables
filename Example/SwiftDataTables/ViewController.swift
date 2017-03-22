@@ -26,7 +26,8 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         self.navigationController?.navigationBar.isTranslucent = false
-//        self.navigationController?.navigationBar.isHidden = true
+        self.title = "Employee Balances"
+
         self.view.backgroundColor = UIColor.white
         
         var options = DataTableConfiguration()
