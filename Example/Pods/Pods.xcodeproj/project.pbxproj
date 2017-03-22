@@ -62,9 +62,9 @@
 /* Begin PBXFileReference section */
 		026CC3068F40BE2D05647A2410B36B3B /* Pods-SwiftDataTables_Tests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SwiftDataTables_Tests-resources.sh"; sourceTree = "<group>"; };
 		0E4C9491808FD1FFE914DCAFAD7D2386 /* DataStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
-		1037553484562CE309A3013538712A90 /* Pods_SwiftDataTables_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwiftDataTables_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1037553484562CE309A3013538712A90 /* Pods_SwiftDataTables_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_SwiftDataTables_Tests.framework; path = "Pods-SwiftDataTables_Tests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1224A3CF41ABF565DE4D754A763937CC /* PaginationHeader.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PaginationHeader.swift; sourceTree = "<group>"; };
-		15D74D4F308C07A9FF50DFDA2A0736D9 /* Pods-SwiftDataTables_Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-SwiftDataTables_Example.modulemap"; sourceTree = "<group>"; };
+		15D74D4F308C07A9FF50DFDA2A0736D9 /* Pods-SwiftDataTables_Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-SwiftDataTables_Example.modulemap"; sourceTree = "<group>"; };
 		1800F12E1FCB665A56571DAEDFA4A3E2 /* MenuLengthHeader.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MenuLengthHeader.swift; sourceTree = "<group>"; };
 		18B3638F5AD13E6EBCB7FBA837D1D5AD /* Pods-SwiftDataTables_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-SwiftDataTables_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		19146F6458BB58D305987C6D05D75DDB /* DataStructureModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataStructureModel.swift; sourceTree = "<group>"; };
@@ -78,7 +78,7 @@
 		3FCF927BF691F6711D8A34DA24DE0727 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4328688BC5F6D3F5EEB1AED82637E62A /* DataCellRowRepresentable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataCellRowRepresentable.swift; sourceTree = "<group>"; };
 		48CFB127CFA921DC3DCEFF98D9ABE2C4 /* PaginationHeader.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; path = PaginationHeader.xib; sourceTree = "<group>"; };
-		4A7A00092F7F68FE9EB3EDD8772E3635 /* SwiftDataTables.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = SwiftDataTables.modulemap; sourceTree = "<group>"; };
+		4A7A00092F7F68FE9EB3EDD8772E3635 /* SwiftDataTables.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = SwiftDataTables.modulemap; sourceTree = "<group>"; };
 		4AF636A6C261B4B22000184FC87CE66A /* Pods-SwiftDataTables_Example-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SwiftDataTables_Example-resources.sh"; sourceTree = "<group>"; };
 		5277C1C4F649828D9CEE62AF4D307B53 /* Pods-SwiftDataTables_Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-SwiftDataTables_Example-umbrella.h"; sourceTree = "<group>"; };
 		5445F32930D137199F2797334ADE657C /* DataCell.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; path = DataCell.xib; sourceTree = "<group>"; };
@@ -92,25 +92,25 @@
 		7AB3AACE6A2F1AFB21B65E918C6BD945 /* SwiftDataTable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SwiftDataTable.swift; sourceTree = "<group>"; };
 		7B5DBDD794DC94DD50E8634CB2C820BB /* DataCellLayoutAttributes.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataCellLayoutAttributes.swift; sourceTree = "<group>"; };
 		7CD548E01AB1C82543F72FC3ACDE740B /* SwiftDataTables.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; path = SwiftDataTables.bundle; sourceTree = "<group>"; };
-		8010CB43D447228DB2F3EE74CF263D14 /* column-sort-descending.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "column-sort-descending.png"; sourceTree = "<group>"; };
+		8010CB43D447228DB2F3EE74CF263D14 /* column-sort-descending.png */ = {isa = PBXFileReference; includeInIndex = 1; path = "column-sort-descending.png"; sourceTree = "<group>"; };
 		80EFFBC331D7B75C7689F478B728663E /* Pods-SwiftDataTables_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SwiftDataTables_Example.release.xcconfig"; sourceTree = "<group>"; };
 		86C31390A6D99B60A5D28F7BF13FB249 /* Pods-SwiftDataTables_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SwiftDataTables_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		86FA0E63F942A371F612D17FC46F527F /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8F2BFF8086A7BBEE3511BF1A27D50091 /* DataHeaderFooter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataHeaderFooter.swift; sourceTree = "<group>"; };
 		915E0818C20643221F40E1DD18875ABB /* CollectionViewCellRepresentable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CollectionViewCellRepresentable.swift; sourceTree = "<group>"; };
-		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		9A707D5DA18A0996ADF3231840835908 /* Pods_SwiftDataTables_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwiftDataTables_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9A707D5DA18A0996ADF3231840835908 /* Pods_SwiftDataTables_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_SwiftDataTables_Example.framework; path = "Pods-SwiftDataTables_Example.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B2ED54993F40761375E7A5530B7B5F9 /* DataCellViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataCellViewModel.swift; sourceTree = "<group>"; };
-		9C520E0139094370E530D4155DD50D34 /* SwiftDataTables.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftDataTables.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9C520E0139094370E530D4155DD50D34 /* SwiftDataTables.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SwiftDataTables.framework; path = SwiftDataTables.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F2E83AB3AB39BF705EE3F1638D6B29F /* DataTableSortable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataTableSortable.swift; sourceTree = "<group>"; };
 		A0CF2E9F66B58735D143648B30DF58D4 /* DataHeaderFooter.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; path = DataHeaderFooter.xib; sourceTree = "<group>"; };
 		A4A7D10DFC80274683FA6D5D7CB30045 /* Pods-SwiftDataTables_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-SwiftDataTables_Tests-dummy.m"; sourceTree = "<group>"; };
 		A8AF054D142EAEC82F6E543C5EDC8B4D /* DataCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataCell.swift; sourceTree = "<group>"; };
 		A9497FD77AFF9D1079B44445D1536828 /* Pods-SwiftDataTables_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-SwiftDataTables_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
-		AE3FA8C289BB2B0213DFCD9351E770DC /* Pods-SwiftDataTables_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-SwiftDataTables_Tests.modulemap"; sourceTree = "<group>"; };
+		AE3FA8C289BB2B0213DFCD9351E770DC /* Pods-SwiftDataTables_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-SwiftDataTables_Tests.modulemap"; sourceTree = "<group>"; };
 		B29B0F533FE64494E873A1152A0341C7 /* DataTableConfiguration.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataTableConfiguration.swift; sourceTree = "<group>"; };
 		BB0D9A758F5D07A5B156C972F7EC6C73 /* SwiftDataTable+Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "SwiftDataTable+Extensions.swift"; sourceTree = "<group>"; };
-		BBACAFE153377B02F371E7CEBE6CFE4D /* column-sort-unspecified.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "column-sort-unspecified.png"; sourceTree = "<group>"; };
+		BBACAFE153377B02F371E7CEBE6CFE4D /* column-sort-unspecified.png */ = {isa = PBXFileReference; includeInIndex = 1; path = "column-sort-unspecified.png"; sourceTree = "<group>"; };
 		BC0FD0FEE4B07056B1C991A1EC970739 /* Pods-SwiftDataTables_Tests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SwiftDataTables_Tests-frameworks.sh"; sourceTree = "<group>"; };
 		BE4EFD0DC1BEDDDE8D0946323DCAF903 /* PaginationHeaderViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PaginationHeaderViewModel.swift; sourceTree = "<group>"; };
 		C4EE833874126E5AF2AA48DB3395A88D /* DataTableValueType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataTableValueType.swift; sourceTree = "<group>"; };
@@ -120,7 +120,7 @@
 		DB26733A19DEE294A032B66575C90AEA /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E1A11813CA7C50E41A73FD7F6A7FA1FE /* CollectionViewSupplementaryElementRepresentable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CollectionViewSupplementaryElementRepresentable.swift; sourceTree = "<group>"; };
 		EC083CA7691E49596D895262F66C5B93 /* Pods-SwiftDataTables_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SwiftDataTables_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
-		F1473A9A43EE02DA71DEF3040C95FD04 /* column-sort-ascending.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "column-sort-ascending.png"; sourceTree = "<group>"; };
+		F1473A9A43EE02DA71DEF3040C95FD04 /* column-sort-ascending.png */ = {isa = PBXFileReference; includeInIndex = 1; path = "column-sort-ascending.png"; sourceTree = "<group>"; };
 		F1E6C461F1C5604D58CFD9E8581D3A94 /* Pods-SwiftDataTables_Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SwiftDataTables_Example-acknowledgements.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -177,6 +177,7 @@
 				61FDDE21982EEE8A070F64045882C0AF /* MenuLengthHeader.xib */,
 				5B41D17014B3C074EDB0CCD2736C0808 /* MenuLengthHeaderViewModel.swift */,
 			);
+			name = MenuLengthHeader;
 			path = MenuLengthHeader;
 			sourceTree = "<group>";
 		};
@@ -187,6 +188,7 @@
 				8010CB43D447228DB2F3EE74CF263D14 /* column-sort-descending.png */,
 				BBACAFE153377B02F371E7CEBE6CFE4D /* column-sort-unspecified.png */,
 			);
+			name = SwiftDataTables.bundle;
 			path = SwiftDataTables.bundle;
 			sourceTree = "<group>";
 		};
@@ -196,6 +198,7 @@
 				90FCC83B0EA68CB1DD52EBBA8CCA3531 /* Classes */,
 				3306E6F17987221B42826806A851A923 /* SwiftDataTables.bundle */,
 			);
+			name = SwiftDataTables;
 			path = SwiftDataTables;
 			sourceTree = "<group>";
 		};
@@ -206,6 +209,7 @@
 				48CFB127CFA921DC3DCEFF98D9ABE2C4 /* PaginationHeader.xib */,
 				BE4EFD0DC1BEDDDE8D0946323DCAF903 /* PaginationHeaderViewModel.swift */,
 			);
+			name = PaginationHeader;
 			path = PaginationHeader;
 			sourceTree = "<group>";
 		};
@@ -217,6 +221,7 @@
 				7B5DBDD794DC94DD50E8634CB2C820BB /* DataCellLayoutAttributes.swift */,
 				9B2ED54993F40761375E7A5530B7B5F9 /* DataCellViewModel.swift */,
 			);
+			name = DataCell;
 			path = DataCell;
 			sourceTree = "<group>";
 		};
@@ -236,6 +241,7 @@
 				4328688BC5F6D3F5EEB1AED82637E62A /* DataCellRowRepresentable.swift */,
 				6E122E61E1C8C49B04CF74BCCFA6161B /* VirtualPositionTrackable.swift */,
 			);
+			name = Protocols;
 			path = Protocols;
 			sourceTree = "<group>";
 		};
@@ -270,15 +276,15 @@
 		90FCC83B0EA68CB1DD52EBBA8CCA3531 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				7AB3AACE6A2F1AFB21B65E918C6BD945 /* SwiftDataTable.swift */,
-				34D9B4AA17DB4832284C840A91D56FB0 /* DataTableSearchTextField.swift */,
-				5DD4E394D6FE142F7550AFFFC101A045 /* SwiftDataTableFlowLayout.swift */,
 				0E4C9491808FD1FFE914DCAFAD7D2386 /* DataStore.swift */,
 				19146F6458BB58D305987C6D05D75DDB /* DataStructureModel.swift */,
 				B29B0F533FE64494E873A1152A0341C7 /* DataTableConfiguration.swift */,
+				34D9B4AA17DB4832284C840A91D56FB0 /* DataTableSearchTextField.swift */,
 				9F2E83AB3AB39BF705EE3F1638D6B29F /* DataTableSortable.swift */,
 				D90D3D7ADBC49A31D8FEB1F60C052DE9 /* DataTableSortType.swift */,
 				C4EE833874126E5AF2AA48DB3395A88D /* DataTableValueType.swift */,
+				7AB3AACE6A2F1AFB21B65E918C6BD945 /* SwiftDataTable.swift */,
+				5DD4E394D6FE142F7550AFFFC101A045 /* SwiftDataTableFlowLayout.swift */,
 				5FBD99A5DED4570C24F2FF9C7839B0F5 /* DataCell */,
 				ADFF8D727187B584BF991FCDDAFC19E9 /* Extensions */,
 				CA8C5D9264EAB22AAB22F465425BC725 /* HeaderFooter */,
@@ -286,6 +292,7 @@
 				5F088D4B8E77F214E91F82169E5DF9FE /* PaginationHeader */,
 				6FC49C523238F040A13CC3F0707EA125 /* Protocols */,
 			);
+			name = Classes;
 			path = Classes;
 			sourceTree = "<group>";
 		};
@@ -326,6 +333,7 @@
 			children = (
 				BB0D9A758F5D07A5B156C972F7EC6C73 /* SwiftDataTable+Extensions.swift */,
 			);
+			name = Extensions;
 			path = Extensions;
 			sourceTree = "<group>";
 		};
@@ -363,6 +371,7 @@
 			children = (
 				7CD548E01AB1C82543F72FC3ACDE740B /* SwiftDataTables.bundle */,
 			);
+			name = SwiftDataTables;
 			path = SwiftDataTables;
 			sourceTree = "<group>";
 		};
@@ -373,6 +382,7 @@
 				A0CF2E9F66B58735D143648B30DF58D4 /* DataHeaderFooter.xib */,
 				281CBD36BC8026945D142671328F8C7D /* DataHeaderFooterViewModel.swift */,
 			);
+			name = HeaderFooter;
 			path = HeaderFooter;
 			sourceTree = "<group>";
 		};
