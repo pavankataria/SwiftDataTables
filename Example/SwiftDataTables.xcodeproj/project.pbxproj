@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		058D4BB71E954000002A2DC9 /* DataTableWithDataSourceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058D4BB61E954000002A2DC9 /* DataTableWithDataSourceViewController.swift */; };
 		05DDE6B11E71AF2C003BD61E /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05DDE6B01E71AF2C003BD61E /* File.swift */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
@@ -29,6 +30,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		058D4BB21E953FDD002A2DC9 /* SwiftDataTables_Example-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SwiftDataTables_Example-Bridging-Header.h"; sourceTree = "<group>"; };
+		058D4BB61E954000002A2DC9 /* DataTableWithDataSourceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataTableWithDataSourceViewController.swift; sourceTree = "<group>"; };
 		05DDE6B01E71AF2C003BD61E /* File.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		5076460E54A93B08419E4FC3 /* Pods_SwiftDataTables_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwiftDataTables_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		50B52C9654BFE2DA84A4C929 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
@@ -109,10 +112,12 @@
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				05DDE6B01E71AF2C003BD61E /* File.swift */,
 				607FACD71AFB9204008FA782 /* ViewController.swift */,
+				058D4BB61E954000002A2DC9 /* DataTableWithDataSourceViewController.swift */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
+				058D4BB21E953FDD002A2DC9 /* SwiftDataTables_Example-Bridging-Header.h */,
 			);
 			name = "Example for SwiftDataTables";
 			path = SwiftDataTables;
@@ -368,6 +373,7 @@
 			files = (
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
 				05DDE6B11E71AF2C003BD61E /* File.swift in Sources */,
+				058D4BB71E954000002A2DC9 /* DataTableWithDataSourceViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -503,6 +509,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = R85C7FUGTC;
 				INFOPLIST_FILE = SwiftDataTables/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -510,6 +517,8 @@
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "SwiftDataTables/SwiftDataTables_Example-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -521,6 +530,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = R85C7FUGTC;
 				INFOPLIST_FILE = SwiftDataTables/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -528,6 +538,7 @@
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "SwiftDataTables/SwiftDataTables_Example-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
