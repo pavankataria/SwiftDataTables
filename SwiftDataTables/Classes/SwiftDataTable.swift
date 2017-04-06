@@ -8,8 +8,18 @@
 
 import UIKit
 
-public typealias DataTableContent = [[DataTableValueType]]
+public typealias DataTableRow = [DataTableValueType]
+public typealias DataTableContent = [DataTableRow]
 public typealias DataTableViewModelContent = [[DataCellViewModel]]
+
+
+public protocol SwiftDataTableDataSource {
+    func numberOfColumns(in: SwiftDataTable) -> Int
+    func numberOfRows(in: SwiftDataTable) -> Int
+    func dataTable(_ dataTable: SwiftDataTable, dataForRowAt index: NSInteger) -> [DataTableValueType]
+    func dataTable(_ dataTable: SwiftDataTable, headerTitleForColumnAt columnIndex: NSInteger) -> String
+}
+
 public class SwiftDataTable: UIView {
     public enum SupplementaryViewType: String {
         /// Single header positioned at the top above the column section
@@ -31,6 +41,9 @@ public class SwiftDataTable: UIView {
             self = elementKind
         }
     }
+    
+    var dataSource: SwiftDataTableDataSource!
+    var options: DataTableConfiguration
     
     let highlightedColours = [
         UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1),
@@ -161,11 +174,23 @@ public class SwiftDataTable: UIView {
 //    }()
     
     //MARK: - Lifecycle
+    public init(dataSource: SwiftDataTableDataSource,
+        options: DataTableConfiguration? = DataTableConfiguration(),
+        frame: CGRect = .zero){
+        self.options = options!
+        super.init(frame: frame)
+        self.dataSource = dataSource
+        
+        self.set(options: options)
+        self.registerObservers()
+    }
+    
     public init(data: DataTableContent,
                 headerTitles: [String],
-                options: DataTableConfiguration = DataTableConfiguration(),
+                options: DataTableConfiguration? = DataTableConfiguration(),
                 frame: CGRect = .zero)
     {
+        self.options = options!
         super.init(frame: frame)
         self.set(data: data, headerTitles: headerTitles, options: options)
         self.registerObservers()
@@ -218,7 +243,7 @@ public class SwiftDataTable: UIView {
         collectionView.register(UINib(nibName: menuLengthIdentifier, bundle: podBundle), forSupplementaryViewOfKind: SupplementaryViewType.searchHeader.rawValue, withReuseIdentifier: menuLengthIdentifier)
     }
     
-    func set(data: [[DataTableValueType]], headerTitles: [String], options: DataTableConfiguration? = nil){
+    func set(data: DataTableContent, headerTitles: [String], options: DataTableConfiguration? = nil){
         self.dataStructure = DataStructureModel(data: data, headerTitles: headerTitles)
         self.createDataCellViewModels(with: self.dataStructure)
         self.layout = SwiftDataTableFlowLayout(dataTable: self)
@@ -240,12 +265,13 @@ public class SwiftDataTable: UIView {
         for columnIndex in Array(0..<self.numberOfHeaderColumns()) {
             self.columnWidths.append(self.automaticWidthForColumn(index: columnIndex))
         }
-        
+        self.scaleColumnWidthsIfRequired()
+    }
+    func scaleColumnWidthsIfRequired(){
         if self.shouldContentWidthScaleToFillFrame(){
             self.scaleToFillColumnWidths()
         }
     }
-    
     func scaleToFillColumnWidths(){
         //if content width is smaller than ipad width
         let totalColumnWidth = self.columnWidths.reduce(0, +)
@@ -271,6 +297,24 @@ public class SwiftDataTable: UIView {
     }
     public func reloadRowsOnly(){
         
+    }
+    
+    public func reload(){
+        var data = DataTableContent()
+        var headerTitles = [String]()
+        
+        let numberOfColumns = dataSource.numberOfColumns(in: self)
+        let numberOfRows = dataSource.numberOfRows(in: self)
+        
+        for columnIndex in 0..<numberOfColumns {
+            headerTitles.append(dataSource.dataTable(self, headerTitleForColumnAt: columnIndex))
+        }
+        
+        for index in 0..<numberOfRows {
+            data.append(self.dataSource.dataTable(self, dataForRowAt: index))
+        }
+        self.set(data: data, headerTitles: headerTitles, options: self.options)
+        self.update()
     }
 }
 
@@ -329,15 +373,28 @@ extension SwiftDataTable: UICollectionViewDelegateFlowLayout {
 
 extension SwiftDataTable: UICollectionViewDataSource {
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if let dataSource = self.dataSource {
+            return dataSource.numberOfColumns(in: self)
+        }
         return self.dataStructure.columnCount
     }
     
     public func numberOfSections(in collectionView: UICollectionView) -> Int {
+        //if let dataSource = self.dataSource {
+        //    return dataSource.numberOfRows(in: self)
+        //}
         return self.numberOfRows()
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = self.rowModel(at: indexPath).dequeueCell(collectionView: collectionView, indexPath: indexPath)
+        let cellViewModel: DataCellViewModel
+        //if let dataSource = self.dataSource {
+        //    cellViewModel = dataSource.dataTable(self, dataForRowAt: indexPath.row)
+        //}
+        //else {
+            cellViewModel = self.rowModel(at: indexPath)
+        //}
+        let cell = cellViewModel.dequeueCell(collectionView: collectionView, indexPath: indexPath)
         return cell
     }
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -452,7 +509,8 @@ extension SwiftDataTable {
 }
 
 extension SwiftDataTable {
-    func update(){
+    
+    fileprivate func update(){
 //        print("\nUpdate")
         self.reloadEverything()
     }
@@ -599,6 +657,7 @@ extension SwiftDataTable {
     func calculateContentWidth() -> CGFloat {
         return Array(0..<self.numberOfColumns()).reduce(self.widthForRowHeader()) { $0 + self.widthForColumn(index: $1)}
     }
+    
     
     func heightForRow(index: Int) -> CGFloat {
         return 44
@@ -748,5 +807,16 @@ extension SwiftDataTable: UISearchBarDelegate {
             }
             completion?(finished)
         })
+    }
+}
+
+
+extension SwiftDataTable {
+    func set(options: DataTableConfiguration? = nil){
+        self.layout = SwiftDataTableFlowLayout(dataTable: self)
+        self.rowViewModels = DataTableViewModelContent()
+        self.paginationViewModel = PaginationHeaderViewModel()
+        self.menuLengthViewModel = MenuLengthHeaderViewModel()
+        //self.reload();
     }
 }
