@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SwiftDataTables'
-  s.version          = '0.5.2'
+  s.version          = '0.5.3'
   s.summary          = 'A Swift Data Table package that allows ordering, searching, and paging with extensible options.'
 
 # This description is used to generate tags and improve search results.

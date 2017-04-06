@@ -43,7 +43,7 @@ class SwiftDataTableFlowLayout: UICollectionViewFlowLayout {
             return
         }
         self.dataTable.calculateColumnWidths()
-        let methodStart = Date()
+        //let methodStart = Date()
 
         var xOffsets = [CGFloat]()
         var yOffsets = [CGFloat]()

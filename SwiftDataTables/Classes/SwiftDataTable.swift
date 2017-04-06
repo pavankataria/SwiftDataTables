@@ -192,7 +192,7 @@ public class SwiftDataTable: UIView {
     {
         self.options = options!
         super.init(frame: frame)
-        self.set(data: data, headerTitles: headerTitles, options: options)
+        self.set(data: data, headerTitles: headerTitles, options: options, shouldReplaceLayout: true)
         self.registerObservers()
         
         
@@ -243,12 +243,15 @@ public class SwiftDataTable: UIView {
         collectionView.register(UINib(nibName: menuLengthIdentifier, bundle: podBundle), forSupplementaryViewOfKind: SupplementaryViewType.searchHeader.rawValue, withReuseIdentifier: menuLengthIdentifier)
     }
     
-    func set(data: DataTableContent, headerTitles: [String], options: DataTableConfiguration? = nil){
+    func set(data: DataTableContent, headerTitles: [String], options: DataTableConfiguration? = nil, shouldReplaceLayout: Bool = false){
         self.dataStructure = DataStructureModel(data: data, headerTitles: headerTitles)
         self.createDataCellViewModels(with: self.dataStructure)
-        self.layout = SwiftDataTableFlowLayout(dataTable: self)
         self.calculateColumnWidths()
         self.applyOptions(options)
+        if(shouldReplaceLayout){
+            self.layout = SwiftDataTableFlowLayout(dataTable: self)
+        }
+        
     }
     
     func applyOptions(_ options: DataTableConfiguration?){
@@ -313,9 +316,11 @@ public class SwiftDataTable: UIView {
         for index in 0..<numberOfRows {
             data.append(self.dataSource.dataTable(self, dataForRowAt: index))
         }
+        
+        self.layout?.clearLayoutCache()
+        self.collectionView.resetScrollPositionToTop()
         self.set(data: data, headerTitles: headerTitles, options: self.options)
-        self.collectionView.collectionViewLayout.invalidateLayout()
-        self.update()
+        self.collectionView.reloadData()
     }
 }
 
