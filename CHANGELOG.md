@@ -1,15 +1,11 @@
 # Change Log
 
-## [Unreleased](https://github.com/pavankataria/SwiftDataTables/tree/HEAD)
-
-[Full Changelog](https://github.com/pavankataria/SwiftDataTables/compare/0.5.0...HEAD)
+## [0.5.0](https://github.com/pavankataria/SwiftDataTables/tree/0.5.0) (2017-04-06)
+[Full Changelog](https://github.com/pavankataria/SwiftDataTables/compare/0.4.3...0.5.0)
 
 **Merged pull requests:**
 
 - Implements Data Source [\#7](https://github.com/pavankataria/SwiftDataTables/pull/7) ([pavankataria](https://github.com/pavankataria))
-
-## [0.5.0](https://github.com/pavankataria/SwiftDataTables/tree/0.5.0) (2017-04-05)
-[Full Changelog](https://github.com/pavankataria/SwiftDataTables/compare/0.4.3...0.5.0)
 
 ## [0.4.3](https://github.com/pavankataria/SwiftDataTables/tree/0.4.3) (2017-03-22)
 [Full Changelog](https://github.com/pavankataria/SwiftDataTables/compare/0.4.2...0.4.3)
