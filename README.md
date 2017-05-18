@@ -23,6 +23,7 @@ https://img.shields.io/cocoapods/p/SwiftDataTables.svg
 + Swift 3
 
 <br>
+
 ## Installation
 
 #### <img src="https://dl.dropboxusercontent.com/u/11377305/resources/cocoapods.png" width="23" height="23"> [CocoaPods]
@@ -49,7 +50,9 @@ To run the example project do the following:
 5. Build and Run.
 
 If you have any questions or wish to make any suggestions, please open an issue with the appropriate label, and I'll get back to you right away. Thank you
+
 <br> 
+
 ## Author
 
 Pavan Kataria
