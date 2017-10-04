@@ -22,11 +22,9 @@ https://img.shields.io/cocoapods/p/SwiftDataTables.svg
 + Xcode 8
 + Swift 3
 
-<br>
-
 ## Installation
 
-#### <img src="https://dl.dropboxusercontent.com/u/11377305/resources/cocoapods.png" width="23" height="23"> [CocoaPods]
+#### <img src="https://koenig-media.raywenderlich.com/uploads/2015/04/twitter-icon.png" width="23" height="23"> [CocoaPods]
 
 [CocoaPods]: http://cocoapods.org
 
@@ -37,8 +35,6 @@ pod "SwiftDataTables"
 ```
 
 Then run `pod install` with CocoaPods 1.1.0.beta.1 or newer.
-
-<br>
 
 ## Demo Project Included
 
@@ -51,13 +47,9 @@ To run the example project do the following:
 
 If you have any questions or wish to make any suggestions, please open an issue with the appropriate label, and I'll get back to you right away. Thank you
 
-<br> 
-
 ## Author
 
 Pavan Kataria
-
-<br>
 
 ## Contributing
 
@@ -68,8 +60,6 @@ Pavan Kataria
 5. Publish the branch (`git push origin my-new-feature`)
 6. Create a new Pull Request
 7. Thank you! :white_check_mark:
-
-<br>
 
 Who is using it
 ---------------
@@ -82,8 +72,6 @@ WeShop - Make shopping on the go a joy with the WeShop App. Compare millions of 
 
 SwiftDataTables is available under the MIT license. See the LICENSE file for more info.
 This package was inspired by JQuery's DataTables plugin.
-
-<br>
 
 ## Follow us
 
