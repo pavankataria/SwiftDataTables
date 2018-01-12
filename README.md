@@ -18,9 +18,20 @@ https://img.shields.io/cocoapods/p/SwiftDataTables.svg
 
 ## Requirements
 
-+ iOS 8.0+
-+ Xcode 8
++ iOS 8.0 - iOS 11+
++ Xcode 9
 + Swift 3
+
+## Examples
+
+If you want to try it, simply run:
+```
+pod try SwiftDataTables
+```
+Or clone the repo and run `pod install` from the Example directory first. 
+Then with open the workspace file `SwiftDataTables.xcworkspace`, and build & run the app.
+
+If you have any questions or wish to make any suggestions, please open an issue with the appropriate label, and I'll get back to you right away. Thank you
 
 ## Installation
 
@@ -35,18 +46,6 @@ pod "SwiftDataTables"
 ```
 
 Then run `pod install` with CocoaPods 1.1.0.beta.1 or newer.
-
-
-## Examples
-
-If you want to try it, simply run:
-```
-pod try SwiftDataTables
-```
-Or clone the repo and run `pod install` from the Example directory first. 
-Then with open the workspace file `SwiftDataTables.xcworkspace`, and build & run the app.
-
-If you have any questions or wish to make any suggestions, please open an issue with the appropriate label, and I'll get back to you right away. Thank you
 
 ## Author
 
