@@ -29,7 +29,7 @@ If you want to try it, simply run:
 pod try SwiftDataTables
 ```
 Or clone the repo and run `pod install` from the Example directory first. 
-Then with open the workspace file `SwiftDataTables.xcworkspace`, and build & run the app.
+Then open the workspace file `SwiftDataTables.xcworkspace`, and build & run the app.
 
 If you have any questions or wish to make any suggestions, please open an issue with the appropriate label, and I'll get back to you right away. Thank you
 
