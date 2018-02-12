@@ -7,7 +7,7 @@ https://img.shields.io/cocoapods/p/SwiftDataTables.svg
 [![Swift Version](https://img.shields.io/badge/%20%20Swift%20Version%20%20-3.0-brightgreen.svg?style=flat)](http://cocoapods.org/pods/SwiftDataTables) <!--[![GitHub issues](https://img.shields.io/github/issues/pavankataria/SwiftDataTables.svg)](https://github.com/pavankataria/SwiftDataTables/issues)--> [![License](https://img.shields.io/badge/%20%20license%20%20-MIT-brightgreen.svg?style=flat)](http://cocoapods.org/pods/SwiftDataTables)
 [![Version](https://img.shields.io/cocoapods/v/SwiftDataTables.svg?style=flat)](http://cocoapods.org/pods/SwiftDataTables)
 [![CocoaPodsDL](https://img.shields.io/cocoapods/dt/SwiftDataTables.svg)](https://cocoapods.org/pods/SwiftDataTables)
-
+[![Carthage compatible](https://img.shields.io/badge/Carthage-Compatible-brightgreen.svg?style=flat)](https://github.com/Carthage/Carthage)
 
 ## About
 
@@ -35,6 +35,8 @@ If you have any questions or wish to make any suggestions, please open an issue 
 
 ## Installation
 
+### Using Cocoapods
+
 #### <img src="https://koenig-media.raywenderlich.com/uploads/2015/04/twitter-icon.png" width="23" height="23"> [CocoaPods]
 
 [CocoaPods]: http://cocoapods.org
@@ -46,6 +48,25 @@ pod "SwiftDataTables"
 ```
 
 Then run `pod install` with CocoaPods 1.1.0.beta.1 or newer.
+
+
+### Using Carthage
+
+You can install Carthage with [Homebrew](http://brew.sh/) using the following command:
+
+```bash
+$ brew update
+$ brew install carthage
+```
+
+To integrate SwiftDataTables into your Xcode project using Carthage, specify it in your `Cartfile`:
+
+```ogdl
+github "pavankataria/SwiftDataTables"
+```
+
+Run `carthage update` to build the framework and drag the built `SwiftDataTables.framework` into your Xcode project.
+
 
 ## Author
 
