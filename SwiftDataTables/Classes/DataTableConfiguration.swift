@@ -20,7 +20,6 @@ public struct DataTableColumnOrder {
 }
 public struct DataTableConfiguration {
     public var defaultOrdering: DataTableColumnOrder? = nil
-    public var shouldShowFooter: Bool = true
     public init(){
         
     }

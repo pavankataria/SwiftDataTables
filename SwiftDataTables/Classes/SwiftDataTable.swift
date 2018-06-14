@@ -93,6 +93,7 @@ public class SwiftDataTable: UIView {
         collectionView.backgroundColor = UIColor.clear
         collectionView.allowsMultipleSelection = true
         collectionView.dataSource = self
+        collectionView.delegate = self
         if #available(iOS 10, *) {
             collectionView.isPrefetchingEnabled = false
         }
@@ -105,11 +106,11 @@ public class SwiftDataTable: UIView {
     public override func layoutSubviews() {
         super.layoutSubviews()
         let searchBarHeight = self.heightForSearchView()
-        self.searchBar.frame = CGRect(x: 0, y: 0, width: self.bounds.width, height: searchBarHeight)
-        self.collectionView.frame = CGRect(x: 0, y: searchBarHeight, width: self.bounds.width, height: self.bounds.height-searchBarHeight)
+        self.searchBar.frame = CGRect.init(x: 0, y: 0, width: self.bounds.width, height: searchBarHeight)
+        self.collectionView.frame = CGRect.init(x: 0, y: searchBarHeight, width: self.bounds.width, height: self.bounds.height-searchBarHeight)
     }
     
-    fileprivate(set) var layout: SwiftDataTableLayout? = nil {
+    fileprivate(set) var layout: SwiftDataTableFlowLayout? = nil {
         didSet {
             if let layout = layout {
                 self.collectionView.collectionViewLayout = layout
@@ -217,7 +218,7 @@ public class SwiftDataTable: UIView {
     func registerObservers(){
         NotificationCenter.default.addObserver(self, selector: #selector(deviceOrientationWillChange), name: Notification.Name.UIApplicationWillChangeStatusBarOrientation, object: nil)
     }
-    @objc func deviceOrientationWillChange() {
+    func deviceOrientationWillChange() {
         self.layout?.clearLayoutCache()
     }
     
@@ -248,7 +249,7 @@ public class SwiftDataTable: UIView {
         self.calculateColumnWidths()
         self.applyOptions(options)
         if(shouldReplaceLayout){
-            self.layout = SwiftDataTableLayout(dataTable: self)
+            self.layout = SwiftDataTableFlowLayout(dataTable: self)
         }
         
     }
@@ -372,6 +373,8 @@ public extension SwiftDataTable {
     //    }
 }
 
+extension SwiftDataTable: UICollectionViewDelegateFlowLayout {
+}
 
 
 extension SwiftDataTable: UICollectionViewDataSource {
@@ -624,9 +627,7 @@ extension SwiftDataTable {
     func shouldShowSearchSection() -> Bool {
         return true
     }
-    func shouldShowFooterSection() -> Bool {
-        return self.options.shouldShowFooter
-    }
+    
     func shouldShowPaginationSection() -> Bool {
         return false
     }
@@ -677,7 +678,7 @@ extension SwiftDataTable {
     }
     
     func minimumHeaderColumnWidth(index: Int) -> CGFloat {
-        return CGFloat(self.pixelsPerCharacter() * CGFloat(self.dataStructure.headerTitles[index].count))
+        return CGFloat(self.pixelsPerCharacter() * CGFloat(self.dataStructure.headerTitles[index].characters.count))
     }
     
     //There should be an automated way to retrieve the font size of the cell
@@ -818,7 +819,7 @@ extension SwiftDataTable: UISearchBarDelegate {
 
 extension SwiftDataTable {
     func set(options: DataTableConfiguration? = nil){
-        self.layout = SwiftDataTableLayout(dataTable: self)
+        self.layout = SwiftDataTableFlowLayout(dataTable: self)
         self.rowViewModels = DataTableViewModelContent()
         self.paginationViewModel = PaginationHeaderViewModel()
         self.menuLengthViewModel = MenuLengthHeaderViewModel()
