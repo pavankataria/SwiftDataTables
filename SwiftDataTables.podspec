@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SwiftDataTables'
-  s.version          = '0.5.3'
+  s.version          = '0.6.0'
   s.summary          = 'A Swift Data Table package that allows ordering, searching, and paging with extensible options.'
 
 # This description is used to generate tags and improve search results.
@@ -21,7 +21,7 @@ Pod::Spec.new do |s|
 
 
   s.homepage         = 'https://github.com/pavankataria/SwiftDataTables'
-  # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
+  # s.screenshots     = 'https://github.com/pavankataria/SwiftDataTables/raw/master/Example/SwiftDataTables-Preview.gif'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'pavankataria' => 'info@pavankataria.com' }
   s.source           = { :git => 'https://github.com/pavankataria/SwiftDataTables.git', :tag => s.version.to_s }

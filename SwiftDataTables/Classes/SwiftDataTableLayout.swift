@@ -1,5 +1,5 @@
 //
-//  SwiftDataTableFlowLayout.swift
+//  SwiftDataTableLayout.swift
 //  SwiftDataTables
 //
 //  Created by Pavan Kataria on 21/02/2017.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SwiftDataTableFlowLayout: UICollectionViewFlowLayout {
+class SwiftDataTableLayout: UICollectionViewLayout {
     
     //MARK: - Properties
     fileprivate(set) open var dataTable: SwiftDataTable!
@@ -43,8 +43,6 @@ class SwiftDataTableFlowLayout: UICollectionViewFlowLayout {
             return
         }
         self.dataTable.calculateColumnWidths()
-        //let methodStart = Date()
-
         var xOffsets = [CGFloat]()
         var yOffsets = [CGFloat]()
         
@@ -68,9 +66,10 @@ class SwiftDataTableFlowLayout: UICollectionViewFlowLayout {
         
         
         //Item equals the current item in the row
-        for item in Array(0..<self.dataTable.numberOfColumns()) {
-            let width = self.dataTable.widthForColumn(index: item)
-            for row in Array(0..<self.dataTable.numberOfRows()){
+        for row in Array(0..<self.dataTable.numberOfRows()){
+            for item in Array(0..<self.dataTable.numberOfColumns()) {
+                let width = self.dataTable.widthForColumn(index: item)
+
                 let indexPath = IndexPath(item: item, section: row)
                 //Should this method call be used or is keeping an array of row heights more efficcient?
                 let height = self.dataTable.heightForRow(index: row)
@@ -82,27 +81,28 @@ class SwiftDataTableFlowLayout: UICollectionViewFlowLayout {
                 cache.append(attributes)
             }
         }
-        //let methodFinish = Date()
-        //let executionTime = methodFinish.timeIntervalSince(methodStart)
-//        print("Prepare method: exec-time: \(executionTime)")
-        
-        self.collectionView?.scrollIndicatorInsets = UIEdgeInsets(
-            top: self.dataTable.shouldSectionHeadersFloat() ? self.dataTable.heightForSectionHeader()/* + self.dataTable.heightForSearchView()*/: 0,
-            left: 0,
-            bottom: self.dataTable.shouldSectionFootersFloat() ? self.dataTable.heightForSectionFooter() + self.dataTable.heightForPaginationView() : 0,
-            right: 0
-        )
         self.calculateScrollBarIndicators()
     }
     
+    fileprivate func heightOfFooter() -> CGFloat {
+        return self.dataTable.shouldShowFooterSection() == false ? 0 : self.dataTable.shouldSectionFootersFloat() ? self.dataTable.heightForSectionFooter() + self.dataTable.heightForPaginationView() : 0
+    }
+    
     func calculateScrollBarIndicators(){
+        let bottomPadding = heightOfFooter()
+        self.collectionView?.scrollIndicatorInsets = UIEdgeInsets(
+            top: self.dataTable.shouldSectionHeadersFloat() ? self.dataTable.heightForSectionHeader()/* + self.dataTable.heightForSearchView()*/: 0,
+            left: 0,
+            bottom: bottomPadding,
+            right: 0
+        )
         self.collectionView?.showsVerticalScrollIndicator = self.dataTable.showVerticalScrollBars()
         self.collectionView?.showsHorizontalScrollIndicator = self.dataTable.showHorizontalScrollBars()
     }
     
     override var collectionViewContentSize: CGSize {
         let width = self.dataTable.calculateContentWidth()
-        let height = Array(0..<self.dataTable.numberOfRows()).reduce(self.dataTable.heightForSectionHeader() + self.dataTable.heightForSectionFooter() + self.dataTable.heightForPaginationView()/* + self.dataTable.heightForSearchView()*/) {
+        let height = Array(0..<self.dataTable.numberOfRows()).reduce(self.dataTable.heightForSectionHeader() + self.heightOfFooter()/* + self.dataTable.heightForSearchView()*/) {
                 $0 + self.dataTable.heightForRow(index: $1) + self.dataTable.heightOfInterRowSpacing()
         }
         return CGSize(width: width, height: height)
@@ -111,8 +111,18 @@ class SwiftDataTableFlowLayout: UICollectionViewFlowLayout {
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
 
         //Item Cells
-        var attributes = self.cache.filter{ $0.frame.intersects(rect) }
-
+        let minY = rect.minY-rect.height
+        var attributes = [UICollectionViewLayoutAttributes]()
+//
+        let firstMatchIndex = binarySearchAttributes(self.cache, value: minY)
+        for att in self.cache[..<firstMatchIndex].reversed() {
+            guard att.frame.maxY >= rect.minY else { break }
+            attributes.append(att)
+        }
+        for att in self.cache[firstMatchIndex...] {
+            guard att.frame.minY <= rect.maxY else { break }
+            attributes.append(att)
+        }
 //        //MARK: Search Header
 //        if self.dataTable.shouldShowSearchSection(){
 //            let menuLengthIndexPath = IndexPath(index: 0)
@@ -131,10 +141,12 @@ class SwiftDataTableFlowLayout: UICollectionViewFlowLayout {
         }
         
         //MARK: Column Footers
-        for i in 0..<self.dataTable.numberOfFooterColumns() {
-            let footerIndexPath = IndexPath(index: i)
-            if let footerAttributes = self.layoutAttributesForSupplementaryView(ofKind: SwiftDataTable.SupplementaryViewType.footerHeader.rawValue, at: footerIndexPath){
-                attributes.append(footerAttributes)
+        if self.dataTable.shouldShowFooterSection() {
+            for i in 0..<self.dataTable.numberOfFooterColumns() {
+                let footerIndexPath = IndexPath(index: i)
+                if let footerAttributes = self.layoutAttributesForSupplementaryView(ofKind: SwiftDataTable.SupplementaryViewType.footerHeader.rawValue, at: footerIndexPath){
+                    attributes.append(footerAttributes)
+                }
             }
         }
         
@@ -158,7 +170,7 @@ class SwiftDataTableFlowLayout: UICollectionViewFlowLayout {
 }
 
 //MARK: - Layout Attributes For Elements And Supplmentary Views
-extension SwiftDataTableFlowLayout {
+extension SwiftDataTableLayout {
     override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
         let initialRowYPosition = /*self.dataTable.heightForSearchView() + */self.dataTable.heightForSectionHeader()
@@ -294,51 +306,25 @@ extension SwiftDataTableFlowLayout {
             attribute.frame.origin.y = yOffsetBottomView
             attribute.zIndex += 1
         }
-        
         return attribute
     }
+    
+//    private func binarySearch<T: Comparable>(array: Array<T>, value:T) -> Int{
+    private func binarySearchAttributes(_ attributes: [UICollectionViewLayoutAttributes], value: CGFloat) -> Int {
+        
+        var imin = 0, imax = attributes.count
+        while imin < imax {
+            let imid = imin + (imax - imin)/2
+            
+            if attributes[imid].frame.minY < value {
+                imin = imid+1
+            }
+            else {
+                imax = imid
+            }
+        }
+        return imin
+    }
+
 }
 
-//MARK: -  Insertions and deletions
-//extension SwiftDataTableFlowLayout {
-//    override func prepare(forCollectionViewUpdates updateItems: [UICollectionViewUpdateItem]) {
-//        super.prepare(forCollectionViewUpdates: updateItems)
-//        
-//        self.insertedIndexPaths     = NSMutableArray()
-//        self.removedIndexPaths      = NSMutableArray()
-//        self.insertedSectionIndices = NSMutableArray()
-//        self.removedSectionIndices  = NSMutableArray()
-//        
-//        for (index, updateItem) in updateItems.enumerated() {
-//            switch updateItem.updateAction {
-//            case .insert:
-//                guard let indexPathAfterUpdate = updateItem.indexPathAfterUpdate else {
-//                    break
-//                }
-//                if indexPathAfterUpdate.item == NSNotFound {
-//                    self.insertedSectionIndices.add(NSNumber(value: indexPathAfterUpdate.section))
-//                }
-//                else {
-//                    self.insertedIndexPaths.add(indexPathAfterUpdate)
-//                }
-//            case .delete:
-//                guard let indexPathBeforeUpdate = updateItem.indexPathBeforeUpdate else {
-//                    break
-//                }
-//                if indexPathBeforeUpdate.item == NSNotFound {
-//                    self.removedSectionIndices.add(NSNumber(value: indexPathBeforeUpdate.section))
-//                }
-//                else {
-//                    self.removedIndexPaths.add(indexPathBeforeUpdate)
-//                }
-//            default:
-//                break
-//            }
-//        }
-//        
-//        print("insertedIndexPaths: \(self.insertedIndexPaths)")
-//        print("removedIndexPaths: \(self.removedIndexPaths)")
-//        print("insertedSectionIndices: \(self.insertedSectionIndices)")
-//        print("removedSectionIndices: \(self.removedSectionIndices)")
-//    }
-//}

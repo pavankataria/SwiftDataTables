@@ -1,0 +1,949 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		031FBC727BE4D1D666B30200B90CBB68 /* DataCellRowRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FE72BE6169B142A0E009D060BDFB1F9 /* DataCellRowRepresentable.swift */; };
+		04E67A60A59D89EDD0FA3954807BACA2 /* Pods-SwiftDataTables_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 384C6C6A4148C520C98D0600D7393727 /* Pods-SwiftDataTables_Example-dummy.m */; };
+		052F6C7A88022A11EFA12C83A3A27C8C /* SwiftDataTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7A08D7AAC7ED3073250FB264C31888 /* SwiftDataTable.swift */; };
+		0678BE3339C5759D29CA16B60B227E50 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
+		0CA82A50ECFAC3D58FCD89C156835FDD /* DataTableSortable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CFB39CA20F49AD0D69D1783F998A088 /* DataTableSortable.swift */; };
+		0F26306004341AD9FEE31748629DBB7B /* DataStructureModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3891027CF8EA96DF03B4AD26DE7771F2 /* DataStructureModel.swift */; };
+		13477E57A0D48F7D632943BFD4C32F9C /* DataTableSearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9F74A75FCEEBCEB1FCBF4CCAC05933 /* DataTableSearchTextField.swift */; };
+		13DC5749947421DFD00ECF07EDF28D52 /* SwiftDataTables-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 0AEBE0640FBAC21A77B84F863C096779 /* SwiftDataTables-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1E6050708BB90851544DD1982E0E8068 /* PaginationHeader.xib in Sources */ = {isa = PBXBuildFile; fileRef = 0A61CC27A515E5410E39AC1213C3335D /* PaginationHeader.xib */; };
+		201A03AB548D0FCC6C74991821E2A4EE /* DataCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5448D76AA0E2C4D91FEFA320DE1580C7 /* DataCellViewModel.swift */; };
+		23E1FF0A634F5873C0CE5152C7D64B2D /* column-sort-descending.png in Sources */ = {isa = PBXBuildFile; fileRef = 408D9D26AF5FC547E0B56DABA569BD6A /* column-sort-descending.png */; };
+		25AA98F7EF1F972D51683FAD5167404B /* CollectionViewCellRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C487D342698BF6153F627EF1CF4397D /* CollectionViewCellRepresentable.swift */; };
+		2FBD0B481310EAC7E945B7E6ADC2BD6B /* CollectionViewSupplementaryElementRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA787AC36180AF6531916069B681578F /* CollectionViewSupplementaryElementRepresentable.swift */; };
+		3BB91B74ACE68C5880CE7F647FE9A45A /* DataTableSortType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417153628F679B310D45FF8821E47CB8 /* DataTableSortType.swift */; };
+		46A8AF3D1F795645EEB75340B8476CFE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
+		4C0CCCBA6A0BDE6D26DCF38BF8AB5F47 /* MenuLengthHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7803F75FAAC2B457AAC1B6CCAB00501 /* MenuLengthHeaderViewModel.swift */; };
+		5591C3B097F7F357A07A2210DC427B78 /* VirtualPositionTrackable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20194A9F58CA748CA4D6336CFA20F1D5 /* VirtualPositionTrackable.swift */; };
+		5C6A4AF70D01EE4EE6579C5F5B01718F /* SwiftDataTables-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 13BB4B69683AD40BBC9E00A909F24170 /* SwiftDataTables-dummy.m */; };
+		687712BFB353D8BDC08E7CE1F089A761 /* Pods-SwiftDataTables_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 5277C1C4F649828D9CEE62AF4D307B53 /* Pods-SwiftDataTables_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		69CDB64EB9B9225B0CB08B3E345DC3E2 /* PaginationHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E47AB0B7F0FAA68C628DB4D10A767208 /* PaginationHeader.swift */; };
+		73ED7945DE34869F021F0ABCDA39FD5D /* Pods-SwiftDataTables_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = A4A7D10DFC80274683FA6D5D7CB30045 /* Pods-SwiftDataTables_Tests-dummy.m */; };
+		7745AEDB7DCE0BF64FC316EF01F5FDC8 /* DataHeaderFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DFC5500E4090D0706D9FBF22DE714AE /* DataHeaderFooter.swift */; };
+		79135FB2CDAC3B0F85985478BF9E6C5E /* MenuLengthHeader.xib in Sources */ = {isa = PBXBuildFile; fileRef = 484A80B8C4086905506DC73494D1A1AC /* MenuLengthHeader.xib */; };
+		7B354B776644B60E3B662E0AE4503364 /* DataHeaderFooter.xib in Sources */ = {isa = PBXBuildFile; fileRef = C547268A847B0F6578BC43AA6035EDEB /* DataHeaderFooter.xib */; };
+		7B85D7F62EACA7E7914202CBD79E9045 /* SwiftDataTableLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1A9A781C2759AA09F67FF9E831E28C /* SwiftDataTableLayout.swift */; };
+		89CFE050739D961DE59C2351EA5D5C0D /* DataCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A7F5AA106C24A4C324630AB3153A11 /* DataCell.swift */; };
+		93B72955935B8311011D312B70B29587 /* DataTableConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C513F8F7D3AF14B53395329CC1BC717 /* DataTableConfiguration.swift */; };
+		9BE7C5D14A7F34235DE1EDBD793FEFF9 /* column-sort-unspecified.png in Sources */ = {isa = PBXBuildFile; fileRef = 18F48F719F672BBE88946597FC085475 /* column-sort-unspecified.png */; };
+		9FFFE412250C4C1CB205AC82D400373E /* DataHeaderFooterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7849C22683C87EFCE483F963199F790 /* DataHeaderFooterViewModel.swift */; };
+		A1A31487481989BB20B27665BE33A849 /* DataTableValueType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C3A8D70412333ADCA0C556A37BBD2E9 /* DataTableValueType.swift */; };
+		AADE9EDF7E65478F3AE383AD9965A79D /* column-sort-ascending.png in Sources */ = {isa = PBXBuildFile; fileRef = 9131FFD952A77A0A786CEC19863B82F1 /* column-sort-ascending.png */; };
+		BD04BD22D99AD0D57BD28E0D3ECBE4F6 /* DataCell.xib in Sources */ = {isa = PBXBuildFile; fileRef = 0A0D6DF7F9E8BD382C49263C129AE2B0 /* DataCell.xib */; };
+		C18134F7C0F58091AC9EA05ECEA44E6F /* Pods-SwiftDataTables_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 3CC4698961C3BFC187A9932973FDBA01 /* Pods-SwiftDataTables_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C2E790EBC650C4FBEE54985C6796FF44 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
+		C5EA480EE9FFC4EBCE40E52B4441ABF9 /* PaginationHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2DFA4FB74F829DD41516A6055D34356 /* PaginationHeaderViewModel.swift */; };
+		C6640C67E1DFCF79209C6EF99CF0BD97 /* DataCellLayoutAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D73D1CA090A45620F358543E012989 /* DataCellLayoutAttributes.swift */; };
+		CB9DB5650E450DAF81B6537BEC7EE76C /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4B809DC64BDD532758D5941A35282CA /* DataStore.swift */; };
+		D02F1040BF43FD32C367AEA80CD5C188 /* SwiftDataTables.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CB47419BD67308B44125C1E3E3083961 /* SwiftDataTables.bundle */; };
+		E2578092167EADA6CA8B17659F388195 /* MenuLengthHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31A5062BE86488A9A50643B1191BB1C2 /* MenuLengthHeader.swift */; };
+		F9F8F33E84A48E91800182DBEF0A87FC /* SwiftDataTable+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB6A085A60F2ABFD0A22B1D15214059B /* SwiftDataTable+Extensions.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		24B7DB8EA90296E371C09B7637B33DDD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E3CFE72A7C3BEAB4AFEA8B37BAF38809;
+			remoteInfo = SwiftDataTables;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		01D73D1CA090A45620F358543E012989 /* DataCellLayoutAttributes.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataCellLayoutAttributes.swift; sourceTree = "<group>"; };
+		026CC3068F40BE2D05647A2410B36B3B /* Pods-SwiftDataTables_Tests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SwiftDataTables_Tests-resources.sh"; sourceTree = "<group>"; };
+		0A0D6DF7F9E8BD382C49263C129AE2B0 /* DataCell.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; path = DataCell.xib; sourceTree = "<group>"; };
+		0A61CC27A515E5410E39AC1213C3335D /* PaginationHeader.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; path = PaginationHeader.xib; sourceTree = "<group>"; };
+		0AEBE0640FBAC21A77B84F863C096779 /* SwiftDataTables-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftDataTables-umbrella.h"; sourceTree = "<group>"; };
+		0CA35274C244CFCEABBF8BBA51585F9A /* SwiftDataTables.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftDataTables.xcconfig; sourceTree = "<group>"; };
+		0F9F74A75FCEEBCEB1FCBF4CCAC05933 /* DataTableSearchTextField.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataTableSearchTextField.swift; sourceTree = "<group>"; };
+		0FE72BE6169B142A0E009D060BDFB1F9 /* DataCellRowRepresentable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataCellRowRepresentable.swift; sourceTree = "<group>"; };
+		1037553484562CE309A3013538712A90 /* Pods_SwiftDataTables_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwiftDataTables_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		13BB4B69683AD40BBC9E00A909F24170 /* SwiftDataTables-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SwiftDataTables-dummy.m"; sourceTree = "<group>"; };
+		15D74D4F308C07A9FF50DFDA2A0736D9 /* Pods-SwiftDataTables_Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-SwiftDataTables_Example.modulemap"; sourceTree = "<group>"; };
+		18B3638F5AD13E6EBCB7FBA837D1D5AD /* Pods-SwiftDataTables_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-SwiftDataTables_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
+		18F48F719F672BBE88946597FC085475 /* column-sort-unspecified.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "column-sort-unspecified.png"; sourceTree = "<group>"; };
+		1CFB39CA20F49AD0D69D1783F998A088 /* DataTableSortable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataTableSortable.swift; sourceTree = "<group>"; };
+		20194A9F58CA748CA4D6336CFA20F1D5 /* VirtualPositionTrackable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = VirtualPositionTrackable.swift; sourceTree = "<group>"; };
+		2212E7284291A93CCF185B4B441B833B /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2DFC5500E4090D0706D9FBF22DE714AE /* DataHeaderFooter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataHeaderFooter.swift; sourceTree = "<group>"; };
+		31A5062BE86488A9A50643B1191BB1C2 /* MenuLengthHeader.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MenuLengthHeader.swift; sourceTree = "<group>"; };
+		33462704076851C1B758B976F53B9A0C /* Pods-SwiftDataTables_Example-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SwiftDataTables_Example-frameworks.sh"; sourceTree = "<group>"; };
+		384C6C6A4148C520C98D0600D7393727 /* Pods-SwiftDataTables_Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-SwiftDataTables_Example-dummy.m"; sourceTree = "<group>"; };
+		3891027CF8EA96DF03B4AD26DE7771F2 /* DataStructureModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataStructureModel.swift; sourceTree = "<group>"; };
+		3CC4698961C3BFC187A9932973FDBA01 /* Pods-SwiftDataTables_Tests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-SwiftDataTables_Tests-umbrella.h"; sourceTree = "<group>"; };
+		3F1A9A781C2759AA09F67FF9E831E28C /* SwiftDataTableLayout.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SwiftDataTableLayout.swift; sourceTree = "<group>"; };
+		3FCF927BF691F6711D8A34DA24DE0727 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		408D9D26AF5FC547E0B56DABA569BD6A /* column-sort-descending.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "column-sort-descending.png"; sourceTree = "<group>"; };
+		417153628F679B310D45FF8821E47CB8 /* DataTableSortType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataTableSortType.swift; sourceTree = "<group>"; };
+		484A80B8C4086905506DC73494D1A1AC /* MenuLengthHeader.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; path = MenuLengthHeader.xib; sourceTree = "<group>"; };
+		4AF636A6C261B4B22000184FC87CE66A /* Pods-SwiftDataTables_Example-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SwiftDataTables_Example-resources.sh"; sourceTree = "<group>"; };
+		4C0A5FB57FFFD4B5C20CE6DBE5E49E2C /* SwiftDataTables-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftDataTables-prefix.pch"; sourceTree = "<group>"; };
+		5277C1C4F649828D9CEE62AF4D307B53 /* Pods-SwiftDataTables_Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-SwiftDataTables_Example-umbrella.h"; sourceTree = "<group>"; };
+		5448D76AA0E2C4D91FEFA320DE1580C7 /* DataCellViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataCellViewModel.swift; sourceTree = "<group>"; };
+		61A7F5AA106C24A4C324630AB3153A11 /* DataCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataCell.swift; sourceTree = "<group>"; };
+		6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		6C3A8D70412333ADCA0C556A37BBD2E9 /* DataTableValueType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataTableValueType.swift; sourceTree = "<group>"; };
+		77FCE7AAEC3AB0B69D0D0F1E47526A55 /* Pods-SwiftDataTables_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SwiftDataTables_Example.debug.xcconfig"; sourceTree = "<group>"; };
+		7C487D342698BF6153F627EF1CF4397D /* CollectionViewCellRepresentable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CollectionViewCellRepresentable.swift; sourceTree = "<group>"; };
+		7C513F8F7D3AF14B53395329CC1BC717 /* DataTableConfiguration.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataTableConfiguration.swift; sourceTree = "<group>"; };
+		80EFFBC331D7B75C7689F478B728663E /* Pods-SwiftDataTables_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SwiftDataTables_Example.release.xcconfig"; sourceTree = "<group>"; };
+		86C31390A6D99B60A5D28F7BF13FB249 /* Pods-SwiftDataTables_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SwiftDataTables_Tests.release.xcconfig"; sourceTree = "<group>"; };
+		9131FFD952A77A0A786CEC19863B82F1 /* column-sort-ascending.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "column-sort-ascending.png"; sourceTree = "<group>"; };
+		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9A707D5DA18A0996ADF3231840835908 /* Pods_SwiftDataTables_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwiftDataTables_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9C520E0139094370E530D4155DD50D34 /* SwiftDataTables.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftDataTables.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A2DFA4FB74F829DD41516A6055D34356 /* PaginationHeaderViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PaginationHeaderViewModel.swift; sourceTree = "<group>"; };
+		A4A7D10DFC80274683FA6D5D7CB30045 /* Pods-SwiftDataTables_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-SwiftDataTables_Tests-dummy.m"; sourceTree = "<group>"; };
+		A9497FD77AFF9D1079B44445D1536828 /* Pods-SwiftDataTables_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-SwiftDataTables_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
+		AE3FA8C289BB2B0213DFCD9351E770DC /* Pods-SwiftDataTables_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-SwiftDataTables_Tests.modulemap"; sourceTree = "<group>"; };
+		BA787AC36180AF6531916069B681578F /* CollectionViewSupplementaryElementRepresentable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CollectionViewSupplementaryElementRepresentable.swift; sourceTree = "<group>"; };
+		BC0FD0FEE4B07056B1C991A1EC970739 /* Pods-SwiftDataTables_Tests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SwiftDataTables_Tests-frameworks.sh"; sourceTree = "<group>"; };
+		C03D53F98EC1F8820E54DE9AE583010C /* SwiftDataTables.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = SwiftDataTables.modulemap; sourceTree = "<group>"; };
+		C4B809DC64BDD532758D5941A35282CA /* DataStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
+		C547268A847B0F6578BC43AA6035EDEB /* DataHeaderFooter.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; path = DataHeaderFooter.xib; sourceTree = "<group>"; };
+		C7803F75FAAC2B457AAC1B6CCAB00501 /* MenuLengthHeaderViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MenuLengthHeaderViewModel.swift; sourceTree = "<group>"; };
+		CB47419BD67308B44125C1E3E3083961 /* SwiftDataTables.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; name = SwiftDataTables.bundle; path = SwiftDataTables/SwiftDataTables.bundle; sourceTree = "<group>"; };
+		CB6A085A60F2ABFD0A22B1D15214059B /* SwiftDataTable+Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "SwiftDataTable+Extensions.swift"; sourceTree = "<group>"; };
+		D2C50F93E3FF19DF9139E95FCA488BA4 /* Pods-SwiftDataTables_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SwiftDataTables_Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		DB26733A19DEE294A032B66575C90AEA /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E47AB0B7F0FAA68C628DB4D10A767208 /* PaginationHeader.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PaginationHeader.swift; sourceTree = "<group>"; };
+		E7849C22683C87EFCE483F963199F790 /* DataHeaderFooterViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataHeaderFooterViewModel.swift; sourceTree = "<group>"; };
+		EC083CA7691E49596D895262F66C5B93 /* Pods-SwiftDataTables_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SwiftDataTables_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
+		F1E6C461F1C5604D58CFD9E8581D3A94 /* Pods-SwiftDataTables_Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SwiftDataTables_Example-acknowledgements.plist"; sourceTree = "<group>"; };
+		FF7A08D7AAC7ED3073250FB264C31888 /* SwiftDataTable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SwiftDataTable.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		5203177A10482D5BE9424CDDB4F41031 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				46A8AF3D1F795645EEB75340B8476CFE /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5E68A6F235EE759601917EF07DC47CCF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0678BE3339C5759D29CA16B60B227E50 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F5E4BA689643B148C134B90B9F6ED954 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C2E790EBC650C4FBEE54985C6796FF44 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		27FAFA31EB9F7BE9BAEA050F02406DCD /* Pods-SwiftDataTables_Example */ = {
+			isa = PBXGroup;
+			children = (
+				DB26733A19DEE294A032B66575C90AEA /* Info.plist */,
+				15D74D4F308C07A9FF50DFDA2A0736D9 /* Pods-SwiftDataTables_Example.modulemap */,
+				A9497FD77AFF9D1079B44445D1536828 /* Pods-SwiftDataTables_Example-acknowledgements.markdown */,
+				F1E6C461F1C5604D58CFD9E8581D3A94 /* Pods-SwiftDataTables_Example-acknowledgements.plist */,
+				384C6C6A4148C520C98D0600D7393727 /* Pods-SwiftDataTables_Example-dummy.m */,
+				33462704076851C1B758B976F53B9A0C /* Pods-SwiftDataTables_Example-frameworks.sh */,
+				4AF636A6C261B4B22000184FC87CE66A /* Pods-SwiftDataTables_Example-resources.sh */,
+				5277C1C4F649828D9CEE62AF4D307B53 /* Pods-SwiftDataTables_Example-umbrella.h */,
+				77FCE7AAEC3AB0B69D0D0F1E47526A55 /* Pods-SwiftDataTables_Example.debug.xcconfig */,
+				80EFFBC331D7B75C7689F478B728663E /* Pods-SwiftDataTables_Example.release.xcconfig */,
+			);
+			name = "Pods-SwiftDataTables_Example";
+			path = "Target Support Files/Pods-SwiftDataTables_Example";
+			sourceTree = "<group>";
+		};
+		3455B05AE5AF986A68BD1CB08855FB7A /* PaginationHeader */ = {
+			isa = PBXGroup;
+			children = (
+				E47AB0B7F0FAA68C628DB4D10A767208 /* PaginationHeader.swift */,
+				0A61CC27A515E5410E39AC1213C3335D /* PaginationHeader.xib */,
+				A2DFA4FB74F829DD41516A6055D34356 /* PaginationHeaderViewModel.swift */,
+			);
+			path = PaginationHeader;
+			sourceTree = "<group>";
+		};
+		3497F41B653122A5E34C8B38C4FE84DE /* SwiftDataTables */ = {
+			isa = PBXGroup;
+			children = (
+				EEEEFA0EEF56B425C0EB68B5FC584A07 /* Classes */,
+				A6DE4705556BF830B0759BBB8776A10E /* Resources */,
+				5BCF9FD33FE58ACD4A3533E756C0A6E1 /* Support Files */,
+				EDCF7DB638D577F1A2791692AFA7EDAD /* SwiftDataTables.bundle */,
+			);
+			name = SwiftDataTables;
+			path = ../..;
+			sourceTree = "<group>";
+		};
+		3A0E5737E1A9EACE754CEA0DBB92718D /* DataCell */ = {
+			isa = PBXGroup;
+			children = (
+				61A7F5AA106C24A4C324630AB3153A11 /* DataCell.swift */,
+				0A0D6DF7F9E8BD382C49263C129AE2B0 /* DataCell.xib */,
+				01D73D1CA090A45620F358543E012989 /* DataCellLayoutAttributes.swift */,
+				5448D76AA0E2C4D91FEFA320DE1580C7 /* DataCellViewModel.swift */,
+			);
+			path = DataCell;
+			sourceTree = "<group>";
+		};
+		572B06131F86ECB12447507EB9BE95A6 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				CB6A085A60F2ABFD0A22B1D15214059B /* SwiftDataTable+Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		5BCF9FD33FE58ACD4A3533E756C0A6E1 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				2212E7284291A93CCF185B4B441B833B /* Info.plist */,
+				C03D53F98EC1F8820E54DE9AE583010C /* SwiftDataTables.modulemap */,
+				0CA35274C244CFCEABBF8BBA51585F9A /* SwiftDataTables.xcconfig */,
+				13BB4B69683AD40BBC9E00A909F24170 /* SwiftDataTables-dummy.m */,
+				4C0A5FB57FFFD4B5C20CE6DBE5E49E2C /* SwiftDataTables-prefix.pch */,
+				0AEBE0640FBAC21A77B84F863C096779 /* SwiftDataTables-umbrella.h */,
+			);
+			name = "Support Files";
+			path = "Example/Pods/Target Support Files/SwiftDataTables";
+			sourceTree = "<group>";
+		};
+		7DB346D0F39D3F0E887471402A8071AB = {
+			isa = PBXGroup;
+			children = (
+				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
+				FE92849BE4F6EF908CB38E43B2CCB0A0 /* Development Pods */,
+				BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */,
+				BF3D0A2E35A9A4F129C10A8EC3A9C0C7 /* Products */,
+				8558C28D56B0F1833537529A4873189A /* Targets Support Files */,
+			);
+			sourceTree = "<group>";
+		};
+		8558C28D56B0F1833537529A4873189A /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				27FAFA31EB9F7BE9BAEA050F02406DCD /* Pods-SwiftDataTables_Example */,
+				9654D02CE6516AA89ECAC06B710F7969 /* Pods-SwiftDataTables_Tests */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		9654D02CE6516AA89ECAC06B710F7969 /* Pods-SwiftDataTables_Tests */ = {
+			isa = PBXGroup;
+			children = (
+				3FCF927BF691F6711D8A34DA24DE0727 /* Info.plist */,
+				AE3FA8C289BB2B0213DFCD9351E770DC /* Pods-SwiftDataTables_Tests.modulemap */,
+				18B3638F5AD13E6EBCB7FBA837D1D5AD /* Pods-SwiftDataTables_Tests-acknowledgements.markdown */,
+				EC083CA7691E49596D895262F66C5B93 /* Pods-SwiftDataTables_Tests-acknowledgements.plist */,
+				A4A7D10DFC80274683FA6D5D7CB30045 /* Pods-SwiftDataTables_Tests-dummy.m */,
+				BC0FD0FEE4B07056B1C991A1EC970739 /* Pods-SwiftDataTables_Tests-frameworks.sh */,
+				026CC3068F40BE2D05647A2410B36B3B /* Pods-SwiftDataTables_Tests-resources.sh */,
+				3CC4698961C3BFC187A9932973FDBA01 /* Pods-SwiftDataTables_Tests-umbrella.h */,
+				D2C50F93E3FF19DF9139E95FCA488BA4 /* Pods-SwiftDataTables_Tests.debug.xcconfig */,
+				86C31390A6D99B60A5D28F7BF13FB249 /* Pods-SwiftDataTables_Tests.release.xcconfig */,
+			);
+			name = "Pods-SwiftDataTables_Tests";
+			path = "Target Support Files/Pods-SwiftDataTables_Tests";
+			sourceTree = "<group>";
+		};
+		A1267313A34060C50C8466E2B3A83AAA /* MenuLengthHeader */ = {
+			isa = PBXGroup;
+			children = (
+				31A5062BE86488A9A50643B1191BB1C2 /* MenuLengthHeader.swift */,
+				484A80B8C4086905506DC73494D1A1AC /* MenuLengthHeader.xib */,
+				C7803F75FAAC2B457AAC1B6CCAB00501 /* MenuLengthHeaderViewModel.swift */,
+			);
+			path = MenuLengthHeader;
+			sourceTree = "<group>";
+		};
+		A6DE4705556BF830B0759BBB8776A10E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				CB47419BD67308B44125C1E3E3083961 /* SwiftDataTables.bundle */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		A7F4F9FC25B1CB379C7E8BD670DF4345 /* HeaderFooter */ = {
+			isa = PBXGroup;
+			children = (
+				2DFC5500E4090D0706D9FBF22DE714AE /* DataHeaderFooter.swift */,
+				C547268A847B0F6578BC43AA6035EDEB /* DataHeaderFooter.xib */,
+				E7849C22683C87EFCE483F963199F790 /* DataHeaderFooterViewModel.swift */,
+			);
+			path = HeaderFooter;
+			sourceTree = "<group>";
+		};
+		B2BA00D9319CA837B86C7378EF0B2B58 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				7C487D342698BF6153F627EF1CF4397D /* CollectionViewCellRepresentable.swift */,
+				BA787AC36180AF6531916069B681578F /* CollectionViewSupplementaryElementRepresentable.swift */,
+				0FE72BE6169B142A0E009D060BDFB1F9 /* DataCellRowRepresentable.swift */,
+				20194A9F58CA748CA4D6336CFA20F1D5 /* VirtualPositionTrackable.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D35AF013A5F0BAD4F32504907A52519E /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BF3D0A2E35A9A4F129C10A8EC3A9C0C7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9A707D5DA18A0996ADF3231840835908 /* Pods_SwiftDataTables_Example.framework */,
+				1037553484562CE309A3013538712A90 /* Pods_SwiftDataTables_Tests.framework */,
+				9C520E0139094370E530D4155DD50D34 /* SwiftDataTables.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D35AF013A5F0BAD4F32504907A52519E /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		EDCF7DB638D577F1A2791692AFA7EDAD /* SwiftDataTables.bundle */ = {
+			isa = PBXGroup;
+			children = (
+				9131FFD952A77A0A786CEC19863B82F1 /* column-sort-ascending.png */,
+				408D9D26AF5FC547E0B56DABA569BD6A /* column-sort-descending.png */,
+				18F48F719F672BBE88946597FC085475 /* column-sort-unspecified.png */,
+			);
+			name = SwiftDataTables.bundle;
+			path = SwiftDataTables/SwiftDataTables.bundle;
+			sourceTree = "<group>";
+		};
+		EEEEFA0EEF56B425C0EB68B5FC584A07 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				C4B809DC64BDD532758D5941A35282CA /* DataStore.swift */,
+				3891027CF8EA96DF03B4AD26DE7771F2 /* DataStructureModel.swift */,
+				7C513F8F7D3AF14B53395329CC1BC717 /* DataTableConfiguration.swift */,
+				0F9F74A75FCEEBCEB1FCBF4CCAC05933 /* DataTableSearchTextField.swift */,
+				1CFB39CA20F49AD0D69D1783F998A088 /* DataTableSortable.swift */,
+				417153628F679B310D45FF8821E47CB8 /* DataTableSortType.swift */,
+				6C3A8D70412333ADCA0C556A37BBD2E9 /* DataTableValueType.swift */,
+				FF7A08D7AAC7ED3073250FB264C31888 /* SwiftDataTable.swift */,
+				3F1A9A781C2759AA09F67FF9E831E28C /* SwiftDataTableLayout.swift */,
+				3A0E5737E1A9EACE754CEA0DBB92718D /* DataCell */,
+				572B06131F86ECB12447507EB9BE95A6 /* Extensions */,
+				A7F4F9FC25B1CB379C7E8BD670DF4345 /* HeaderFooter */,
+				A1267313A34060C50C8466E2B3A83AAA /* MenuLengthHeader */,
+				3455B05AE5AF986A68BD1CB08855FB7A /* PaginationHeader */,
+				B2BA00D9319CA837B86C7378EF0B2B58 /* Protocols */,
+			);
+			name = Classes;
+			path = SwiftDataTables/Classes;
+			sourceTree = "<group>";
+		};
+		FE92849BE4F6EF908CB38E43B2CCB0A0 /* Development Pods */ = {
+			isa = PBXGroup;
+			children = (
+				3497F41B653122A5E34C8B38C4FE84DE /* SwiftDataTables */,
+			);
+			name = "Development Pods";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		2088B95A042860FA554F033730639BCD /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				13DC5749947421DFD00ECF07EDF28D52 /* SwiftDataTables-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		645B375F15E5FF5BDFF6B39D2E2D88B0 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				687712BFB353D8BDC08E7CE1F089A761 /* Pods-SwiftDataTables_Example-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		695DDB39E57385E3CABD2746DAEA726F /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C18134F7C0F58091AC9EA05ECEA44E6F /* Pods-SwiftDataTables_Tests-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		35A7856F4E4D9B71B975A5AF937288AB /* Pods-SwiftDataTables_Example */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 57D0CEFE11F66987FB10E1E5D0ABC661 /* Build configuration list for PBXNativeTarget "Pods-SwiftDataTables_Example" */;
+			buildPhases = (
+				46258EB914A04B92B0685814CDFADF4B /* Sources */,
+				F5E4BA689643B148C134B90B9F6ED954 /* Frameworks */,
+				645B375F15E5FF5BDFF6B39D2E2D88B0 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				19E6054A7A4F8A46A17B8B46697B958E /* PBXTargetDependency */,
+			);
+			name = "Pods-SwiftDataTables_Example";
+			productName = "Pods-SwiftDataTables_Example";
+			productReference = 9A707D5DA18A0996ADF3231840835908 /* Pods_SwiftDataTables_Example.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		D7C9644394F18A38844DF060A4BB1F12 /* Pods-SwiftDataTables_Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5F72E23B6F745C22B4B6A168E2AA67FB /* Build configuration list for PBXNativeTarget "Pods-SwiftDataTables_Tests" */;
+			buildPhases = (
+				849F698359BE4B14AF150EDAC81CF855 /* Sources */,
+				5E68A6F235EE759601917EF07DC47CCF /* Frameworks */,
+				695DDB39E57385E3CABD2746DAEA726F /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pods-SwiftDataTables_Tests";
+			productName = "Pods-SwiftDataTables_Tests";
+			productReference = 1037553484562CE309A3013538712A90 /* Pods_SwiftDataTables_Tests.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		E3CFE72A7C3BEAB4AFEA8B37BAF38809 /* SwiftDataTables */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E37FE4BE49E660A00455BBA146E635D8 /* Build configuration list for PBXNativeTarget "SwiftDataTables" */;
+			buildPhases = (
+				9AAFEEE1D58A40DE418FA1BBDC8564DF /* Sources */,
+				5203177A10482D5BE9424CDDB4F41031 /* Frameworks */,
+				A2D8D60D11B3A380B293A1985DF44EFC /* Resources */,
+				2088B95A042860FA554F033730639BCD /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SwiftDataTables;
+			productName = SwiftDataTables;
+			productReference = 9C520E0139094370E530D4155DD50D34 /* SwiftDataTables.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D41D8CD98F00B204E9800998ECF8427E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0830;
+				LastUpgradeCheck = 0940;
+				TargetAttributes = {
+					35A7856F4E4D9B71B975A5AF937288AB = {
+						LastSwiftMigration = "";
+					};
+					E3CFE72A7C3BEAB4AFEA8B37BAF38809 = {
+						LastSwiftMigration = 0900;
+					};
+				};
+			};
+			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
+			productRefGroup = BF3D0A2E35A9A4F129C10A8EC3A9C0C7 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				35A7856F4E4D9B71B975A5AF937288AB /* Pods-SwiftDataTables_Example */,
+				D7C9644394F18A38844DF060A4BB1F12 /* Pods-SwiftDataTables_Tests */,
+				E3CFE72A7C3BEAB4AFEA8B37BAF38809 /* SwiftDataTables */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A2D8D60D11B3A380B293A1985DF44EFC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D02F1040BF43FD32C367AEA80CD5C188 /* SwiftDataTables.bundle in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		46258EB914A04B92B0685814CDFADF4B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04E67A60A59D89EDD0FA3954807BACA2 /* Pods-SwiftDataTables_Example-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		849F698359BE4B14AF150EDAC81CF855 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				73ED7945DE34869F021F0ABCDA39FD5D /* Pods-SwiftDataTables_Tests-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9AAFEEE1D58A40DE418FA1BBDC8564DF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				25AA98F7EF1F972D51683FAD5167404B /* CollectionViewCellRepresentable.swift in Sources */,
+				2FBD0B481310EAC7E945B7E6ADC2BD6B /* CollectionViewSupplementaryElementRepresentable.swift in Sources */,
+				AADE9EDF7E65478F3AE383AD9965A79D /* column-sort-ascending.png in Sources */,
+				23E1FF0A634F5873C0CE5152C7D64B2D /* column-sort-descending.png in Sources */,
+				9BE7C5D14A7F34235DE1EDBD793FEFF9 /* column-sort-unspecified.png in Sources */,
+				89CFE050739D961DE59C2351EA5D5C0D /* DataCell.swift in Sources */,
+				BD04BD22D99AD0D57BD28E0D3ECBE4F6 /* DataCell.xib in Sources */,
+				C6640C67E1DFCF79209C6EF99CF0BD97 /* DataCellLayoutAttributes.swift in Sources */,
+				031FBC727BE4D1D666B30200B90CBB68 /* DataCellRowRepresentable.swift in Sources */,
+				201A03AB548D0FCC6C74991821E2A4EE /* DataCellViewModel.swift in Sources */,
+				7745AEDB7DCE0BF64FC316EF01F5FDC8 /* DataHeaderFooter.swift in Sources */,
+				7B354B776644B60E3B662E0AE4503364 /* DataHeaderFooter.xib in Sources */,
+				9FFFE412250C4C1CB205AC82D400373E /* DataHeaderFooterViewModel.swift in Sources */,
+				CB9DB5650E450DAF81B6537BEC7EE76C /* DataStore.swift in Sources */,
+				0F26306004341AD9FEE31748629DBB7B /* DataStructureModel.swift in Sources */,
+				93B72955935B8311011D312B70B29587 /* DataTableConfiguration.swift in Sources */,
+				13477E57A0D48F7D632943BFD4C32F9C /* DataTableSearchTextField.swift in Sources */,
+				0CA82A50ECFAC3D58FCD89C156835FDD /* DataTableSortable.swift in Sources */,
+				3BB91B74ACE68C5880CE7F647FE9A45A /* DataTableSortType.swift in Sources */,
+				A1A31487481989BB20B27665BE33A849 /* DataTableValueType.swift in Sources */,
+				E2578092167EADA6CA8B17659F388195 /* MenuLengthHeader.swift in Sources */,
+				79135FB2CDAC3B0F85985478BF9E6C5E /* MenuLengthHeader.xib in Sources */,
+				4C0CCCBA6A0BDE6D26DCF38BF8AB5F47 /* MenuLengthHeaderViewModel.swift in Sources */,
+				69CDB64EB9B9225B0CB08B3E345DC3E2 /* PaginationHeader.swift in Sources */,
+				1E6050708BB90851544DD1982E0E8068 /* PaginationHeader.xib in Sources */,
+				C5EA480EE9FFC4EBCE40E52B4441ABF9 /* PaginationHeaderViewModel.swift in Sources */,
+				F9F8F33E84A48E91800182DBEF0A87FC /* SwiftDataTable+Extensions.swift in Sources */,
+				052F6C7A88022A11EFA12C83A3A27C8C /* SwiftDataTable.swift in Sources */,
+				7B85D7F62EACA7E7914202CBD79E9045 /* SwiftDataTableLayout.swift in Sources */,
+				5C6A4AF70D01EE4EE6579C5F5B01718F /* SwiftDataTables-dummy.m in Sources */,
+				5591C3B097F7F357A07A2210DC427B78 /* VirtualPositionTrackable.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		19E6054A7A4F8A46A17B8B46697B958E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SwiftDataTables;
+			target = E3CFE72A7C3BEAB4AFEA8B37BAF38809 /* SwiftDataTables */;
+			targetProxy = 24B7DB8EA90296E371C09B7637B33DDD /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		056ECD9E220FE80344EDB7AC79151B5D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 77FCE7AAEC3AB0B69D0D0F1E47526A55 /* Pods-SwiftDataTables_Example.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-SwiftDataTables_Example/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-SwiftDataTables_Example/Pods-SwiftDataTables_Example.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_SwiftDataTables_Example;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		1C7D17A37D091C98D2F0DD886C3A9320 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_REQUIRED = NO;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_DEBUG=1",
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE_SPECIFIER = NO_SIGNING/;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Debug;
+		};
+		1D98B475A69DAFFFC5DAEFF5630C2F3A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D2C50F93E3FF19DF9139E95FCA488BA4 /* Pods-SwiftDataTables_Tests.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-SwiftDataTables_Tests/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-SwiftDataTables_Tests/Pods-SwiftDataTables_Tests.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_SwiftDataTables_Tests;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		258096217420AF2F531F55DE1238783E /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 80EFFBC331D7B75C7689F478B728663E /* Pods-SwiftDataTables_Example.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-SwiftDataTables_Example/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-SwiftDataTables_Example/Pods-SwiftDataTables_Example.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_SwiftDataTables_Example;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		27BACFC397D60BA17D05A9F70BE265C0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 86C31390A6D99B60A5D28F7BF13FB249 /* Pods-SwiftDataTables_Tests.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-SwiftDataTables_Tests/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-SwiftDataTables_Tests/Pods-SwiftDataTables_Tests.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_SwiftDataTables_Tests;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		312CCB2DC09D5B5768B9F0C5EBBE7B7F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0CA35274C244CFCEABBF8BBA51585F9A /* SwiftDataTables.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/SwiftDataTables/SwiftDataTables-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/SwiftDataTables/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/SwiftDataTables/SwiftDataTables.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = SwiftDataTables;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		34FE9531DA9AF2820790339988D5FF41 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_REQUIRED = NO;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_RELEASE=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				PROVISIONING_PROFILE_SPECIFIER = NO_SIGNING/;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SYMROOT = "${SRCROOT}/../build";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		3B3EEE71082984CFE16C4ED515220340 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0CA35274C244CFCEABBF8BBA51585F9A /* SwiftDataTables.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/SwiftDataTables/SwiftDataTables-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/SwiftDataTables/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/SwiftDataTables/SwiftDataTables.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = SwiftDataTables;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1C7D17A37D091C98D2F0DD886C3A9320 /* Debug */,
+				34FE9531DA9AF2820790339988D5FF41 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		57D0CEFE11F66987FB10E1E5D0ABC661 /* Build configuration list for PBXNativeTarget "Pods-SwiftDataTables_Example" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				056ECD9E220FE80344EDB7AC79151B5D /* Debug */,
+				258096217420AF2F531F55DE1238783E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5F72E23B6F745C22B4B6A168E2AA67FB /* Build configuration list for PBXNativeTarget "Pods-SwiftDataTables_Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1D98B475A69DAFFFC5DAEFF5630C2F3A /* Debug */,
+				27BACFC397D60BA17D05A9F70BE265C0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E37FE4BE49E660A00455BBA146E635D8 /* Build configuration list for PBXNativeTarget "SwiftDataTables" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				312CCB2DC09D5B5768B9F0C5EBBE7B7F /* Debug */,
+				3B3EEE71082984CFE16C4ED515220340 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+}

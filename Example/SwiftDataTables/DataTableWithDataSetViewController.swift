@@ -1,23 +1,15 @@
 //
-//  ViewController.swift
+//  DataTableWithDataSetViewController.swift
 //  SwiftDataTables
 //
 //  Created by pavankataria on 03/09/2017.
 //  Copyright (c) 2017 pavankataria. All rights reserved.
 //
 
-//
-//  ViewController.swift
-//  SwiftDataTables
-//
-//  Created by Pavan Kataria on 14/02/2017.
-//  Copyright © 2017 Pavan Kataria. All rights reserved.
-//
-
 import UIKit
 import SwiftDataTables
 
-class ViewController: UIViewController {
+class DataTableWithDataSetViewController: UIViewController {
     
     var dataTable: SwiftDataTable! = nil
 
@@ -48,7 +40,7 @@ class ViewController: UIViewController {
         self.view.addSubview(self.dataTable);
     }
 }
-extension ViewController {
+extension DataTableWithDataSetViewController {
     func columnHeaders() -> [String] {
         return [
             "Id",
@@ -62,11 +54,13 @@ extension ViewController {
     
     func data() -> [[DataTableValueType]]{
         //This would be your json object
-        let dataSet: [[Any]] = exampleDataSet()
+        var dataSet: [[Any]] = exampleDataSet()
+        for _ in 0..<1 {
+            dataSet += exampleDataSet()
+        }
+        
         return dataSet.map {
-            $0.flatMap {
-                return DataTableValueType($0)
-            }
+            $0.compactMap (DataTableValueType.init)
         }
     }
 }

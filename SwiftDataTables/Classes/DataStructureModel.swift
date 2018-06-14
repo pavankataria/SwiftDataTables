@@ -65,7 +65,7 @@ public struct DataStructureModel {
     public func averageDataLengthForColumn(
         index: Int) -> Float {
         if self.shouldFitTitles {
-            return max(self.columnAverageContentLength[index], Float(self.headerTitles[index].characters.count))
+            return max(self.columnAverageContentLength[index], Float(self.headerTitles[index].count))
         }
         return self.columnAverageContentLength[index]
     }
@@ -77,7 +77,7 @@ public struct DataStructureModel {
         for column in Array(0..<self.headerTitles.count) {
             let averageForCurrentColumn = Array(0..<data.count).reduce(0){
                 let dataType: DataTableValueType = data[$1][column]
-                return $0 + dataType.stringRepresentation.characters.count
+                return $0 + dataType.stringRepresentation.count
             }
             columnContentAverages.append(Float(averageForCurrentColumn)/Float(data.count))
         }
