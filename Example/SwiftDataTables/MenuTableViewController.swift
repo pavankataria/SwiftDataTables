@@ -161,7 +161,7 @@ extension MenuViewController {
 extension MenuViewController {
     private func configurationWithoutFooter() -> DataTableConfiguration {
         var configuration = DataTableConfiguration()
-        configuration.shouldShowFooter = true
+        configuration.shouldShowFooter = false
         return configuration
     }
 }

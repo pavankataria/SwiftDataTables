@@ -27,16 +27,8 @@ class DataHeaderFooter: UICollectionReusableView {
     func setup(viewModel: DataHeaderFooterViewModel) {
         self.titleLabel.text = viewModel.data
         self.sortingImageView.image = viewModel.imageForSortingElement
-        
-//        viewModel.modelUpdated = { [weak self] viewModel in
-//            self?.update(viewModel: viewModel)
-//        }
+        self.backgroundColor = .white
     }
-    
-//    public func update(viewModel: DataHeaderFooterViewModel){
-//        self.sortingImageView.image = UIImage(named: viewModel.imageForSortingElement ?? "")
-//    }
-    
     @objc func didTapView(){
         self.didTapEvent?()
     }
