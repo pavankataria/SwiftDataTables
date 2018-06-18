@@ -22,7 +22,7 @@ public struct DataTableConfiguration {
     public var defaultOrdering: DataTableColumnOrder? = nil
     public var heightForSectionFooter: CGFloat = 44
     public var heightForSectionHeader: CGFloat = 44
-    public var heightForSearchView: CGFloat = 44
+    public var heightForSearchView: CGFloat = 100
     public var heightOfInterRowSpacing: CGFloat = 1
 
     public var shouldShowFooter: Bool = true
