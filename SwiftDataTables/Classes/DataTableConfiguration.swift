@@ -20,7 +20,21 @@ public struct DataTableColumnOrder {
 }
 public struct DataTableConfiguration {
     public var defaultOrdering: DataTableColumnOrder? = nil
+    public var heightForSectionFooter: CGFloat = 44
+    public var heightForSectionHeader: CGFloat = 44
+    public var heightForSearchView: CGFloat = 44
+    public var heightOfInterRowSpacing: CGFloat = 1
+
     public var shouldShowFooter: Bool = true
+    public var shouldShowSearchSection: Bool = true
+    public var shouldSearchHeaderFloat: Bool = false
+    public var shouldSectionFootersFloat: Bool = true
+    public var shouldSectionHeadersFloat: Bool = true
+    public var shouldContentWidthScaleToFillFrame: Bool = true
+    
+    public var shouldShowVerticalScrollBars: Bool = true
+    public var shouldShowHorizontalScrollBars: Bool = false
+    
     public init(){
         
     }

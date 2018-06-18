@@ -13,13 +13,36 @@ public typealias DataTableContent = [DataTableRow]
 public typealias DataTableViewModelContent = [[DataCellViewModel]]
 
 
-public protocol SwiftDataTableDataSource {
+//public let SwiftDataTableAutomaticColumnWidth: CGFloat = CGFloat.greatestFiniteMagnitude
+
+public protocol SwiftDataTableDataSource: class {
     func numberOfColumns(in: SwiftDataTable) -> Int
     func numberOfRows(in: SwiftDataTable) -> Int
     func dataTable(_ dataTable: SwiftDataTable, dataForRowAt index: NSInteger) -> [DataTableValueType]
     func dataTable(_ dataTable: SwiftDataTable, headerTitleForColumnAt columnIndex: NSInteger) -> String
 }
+@objc public protocol SwiftDataTableDelegate: class {
+    @objc optional func dataTable(_ dataTable: SwiftDataTable, heightForRowAt index: Int) -> CGFloat
+    @objc optional func dataTable(_ dataTable: SwiftDataTable, widthForColumnAt index: Int) -> CGFloat
+    
+    @objc optional func shouldContentWidthScaleToFillFrame(in dataTable: SwiftDataTable) -> Bool
+    @objc optional func shouldSectionHeadersFloat(in dataTable: SwiftDataTable) -> Bool
+    @objc optional func shouldSectionFootersFloat(in dataTable: SwiftDataTable) -> Bool
+    @objc optional func shouldSearchHeaderFloat(in dataTable: SwiftDataTable) -> Bool
+    @objc optional func shouldShowSearchSection(in dataTable: SwiftDataTable) -> Bool
+    
+    @objc optional func heightForSectionFooter(in dataTable: SwiftDataTable) -> CGFloat
+    @objc optional func heightForSectionHeader(in dataTable: SwiftDataTable) -> CGFloat
+    @objc optional func heightForSearchView(in dataTable: SwiftDataTable) -> CGFloat
+    @objc optional func heightOfInterRowSpacing(in dataTable: SwiftDataTable) -> CGFloat
+    
+    @objc optional func shouldShowVerticalScrollBars(in dataTable: SwiftDataTable) -> Bool
+    @objc optional func shouldShowHorizontalScrollBars(in dataTable: SwiftDataTable) -> Bool
+}
 
+extension SwiftDataTableDelegate {
+    
+}
 public class SwiftDataTable: UIView {
     public enum SupplementaryViewType: String {
         /// Single header positioned at the top above the column section
@@ -42,7 +65,9 @@ public class SwiftDataTable: UIView {
         }
     }
     
-    var dataSource: SwiftDataTableDataSource!
+    public weak var dataSource: SwiftDataTableDataSource?
+    public weak var delegate: SwiftDataTableDelegate?
+    
     var options: DataTableConfiguration
     
     let highlightedColours = [
@@ -77,7 +102,7 @@ public class SwiftDataTable: UIView {
         searchBar.searchBarStyle = .minimal;
         searchBar.placeholder = "Search";
         searchBar.delegate = self
-        //        searchBar.tintColor = UIColor.white
+        searchBar.backgroundColor = .white
         searchBar.barTintColor = UIColor.white
         self.addSubview(searchBar)
         return searchBar
@@ -89,7 +114,6 @@ public class SwiftDataTable: UIView {
             fatalError("The layout needs to be set first")
         }
         let collectionView = UICollectionView(frame: self.bounds, collectionViewLayout: layout)
-        //        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.backgroundColor = UIColor.clear
         collectionView.allowsMultipleSelection = true
         collectionView.dataSource = self
@@ -166,11 +190,6 @@ public class SwiftDataTable: UIView {
     //            self.refreshControl
     //        }
     //    }
-    //    lazy var aClient:Clinet! = {
-    //        var _aClient = Clinet(ClinetSession.shared())
-    //        _aClient.delegate = self
-    //        return _aClient
-    //    }()
     
     //MARK: - Lifecycle
     public init(dataSource: SwiftDataTableDataSource,
@@ -245,7 +264,6 @@ public class SwiftDataTable: UIView {
     func set(data: DataTableContent, headerTitles: [String], options: DataTableConfiguration? = nil, shouldReplaceLayout: Bool = false){
         self.dataStructure = DataStructureModel(data: data, headerTitles: headerTitles)
         self.createDataCellViewModels(with: self.dataStructure)
-        self.calculateColumnWidths()
         self.applyOptions(options)
         if(shouldReplaceLayout){
             self.layout = SwiftDataTableLayout(dataTable: self)
@@ -261,6 +279,7 @@ public class SwiftDataTable: UIView {
             self.applyDefaultColumnOrder(defaultOrdering)
         }
     }
+    
     func calculateColumnWidths(){
         //calculate the automatic widths for each column
         self.columnWidths.removeAll()
@@ -270,9 +289,10 @@ public class SwiftDataTable: UIView {
         self.scaleColumnWidthsIfRequired()
     }
     func scaleColumnWidthsIfRequired(){
-        if self.shouldContentWidthScaleToFillFrame(){
-            self.scaleToFillColumnWidths()
+        guard self.shouldContentWidthScaleToFillFrame() else {
+            return
         }
+        self.scaleToFillColumnWidths()
     }
     func scaleToFillColumnWidths(){
         //if content width is smaller than ipad width
@@ -305,17 +325,22 @@ public class SwiftDataTable: UIView {
         var data = DataTableContent()
         var headerTitles = [String]()
         
-        let numberOfColumns = dataSource.numberOfColumns(in: self)
-        let numberOfRows = dataSource.numberOfRows(in: self)
+        let numberOfColumns = dataSource?.numberOfColumns(in: self) ?? 0
+        let numberOfRows = dataSource?.numberOfRows(in: self) ?? 0
         
         for columnIndex in 0..<numberOfColumns {
-            headerTitles.append(dataSource.dataTable(self, headerTitleForColumnAt: columnIndex))
+            guard let headerTitle = dataSource?.dataTable(self, headerTitleForColumnAt: columnIndex) else {
+                return
+            }
+            headerTitles.append(headerTitle)
         }
         
         for index in 0..<numberOfRows {
-            data.append(self.dataSource.dataTable(self, dataForRowAt: index))
+            guard let rowData = self.dataSource?.dataTable(self, dataForRowAt: index) else {
+                return
+            }
+            data.append(rowData)
         }
-        
         self.layout?.clearLayoutCache()
         self.collectionView.resetScrollPositionToTop()
         self.set(data: data, headerTitles: headerTitles, options: self.options)
@@ -587,7 +612,9 @@ extension SwiftDataTable {
     func numberOfRows() -> Int {
         return self.currentRowViewModels.count
     }
-    
+    func heightForRow(index: Int) -> CGFloat {
+        return self.delegate?.dataTable?(self, heightForRowAt: index) ?? 44
+    }
     
     func rowModel(at indexPath: IndexPath) -> DataCellViewModel {
         return self.currentRowViewModels[indexPath.section][indexPath.row]
@@ -606,42 +633,74 @@ extension SwiftDataTable {
     }
     
     func shouldContentWidthScaleToFillFrame() -> Bool{
-        return true
+        return self.delegate?.shouldContentWidthScaleToFillFrame?(in: self) ?? self.options.shouldContentWidthScaleToFillFrame
     }
     
     func shouldSectionHeadersFloat() -> Bool {
-        return true
+        return self.delegate?.shouldSectionHeadersFloat?(in: self) ?? self.options.shouldSectionHeadersFloat
     }
     
     func shouldSectionFootersFloat() -> Bool {
-        return true
+        return self.delegate?.shouldSectionFootersFloat?(in: self) ?? self.options.shouldSectionFootersFloat
     }
     
     func shouldSearchHeaderFloat() -> Bool {
-        return false
+        return self.delegate?.shouldSearchHeaderFloat?(in: self) ?? self.options.shouldSearchHeaderFloat
     }
     
     func shouldShowSearchSection() -> Bool {
-        return true
+        return self.delegate?.shouldShowSearchSection?(in: self) ?? self.options.shouldShowSearchSection
     }
     func shouldShowFooterSection() -> Bool {
-        return self.options.shouldShowFooter
+        return self.delegate?.shouldShowSearchSection?(in: self) ?? self.options.shouldShowFooter
     }
     func shouldShowPaginationSection() -> Bool {
         return false
     }
     
     func heightForSectionFooter() -> CGFloat {
-        return 44
+        return self.delegate?.heightForSectionFooter?(in: self) ?? self.options.heightForSectionFooter
     }
     
     func heightForSectionHeader() -> CGFloat {
-        return 44
+        return self.delegate?.heightForSectionHeader?(in: self) ?? self.options.heightForSectionHeader
     }
     
+    
+    func widthForColumn(index: Int) -> CGFloat {
+        //May need to call calculateColumnWidths.. I want to deprecate it..
+        guard let width = self.delegate?.dataTable?(self, widthForColumnAt: index) else {
+            return self.columnWidths[index]
+        }
+        //TODO: Implement it so that the preferred column widths are calculated first, and then the scaling happens after to fill the frame.
+//        if width != SwiftDataTableAutomaticColumnWidth {
+//            self.columnWidths[index] = width
+//        }
+        return width
+    }
+    
+    func heightForSearchView() -> CGFloat {
+        guard self.shouldShowSearchSection() else {
+            return 0
+        }
+        return self.delegate?.heightForSearchView?(in: self) ?? self.options.heightForSearchView
+    }
+    
+    func showVerticalScrollBars() -> Bool {
+        return self.delegate?.shouldShowVerticalScrollBars?(in: self) ?? self.options.shouldShowVerticalScrollBars
+    }
+    
+    func showHorizontalScrollBars() -> Bool {
+        return self.delegate?.shouldShowHorizontalScrollBars?(in: self) ?? self.options.shouldShowHorizontalScrollBars
+    }
+    
+    func heightOfInterRowSpacing() -> CGFloat {
+        return self.delegate?.heightOfInterRowSpacing?(in: self) ?? self.options.heightOfInterRowSpacing
+    }
     func widthForRowHeader() -> CGFloat {
         return 0
     }
+    
     
     /// Automatically calcualtes the width the column should be based on the content
     /// in the rows under the column.
@@ -655,22 +714,10 @@ extension SwiftDataTable {
         return max(averageDataColumnWidth, max(self.minimumColumnWidth(), self.minimumHeaderColumnWidth(index: index)))
     }
     
-    func widthForColumn(index: Int) -> CGFloat {
-        return self.columnWidths[index]
-    }
-    
     func calculateContentWidth() -> CGFloat {
         return Array(0..<self.numberOfColumns()).reduce(self.widthForRowHeader()) { $0 + self.widthForColumn(index: $1)}
     }
     
-    
-    func heightForRow(index: Int) -> CGFloat {
-        return 44
-    }
-    
-    func heightOfInterRowSpacing() -> CGFloat {
-        return 1
-    }
     
     func minimumColumnWidth() -> CGFloat {
         return 70
@@ -685,29 +732,12 @@ extension SwiftDataTable {
         return 14
     }
     
-    func heightForSearchView() -> CGFloat {
-        guard self.shouldShowSearchSection() else {
-            return 0
-        }
-        return 44
-    }
-    
     func heightForPaginationView() -> CGFloat {
         guard self.shouldShowPaginationSection() else {
             return 0
         }
         return 35
     }
-    
-    func showVerticalScrollBars() -> Bool {
-        return true
-    }
-    
-    func showHorizontalScrollBars() -> Bool {
-        return false
-    }
-    
-    
 }
 
 //MARK: - Search Bar Delegate

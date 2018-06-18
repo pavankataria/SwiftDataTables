@@ -23,6 +23,7 @@ class DataTableWithDataSetViewController: UIViewController {
         self.view.backgroundColor = UIColor.white
         
         var options = DataTableConfiguration()
+        options.shouldContentWidthScaleToFillFrame = false
         options.defaultOrdering = DataTableColumnOrder(index: 1, order: .ascending)
         
         self.dataTable = SwiftDataTable(
@@ -40,6 +41,7 @@ class DataTableWithDataSetViewController: UIViewController {
         self.view.addSubview(self.dataTable);
     }
 }
+
 extension DataTableWithDataSetViewController {
     func columnHeaders() -> [String] {
         return [
@@ -55,7 +57,7 @@ extension DataTableWithDataSetViewController {
     func data() -> [[DataTableValueType]]{
         //This would be your json object
         var dataSet: [[Any]] = exampleDataSet()
-        for _ in 0..<1 {
+        for _ in 0..<0 {
             dataSet += exampleDataSet()
         }
         

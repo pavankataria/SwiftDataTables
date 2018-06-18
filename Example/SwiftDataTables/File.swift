@@ -10,7 +10,7 @@ import Foundation
 
 public func exampleDataSet() -> [[Any]] {
     return [
-        [1,"Meggie Block","Rosamond29@gmail.com","(397) 102-5456 x371","Emilioshire","876.06"],
+        [1,"Meggie Block","Rosamond29@gmasa;da;ldkal;dka;lkd;lakdl;ak;ldkil.com","(397) 102-5456 x371","Emilioshire","876.06"],
         [2,"Waldo Sporer","Martina.Barrows@hotmail.com","(726) 447-9616 x726","Port Jedediahfurt","220.69"],
         [3,"Vickie Stroman","Parker40@hotmail.com","1-347-447-3401 x491","Delbertberg","340.64"],
         [4,"Kiley Denesik","Ida.Murphy2@hotmail.com","069.128.7032","South Aidaside","271.01"],

@@ -11,7 +11,7 @@ import UIKit
 class SwiftDataTableLayout: UICollectionViewLayout {
     
     //MARK: - Properties
-    fileprivate(set) open var dataTable: SwiftDataTable!
+    fileprivate(set) open var dataTable: SwiftDataTable
     var insertedIndexPaths = NSMutableArray()
     var removedIndexPaths = NSMutableArray()
     var insertedSectionIndices = NSMutableArray()
@@ -42,6 +42,7 @@ class SwiftDataTableLayout: UICollectionViewLayout {
         guard self.cache.isEmpty else {
             return
         }
+        let date = Date()
         self.dataTable.calculateColumnWidths()
         var xOffsets = [CGFloat]()
         var yOffsets = [CGFloat]()
@@ -82,6 +83,8 @@ class SwiftDataTableLayout: UICollectionViewLayout {
             }
         }
         self.calculateScrollBarIndicators()
+        let timeLapsed = Date().timeIntervalSince(date)
+        print("\ntime lapsed: \(timeLapsed)\nfor \(self.cache.count) rows\n")
     }
     
     fileprivate func heightOfFooter() -> CGFloat {
@@ -309,9 +312,7 @@ extension SwiftDataTableLayout {
         return attribute
     }
     
-//    private func binarySearch<T: Comparable>(array: Array<T>, value:T) -> Int{
     private func binarySearchAttributes(_ attributes: [UICollectionViewLayoutAttributes], value: CGFloat) -> Int {
-        
         var imin = 0, imax = attributes.count
         while imin < imax {
             let imid = imin + (imax - imin)/2
@@ -325,6 +326,4 @@ extension SwiftDataTableLayout {
         }
         return imin
     }
-
 }
-

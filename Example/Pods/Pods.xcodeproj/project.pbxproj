@@ -21,10 +21,8 @@
 		2FAC4B0AFEA58C006044FB9A3943582F /* SwiftDataTable+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFB4EFD59B672442DE9C8ED4BB708D4 /* SwiftDataTable+Extensions.swift */; };
 		458EB83FAAE600BAE5A5CAF5EE0056D6 /* Pods-SwiftDataTables_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 0891CE13983D816CD5BC854D9BF86988 /* Pods-SwiftDataTables_Tests-dummy.m */; };
 		45C73B36FBB72D7BE23A7C92BB4A7232 /* CollectionViewSupplementaryElementRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD6A75B26194543191DBC7D98F1482E /* CollectionViewSupplementaryElementRepresentable.swift */; };
-		46A8AF3D1F795645EEB75340B8476CFE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
 		480E1E82686594082B624019A06DE0C4 /* MenuLengthHeader.xib in Sources */ = {isa = PBXBuildFile; fileRef = 2359DBFADDD457665969A3FCA5C75502 /* MenuLengthHeader.xib */; };
 		64C85C9BFF4D6601EDD33E6D81D0DFD1 /* VirtualPositionTrackable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92772B10D9B4283BA9C604A251AB28BC /* VirtualPositionTrackable.swift */; };
-		66485BD86F02676394AD34CA7564C8A6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
 		687712BFB353D8BDC08E7CE1F089A761 /* Pods-SwiftDataTables_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 2A92B59177E1DF2B6130012BE6A7C6D5 /* Pods-SwiftDataTables_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6CD3DE05D64D9B0720C9ACAA5623FE12 /* DataCell.xib in Sources */ = {isa = PBXBuildFile; fileRef = 66DDA1ACA44AD6643A0A7B42EE5822D0 /* DataCell.xib */; };
 		6E3C1C905389352DECB1B885CB334119 /* DataCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24963756EC0A128A598EC83A669671F1 /* DataCellViewModel.swift */; };
@@ -33,10 +31,12 @@
 		8D1CD1843C4BAAFEBD75B7DC6D33AA30 /* DataTableValueType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FB7F2BB8B9861A29D9BCCB148DB6B3D /* DataTableValueType.swift */; };
 		A798906049F59D24EAAD9F54C2DE96CB /* PaginationHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659696360C75F10788726B8FE00AE349 /* PaginationHeaderViewModel.swift */; };
 		A94E24E22C63113E76CE1C203B87F646 /* DataHeaderFooterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E797638CED9BECB91015DFC7D50B3576 /* DataHeaderFooterViewModel.swift */; };
+		B1A68C7960D350F17F1E1E7892106098 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A16F4CFC63FAC439D7A04994F579A03 /* Foundation.framework */; };
+		B26069EC94CC9AF08A9A4B39A98B8CFE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A16F4CFC63FAC439D7A04994F579A03 /* Foundation.framework */; };
+		B3A6BAC96EB660ACB6981B4C76C887F1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A16F4CFC63FAC439D7A04994F579A03 /* Foundation.framework */; };
 		B4480CF1CB890A1E5C6806199279ABA7 /* MenuLengthHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA983C79110032720422CFD5DF788526 /* MenuLengthHeaderViewModel.swift */; };
 		C1964B7EA427806E76E6BABBF7CA63C3 /* DataTableConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0704756EA9FACFE8F3BB8D83FF9C9674 /* DataTableConfiguration.swift */; };
 		C290DC4526B04C72DC3A5BA6E155D6A4 /* Pods-SwiftDataTables_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = B1D4A2233302B0910BECEA617ED76814 /* Pods-SwiftDataTables_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C2E790EBC650C4FBEE54985C6796FF44 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
 		C86E3153A3571BF3895D554AD002D53F /* MenuLengthHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD1CFB40667142D724601CD2FBE8CF9 /* MenuLengthHeader.swift */; };
 		CF51A3E69692A1CF42C5BF17E089EF2E /* DataTableSortable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45E1F552464F8D59C3CBC10C2B7B203 /* DataTableSortable.swift */; };
 		CF70F094F69FCEF9C8B50347FAAB1869 /* SwiftDataTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5C14E2346623FC5D24613AF4FFB744 /* SwiftDataTable.swift */; };
@@ -94,9 +94,9 @@
 		444A8A28D1BF8EB31CB48CA9C9972C8C /* SwiftDataTables.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = SwiftDataTables.modulemap; sourceTree = "<group>"; };
 		4613CA48502FA10A6F55024FE252C680 /* Pods-SwiftDataTables_Example-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SwiftDataTables_Example-frameworks.sh"; sourceTree = "<group>"; };
 		47B90F53BE0DB04D3E3E9255BE3B40DF /* column-sort-ascending.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "column-sort-ascending.png"; sourceTree = "<group>"; };
+		5A16F4CFC63FAC439D7A04994F579A03 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		5D88A80CFFEF8CC67148487273BEF025 /* Pods-SwiftDataTables_Tests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SwiftDataTables_Tests-resources.sh"; sourceTree = "<group>"; };
 		659696360C75F10788726B8FE00AE349 /* PaginationHeaderViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PaginationHeaderViewModel.swift; sourceTree = "<group>"; };
-		6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		66DDA1ACA44AD6643A0A7B42EE5822D0 /* DataCell.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; path = DataCell.xib; sourceTree = "<group>"; };
 		6AD6A75B26194543191DBC7D98F1482E /* CollectionViewSupplementaryElementRepresentable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CollectionViewSupplementaryElementRepresentable.swift; sourceTree = "<group>"; };
 		76B4761F826568E1DA9EC320C3C7221D /* Pods-SwiftDataTables_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-SwiftDataTables_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
@@ -139,7 +139,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				46A8AF3D1F795645EEB75340B8476CFE /* Foundation.framework in Frameworks */,
+				B26069EC94CC9AF08A9A4B39A98B8CFE /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -147,7 +147,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				66485BD86F02676394AD34CA7564C8A6 /* Foundation.framework in Frameworks */,
+				B3A6BAC96EB660ACB6981B4C76C887F1 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -155,7 +155,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C2E790EBC650C4FBEE54985C6796FF44 /* Foundation.framework in Frameworks */,
+				B1A68C7960D350F17F1E1E7892106098 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -253,6 +253,14 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		5E0D919E635D23B70123790B8308F8EF /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				5A16F4CFC63FAC439D7A04994F579A03 /* Foundation.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
 		7DB346D0F39D3F0E887471402A8071AB = {
 			isa = PBXGroup;
 			children = (
@@ -298,7 +306,7 @@
 		BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D35AF013A5F0BAD4F32504907A52519E /* iOS */,
+				5E0D919E635D23B70123790B8308F8EF /* iOS */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -324,14 +332,6 @@
 			);
 			name = SwiftDataTables;
 			path = ../..;
-			sourceTree = "<group>";
-		};
-		D35AF013A5F0BAD4F32504907A52519E /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */,
-			);
-			name = iOS;
 			sourceTree = "<group>";
 		};
 		D37D5A338968ADD35B56207965F16AA6 /* Protocols */ = {

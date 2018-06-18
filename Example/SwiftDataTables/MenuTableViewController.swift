@@ -35,7 +35,7 @@ class MenuViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: Properties.menuItemIdentifier)
-        tableView.rowHeight = 100
+        tableView.rowHeight = 70
         self.tableView.reloadData()
     }
     //MARK: - Actions
@@ -153,6 +153,9 @@ extension MenuViewController {
     private func createdExampleConfigurations() -> [MenuItem] {
         var section = [MenuItem]()
         section.append(MenuItem(title: "Without Footers", config: self.configurationWithoutFooter()))
+        section.append(MenuItem(title: "Without Search", config: self.configurationWithoutSearch()))
+        section.append(MenuItem(title: "Without floating headers and footers", config: self.configurationWithoutFloatingHeadersAndFooters()))
+        section.append(MenuItem(title: "Without scroll bars", config: self.configurationWithoutScrollBars()))
         return section
     }
 }
@@ -162,6 +165,25 @@ extension MenuViewController {
     private func configurationWithoutFooter() -> DataTableConfiguration {
         var configuration = DataTableConfiguration()
         configuration.shouldShowFooter = false
+        return configuration
+    }
+    private func configurationWithoutSearch() -> DataTableConfiguration {
+        var configuration = DataTableConfiguration()
+        configuration.shouldShowSearchSection = false
+        return configuration
+    }
+    
+    private func configurationWithoutFloatingHeadersAndFooters() -> DataTableConfiguration {
+        var configuration = DataTableConfiguration()
+        configuration.shouldSectionHeadersFloat = false
+        configuration.shouldSectionFootersFloat = false
+        return configuration
+    }
+    
+    private func configurationWithoutScrollBars() -> DataTableConfiguration {
+        var configuration = DataTableConfiguration()
+        configuration.shouldShowHorizontalScrollBars = false
+        configuration.shouldShowVerticalScrollBars = false
         return configuration
     }
 }
