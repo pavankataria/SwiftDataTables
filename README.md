@@ -16,11 +16,19 @@ https://img.shields.io/cocoapods/p/SwiftDataTables.svg
 ![animation](/Example/SwiftDataTables-Preview.gif)
 
 
-## Requirements
-
-+ iOS 8.0 - iOS 12.0 +
-+ Xcode 9
-+ Swift 4
+## Major Features include:
++ Tested on iOS 8.0, 9, 10, 11, and 12 onwards. 
++ Full Swift 4 support
++ Continued support and active development! 
++ Full Datasource and delegate support!
++ Or easy plugin configuration object can be passed with default values for your swift data table's visual presentation.
++ Can search through your grid
++ Can filter your datasource by scanning all fields.
++ Can sort various types of data in your grid, smartly, detecting numbers and strings
++ Fully configurable width columns and height rows or fall back on the automatic proportion scaling depending on the content
++ Beautiful alternating colours for rows and column selections.
++ Fully configurable header and footer labels including search view too. 
++ and beautiful clean interface. 
 
 ## Installation
 
@@ -92,7 +100,19 @@ An optional delegate for further customisation. Default values will be used retr
 ```Swift
 
 @objc public protocol SwiftDataTableDelegate: class {
+    /// Specify custom heights for specific rows. A row height of 0 is valid and will be used.
+    ///
+    /// - Parameters:
+    ///   - dataTable: SwiftDataTable
+    ///   - index: the index of the row to specify a custom height for.
+    /// - Returns: the desired height for the given row index
     @objc optional func dataTable(_ dataTable: SwiftDataTable, heightForRowAt index: Int) -> CGFloat
+
+    /// Specify custom widths for columns. This method once implemented overrides the automatic width calculation for remaining columns and therefor widths for all columns must be given. This behaviour may change so that custom widths on a single column basis can be given with the automatic width calculation behaviour applied for the remaining columns.
+    /// - Parameters:
+    ///   - dataTable: SwiftDataTable
+    ///   - index: the index of the column to specify the width for
+    /// - Returns: the desired width for the given column index
     @objc optional func dataTable(_ dataTable: SwiftDataTable, widthForColumnAt index: Int) -> CGFloat
     
     /// Column Width scaling. If set to true and the column's total width is smaller than the content size then the width of each column will be scaled proprtionately to fill the frame of the table. Otherwise an automatic calculated width size will be used by processing the data within each column.
