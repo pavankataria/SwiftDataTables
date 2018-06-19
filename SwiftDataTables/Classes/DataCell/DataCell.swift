@@ -16,6 +16,6 @@ class DataCell: UICollectionViewCell {
     //MARK: - Lifecycle
     func setup(_ viewModel: DataCellViewModel){
         self.dataLabel.text = viewModel.data.stringRepresentation
-        self.contentView.backgroundColor = .white
+//        self.contentView.backgroundColor = .white
     }
 }

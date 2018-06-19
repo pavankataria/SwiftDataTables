@@ -50,7 +50,19 @@ public protocol SwiftDataTableDataSource: class {
 
 /// An optional delegate for further customisation. Default values will be used retrieved from the SwiftDataTableConfiguration file. This will can be overridden and passed into the SwiftDataTable constructor incase you wish not to use the delegate. 
 @objc public protocol SwiftDataTableDelegate: class {
+    /// Specify custom heights for specific rows. A row height of 0 is valid and will be used.
+    ///
+    /// - Parameters:
+    ///   - dataTable: SwiftDataTable
+    ///   - index: the index of the row to specify a custom height for.
+    /// - Returns: the desired height for the given row index
     @objc optional func dataTable(_ dataTable: SwiftDataTable, heightForRowAt index: Int) -> CGFloat
+
+    /// Specify custom widths for columns. This method once implemented overrides the automatic width calculation for remaining columns and therefor widths for all columns must be given. This behaviour may change so that custom widths on a single column basis can be given with the automatic width calculation behaviour applied for the remaining columns.
+    /// - Parameters:
+    ///   - dataTable: SwiftDataTable
+    ///   - index: the index of the column to specify the width for
+    /// - Returns: the desired width for the given column index
     @objc optional func dataTable(_ dataTable: SwiftDataTable, widthForColumnAt index: Int) -> CGFloat
     
     /// Column Width scaling. If set to true and the column's total width is smaller than the content size then the width of each column will be scaled proprtionately to fill the frame of the table. Otherwise an automatic calculated width size will be used by processing the data within each column.
@@ -205,6 +217,7 @@ public class SwiftDataTable: UIView {
         collectionView.backgroundColor = UIColor.clear
         collectionView.allowsMultipleSelection = true
         collectionView.dataSource = self
+        collectionView.delegate = self
         if #available(iOS 10, *) {
             collectionView.isPrefetchingEnabled = false
         }
@@ -487,7 +500,7 @@ public extension SwiftDataTable {
 
 
 
-extension SwiftDataTable: UICollectionViewDataSource {
+extension SwiftDataTable: UICollectionViewDataSource, UICollectionViewDelegate {
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let dataSource = self.dataSource {
             return dataSource.numberOfColumns(in: self)
@@ -539,10 +552,10 @@ extension SwiftDataTable: UICollectionViewDataSource {
     public func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         let cellViewModel = self.rowModel(at: indexPath)
         if cellViewModel.highlighted {
-            cell.backgroundColor = self.highlightedColours[indexPath.section % 2]
+            cell.contentView.backgroundColor = self.highlightedColours[indexPath.section % 2]
         }
         else {
-            cell.backgroundColor = self.colours[indexPath.section % 2]
+            cell.contentView.backgroundColor = self.colours[indexPath.section % 2]
         }
     }
     
