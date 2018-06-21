@@ -92,7 +92,19 @@ An optional delegate for further customisation. Default values will be used retr
 ```Swift
 
 @objc public protocol SwiftDataTableDelegate: class {
+    /// Specify custom heights for specific rows. A row height of 0 is valid and will be used.
+    ///
+    /// - Parameters:
+    ///   - dataTable: SwiftDataTable
+    ///   - index: the index of the row to specify a custom height for.
+    /// - Returns: the desired height for the given row index
     @objc optional func dataTable(_ dataTable: SwiftDataTable, heightForRowAt index: Int) -> CGFloat
+
+    /// Specify custom widths for columns. This method once implemented overrides the automatic width calculation for remaining columns and therefor widths for all columns must be given. This behaviour may change so that custom widths on a single column basis can be given with the automatic width calculation behaviour applied for the remaining columns.
+    /// - Parameters:
+    ///   - dataTable: SwiftDataTable
+    ///   - index: the index of the column to specify the width for
+    /// - Returns: the desired width for the given column index
     @objc optional func dataTable(_ dataTable: SwiftDataTable, widthForColumnAt index: Int) -> CGFloat
     
     /// Column Width scaling. If set to true and the column's total width is smaller than the content size then the width of each column will be scaled proprtionately to fill the frame of the table. Otherwise an automatic calculated width size will be used by processing the data within each column.
@@ -168,6 +180,22 @@ An optional delegate for further customisation. Default values will be used retr
     /// - Parameter dataTable: SwiftDataTable
     /// - Returns: whether or not the horizontal scroll bars should be shown.
     @objc optional func shouldShowHorizontalScrollBars(in dataTable: SwiftDataTable) -> Bool
+    
+    /// Control the background color for cells in rows intersecting with a column that's highlighted.
+    ///
+    /// - Parameters:
+    ///   - dataTable: SwiftDataTable
+    ///   - at: the row index to set the background color
+    /// - Returns: the background colour to make the highlighted row
+    @objc optional func dataTable(_ dataTable: SwiftDataTable, highlightedColorForRowIndex at: Int) -> UIColor
+    
+    /// Control the background color for an unhighlighted row.
+    ///
+    /// - Parameters:
+    ///   - dataTable: SwiftDataTable
+    ///   - at: the row index to set the background color
+    /// - Returns: the background colour to make the unhighlighted row
+    @objc optional func dataTable(_ dataTable: SwiftDataTable, unhighlightedColorForRowIndex at: Int) -> UIColor
 }
 ```
 

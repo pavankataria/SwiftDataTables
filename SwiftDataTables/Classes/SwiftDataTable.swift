@@ -138,10 +138,32 @@ public protocol SwiftDataTableDataSource: class {
     /// - Parameter dataTable: SwiftDataTable
     /// - Returns: whether or not the horizontal scroll bars should be shown.
     @objc optional func shouldShowHorizontalScrollBars(in dataTable: SwiftDataTable) -> Bool
+    
+    /// Control the background color for cells in rows intersecting with a column that's highlighted.
+    ///
+    /// - Parameters:
+    ///   - dataTable: SwiftDataTable
+    ///   - at: the row index to set the background color
+    /// - Returns: the background colour to make the highlighted row
+    @objc optional func dataTable(_ dataTable: SwiftDataTable, highlightedColorForRowIndex at: Int) -> UIColor
+
+    /// Control the background color for an unhighlighted row.
+    ///
+    /// - Parameters:
+    ///   - dataTable: SwiftDataTable
+    ///   - at: the row index to set the background color
+    /// - Returns: the background colour to make the unhighlighted row
+    @objc optional func dataTable(_ dataTable: SwiftDataTable, unhighlightedColorForRowIndex at: Int) -> UIColor
 }
 
 extension SwiftDataTableDelegate {
     
+//    func dataTable(_ dataTable: SwiftDataTable, unhighlightedColorForRowIndex at: Int) -> UIColor? {
+//        return nil
+//    }
+//    func dataTable(_ dataTable: SwiftDataTable, highlightedColorForRowIndex at: Int) -> UIColor? {
+//        return nil
+//    }
 }
 public class SwiftDataTable: UIView {
     public enum SupplementaryViewType: String {
@@ -170,30 +192,14 @@ public class SwiftDataTable: UIView {
     
     var options: DataTableConfiguration
     
-    let highlightedColours = [
-        UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1),
-        UIColor(red: 0.9725, green: 0.9725, blue: 0.9725, alpha: 1)
-    ]
-    let colours = [
-        UIColor(red: 0.9725, green: 0.9725, blue: 0.9725, alpha: 1),
-        UIColor.white
-    ]
-    
+
     //MARK: - Private Properties
     var currentRowViewModels: DataTableViewModelContent {
-        //        return self.searchRowViewModels
         get {
-            //            return self.searchRowViewModels ?? self.rowViewModels
             return self.searchRowViewModels
         }
         set {
             self.searchRowViewModels = newValue
-            //            if self.searchRowViewModels != nil {
-            //                self.searchRowViewModels = newValue
-            //            }
-            //            else {
-            //                self.rowViewModels = newValue
-            //            }
         }
     }
     
@@ -551,11 +557,12 @@ extension SwiftDataTable: UICollectionViewDataSource, UICollectionViewDelegate {
     }
     public func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         let cellViewModel = self.rowModel(at: indexPath)
+        
         if cellViewModel.highlighted {
-            cell.contentView.backgroundColor = self.highlightedColours[indexPath.section % 2]
+            cell.contentView.backgroundColor = delegate?.dataTable?(self, highlightedColorForRowIndex: indexPath.item) ?? self.options.highlightedAlternatingRowColors[indexPath.section % self.options.highlightedAlternatingRowColors.count]
         }
         else {
-            cell.contentView.backgroundColor = self.colours[indexPath.section % 2]
+            cell.contentView.backgroundColor = delegate?.dataTable?(self, unhighlightedColorForRowIndex: indexPath.item) ?? self.options.unhighlightedAlternatingRowColors[indexPath.section % self.options.unhighlightedAlternatingRowColors.count]
         }
     }
     

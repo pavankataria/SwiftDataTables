@@ -117,6 +117,7 @@ extension MenuViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Properties.menuItemIdentifier, for: indexPath)
         cell.textLabel?.text = self.menuItems[indexPath.section][indexPath.row].title
+        cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         return cell
     }
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -156,6 +157,7 @@ extension MenuViewController {
         section.append(MenuItem(title: "Without Search", config: self.configurationWithoutSearch()))
         section.append(MenuItem(title: "Without floating headers and footers", config: self.configurationWithoutFloatingHeadersAndFooters()))
         section.append(MenuItem(title: "Without scroll bars", config: self.configurationWithoutScrollBars()))
+        section.append(MenuItem(title: "Alternating colours", config: self.configurationAlternatingColours()))
         return section
     }
 }
@@ -184,6 +186,28 @@ extension MenuViewController {
         var configuration = DataTableConfiguration()
         configuration.shouldShowHorizontalScrollBars = false
         configuration.shouldShowVerticalScrollBars = false
+        return configuration
+    }
+    private func configurationAlternatingColours() -> DataTableConfiguration {
+        var configuration = DataTableConfiguration()
+        configuration.highlightedAlternatingRowColors = [
+            UIColor(red: 1, green: 0.7, blue: 0.7, alpha: 1),
+            UIColor(red: 1, green: 0.7, blue: 0.5, alpha: 1),
+            UIColor(red: 1, green: 1, blue: 0.5, alpha: 1),
+            UIColor(red: 0.5, green: 1, blue: 0.5, alpha: 1),
+            UIColor(red: 0.5, green: 0.7, blue: 1, alpha: 1),
+            UIColor(red: 0.5, green: 0.5, blue: 1, alpha: 1),
+            UIColor(red: 1, green: 0.5, blue: 0.5, alpha: 1)
+        ]
+        configuration.unhighlightedAlternatingRowColors = [
+            UIColor(red: 1, green: 0.90, blue: 0.90, alpha: 1),
+            UIColor(red: 1, green: 0.90, blue: 0.7, alpha: 1),
+            UIColor(red: 1, green: 1, blue: 0.7, alpha: 1),
+            UIColor(red: 0.7, green: 1, blue: 0.7, alpha: 1),
+            UIColor(red: 0.7, green: 0.9, blue: 1, alpha: 1),
+            UIColor(red: 0.7, green: 0.7, blue: 1, alpha: 1),
+            UIColor(red: 1, green: 0.7, blue: 0.7, alpha: 1)
+        ]
         return configuration
     }
 }

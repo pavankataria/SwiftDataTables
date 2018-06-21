@@ -1,5 +1,5 @@
 PODS:
-  - SwiftDataTables (0.6.11)
+  - SwiftDataTables (0.6.22)
 
 DEPENDENCIES:
   - SwiftDataTables (from `../`)
@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  SwiftDataTables: 25c8bfefc36a4ae088260cb39648037c3f5f8b2b
+  SwiftDataTables: a0f1aad8fe0a3677e549d8c264699b97d2e4d304
 
 PODFILE CHECKSUM: 117ac710a88fe801ecac2a925baa29b1107fef2e
 
