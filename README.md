@@ -14,35 +14,38 @@ https://img.shields.io/cocoapods/p/SwiftDataTables.svg
 `SwiftDataTables` allows you to display grid-like data sets in a nicely formatted table for iOS. The main goal for the end-user are to be able to obtain useful information from the table as quickly as possible with the following features: ordering, searching, and paging; where as for the developer is to allow for easy implementation with extensible options. 
 
 ## Major Features include:
-+ Tested on iOS 8.0, 9, 10, 11, and 12 onwards. 
-+ Full Swift 4 support
-+ Continued support and active development! 
-+ Full Datasource and delegate support!
-+ Demo project available show casing all types of customisations
-+ Or easy plugin configuration object can be passed with default values for your swift data table's visual presentation.
-+ Can search through your grid
-+ Can filter your datasource by scanning all fields.
-+ Can sort various types of data in your grid, smartly, detecting numbers and strings
-+ Fully configurable width columns and height rows or fall back on the automatic proportion scaling depending on the content
-+ Beautiful alternating colours for rows and column selections.
-+ Fully configurable header and footer labels including search view too. 
-+ and beautiful clean interface. 
+- [x] Tested on iOS 8.0, 9, 10, 11, and 12 onwards. 
+- [x] Full Swift 4 support
+- [x] Continued support and active development! 
+- [x] Full Datasource and delegate support!
+- [x] Demo project available show casing all types of customisations
+- [x] Or easy plugin configuration object can be passed with default values for your swift data table's visual presentation.
+- [x] Can search through your grid
+- [x] Can filter your datasource by scanning all fields.
+- [x] Can sort various types of data in your grid, smartly, detecting numbers and strings
+- [x] Width columns and height rows configurable or fall back to automatic proportion scaling depending on content
+- [x] Beautiful alternating colours for rows and column selections.
+- [x] Fully configurable header and footer labels including search view too. 
+- [x] and beautiful clean presentation. 
 
 ![animation](/Example/SwiftDataTables-Preview.gif)
 
-## Installation
+## Install
 
-#### <img src="https://koenig-media.raywenderlich.com/uploads/2015/04/twitter-icon.png" width="23" height="23"> [CocoaPods]
+### [Carthage](https://github.com/Carthage/Carthage)
 
-[CocoaPods]: http://cocoapods.org
+- Add the following to your Cartfile: `github "pavankataria/SwiftDataTables"`
+- Then run `carthage update`
+- Follow the current instructions in [Carthage's README][carthage-installation]
+for up to date installation instructions.
 
-To install it, simply add the following line to your **Podfile**:
+[carthage-installation]: https://github.com/Carthage/Carthage#adding-frameworks-to-an-application
 
-```ruby
-pod "SwiftDataTables"
-```
+### [CocoaPods](http://cocoapods.org)
 
-Then run `pod install` with CocoaPods 1.1.0.beta.1 or newer.
+- Add the following to your [Podfile](http://guides.cocoapods.org/using/the-podfile.html): `pod 'SwiftDataTables'`
+- You will also need to make sure you're opting into using frameworks: `use_frameworks!`
+- Then run `pod install`.
 
 ## Demo Project Included
 
