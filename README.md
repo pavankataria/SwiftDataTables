@@ -16,11 +16,12 @@ https://img.shields.io/cocoapods/p/SwiftDataTables.svg
 ## Major Features include:
 - [x] Tested on iOS 8.0, 9, 10, 11, and 12 onwards. 
 - [x] Full Swift 4 support
+- [x] Mobile friendly. Tables adapt to the viewport size.
+- [x] Instant search. Filter results by text search.
 - [x] Continued support and active development! 
 - [x] Full Datasource and delegate support!
 - [x] Demo project available show casing all types of customisations
 - [x] Or easy plugin configuration object can be passed with default values for your swift data table's visual presentation.
-- [x] Can search through your grid
 - [x] Can filter your datasource by scanning all fields.
 - [x] Can sort various types of data in your grid, smartly, detecting numbers and strings
 - [x] Width columns and height rows configurable or fall back to automatic proportion scaling depending on content
@@ -28,7 +29,7 @@ https://img.shields.io/cocoapods/p/SwiftDataTables.svg
 - [x] Fully configurable header and footer labels including search view too. 
 - [x] and beautiful clean presentation. 
 
-![animation](/Example/SwiftDataTables-Preview.gif)
+<img src="http://g.recordit.co/Mh9PYXB9T4.gif" width="50%"><img src="/Example/SwiftDataTables-Preview.gif" width="50%">
 
 ## Install
 
