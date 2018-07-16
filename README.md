@@ -3,9 +3,21 @@
 <!--[![CI Status](http://img.shields.io/travis/pavankataria/SwiftDataTables.svg?style=flat)](https://travis-ci.org/pavankataria/SwiftDataTables)
 https://img.shields.io/cocoapods/p/SwiftDataTables.svg
 -->
-[![Platform](https://img.shields.io/badge/%20%20Platform%20%20-iOS-brightgreen.svg?style=flat)](http://cocoapods.org/pods/SwiftDataTables)
-[![Swift Version](https://img.shields.io/badge/%20%20Swift%20Version%20%20-4-brightgreen.svg?style=flat)](http://cocoapods.org/pods/SwiftDataTables) <!--[![GitHub issues](https://img.shields.io/github/issues/pavankataria/SwiftDataTables.svg)](https://github.com/pavankataria/SwiftDataTables/issues)--> [![License](https://img.shields.io/badge/%20%20license%20%20-MIT-brightgreen.svg?style=flat)](http://cocoapods.org/pods/SwiftDataTables)
-[![Version](https://img.shields.io/cocoapods/v/SwiftDataTables.svg?style=flat)](http://cocoapods.org/pods/SwiftDataTables)
+<!--[![Platform](https://img.shields.io/badge/%20%20Platform%20%20-iOS-brightgreen.svg?style=flat)](http://cocoapods.org/pods/SwiftDataTables)-->
+<!--[![Swift Version](https://img.shields.io/badge/%20%20Swift%20Version%20%20-3%20and%204-brightgreen.svg?style=flat)](http://cocoapods.org/pods/SwiftDataTables)-->
+<!--[![GitHub issues](https://img.shields.io/github/issues/pavankataria/SwiftDataTables.svg)]
+(https://github.com/pavankataria/SwiftDataTables/issues)--> 
+[![Language: Swift 2, 3 and 4](https://img.shields.io/badge/language-swift%204-f48041.svg?style=flat)](https://developer.apple.com/swift) 
+![Platform: iOS 8+](https://img.shields.io/badge/platform-iOS-blue.svg?style=flat)
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+[![CocoaPods compatible](https://img.shields.io/badge/Cocoapods-compatible-4BC51D.svg?style=flat)](https://cocoapods.org/pods/SwiftDataTables)
+[![License](https://img.shields.io/badge/%20%20license%20%20-MIT-brightgreen.svg?style=flat)](http://cocoapods.org/pods/SwiftDataTables)
+[![CocoaPods](https://img.shields.io/cocoapods/dt/SwiftDataTables.svg)]()
+[![CocoaPods](https://img.shields.io/cocoapods/at/SwiftDataTables.svg)]()
+[![GitHub contributors](https://img.shields.io/github/contributors/pavankataria/SwiftDataTables.svg)](https://github.com/freshos/Stevia/graphs/contributors)
+[![GitHub tag](https://img.shields.io/github/release/pavankataria/SwiftDataTables.svg)]()
+
+<!--[![Version](https://img.shields.io/cocoapods/v/SwiftDataTables.svg?style=flat)](http://cocoapods.org/pods/SwiftDataTables)-->
 <!--[![CocoaPodsDL](https://img.shields.io/cocoapods/dt/SwiftDataTables.svg)](https://cocoapods.org/pods/SwiftDataTables)-->
 
 `SwiftDataTables` allows you to display grid-like data sets in a nicely formatted table for iOS. The main goal for the end-user is to be able to obtain useful information from the table as quickly as possible with the following features: ordering, searching, and paging; and to provide an easy implementation with extensible options for the developer. 
