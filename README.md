@@ -1,4 +1,3 @@
-# SwiftDataTables
 
 <!--[![CI Status](http://img.shields.io/travis/pavankataria/SwiftDataTables.svg?style=flat)](https://travis-ci.org/pavankataria/SwiftDataTables)
 https://img.shields.io/cocoapods/p/SwiftDataTables.svg
@@ -7,16 +6,38 @@ https://img.shields.io/cocoapods/p/SwiftDataTables.svg
 <!--[![Swift Version](https://img.shields.io/badge/%20%20Swift%20Version%20%20-3%20and%204-brightgreen.svg?style=flat)](http://cocoapods.org/pods/SwiftDataTables)-->
 <!--[![GitHub issues](https://img.shields.io/github/issues/pavankataria/SwiftDataTables.svg)]
 (https://github.com/pavankataria/SwiftDataTables/issues)--> 
-[![Language: Swift 2, 3 and 4](https://img.shields.io/badge/language-swift%204-f48041.svg?style=flat)](https://developer.apple.com/swift) 
-![Platform: iOS 8+](https://img.shields.io/badge/platform-iOS-blue.svg?style=flat)
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
-[![CocoaPods compatible](https://img.shields.io/badge/Cocoapods-compatible-4BC51D.svg?style=flat)](https://cocoapods.org/pods/SwiftDataTables)
-[![License](https://img.shields.io/badge/%20%20license%20%20-MIT-brightgreen.svg?style=flat)](http://cocoapods.org/pods/SwiftDataTables)
-[![CocoaPods](https://img.shields.io/cocoapods/dt/SwiftDataTables.svg)]()
-[![CocoaPods](https://img.shields.io/cocoapods/at/SwiftDataTables.svg)]()
-[![GitHub contributors](https://img.shields.io/github/contributors/pavankataria/SwiftDataTables.svg)](https://github.com/freshos/Stevia/graphs/contributors)
-[![GitHub tag](https://img.shields.io/github/release/pavankataria/SwiftDataTables.svg)]()
+<!--[![GitHub contributors](https://img.shields.io/github/contributors/pavankataria/SwiftDataTables.svg)](https://github.com/freshos/Stevia/graphs/contributors)-->
+<!--![Platform: iOS 8+](https://img.shields.io/badge/platform-iOS-blue.svg?style=flat)-->
 
+<p align="center">
+    # Swift DataTables
+    <a href="https://developer.apple.com/swift">
+        <img src="https://img.shields.io/badge/Swift-4.1-orange.svg?style=flat" />
+    </a>
+
+    <a href="https://github.com/Carthage/Carthage">
+        <img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" />
+    </a>
+
+    <a href="https://cocoapods.org/pods/SwiftDataTables">
+        <img src="tps://img.shields.io/badge/Cocoapods-compatible-4BC51D.svg?style=flat" />
+    </a>
+    <a href="https://en.wikipedia.org/wiki/MIT_License">
+        <img src="https://img.shields.io/badge/%20%20license%20%20-MIT-brightgreen.svg?style=flat" />
+    </a>
+    
+    <a href="https://en.wikipedia.org/wiki/MIT_License">
+        <img src="https://img.shields.io/badge/%20%20license%20%20-MIT-brightgreen.svg?style=flat" />
+    </a>
+        
+    <img src="https://img.shields.io/cocoapods/dt/SwiftDataTables.svg" />
+    <img src="https://img.shields.io/cocoapods/at/SwiftDataTables.svg" />
+    
+    <a href="https://github.com/pavankataria/SwiftDataTables/releases">
+        <img src="https://img.shields.io/github/release/pavankataria/SwiftDataTables.svg" />
+    </a>
+</p>
+    
 <!--[![Version](https://img.shields.io/cocoapods/v/SwiftDataTables.svg?style=flat)](http://cocoapods.org/pods/SwiftDataTables)-->
 <!--[![CocoaPodsDL](https://img.shields.io/cocoapods/dt/SwiftDataTables.svg)](https://cocoapods.org/pods/SwiftDataTables)-->
 
