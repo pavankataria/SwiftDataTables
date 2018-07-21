@@ -26,9 +26,6 @@ https://img.shields.io/cocoapods/p/SwiftDataTables.svg
    <a href="https://en.wikipedia.org/wiki/MIT_License">
         <img src="https://img.shields.io/badge/%20%20license%20%20-MIT-brightgreen.svg?style=flat" />
     </a>
-   </p>
-   <p align="center">
-        
    <img src="https://img.shields.io/cocoapods/dt/SwiftDataTables.svg" />
    <img src="https://img.shields.io/cocoapods/at/SwiftDataTables.svg" />
     
