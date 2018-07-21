@@ -201,11 +201,9 @@ WeShop - Make shopping on the go a joy with the WeShop App. Compare millions of 
 
 SwiftDataTables is available under the MIT license. See the LICENSE file for more info.
 This package was inspired by JQuery's DataTables plugin.
-
+<!--
 ## Follow us
-
 [![Twitter URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=https://github.com/pavankataria/SwiftDataTables)
 [![Twitter Follow](https://img.shields.io/twitter/follow/pavan_kataria.svg?style=social)](https://twitter.com/pavan_kataria)
-
-
+-->
 [twitter]: https://twitter.com/pavan_kataria
