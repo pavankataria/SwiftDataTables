@@ -176,7 +176,7 @@ An optional delegate for further customisation. Default values will be used retr
 
 **Before contribute check the [CONTRIBUTING](CONTRIBUTING.md) file for more info.**
 
-If you use **SwiftDataTables** in your app We would love to hear about it! Drop us a line on [twitter].
+If you use **SwiftDataTables** in your app We would love to hear about it! Drop me a line on [twitter].
 
 ## Author
 
