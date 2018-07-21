@@ -14,18 +14,15 @@ https://img.shields.io/cocoapods/p/SwiftDataTables.svg
    <a href="https://developer.apple.com/swift">
         <img src="https://img.shields.io/badge/Swift-4.1-orange.svg?style=flat" />
     </a>
-
-   <a href="https://github.com/Carthage/Carthage">
+  <a href="https://github.com/Carthage/Carthage">
         <img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" />
-    </a>
-
+   </a>
    <a href="https://cocoapods.org/pods/SwiftDataTables">
         <img src="tps://img.shields.io/badge/Cocoapods-compatible-4BC51D.svg?style=flat" />
     </a>
    <a href="https://en.wikipedia.org/wiki/MIT_License">
         <img src="https://img.shields.io/badge/%20%20license%20%20-MIT-brightgreen.svg?style=flat" />
-    </a>
-    
+   </a>
    <a href="https://en.wikipedia.org/wiki/MIT_License">
         <img src="https://img.shields.io/badge/%20%20license%20%20-MIT-brightgreen.svg?style=flat" />
     </a>
