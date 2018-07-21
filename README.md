@@ -9,8 +9,7 @@ https://img.shields.io/cocoapods/p/SwiftDataTables.svg
 <!--[![GitHub contributors](https://img.shields.io/github/contributors/pavankataria/SwiftDataTables.svg)](https://github.com/freshos/Stevia/graphs/contributors)-->
 <!--![Platform: iOS 8+](https://img.shields.io/badge/platform-iOS-blue.svg?style=flat)-->
 
-# Swift DataTables
-<center> <h1>Swift DataTables</h1> </center>
+![Swift DataTables](https://user-images.githubusercontent.com/1791244/43036589-70947a6c-8cfc-11e8-9fe8-37abb78317aa.png)
 
 <p align="center">
    <a href="https://developer.apple.com/swift">
@@ -38,6 +37,9 @@ https://img.shields.io/cocoapods/p/SwiftDataTables.svg
    <a href="https://github.com/pavankataria/SwiftDataTables/releases">
         <img src="https://img.shields.io/github/release/pavankataria/SwiftDataTables.svg" />
    </a>
+       <a href="https://twitter.com/pavan_kataria">
+        <img src="https://img.shields.io/badge/contact-@pavan_kataria-blue.svg?style=flat" alt="Twitter: @pavan_kataria" />
+    </a>
 </p>
     
 <!--[![Version](https://img.shields.io/cocoapods/v/SwiftDataTables.svg?style=flat)](http://cocoapods.org/pods/SwiftDataTables)-->
