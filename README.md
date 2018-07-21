@@ -167,20 +167,25 @@ An optional delegate for further customisation. Default values will be used retr
     @objc optional func dataTable(_ dataTable: SwiftDataTable, unhighlightedColorForRowIndex at: Int) -> UIColor
 }
 ```
+## Getting involved
+
+* If you **want to contribute** please feel free to **submit pull requests**.
+* If you **have a feature request** please **open an issue**.
+* If you **found a bug** check older issues before submitting an issue.
+* If you **need help** or would like to **ask general question**, create an issue.
+
+**Before contribute check the [CONTRIBUTING](CONTRIBUTING.md) file for more info.**
+
+If you use **SwiftDataTables** in your app We would love to hear about it! Drop us a line on [twitter].
 
 ## Author
 
 Pavan Kataria
 
-## Contributing
+### 👨‍💻 Contributors
 
-1. Create an issue and describe your idea
-2. [Fork it] (https://github.com/pavankataria/SwiftDataTables/fork)
-3. Create your feature branch (`git checkout -b my-new-feature`)
-4. Commit your changes (`git commit -am 'Add some feature'`)
-5. Publish the branch (`git push origin my-new-feature`)
-6. Create a new Pull Request
-7. Thank you! :white_check_mark:
+[Hais Daekin](https://github.com/Hais)
+
 
 <!--## Contributors 
 Thanks to the developers listed below:
@@ -202,3 +207,6 @@ This package was inspired by JQuery's DataTables plugin.
 
 [![Twitter URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=https://github.com/pavankataria/SwiftDataTables)
 [![Twitter Follow](https://img.shields.io/twitter/follow/pavan_kataria.svg?style=social)](https://twitter.com/pavan_kataria)
+
+
+[twitter]: https://twitter.com/pavan_kataria
