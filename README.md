@@ -1,4 +1,3 @@
-
 <!--[![CI Status](http://img.shields.io/travis/pavankataria/SwiftDataTables.svg?style=flat)](https://travis-ci.org/pavankataria/SwiftDataTables)
 https://img.shields.io/cocoapods/p/SwiftDataTables.svg
 -->
@@ -38,7 +37,7 @@ https://img.shields.io/cocoapods/p/SwiftDataTables.svg
         <img src="https://img.shields.io/github/release/pavankataria/SwiftDataTables.svg" />
    </a>
        <a href="https://twitter.com/pavan_kataria">
-        <img src="https://img.shields.io/badge/contact-@pavan_kataria-blue.svg?style=flat" alt="Twitter: @pavan_kataria" />
+        <img src="https://img.shields.io/badge/contact-@pavan__kataria-blue.svg?style=flat" alt="Twitter: @pavan_kataria" />
     </a>
 </p>
     
