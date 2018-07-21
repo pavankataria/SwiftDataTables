@@ -190,13 +190,12 @@ Pavan Kataria
 <!--## Contributors 
 Thanks to the developers listed below:
 <a href="https://github.com/pavankataria/SwiftDataTables/graphs/contributors"><img src="https://opencollective.com/AudioKit/contributors.svg?width=890&button=false" /></a>
--->
 Who is using it
 ---------------
 Please let me know if your app is using this library. I'd be glad to put your app on the list :-)
 * [WeShop for iOS](https://itunes.apple.com/gb/app/weshop-compare-shop-earn/id1045921951?mt=8)  
 WeShop - Make shopping on the go a joy with the WeShop App. Compare millions of products from 100s of top retailers and discover which have been recommended by people you trust. WeShop is the most rewarding place to shop; collect points every time you buy AND when you recommend products you love. Redeem them for cash, or donate them to charity - it pays to be social!
-
+-->
 
 ## License
 
