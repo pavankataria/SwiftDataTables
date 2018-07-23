@@ -18,7 +18,7 @@ https://img.shields.io/cocoapods/p/SwiftDataTables.svg
         <img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" />
    </a>
    <a href="https://cocoapods.org/pods/SwiftDataTables">
-        <img src="tps://img.shields.io/badge/Cocoapods-compatible-4BC51D.svg?style=flat" />
+        <img src="https://img.shields.io/badge/Cocoapods-compatible-4BC51D.svg?style=flat" />
     </a>
    <a href="https://en.wikipedia.org/wiki/MIT_License">
         <img src="https://img.shields.io/badge/License-MIT-brightgreen.svg?style=flat" />
