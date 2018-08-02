@@ -23,9 +23,9 @@ https://img.shields.io/cocoapods/p/SwiftDataTables.svg
    <a href="https://en.wikipedia.org/wiki/MIT_License">
         <img src="https://img.shields.io/badge/License-MIT-brightgreen.svg?style=flat" />
    </a>
-   <img src="https://img.shields.io/cocoapods/dt/SwiftDataTables.svg" />
+<!--    <img src="https://img.shields.io/cocoapods/dt/SwiftDataTables.svg" />
    <img src="https://img.shields.io/cocoapods/at/SwiftDataTables.svg" />
-    
+     -->
    <a href="https://github.com/pavankataria/SwiftDataTables/releases">
         <img src="https://img.shields.io/github/release/pavankataria/SwiftDataTables.svg" />
    </a>
