@@ -55,9 +55,15 @@ public protocol SwiftDataTableDataSource: class {
     ///
     /// - Parameters:
     ///   - dataTable: SwiftDataTable
-    ///   - index: the index of the row that was hit.
     ///   - cellViewModel: String representation of model row
-    @objc optional func didSelectItem(_ dataTable: SwiftDataTable, indexPath: IndexPath, cellViewModel: [String]) -> Void
+    @objc optional func didSelectItem(_ dataTable: SwiftDataTable, cellViewModel: [String]) -> Void
+
+    /// callback when a cell has been deselected
+    ///
+    /// - Parameters:
+    ///   - dataTable: SwiftDataTable
+    ///   - cellViewModel: String representation of model row
+    @objc optional func didDeselectItem(_ dataTable: SwiftDataTable, cellViewModel: [String]) -> Void
 
     /// Specify custom heights for specific rows. A row height of 0 is valid and will be used.
     ///
@@ -518,10 +524,14 @@ public extension SwiftDataTable {
 extension SwiftDataTable: UICollectionViewDataSource, UICollectionViewDelegate {
 
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let dataSource = self.dataSource {
-            let cellViewModel: [String] = self.currentRowViewModels[indexPath.section].map { $0.data.stringRepresentation }
-            self.delegate?.didSelectItem?(self, indexPath: indexPath, cellViewModel: cellViewModel)
-        }
+        let cellViewModel: [String] = self.currentRowViewModels[indexPath.section].map { $0.data.stringRepresentation }
+        self.delegate?.didSelectItem?(self, cellViewModel: cellViewModel)
+    }
+
+    public func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        let cellViewModel: [String] = self.currentRowViewModels[indexPath.section].map { $0.data.stringRepresentation }
+        self.delegate?.didDeselectItem?(self, cellViewModel: cellViewModel)
+
     }
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
