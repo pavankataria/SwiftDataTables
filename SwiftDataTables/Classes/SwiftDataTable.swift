@@ -519,7 +519,7 @@ extension SwiftDataTable: UICollectionViewDataSource, UICollectionViewDelegate {
 
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let dataSource = self.dataSource {
-            let cellViewModel: [String] = dataSource.dataTable(self, dataForRowAt: indexPath.row-1).map { $0.stringRepresentation }
+            let cellViewModel: [String] = self.currentRowViewModels[indexPath.section].map { $0.data.stringRepresentation }
             self.delegate?.didSelectItem?(self, indexPath: indexPath, cellViewModel: cellViewModel)
         }
     }
