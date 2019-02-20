@@ -50,6 +50,10 @@ public protocol SwiftDataTableDataSource: class {
 
 /// An optional delegate for further customisation. Default values will be used retrieved from the SwiftDataTableConfiguration file. This will can be overridden and passed into the SwiftDataTable constructor incase you wish not to use the delegate. 
 @objc public protocol SwiftDataTableDelegate: class {
+
+    @objc optional func didSelectItem(_ dataTable: SwiftDataTable, indexPath: IndexPath) -> Void
+
+
     /// Specify custom heights for specific rows. A row height of 0 is valid and will be used.
     ///
     /// - Parameters:
@@ -507,6 +511,11 @@ public extension SwiftDataTable {
 
 
 extension SwiftDataTable: UICollectionViewDataSource, UICollectionViewDelegate {
+
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.delegate?.didSelectItem?(self, indexPath: indexPath)
+    }
+    
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let dataSource = self.dataSource {
             return dataSource.numberOfColumns(in: self)
