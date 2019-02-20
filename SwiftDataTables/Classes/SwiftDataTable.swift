@@ -531,7 +531,6 @@ extension SwiftDataTable: UICollectionViewDataSource, UICollectionViewDelegate {
     public func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         let cellViewModel: [String] = self.currentRowViewModels[indexPath.section].map { $0.data.stringRepresentation }
         self.delegate?.didDeselectItem?(self, cellViewModel: cellViewModel)
-
     }
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
