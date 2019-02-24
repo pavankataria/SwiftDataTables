@@ -178,7 +178,7 @@ public class SwiftDataTable: UIView {
     }
     
     deinit {
-        NotificationCenter.default.removeObserver(self, name: Notification.Name.UIApplicationWillChangeStatusBarOrientation, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIApplication.willChangeStatusBarOrientationNotification, object: nil)
     }
     
     public override func layoutSubviews() {
@@ -189,7 +189,7 @@ public class SwiftDataTable: UIView {
     }
     
     func registerObservers(){
-        NotificationCenter.default.addObserver(self, selector: #selector(deviceOrientationWillChange), name: Notification.Name.UIApplicationWillChangeStatusBarOrientation, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(deviceOrientationWillChange), name: UIApplication.willChangeStatusBarOrientationNotification, object: nil)
     }
     @objc func deviceOrientationWillChange() {
         self.layout?.clearLayoutCache()
