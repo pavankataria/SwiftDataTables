@@ -24,6 +24,7 @@ class DataTableWithDataSourceViewController: UIViewController {
         self.view.backgroundColor = UIColor.white
 
         self.dataTable = SwiftDataTable(dataSource: self)
+        self.dataTable.delegate = self
         self.dataTable.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.dataTable.frame = self.view.frame
         self.view.addSubview(self.dataTable);
@@ -74,5 +75,11 @@ extension DataTableWithDataSourceViewController: SwiftDataTableDataSource {
     
     public func dataTable(_ dataTable: SwiftDataTable, dataForRowAt index: NSInteger) -> [DataTableValueType] {
         return self.dataSource[index]
+    }
+}
+
+extension DataTableWithDataSourceViewController: SwiftDataTableDelegate {
+    func didSelectItem(_ dataTable: SwiftDataTable, indexPath: IndexPath) {
+        print("did select item at indexPath: \(indexPath)")
     }
 }

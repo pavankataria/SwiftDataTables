@@ -21,8 +21,3 @@ extension VirtualPositionTrackable {
         return self.yPositionRunningTotal ?? 0 + self.virtualHeight
     }
 }
-//extension VirtualPositionTrackable {
-//    mutating func setXPositionRunningTotalCache(x: CGFloat){
-//        self.xPositionRunningTotal = x
-//    }
-//}

@@ -113,6 +113,13 @@ An optional delegate for further customisation. Default values will be used retr
 ```Swift
 
 @objc public protocol SwiftDataTableDelegate: class {
+    /// This is fired when a row is selected.
+    ///
+    /// - Parameters:
+    ///   - dataTable: SwiftDataTable
+    ///   - indexPath: the index path of the row selected
+    @objc optional func didSelectItem(_ dataTable: SwiftDataTable, indexPath: IndexPath)
+
     /// Specify custom heights for specific rows. A row height of 0 is valid and will be used.
     @objc optional func dataTable(_ dataTable: SwiftDataTable, heightForRowAt index: Int) -> CGFloat
 

@@ -87,7 +87,8 @@ class GenericDataTableViewController: UIViewController {
         self.dataTable.backgroundColor = UIColor(red: 235/255, green: 235/255, blue: 235/255, alpha: 1)
         self.dataTable.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.dataTable.frame = self.view.frame
-        self.view.addSubview(self.dataTable);
+        self.view.addSubview(self.dataTable)
+        self.dataTable.delegate = self
     }
     func columnHeaders() -> [String] {
         return [
@@ -104,6 +105,12 @@ class GenericDataTableViewController: UIViewController {
         return exampleDataSet().map {
             $0.compactMap (DataTableValueType.init)
         }
+    }
+}
+
+extension GenericDataTableViewController: SwiftDataTableDelegate {
+    func didSelectItem(_ dataTable: SwiftDataTable, indexPath: IndexPath) {
+        print("did select item at indexPath: \(indexPath)")
     }
 }
 //MARK: - Data source and delegate methods
