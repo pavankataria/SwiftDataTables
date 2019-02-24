@@ -37,9 +37,14 @@ class DataTableWithDataSetViewController: UIViewController {
         self.dataTable.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.dataTable.frame = self.view.frame
         self.view.addSubview(self.dataTable);
+        self.dataTable.delegate = self
     }
 }
-
+extension DataTableWithDataSetViewController: SwiftDataTableDelegate {
+    func didSelectItem(_ dataTable: SwiftDataTable, indexPath: IndexPath) {
+        print("did select item at indexPath: \(indexPath)")
+    }
+}
 extension DataTableWithDataSetViewController {
     func columnHeaders() -> [String] {
         return [
