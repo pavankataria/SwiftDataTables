@@ -8,6 +8,35 @@
 
 /* Begin PBXBuildFile section */
 		0557FFCB20D18824003EC229 /* MenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0557FFCA20D18824003EC229 /* MenuTableViewController.swift */; };
+		058315822224644B004B4478 /* SwiftDataTables.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0583155E2224644B004B4478 /* SwiftDataTables.bundle */; };
+		058315832224644B004B4478 /* PaginationHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315612224644B004B4478 /* PaginationHeaderViewModel.swift */; };
+		058315842224644B004B4478 /* PaginationHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 058315622224644B004B4478 /* PaginationHeader.xib */; };
+		058315852224644B004B4478 /* PaginationHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315632224644B004B4478 /* PaginationHeader.swift */; };
+		058315862224644B004B4478 /* MenuLengthHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 058315652224644B004B4478 /* MenuLengthHeader.xib */; };
+		058315872224644B004B4478 /* MenuLengthHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315662224644B004B4478 /* MenuLengthHeader.swift */; };
+		058315882224644B004B4478 /* MenuLengthHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315672224644B004B4478 /* MenuLengthHeaderViewModel.swift */; };
+		058315892224644B004B4478 /* DataTableSortType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315682224644B004B4478 /* DataTableSortType.swift */; };
+		0583158A2224644B004B4478 /* DataTableSearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315692224644B004B4478 /* DataTableSearchTextField.swift */; };
+		0583158B2224644B004B4478 /* DataTableConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583156A2224644B004B4478 /* DataTableConfiguration.swift */; };
+		0583158C2224644B004B4478 /* DataCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583156C2224644B004B4478 /* DataCellViewModel.swift */; };
+		0583158D2224644B004B4478 /* DataCellLayoutAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583156D2224644B004B4478 /* DataCellLayoutAttributes.swift */; };
+		0583158E2224644B004B4478 /* DataCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0583156E2224644B004B4478 /* DataCell.xib */; };
+		0583158F2224644B004B4478 /* DataCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583156F2224644B004B4478 /* DataCell.swift */; };
+		058315902224644B004B4478 /* SwiftDataTableLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315702224644B004B4478 /* SwiftDataTableLayout.swift */; };
+		058315912224644B004B4478 /* SwiftDataTable+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315722224644B004B4478 /* SwiftDataTable+Extensions.swift */; };
+		058315922224644B004B4478 /* DataTableSortable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315732224644B004B4478 /* DataTableSortable.swift */; };
+		058315932224644B004B4478 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315742224644B004B4478 /* DataStore.swift */; };
+		058315942224644B004B4478 /* DataTableValueType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315752224644B004B4478 /* DataTableValueType.swift */; };
+		058315952224644B004B4478 /* SwiftDataTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315762224644B004B4478 /* SwiftDataTable.swift */; };
+		058315962224644B004B4478 /* VirtualPositionTrackable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315782224644B004B4478 /* VirtualPositionTrackable.swift */; };
+		058315972224644B004B4478 /* CollectionViewCellRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315792224644B004B4478 /* CollectionViewCellRepresentable.swift */; };
+		058315982224644B004B4478 /* DataCellRowRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583157A2224644B004B4478 /* DataCellRowRepresentable.swift */; };
+		058315992224644B004B4478 /* SwiftDataTableDataSourceAndDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583157B2224644B004B4478 /* SwiftDataTableDataSourceAndDelegate.swift */; };
+		0583159A2224644B004B4478 /* CollectionViewSupplementaryElementRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583157C2224644B004B4478 /* CollectionViewSupplementaryElementRepresentable.swift */; };
+		0583159B2224644B004B4478 /* DataHeaderFooter.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0583157E2224644B004B4478 /* DataHeaderFooter.xib */; };
+		0583159C2224644B004B4478 /* DataHeaderFooterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583157F2224644B004B4478 /* DataHeaderFooterViewModel.swift */; };
+		0583159D2224644B004B4478 /* DataHeaderFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315802224644B004B4478 /* DataHeaderFooter.swift */; };
+		0583159E2224644B004B4478 /* DataStructureModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315812224644B004B4478 /* DataStructureModel.swift */; };
 		058D4BB71E954000002A2DC9 /* DataTableWithDataSourceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058D4BB61E954000002A2DC9 /* DataTableWithDataSourceViewController.swift */; };
 		05DDE6B11E71AF2C003BD61E /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05DDE6B01E71AF2C003BD61E /* File.swift */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
@@ -15,27 +44,42 @@
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
-		F0592D2C2D47ACAF75D183F3 /* Pods_SwiftDataTables_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E773E3A98AF8683E036CC9BC /* Pods_SwiftDataTables_Example.framework */; };
-		F84ECFAB15A7C6899E74DA98 /* Pods_SwiftDataTables_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5076460E54A93B08419E4FC3 /* Pods_SwiftDataTables_Tests.framework */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		607FACE61AFB9204008FA782 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 607FACC81AFB9204008FA782 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 607FACCF1AFB9204008FA782;
-			remoteInfo = SwiftDataTables;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		0557FFCA20D18824003EC229 /* MenuTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTableViewController.swift; sourceTree = "<group>"; };
+		0583155E2224644B004B4478 /* SwiftDataTables.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SwiftDataTables.bundle; sourceTree = "<group>"; };
+		058315612224644B004B4478 /* PaginationHeaderViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginationHeaderViewModel.swift; sourceTree = "<group>"; };
+		058315622224644B004B4478 /* PaginationHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PaginationHeader.xib; sourceTree = "<group>"; };
+		058315632224644B004B4478 /* PaginationHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginationHeader.swift; sourceTree = "<group>"; };
+		058315652224644B004B4478 /* MenuLengthHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MenuLengthHeader.xib; sourceTree = "<group>"; };
+		058315662224644B004B4478 /* MenuLengthHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuLengthHeader.swift; sourceTree = "<group>"; };
+		058315672224644B004B4478 /* MenuLengthHeaderViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuLengthHeaderViewModel.swift; sourceTree = "<group>"; };
+		058315682224644B004B4478 /* DataTableSortType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataTableSortType.swift; sourceTree = "<group>"; };
+		058315692224644B004B4478 /* DataTableSearchTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataTableSearchTextField.swift; sourceTree = "<group>"; };
+		0583156A2224644B004B4478 /* DataTableConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataTableConfiguration.swift; sourceTree = "<group>"; };
+		0583156C2224644B004B4478 /* DataCellViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataCellViewModel.swift; sourceTree = "<group>"; };
+		0583156D2224644B004B4478 /* DataCellLayoutAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataCellLayoutAttributes.swift; sourceTree = "<group>"; };
+		0583156E2224644B004B4478 /* DataCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DataCell.xib; sourceTree = "<group>"; };
+		0583156F2224644B004B4478 /* DataCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataCell.swift; sourceTree = "<group>"; };
+		058315702224644B004B4478 /* SwiftDataTableLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftDataTableLayout.swift; sourceTree = "<group>"; };
+		058315722224644B004B4478 /* SwiftDataTable+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwiftDataTable+Extensions.swift"; sourceTree = "<group>"; };
+		058315732224644B004B4478 /* DataTableSortable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataTableSortable.swift; sourceTree = "<group>"; };
+		058315742224644B004B4478 /* DataStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
+		058315752224644B004B4478 /* DataTableValueType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataTableValueType.swift; sourceTree = "<group>"; };
+		058315762224644B004B4478 /* SwiftDataTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftDataTable.swift; sourceTree = "<group>"; };
+		058315782224644B004B4478 /* VirtualPositionTrackable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VirtualPositionTrackable.swift; sourceTree = "<group>"; };
+		058315792224644B004B4478 /* CollectionViewCellRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewCellRepresentable.swift; sourceTree = "<group>"; };
+		0583157A2224644B004B4478 /* DataCellRowRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataCellRowRepresentable.swift; sourceTree = "<group>"; };
+		0583157B2224644B004B4478 /* SwiftDataTableDataSourceAndDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftDataTableDataSourceAndDelegate.swift; sourceTree = "<group>"; };
+		0583157C2224644B004B4478 /* CollectionViewSupplementaryElementRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewSupplementaryElementRepresentable.swift; sourceTree = "<group>"; };
+		0583157E2224644B004B4478 /* DataHeaderFooter.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DataHeaderFooter.xib; sourceTree = "<group>"; };
+		0583157F2224644B004B4478 /* DataHeaderFooterViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataHeaderFooterViewModel.swift; sourceTree = "<group>"; };
+		058315802224644B004B4478 /* DataHeaderFooter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataHeaderFooter.swift; sourceTree = "<group>"; };
+		058315812224644B004B4478 /* DataStructureModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStructureModel.swift; sourceTree = "<group>"; };
 		058D4BB21E953FDD002A2DC9 /* SwiftDataTables_Example-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SwiftDataTables_Example-Bridging-Header.h"; sourceTree = "<group>"; };
 		058D4BB61E954000002A2DC9 /* DataTableWithDataSourceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataTableWithDataSourceViewController.swift; sourceTree = "<group>"; };
 		05DDE6B01E71AF2C003BD61E /* File.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
-		5076460E54A93B08419E4FC3 /* Pods_SwiftDataTables_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwiftDataTables_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		50B52C9654BFE2DA84A4C929 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* SwiftDataTables_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftDataTables_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACD51AFB9204008FA782 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -47,11 +91,8 @@
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		757EF188D22DBACA6CE9D49C /* Pods-SwiftDataTables_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftDataTables_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftDataTables_Tests/Pods-SwiftDataTables_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		776C66EDD196D1AFE38BB82F /* Pods-SwiftDataTables_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftDataTables_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftDataTables_Example/Pods-SwiftDataTables_Example.release.xcconfig"; sourceTree = "<group>"; };
-		7C3CE24995B8413154598310 /* SwiftDataTables.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SwiftDataTables.podspec; path = ../SwiftDataTables.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		9F256AB137A0214B765522F8 /* Pods-SwiftDataTables_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftDataTables_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftDataTables_Example/Pods-SwiftDataTables_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		E1E2C421370D3CFB2097E599 /* Pods-SwiftDataTables_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftDataTables_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftDataTables_Tests/Pods-SwiftDataTables_Tests.release.xcconfig"; sourceTree = "<group>"; };
-		E773E3A98AF8683E036CC9BC /* Pods_SwiftDataTables_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwiftDataTables_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		FCA21B68386362E02A25B628 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,7 +100,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F0592D2C2D47ACAF75D183F3 /* Pods_SwiftDataTables_Example.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -67,7 +107,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F84ECFAB15A7C6899E74DA98 /* Pods_SwiftDataTables_Tests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,11 +124,103 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		0583155D2224644B004B4478 /* SwiftDataTables */ = {
+			isa = PBXGroup;
+			children = (
+				0583155E2224644B004B4478 /* SwiftDataTables.bundle */,
+				0583155F2224644B004B4478 /* Classes */,
+			);
+			name = SwiftDataTables;
+			path = ../../SwiftDataTables;
+			sourceTree = "<group>";
+		};
+		0583155F2224644B004B4478 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				058315602224644B004B4478 /* PaginationHeader */,
+				058315642224644B004B4478 /* MenuLengthHeader */,
+				058315682224644B004B4478 /* DataTableSortType.swift */,
+				058315692224644B004B4478 /* DataTableSearchTextField.swift */,
+				0583156A2224644B004B4478 /* DataTableConfiguration.swift */,
+				0583156B2224644B004B4478 /* DataCell */,
+				058315702224644B004B4478 /* SwiftDataTableLayout.swift */,
+				058315712224644B004B4478 /* Extensions */,
+				058315732224644B004B4478 /* DataTableSortable.swift */,
+				058315742224644B004B4478 /* DataStore.swift */,
+				058315752224644B004B4478 /* DataTableValueType.swift */,
+				058315762224644B004B4478 /* SwiftDataTable.swift */,
+				058315772224644B004B4478 /* Protocols */,
+				0583157D2224644B004B4478 /* HeaderFooter */,
+				058315812224644B004B4478 /* DataStructureModel.swift */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		058315602224644B004B4478 /* PaginationHeader */ = {
+			isa = PBXGroup;
+			children = (
+				058315612224644B004B4478 /* PaginationHeaderViewModel.swift */,
+				058315622224644B004B4478 /* PaginationHeader.xib */,
+				058315632224644B004B4478 /* PaginationHeader.swift */,
+			);
+			path = PaginationHeader;
+			sourceTree = "<group>";
+		};
+		058315642224644B004B4478 /* MenuLengthHeader */ = {
+			isa = PBXGroup;
+			children = (
+				058315652224644B004B4478 /* MenuLengthHeader.xib */,
+				058315662224644B004B4478 /* MenuLengthHeader.swift */,
+				058315672224644B004B4478 /* MenuLengthHeaderViewModel.swift */,
+			);
+			path = MenuLengthHeader;
+			sourceTree = "<group>";
+		};
+		0583156B2224644B004B4478 /* DataCell */ = {
+			isa = PBXGroup;
+			children = (
+				0583156C2224644B004B4478 /* DataCellViewModel.swift */,
+				0583156D2224644B004B4478 /* DataCellLayoutAttributes.swift */,
+				0583156E2224644B004B4478 /* DataCell.xib */,
+				0583156F2224644B004B4478 /* DataCell.swift */,
+			);
+			path = DataCell;
+			sourceTree = "<group>";
+		};
+		058315712224644B004B4478 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				058315722224644B004B4478 /* SwiftDataTable+Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		058315772224644B004B4478 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				058315782224644B004B4478 /* VirtualPositionTrackable.swift */,
+				058315792224644B004B4478 /* CollectionViewCellRepresentable.swift */,
+				0583157A2224644B004B4478 /* DataCellRowRepresentable.swift */,
+				0583157B2224644B004B4478 /* SwiftDataTableDataSourceAndDelegate.swift */,
+				0583157C2224644B004B4478 /* CollectionViewSupplementaryElementRepresentable.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		0583157D2224644B004B4478 /* HeaderFooter */ = {
+			isa = PBXGroup;
+			children = (
+				0583157E2224644B004B4478 /* DataHeaderFooter.xib */,
+				0583157F2224644B004B4478 /* DataHeaderFooterViewModel.swift */,
+				058315802224644B004B4478 /* DataHeaderFooter.swift */,
+			);
+			path = HeaderFooter;
+			sourceTree = "<group>";
+		};
 		607FACC71AFB9204008FA782 = {
 			isa = PBXGroup;
 			children = (
-				607FACF51AFB993E008FA782 /* Podspec Metadata */,
-				607FACD21AFB9204008FA782 /* Example for SwiftDataTables */,
+				607FACD21AFB9204008FA782 /* DemoSwiftDataTables */,
 				607FACE81AFB9204008FA782 /* Tests */,
 				607FACD11AFB9204008FA782 /* Products */,
 				00E0C5D4736C4A75792415F5 /* Pods */,
@@ -106,9 +237,10 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		607FACD21AFB9204008FA782 /* Example for SwiftDataTables */ = {
+		607FACD21AFB9204008FA782 /* DemoSwiftDataTables */ = {
 			isa = PBXGroup;
 			children = (
+				0583155D2224644B004B4478 /* SwiftDataTables */,
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				0557FFCA20D18824003EC229 /* MenuTableViewController.swift */,
 				607FACD71AFB9204008FA782 /* DataTableWithDataSetViewController.swift */,
@@ -118,8 +250,7 @@
 				607FACD31AFB9204008FA782 /* Supporting Files */,
 				058D4BB21E953FDD002A2DC9 /* SwiftDataTables_Example-Bridging-Header.h */,
 			);
-			name = "Example for SwiftDataTables";
-			path = SwiftDataTables;
+			path = DemoSwiftDataTables;
 			sourceTree = "<group>";
 		};
 		607FACD31AFB9204008FA782 /* Supporting Files */ = {
@@ -148,21 +279,9 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		607FACF51AFB993E008FA782 /* Podspec Metadata */ = {
-			isa = PBXGroup;
-			children = (
-				7C3CE24995B8413154598310 /* SwiftDataTables.podspec */,
-				FCA21B68386362E02A25B628 /* README.md */,
-				50B52C9654BFE2DA84A4C929 /* LICENSE */,
-			);
-			name = "Podspec Metadata";
-			sourceTree = "<group>";
-		};
 		7F711228D1243DED726EA769 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				E773E3A98AF8683E036CC9BC /* Pods_SwiftDataTables_Example.framework */,
-				5076460E54A93B08419E4FC3 /* Pods_SwiftDataTables_Tests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -174,11 +293,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 607FACEF1AFB9204008FA782 /* Build configuration list for PBXNativeTarget "SwiftDataTables_Example" */;
 			buildPhases = (
-				AECB81B0A442A283F03A29B7 /* [CP] Check Pods Manifest.lock */,
 				607FACCC1AFB9204008FA782 /* Sources */,
 				607FACCD1AFB9204008FA782 /* Frameworks */,
 				607FACCE1AFB9204008FA782 /* Resources */,
-				C1F4B07C6EA72459DF082EA3 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -193,7 +310,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 607FACF21AFB9204008FA782 /* Build configuration list for PBXNativeTarget "SwiftDataTables_Tests" */;
 			buildPhases = (
-				67BFB49A58B50D68D8398584 /* [CP] Check Pods Manifest.lock */,
 				607FACE11AFB9204008FA782 /* Sources */,
 				607FACE21AFB9204008FA782 /* Frameworks */,
 				607FACE31AFB9204008FA782 /* Resources */,
@@ -201,7 +317,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				607FACE71AFB9204008FA782 /* PBXTargetDependency */,
 			);
 			name = SwiftDataTables_Tests;
 			productName = Tests;
@@ -255,8 +370,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				058315842224644B004B4478 /* PaginationHeader.xib in Resources */,
+				0583158E2224644B004B4478 /* DataCell.xib in Resources */,
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
+				058315862224644B004B4478 /* MenuLengthHeader.xib in Resources */,
+				058315822224644B004B4478 /* SwiftDataTables.bundle in Resources */,
+				0583159B2224644B004B4478 /* DataHeaderFooter.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,73 +389,40 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		67BFB49A58B50D68D8398584 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-SwiftDataTables_Tests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		AECB81B0A442A283F03A29B7 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-SwiftDataTables_Example-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C1F4B07C6EA72459DF082EA3 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-SwiftDataTables_Example/Pods-SwiftDataTables_Example-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/SwiftDataTables/SwiftDataTables.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftDataTables.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwiftDataTables_Example/Pods-SwiftDataTables_Example-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		607FACCC1AFB9204008FA782 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				058315962224644B004B4478 /* VirtualPositionTrackable.swift in Sources */,
+				058315932224644B004B4478 /* DataStore.swift in Sources */,
+				0583159A2224644B004B4478 /* CollectionViewSupplementaryElementRepresentable.swift in Sources */,
+				058315922224644B004B4478 /* DataTableSortable.swift in Sources */,
+				058315952224644B004B4478 /* SwiftDataTable.swift in Sources */,
+				058315892224644B004B4478 /* DataTableSortType.swift in Sources */,
+				0583159E2224644B004B4478 /* DataStructureModel.swift in Sources */,
 				607FACD81AFB9204008FA782 /* DataTableWithDataSetViewController.swift in Sources */,
+				0583159D2224644B004B4478 /* DataHeaderFooter.swift in Sources */,
+				058315902224644B004B4478 /* SwiftDataTableLayout.swift in Sources */,
+				058315872224644B004B4478 /* MenuLengthHeader.swift in Sources */,
+				058315832224644B004B4478 /* PaginationHeaderViewModel.swift in Sources */,
+				0583158A2224644B004B4478 /* DataTableSearchTextField.swift in Sources */,
+				058315852224644B004B4478 /* PaginationHeader.swift in Sources */,
+				058315882224644B004B4478 /* MenuLengthHeaderViewModel.swift in Sources */,
+				0583158C2224644B004B4478 /* DataCellViewModel.swift in Sources */,
 				05DDE6B11E71AF2C003BD61E /* File.swift in Sources */,
+				058315942224644B004B4478 /* DataTableValueType.swift in Sources */,
 				0557FFCB20D18824003EC229 /* MenuTableViewController.swift in Sources */,
+				0583158B2224644B004B4478 /* DataTableConfiguration.swift in Sources */,
+				058315972224644B004B4478 /* CollectionViewCellRepresentable.swift in Sources */,
 				058D4BB71E954000002A2DC9 /* DataTableWithDataSourceViewController.swift in Sources */,
+				0583158D2224644B004B4478 /* DataCellLayoutAttributes.swift in Sources */,
+				058315912224644B004B4478 /* SwiftDataTable+Extensions.swift in Sources */,
+				0583158F2224644B004B4478 /* DataCell.swift in Sources */,
+				058315992224644B004B4478 /* SwiftDataTableDataSourceAndDelegate.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
+				0583159C2224644B004B4478 /* DataHeaderFooterViewModel.swift in Sources */,
+				058315982224644B004B4478 /* DataCellRowRepresentable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -348,14 +435,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		607FACE71AFB9204008FA782 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 607FACCF1AFB9204008FA782 /* SwiftDataTables_Example */;
-			targetProxy = 607FACE61AFB9204008FA782 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		607FACDE1AFB9204008FA782 /* LaunchScreen.xib */ = {
@@ -482,13 +561,19 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = R85C7FUGTC;
-				INFOPLIST_FILE = SwiftDataTables/Info.plist;
+				FRAMEWORK_SEARCH_PATHS = "";
+				INFOPLIST_FILE = "$(SRCROOT)/DemoSwiftDataTables/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
+				OTHER_LDFLAGS = "";
+				PODS_BUILD_DIR = "";
+				PODS_CONFIGURATION_BUILD_DIR = "";
+				PODS_PODFILE_DIR_PATH = "";
+				PODS_ROOT = "";
+				PRODUCT_BUNDLE_IDENTIFIER = "demo.SwiftDataTables-Example";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "SwiftDataTables/SwiftDataTables_Example-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "DemoSwiftDataTables/SwiftDataTables_Example-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -503,13 +588,19 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = R85C7FUGTC;
-				INFOPLIST_FILE = SwiftDataTables/Info.plist;
+				FRAMEWORK_SEARCH_PATHS = "";
+				INFOPLIST_FILE = "$(SRCROOT)/DemoSwiftDataTables/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
+				OTHER_LDFLAGS = "";
+				PODS_BUILD_DIR = "";
+				PODS_CONFIGURATION_BUILD_DIR = "";
+				PODS_PODFILE_DIR_PATH = "";
+				PODS_ROOT = "";
+				PRODUCT_BUNDLE_IDENTIFIER = "demo.SwiftDataTables-Example";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "SwiftDataTables/SwiftDataTables_Example-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "DemoSwiftDataTables/SwiftDataTables_Example-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -521,10 +612,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = R85C7FUGTC;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -543,10 +631,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = R85C7FUGTC;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";

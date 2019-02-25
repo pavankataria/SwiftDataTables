@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import UIKit
 
 public struct DataTableColumnOrder {
     //MARK: - Properties

@@ -73,7 +73,6 @@
 		0AE77659040935EAF35BB34D71479276 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		0B8180B135C5B4ECAC66AE1158F4A722 /* MenuLengthHeaderViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MenuLengthHeaderViewModel.swift; sourceTree = "<group>"; };
 		0F62E49DB1F62BC8AB6DBD4D34A98466 /* DataStructureModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataStructureModel.swift; sourceTree = "<group>"; };
-		1037553484562CE309A3013538712A90 /* Pods_SwiftDataTables_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwiftDataTables_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		112941F53790082D6360D9CA313ACF40 /* DataHeaderFooter.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; path = DataHeaderFooter.xib; sourceTree = "<group>"; };
 		15D687796CE586155BA0EBE149427C32 /* DataCellLayoutAttributes.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataCellLayoutAttributes.swift; sourceTree = "<group>"; };
 		17B176CC63B21E9114BAD3ED05BF3D6D /* column-sort-descending.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "column-sort-descending.png"; sourceTree = "<group>"; };
@@ -108,7 +107,6 @@
 		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		950B17288D8F022D6426DC5129DBFE85 /* CollectionViewSupplementaryElementRepresentable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CollectionViewSupplementaryElementRepresentable.swift; sourceTree = "<group>"; };
 		96DB716811F2DC5F284D675C46BEB8F8 /* DataTableConfiguration.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataTableConfiguration.swift; sourceTree = "<group>"; };
-		9A707D5DA18A0996ADF3231840835908 /* Pods_SwiftDataTables_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwiftDataTables_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C520E0139094370E530D4155DD50D34 /* SwiftDataTables.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftDataTables.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E5086C44CCD37CD57336EB951642ADB /* SwiftDataTables-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SwiftDataTables-dummy.m"; sourceTree = "<group>"; };
 		A0AE506E920DEC2C5B90D390E00D7269 /* Pods-SwiftDataTables_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-SwiftDataTables_Tests.modulemap"; sourceTree = "<group>"; };
@@ -346,8 +344,6 @@
 		BF3D0A2E35A9A4F129C10A8EC3A9C0C7 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9A707D5DA18A0996ADF3231840835908 /* Pods_SwiftDataTables_Example.framework */,
-				1037553484562CE309A3013538712A90 /* Pods_SwiftDataTables_Tests.framework */,
 				9C520E0139094370E530D4155DD50D34 /* SwiftDataTables.framework */,
 			);
 			name = Products;
@@ -440,7 +436,6 @@
 			);
 			name = "Pods-SwiftDataTables_Tests";
 			productName = "Pods-SwiftDataTables_Tests";
-			productReference = 1037553484562CE309A3013538712A90 /* Pods_SwiftDataTables_Tests.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		71E1D770C87C33036825B4E629DC1B2E /* Pods-SwiftDataTables_Example */ = {
@@ -459,7 +454,6 @@
 			);
 			name = "Pods-SwiftDataTables_Example";
 			productName = "Pods-SwiftDataTables_Example";
-			productReference = 9A707D5DA18A0996ADF3231840835908 /* Pods_SwiftDataTables_Example.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		DB9135E647F6E0AF23C75A6AF46504CF /* SwiftDataTables */ = {
@@ -494,7 +488,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
+			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "_Pods" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -948,7 +942,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */ = {
+		2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "_Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A73625DEBD810B78234FA1958C191C8C /* Debug */,

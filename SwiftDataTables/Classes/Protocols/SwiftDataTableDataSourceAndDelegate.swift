@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 //public let SwiftDataTableAutomaticColumnWidth: CGFloat = CGFloat.greatestFiniteMagnitude
 
