@@ -78,9 +78,8 @@ for up to date installation instructions.
 
 To run the example project do the following:
 1. Download or clone the repo (`git clone https://github.com/pavankataria/SwiftDataTables`)
-2. Change directory into the `SwiftDataTables/Example` folder (`cd SwiftDataTables/Example`)
-3. Install pod files (`pod install`)
-4. With Xcode 8 installed, as normal, open the workspace file `SwiftDataTables.xcworkspace`, and not `SwiftDataTables.xcodeproj`
+2. Change directory into the `DemoSwiftDataTables/Example` folder (`cd SwiftDataTables/Example`)
+4. With Xcode 9 installed, as normal, open the `SwiftDataTables.xcodeproj` project
 5. Build and Run.
 
 If you have any questions or wish to make any suggestions, please open an issue with the appropriate label, and I'll get back to you right away. Thank you
