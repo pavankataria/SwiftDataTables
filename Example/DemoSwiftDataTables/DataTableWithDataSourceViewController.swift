@@ -9,56 +9,64 @@
 import UIKit
 
 class DataTableWithDataSourceViewController: UIViewController {
-
-    var dataTable: SwiftDataTable! = nil
-    var dataSource: DataTableContent = []
     
+    lazy var dataTable = makeDataTable()
+    var dataSource: DataTableContent = []
     let headerTitles = ["Name", "Fav Beverage", "Fav language", "Short term goals", "Height"]
-
+    
+    init() {
+        super.init(nibName: nil, bundle: nil)
+    }
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.automaticallyAdjustsScrollViewInsets = false
-        self.navigationController?.navigationBar.isTranslucent = false
-        self.title = "Streaming fans"
-        self.view.backgroundColor = UIColor.white
-
-        self.dataTable = SwiftDataTable(dataSource: self)
-        self.dataTable.delegate = self
-        self.dataTable.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        self.dataTable.frame = self.view.frame
-        self.view.addSubview(self.dataTable);
-        
-        self.addDataSourceAfter()
+        automaticallyAdjustsScrollViewInsets = false
+        navigationController?.navigationBar.isTranslucent = false
+        title = "Streaming fans"
+        view.backgroundColor = UIColor.white
+        dataTable.frame = view.frame
+        view.addSubview(dataTable)
+        dataTable.reload()
     }
+    
     public func addDataSourceAfter(){
         
-        self.dataSource = [[
-            DataTableValueType.string("Pavan"),
-            DataTableValueType.string("Juice"),
-            DataTableValueType.string("Swift and Php"),
-            DataTableValueType.string("Be a game publisher"),
-            DataTableValueType.float(175.25)
-        ],
-        [
-        DataTableValueType.string("NoelDavies"),
-        DataTableValueType.string("Water"),
-        DataTableValueType.string("Php and Javascript"),
-        DataTableValueType.string("'Be a fucking paratrooper machine'"),
-        DataTableValueType.float(185.80)
-        ],
-        [
-        DataTableValueType.string("Redsaint"),
-        DataTableValueType.string("Cheerwine and Dr.Pepper"),
-        DataTableValueType.string("Java"),
-        DataTableValueType.string("'Creating an awesome RPG Game game'"),
-        DataTableValueType.float(185.42)
-        ],
+        self.dataSource = [
+            [
+                DataTableValueType.string("Pavan"),
+                DataTableValueType.string("Juice"),
+                DataTableValueType.string("Swift and Php"),
+                DataTableValueType.string("Be a game publisher"),
+                DataTableValueType.float(175.25)
+            ],
+            [
+                DataTableValueType.string("NoelDavies"),
+                DataTableValueType.string("Water"),
+                DataTableValueType.string("Php and Javascript"),
+                DataTableValueType.string("'Be a fucking paratrooper machine'"),
+                DataTableValueType.float(185.80)
+            ],
+            [
+                DataTableValueType.string("Redsaint"),
+                DataTableValueType.string("Cheerwine and Dr.Pepper"),
+                DataTableValueType.string("Java"),
+                DataTableValueType.string("'Creating an awesome RPG Game game'"),
+                DataTableValueType.float(185.42)
+            ],
         ]
-        
-        self.dataTable.reload()
+        dataTable.reload()
     }
 }
-
+extension DataTableWithDataSourceViewController {
+    private func makeDataTable() -> SwiftDataTable {
+        let dataTable = SwiftDataTable(dataSource: self)
+        dataTable.delegate = self
+        dataTable.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        return dataTable
+    }
+}
 extension DataTableWithDataSourceViewController: SwiftDataTableDataSource {
     public func dataTable(_ dataTable: SwiftDataTable, headerTitleForColumnAt columnIndex: NSInteger) -> String {
         return self.headerTitles[columnIndex]
@@ -79,6 +87,6 @@ extension DataTableWithDataSourceViewController: SwiftDataTableDataSource {
 
 extension DataTableWithDataSourceViewController: SwiftDataTableDelegate {
     func didSelectItem(_ dataTable: SwiftDataTable, indexPath: IndexPath) {
-        print("did select item at indexPath: \(indexPath)")
+        print("did select item at indexPath: \(indexPath) dataValue: \(dataTable.data(for: indexPath))")
     }
 }

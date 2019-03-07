@@ -37,9 +37,12 @@ public class SwiftDataTable: UIView {
     public weak var dataSource: SwiftDataTableDataSource?
     public weak var delegate: SwiftDataTableDelegate?
     
+    public var rows: DataTableViewModelContent {
+        return self.currentRowViewModels
+    }
+    
     var options: DataTableConfiguration
     
-
     //MARK: - Private Properties
     var currentRowViewModels: DataTableViewModelContent {
         get {
@@ -300,6 +303,10 @@ public class SwiftDataTable: UIView {
         self.collectionView.resetScrollPositionToTop()
         self.set(data: data, headerTitles: headerTitles, options: self.options)
         self.collectionView.reloadData()
+    }
+    
+    public func data(for indexPath: IndexPath) -> DataTableValueType {
+        return rows[indexPath.section][indexPath.row].data
     }
 }
 

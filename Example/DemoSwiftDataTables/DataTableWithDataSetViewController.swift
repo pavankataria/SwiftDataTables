@@ -41,7 +41,7 @@ class DataTableWithDataSetViewController: UIViewController {
 }
 extension DataTableWithDataSetViewController: SwiftDataTableDelegate {
     func didSelectItem(_ dataTable: SwiftDataTable, indexPath: IndexPath) {
-        print("did select item at indexPath: \(indexPath)")
+        print("did select item at indexPath: \(indexPath) dataValue: \(dataTable.data(for: indexPath))")
     }
 }
 extension DataTableWithDataSetViewController {

@@ -79,7 +79,7 @@ public struct DataStructureModel {
                 let dataType: DataTableValueType = data[$1][column]
                 return $0 + dataType.stringRepresentation.count
             }
-            columnContentAverages.append(Float(averageForCurrentColumn)/Float(data.count))
+            columnContentAverages.append((data.count == 0) ? 1 : Float(averageForCurrentColumn) / Float(data.count))
         }
         return columnContentAverages
     }

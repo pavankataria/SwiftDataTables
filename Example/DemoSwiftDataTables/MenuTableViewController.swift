@@ -26,7 +26,6 @@ class MenuViewController: UITableViewController {
         }
         static let menuItemIdentifier: String = "MenuItemIdentifier"
     }
-//    lazy var exampleConfigurations: [menuItems] = self.createdExampleConfigurations()
     
     lazy var menuItems: [[MenuItem]] = self.createdMenuItems()
     lazy var exampleConfigurations: [MenuItem] = self.createdExampleConfigurations()
@@ -40,11 +39,16 @@ class MenuViewController: UITableViewController {
     //MARK: - Actions
     private func showDataStoreWithDataSet(){
         let instance = DataTableWithDataSetViewController()
-        self.show(instance, sender: self)
+        show(instance, sender: self)
     }
     private func showDataStoreWithDataSource(){
         let instance = DataTableWithDataSourceViewController()
-        self.show(instance, sender: self)
+        show(instance, sender: self)
+        instance.addDataSourceAfter()
+    }
+    private func showDataStoreWithEmptyDataSet() {
+        let instance = DataTableWithDataSourceViewController()
+        show(instance, sender: self)
     }
     private func showGenericExample(for index: Int){
         let menuItem = self.exampleConfigurations[index]
@@ -109,7 +113,7 @@ class GenericDataTableViewController: UIViewController {
 
 extension GenericDataTableViewController: SwiftDataTableDelegate {
     func didSelectItem(_ dataTable: SwiftDataTable, indexPath: IndexPath) {
-        print("did select item at indexPath: \(indexPath)")
+        print("did select item at indexPath: \(indexPath) dataValue: \(dataTable.data(for: indexPath))")
     }
 }
 //MARK: - Data source and delegate methods
@@ -141,6 +145,8 @@ extension MenuViewController {
             showDataStoreWithDataSet()
         case (0,1):
             showDataStoreWithDataSource()
+        case (0, 2):
+            showDataStoreWithEmptyDataSet()
         case (1, let row):
             showGenericExample(for: row)
         default: fatalError("An example hasn't been created for [section: \(indexPath.section) row: \(indexPath.row)]")
@@ -152,7 +158,8 @@ extension MenuViewController {
     private func createdMenuItems() -> [[MenuItem]] {
         let sectionOne: [MenuItem] = [
             MenuItem(title: "Initialised with Data Set"),
-            MenuItem(title: "Initialised with Data Source")]
+            MenuItem(title: "Initialised with Data Source"),
+            MenuItem(title: "Initialised with Empty Data Source")]
         let sectionTwo = self.exampleConfigurations
         
         return [sectionOne, sectionTwo]
@@ -197,24 +204,29 @@ extension MenuViewController {
     private func configurationAlternatingColours() -> DataTableConfiguration {
         var configuration = DataTableConfiguration()
         configuration.highlightedAlternatingRowColors = [
-            UIColor(red: 1, green: 0.7, blue: 0.7, alpha: 1),
-            UIColor(red: 1, green: 0.7, blue: 0.5, alpha: 1),
-            UIColor(red: 1, green: 1, blue: 0.5, alpha: 1),
-            UIColor(red: 0.5, green: 1, blue: 0.5, alpha: 1),
-            UIColor(red: 0.5, green: 0.7, blue: 1, alpha: 1),
-            UIColor(red: 0.5, green: 0.5, blue: 1, alpha: 1),
-            UIColor(red: 1, green: 0.5, blue: 0.5, alpha: 1)
+            .init(1, 0.7, 0.7),
+            .init(1, 0.7, 0.5),
+            .init(1, 1, 0.5),
+            .init(0.5, 1, 0.5),
+            .init(0.5, 0.7, 1),
+            .init(0.5, 0.5, 1),
+            .init(1, 0.5, 0.5)
         ]
         configuration.unhighlightedAlternatingRowColors = [
-            UIColor(red: 1, green: 0.90, blue: 0.90, alpha: 1),
-            UIColor(red: 1, green: 0.90, blue: 0.7, alpha: 1),
-            UIColor(red: 1, green: 1, blue: 0.7, alpha: 1),
-            UIColor(red: 0.7, green: 1, blue: 0.7, alpha: 1),
-            UIColor(red: 0.7, green: 0.9, blue: 1, alpha: 1),
-            UIColor(red: 0.7, green: 0.7, blue: 1, alpha: 1),
-            UIColor(red: 1, green: 0.7, blue: 0.7, alpha: 1)
+            .init(1, 0.90, 0.90),
+            .init(1, 0.90, 0.7),
+            .init(1, 1, 0.7),
+            .init(0.7, 1, 0.7),
+            .init(0.7, 0.9, 1),
+            .init(0.7, 0.7, 1),
+            .init(1, 0.7, 0.7)
         ]
         return configuration
     }
 }
 
+extension UIColor {
+    public convenience init(_ r: CGFloat, _ g: CGFloat, _ b: CGFloat, _ a: CGFloat = 1){
+        self.init(red: r, green: g, blue: b, alpha: a)
+    }
+}
