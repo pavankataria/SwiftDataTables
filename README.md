@@ -12,7 +12,7 @@ https://img.shields.io/cocoapods/p/SwiftDataTables.svg
 
 <p align="center">
    <a href="https://developer.apple.com/swift">
-        <img src="https://img.shields.io/badge/Swift-4.1-orange.svg?style=flat" />
+        <img src="https://img.shields.io/badge/Swift-4.2-orange.svg?style=flat" />
     </a>
   <a href="https://github.com/Carthage/Carthage">
         <img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" />
@@ -41,7 +41,7 @@ https://img.shields.io/cocoapods/p/SwiftDataTables.svg
 
 ## Major Features include:
 - [x] Tested on iOS 8.0, 9, 10, 11, and 12 onwards. 
-- [x] Full Swift 4 support
+- [x] Full Swift 4.2 support
 - [x] Mobile friendly. Tables adapt to the viewport size.
 - [x] Instant search. Filter results by text search.
 - [x] Continued support and active development! 
@@ -177,6 +177,7 @@ An optional delegate for further customisation. Default values will be used retr
     @objc optional func dataTable(_ dataTable: SwiftDataTable, unhighlightedColorForRowIndex at: Int) -> UIColor
 }
 ```
+
 ## Getting involved
 
 * If you **want to contribute** please feel free to **submit pull requests**.
