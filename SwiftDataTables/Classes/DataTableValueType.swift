@@ -19,7 +19,7 @@ public enum DataTableValueType {
     case float(Float)
     case double(Double)
     
-    var stringRepresentation: String {
+    public var stringRepresentation: String {
         get {
             switch self {
             case .string(let value):

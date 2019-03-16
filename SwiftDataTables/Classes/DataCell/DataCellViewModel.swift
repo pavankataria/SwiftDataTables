@@ -15,9 +15,12 @@ open class DataCellViewModel: VirtualPositionTrackable, CollectionViewCellRepres
     var xPositionRunningTotal: CGFloat?  = nil
     var yPositionRunningTotal: CGFloat?  = nil
     var virtualHeight: CGFloat = 0
-    let data: DataTableValueType
+    public let data: DataTableValueType
     var highlighted: Bool = false
-    
+    //
+    public var stringRepresentation: String {
+        return self.data.stringRepresentation
+    }
     //MARK: - Lifecycle
     init(data: DataTableValueType){
         self.data = data

@@ -314,6 +314,7 @@ public extension SwiftDataTable {
     func createDataModels(with data: DataStructureModel){
         self.dataStructure = data
     }
+    
     func createDataCellViewModels(with dataStructure: DataStructureModel){// -> DataTableViewModelContent {
         //1. Create the headers
         self.headerViewModels = Array(0..<(dataStructure.headerTitles.count)).map {
