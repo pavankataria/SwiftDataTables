@@ -40,11 +40,14 @@ public class DataHeaderFooterViewModel: DataTableSortable {
             let url = bundle.url(forResource: "SwiftDataTables", withExtension: "bundle"),
             let imageBundle = Bundle(url: url),
             let imagePath = imageBundle.path(forResource: imageName, ofType: "png"),
-            let image = UIImage(contentsOfFile: imagePath)
+            let image = UIImage(contentsOfFile: imagePath)?.withRenderingMode(.alwaysTemplate)
             else {
             return nil
         }
         return image
+    }
+    var tintColorForSortingElement: UIColor? {
+        return (dataTable != nil && sortType != .unspecified) ? dataTable.options.sortArrowTintColor : UIColor.gray
     }
     
     //MARK: - Events
