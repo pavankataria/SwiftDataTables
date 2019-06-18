@@ -789,7 +789,7 @@ extension SwiftDataTable: UISearchBarDelegate {
             
             //The currently displayed rows - in this case named old rows - is scanned over.. deleting any entries that are not existing in the newly created filtered list.
             for (oldIndex, oldRowViewModel) in oldRows.enumerated() {
-                let index = self.searchRowViewModels.index { rowViewModel in
+                let index = self.searchRowViewModels.firstIndex { rowViewModel in
                     return oldRowViewModel == rowViewModel
                 }
                 if index == nil {
@@ -799,7 +799,7 @@ extension SwiftDataTable: UISearchBarDelegate {
             
             //Iterates over the new search results and compares them with the current result set displayed - in this case name old - inserting any entries that are not existant in the currently displayed result set
             for (currentIndex, currentRolwViewModel) in filteredRows.enumerated() {
-                let oldIndex = oldRows.index { oldRowViewModel in
+                let oldIndex = oldRows.firstIndex { oldRowViewModel in
                     return currentRolwViewModel == oldRowViewModel
                 }
                 if oldIndex == nil {

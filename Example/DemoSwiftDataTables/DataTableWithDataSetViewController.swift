@@ -23,6 +23,7 @@ class DataTableWithDataSetViewController: UIViewController {
         
         var options = DataTableConfiguration()
         options.shouldContentWidthScaleToFillFrame = false
+        options.sortArrowTintColor = UIColor.orange
         options.defaultOrdering = DataTableColumnOrder(index: 1, order: .ascending)
         
         self.dataTable = SwiftDataTable(
