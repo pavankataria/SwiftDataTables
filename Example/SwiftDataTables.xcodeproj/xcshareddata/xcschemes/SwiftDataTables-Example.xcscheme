@@ -52,6 +52,16 @@
                ReferencedContainer = "container:SwiftDataTables.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "05D66E6B22B94942003004D9"
+               BuildableName = "SwiftDataTablesTests.xctest"
+               BlueprintName = "SwiftDataTablesTests"
+               ReferencedContainer = "container:SwiftDataTables.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

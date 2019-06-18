@@ -154,10 +154,10 @@ public class SwiftDataTable: UIView {
     
     public init(data: DataTableContent,
                 headerTitles: [String],
-                options: DataTableConfiguration? = DataTableConfiguration(),
+                options: DataTableConfiguration = DataTableConfiguration(),
                 frame: CGRect = .zero)
     {
-        self.options = options!
+        self.options = options
         super.init(frame: frame)
         self.set(data: data, headerTitles: headerTitles, options: options, shouldReplaceLayout: true)
         self.registerObservers()
@@ -172,6 +172,7 @@ public class SwiftDataTable: UIView {
         self.init(
             data: data.map { $0.map { .string($0) }},
             headerTitles: headerTitles,
+            options: options,
             frame: frame
         )
     }
@@ -179,6 +180,7 @@ public class SwiftDataTable: UIView {
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     
     deinit {
         NotificationCenter.default.removeObserver(self, name: UIApplication.willChangeStatusBarOrientationNotification, object: nil)

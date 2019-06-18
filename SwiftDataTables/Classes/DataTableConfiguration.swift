@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-public struct DataTableColumnOrder {
+public struct DataTableColumnOrder: Equatable {
     //MARK: - Properties
     let index: Int
     let order: DataTableSortType
@@ -18,7 +18,7 @@ public struct DataTableColumnOrder {
         self.order = order
     }
 }
-public struct DataTableConfiguration {
+public struct DataTableConfiguration: Equatable {
     public var defaultOrdering: DataTableColumnOrder? = nil
     public var heightForSectionFooter: CGFloat = 44
     public var heightForSectionHeader: CGFloat = 44
