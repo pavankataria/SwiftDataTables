@@ -12,7 +12,7 @@ https://img.shields.io/cocoapods/p/SwiftDataTables.svg
 
 <p align="center">
    <a href="https://developer.apple.com/swift">
-        <img src="https://img.shields.io/badge/Swift-4.2-orange.svg?style=flat" />
+        <img src="https://img.shields.io/badge/Swift-5-orange.svg?style=flat" />
     </a>
   <a href="https://github.com/Carthage/Carthage">
         <img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" />
@@ -41,9 +41,10 @@ https://img.shields.io/cocoapods/p/SwiftDataTables.svg
 
 ## Major Features include:
 - [x] Tested on iOS 8.0, 9, 10, 11, and 12 onwards. 
-- [x] Full Swift 4.2 support
+- [x] Full Swift 5 support
 - [x] Mobile friendly. Tables adapt to the viewport size.
 - [x] Instant search. Filter results by text search.
+- [X] Fixed/frozen columns support for both left and right sides.
 - [x] Continued support and active development! 
 - [x] Full Datasource and delegate support!
 - [x] Demo project available show casing all types of customisations
@@ -84,6 +85,8 @@ To run the example project do the following:
 
 If you have any questions or wish to make any suggestions, please open an issue with the appropriate label, and I'll get back to you right away. Thank you
 
+## Configuration 
+There's a configuration object that can be set on the data table for quick option settings. Or you can use the delegate methods for dynamic option changes.
 
 ## Data Source methods. 
 This is an optional data source implementation, you can also initialiase your `SwiftDataTable` with a static data set as shown in the Demo project so you can avoid conforming to the data source. But for those who want to show more dynamic content, use the following `SwiftDataTableDataSource` protocol.
@@ -175,6 +178,9 @@ An optional delegate for further customisation. Default values will be used retr
     
     /// Control the background color for an unhighlighted row.
     @objc optional func dataTable(_ dataTable: SwiftDataTable, unhighlightedColorForRowIndex at: Int) -> UIColor
+
+    /// Return the number of fixed columns
+    @objc optional func fixedColumns(for dataTable: SwiftDataTable) -> DataTableFixedColumnType
 }
 ```
 
@@ -195,6 +201,7 @@ Pavan Kataria
 
 ### 👨‍💻 Contributors
 
+[Sebastien Senechal](https://github.com/altagir)
 [Hais Daekin](https://github.com/Hais)
 
 
