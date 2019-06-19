@@ -128,7 +128,7 @@ class SwiftDataTableLayout: UICollectionViewFlowLayout {
             guard att.frame.minY <= rect.maxY else { break }
             attributes.append(att)
         }
-        attributes = attributes.compactMap { self.adjustItemPosition(attributes: $0) }
+        attributes = attributes.compactMap { self.adjustAttributesPosition($0, at: $0.indexPath.item, zIndexPosition: 1) }
 //        //MARK: Search Header
 //        if self.dataTable.shouldShowSearchSection(){
 //            let menuLengthIndexPath = IndexPath(index: 0)
@@ -178,24 +178,25 @@ class SwiftDataTableLayout: UICollectionViewFlowLayout {
 
 //MARK: - Layout Attributes For Elements And Supplmentary Views
 extension SwiftDataTableLayout {
-    func adjustItemPosition(attributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
-        guard let fixedColumns = self.dataTable.delegate?.fixedColumns?(for: self.dataTable) else {
+    func adjustAttributesPosition(_ attributes: UICollectionViewLayoutAttributes?, at columnIndex: Int, zIndexPosition: Int) -> UICollectionViewLayoutAttributes? {
+        guard let attributes = attributes else { return nil }
+        guard let fixedColumns = self.dataTable.fixedColumns() else {
             return attributes
         }
-        guard let fixedColumnSide = fixedColumns.hitTest(attributes.indexPath.item, totalTableColumnCount: dataTable.numberOfColumns()) else {
+        guard let fixedColumnSide = fixedColumns.hitTest(columnIndex, totalTableColumnCount: dataTable.numberOfColumns()) else {
             return attributes
         }
         var xOffset: CGFloat = self.dataTable.collectionView.contentOffset.x
         switch fixedColumnSide {
         case .left:
-            let x = Array(0..<attributes.indexPath.item).reduce(self.dataTable.widthForRowHeader()){$0 + self.dataTable.widthForColumn(index: $1)}
+            let x = Array(0..<columnIndex).reduce(self.dataTable.widthForRowHeader()){$0 + self.dataTable.widthForColumn(index: $1)}
             xOffset = xOffset + x
         case .right:
-            let x = Array(attributes.indexPath.item..<dataTable.numberOfColumns()).reduce(self.dataTable.widthForRowHeader()){$0 + self.dataTable.widthForColumn(index: $1)}
+            let x = Array(columnIndex..<dataTable.numberOfColumns()).reduce(self.dataTable.widthForRowHeader()){$0 + self.dataTable.widthForColumn(index: $1)}
             xOffset = self.dataTable.frame.width + xOffset - x
         }
         attributes.frame.origin.x = xOffset
-        attributes.zIndex = 1
+        attributes.zIndex = zIndexPosition
         return attributes
     }
     
@@ -221,26 +222,27 @@ extension SwiftDataTableLayout {
         )
         return attributes
     }
-    func adjustSupplementaryView(attributes: UICollectionViewLayoutAttributes?, at columnPosition: Int) -> UICollectionViewLayoutAttributes? {
-        guard let attributes = attributes else { return nil }
-        if columnPosition == 0 || columnPosition == 1 {
-            let x = Array(0..<columnPosition).reduce(self.dataTable.widthForRowHeader()){$0 + self.dataTable.widthForColumn(index: $1)}
-//            let columnWidth = dataTable.widthForColumn(index: columnPosition)
-            let xOffset = dataTable.collectionView.contentOffset.x + x
-            attributes.frame.origin.x = xOffset
-            attributes.zIndex = 100
-        }
-        return attributes
-    }
+//    func adjustSupplementaryView(attributes: UICollectionViewLayoutAttributes?, at columnPosition: Int) -> UICollectionViewLayoutAttributes? {
+//        guard let attributes = attributes else { return nil }
+//        if columnPosition == 0 || columnPosition == 1 {
+//            let x = Array(0..<columnPosition).reduce(self.dataTable.widthForRowHeader()){$0 + self.dataTable.widthForColumn(index: $1)}
+////            let columnWidth = dataTable.widthForColumn(index: columnPosition)
+//            let xOffset = dataTable.collectionView.contentOffset.x + x
+//            attributes.frame.origin.x = xOffset
+//            attributes.zIndex = 100
+//        }
+//        return attributes
+//    }
     override func layoutAttributesForSupplementaryView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         let kind = SwiftDataTable.SupplementaryViewType(kind: elementKind)
         switch kind {
         case .searchHeader: return self.layoutAttributesForHeaderView(at: indexPath)
         case .columnHeader:
-            var attributes = layoutAttributesForColumnHeaderView(at: indexPath)
-            return self.adjustSupplementaryView(attributes: attributes, at: indexPath[0])
+            let attributes = layoutAttributesForColumnHeaderView(at: indexPath)
+            return adjustAttributesPosition(attributes, at: indexPath[0], zIndexPosition: 100+indexPath[0])
         case .footerHeader:
-            return self.layoutAttributesForColumnFooterView(at: indexPath)
+            let attributes = layoutAttributesForColumnFooterView(at: indexPath)
+            return adjustAttributesPosition(attributes, at: indexPath[0], zIndexPosition: 100+indexPath[0])
         case .paginationHeader:  return self.layoutAttributesForPaginationView(at: indexPath)
         }
     }
@@ -325,7 +327,7 @@ extension SwiftDataTableLayout {
         if self.dataTable.shouldSectionFootersFloat(){
             let yOffsetBottomView: CGFloat = self.collectionView!.contentOffset.y + self.collectionView!.bounds.height - height - self.dataTable.heightForPaginationView() // - height
             attribute.frame.origin.y = yOffsetBottomView
-            attribute.zIndex = 100
+            attribute.zIndex += 1
         }
         return attribute
     }

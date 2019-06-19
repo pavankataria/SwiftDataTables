@@ -46,6 +46,8 @@ public struct DataTableConfiguration: Equatable {
         .white
     ]
     
+    public var fixedColumns: DataTableFixedColumnType? = nil
+    
     public init(){
         
     }

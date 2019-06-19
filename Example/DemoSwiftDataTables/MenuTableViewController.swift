@@ -166,11 +166,12 @@ extension MenuViewController {
     }
     private func createdExampleConfigurations() -> [MenuItem] {
         var section = [MenuItem]()
-        section.append(MenuItem(title: "Without Footers", config: self.configurationWithoutFooter()))
-        section.append(MenuItem(title: "Without Search", config: self.configurationWithoutSearch()))
+        section.append(MenuItem(title: "Without Footers", config: configurationWithoutFooter()))
+        section.append(MenuItem(title: "Without Search", config: configurationWithoutSearch()))
         section.append(MenuItem(title: "Without floating headers and footers", config: self.configurationWithoutFloatingHeadersAndFooters()))
-        section.append(MenuItem(title: "Without scroll bars", config: self.configurationWithoutScrollBars()))
-        section.append(MenuItem(title: "Alternating colours", config: self.configurationAlternatingColours()))
+        section.append(MenuItem(title: "Without scroll bars", config: configurationWithoutScrollBars()))
+        section.append(MenuItem(title: "Alternating colours", config: configurationAlternatingColours()))
+        section.append(MenuItem(title: "Fixed/Frozen columns", config: configurationFixedColumns()))
         return section
     }
 }
@@ -221,6 +222,11 @@ extension MenuViewController {
             .init(0.7, 0.7, 1),
             .init(1, 0.7, 0.7)
         ]
+        return configuration
+    }
+    private func configurationFixedColumns() -> DataTableConfiguration {
+        var configuration = DataTableConfiguration()
+        configuration.fixedColumns = DataTableFixedColumnType(leftColumns: 1, rightColumns: 1)
         return configuration
     }
 }

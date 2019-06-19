@@ -711,6 +711,10 @@ extension SwiftDataTable {
         }
         return 35
     }
+    
+    func fixedColumns() -> DataTableFixedColumnType? {
+        return delegate?.fixedColumns?(for: self) ?? self.options.fixedColumns
+    }
 }
 
 //MARK: - Search Bar Delegate
