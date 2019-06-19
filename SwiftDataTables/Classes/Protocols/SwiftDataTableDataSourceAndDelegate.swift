@@ -164,6 +164,12 @@ public protocol SwiftDataTableDataSource: class {
     ///   - at: the row index to set the background color
     /// - Returns: the background colour to make the unhighlighted row
     @objc optional func dataTable(_ dataTable: SwiftDataTable, unhighlightedColorForRowIndex at: Int) -> UIColor
+    
+    /// Return the number of fixed columns
+    ///
+    /// - Parameter dataTable: SwiftDataTable
+    /// - Returns: the columns and number of them to be fixed
+    @objc optional func fixedColumns(for dataTable: SwiftDataTable) -> DataTableFixedColumnType
 }
 
 extension SwiftDataTableDelegate {
