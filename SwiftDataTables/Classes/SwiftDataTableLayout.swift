@@ -28,6 +28,10 @@ class SwiftDataTableLayout: UICollectionViewFlowLayout {
 //        self.collectionView?.isPrefetchingEnabled = false;
     }
     
+    override var flipsHorizontallyInOppositeLayoutDirection: Bool {
+        return dataTable.options.shouldSupportRightToLeftInterfaceDirection ? UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft : false
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
