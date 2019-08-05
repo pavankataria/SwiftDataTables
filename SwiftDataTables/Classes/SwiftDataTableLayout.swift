@@ -29,7 +29,7 @@ class SwiftDataTableLayout: UICollectionViewFlowLayout {
     }
     
     override var flipsHorizontallyInOppositeLayoutDirection: Bool {
-        return dataTable.options.shouldSupportRightToLeftInterfaceDirection ? UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft : false
+        return dataTable.shouldSupportRightToLeftInterfaceDirection() ? UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft : false
     }
     
     required init?(coder aDecoder: NSCoder) {
