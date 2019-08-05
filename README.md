@@ -181,6 +181,9 @@ An optional delegate for further customisation. Default values will be used retr
 
     /// Return the number of fixed columns
     @objc optional func fixedColumns(for dataTable: SwiftDataTable) -> DataTableFixedColumnType
+    
+    /// Return `true` to support RTL layouts by flipping horizontal scroll on `CollectionViewFlowLayout`, if the current interface direction is RTL.
+    @objc optional func shouldSupportRightToLeftInterfaceDirection(in dataTable: SwiftDataTable) -> Bool
 }
 ```
 
