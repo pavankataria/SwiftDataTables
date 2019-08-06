@@ -715,6 +715,10 @@ extension SwiftDataTable {
     func fixedColumns() -> DataTableFixedColumnType? {
         return delegate?.fixedColumns?(for: self) ?? self.options.fixedColumns
     }
+    
+    func shouldSupportRightToLeftInterfaceDirection() -> Bool {
+        return delegate?.shouldSupportRightToLeftInterfaceDirection?(in: self) ?? self.options.shouldSupportRightToLeftInterfaceDirection
+    }
 }
 
 //MARK: - Search Bar Delegate

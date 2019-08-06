@@ -170,6 +170,17 @@ public protocol SwiftDataTableDataSource: class {
     /// - Parameter dataTable: SwiftDataTable
     /// - Returns: the columns and number of them to be fixed
     @objc optional func fixedColumns(for dataTable: SwiftDataTable) -> DataTableFixedColumnType
+    
+    
+    /// Return `true` to support RTL layouts by flipping horizontal scroll on `CollectionViewFlowLayout`, if the current interface direction is RTL.
+    ///
+    /// Note: This will only effect the horizontal scroll direction if the current `userInterfaceLayoutDirection` is `.rightToLeft`.
+    ///
+    /// Default value: `true`.
+    ///
+    /// - Parameter dataTable: SwiftDataTable
+    /// - Returns: `true` to flip horizontal scroll in RTL layouts.
+    @objc optional func shouldSupportRightToLeftInterfaceDirection(in dataTable: SwiftDataTable) -> Bool
 }
 
 extension SwiftDataTableDelegate {
