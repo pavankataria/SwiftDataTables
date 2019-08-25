@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftDataTables
 
 class DataTableWithDataSetViewController: UIViewController {
     

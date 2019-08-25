@@ -8,44 +8,47 @@
 
 /* Begin PBXBuildFile section */
 		0557FFCB20D18824003EC229 /* MenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0557FFCA20D18824003EC229 /* MenuTableViewController.swift */; };
-		058315822224644B004B4478 /* SwiftDataTables.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0583155E2224644B004B4478 /* SwiftDataTables.bundle */; };
-		058315832224644B004B4478 /* PaginationHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315612224644B004B4478 /* PaginationHeaderViewModel.swift */; };
-		058315842224644B004B4478 /* PaginationHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 058315622224644B004B4478 /* PaginationHeader.xib */; };
-		058315852224644B004B4478 /* PaginationHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315632224644B004B4478 /* PaginationHeader.swift */; };
-		058315862224644B004B4478 /* MenuLengthHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 058315652224644B004B4478 /* MenuLengthHeader.xib */; };
-		058315872224644B004B4478 /* MenuLengthHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315662224644B004B4478 /* MenuLengthHeader.swift */; };
-		058315882224644B004B4478 /* MenuLengthHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315672224644B004B4478 /* MenuLengthHeaderViewModel.swift */; };
-		058315892224644B004B4478 /* DataTableSortType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315682224644B004B4478 /* DataTableSortType.swift */; };
-		0583158A2224644B004B4478 /* DataTableSearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315692224644B004B4478 /* DataTableSearchTextField.swift */; };
-		0583158B2224644B004B4478 /* DataTableConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583156A2224644B004B4478 /* DataTableConfiguration.swift */; };
-		0583158C2224644B004B4478 /* DataCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583156C2224644B004B4478 /* DataCellViewModel.swift */; };
-		0583158D2224644B004B4478 /* DataCellLayoutAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583156D2224644B004B4478 /* DataCellLayoutAttributes.swift */; };
-		0583158E2224644B004B4478 /* DataCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0583156E2224644B004B4478 /* DataCell.xib */; };
-		0583158F2224644B004B4478 /* DataCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583156F2224644B004B4478 /* DataCell.swift */; };
-		058315902224644B004B4478 /* SwiftDataTableLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315702224644B004B4478 /* SwiftDataTableLayout.swift */; };
-		058315912224644B004B4478 /* SwiftDataTable+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315722224644B004B4478 /* SwiftDataTable+Extensions.swift */; };
-		058315922224644B004B4478 /* DataTableSortable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315732224644B004B4478 /* DataTableSortable.swift */; };
-		058315932224644B004B4478 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315742224644B004B4478 /* DataStore.swift */; };
-		058315942224644B004B4478 /* DataTableValueType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315752224644B004B4478 /* DataTableValueType.swift */; };
-		058315952224644B004B4478 /* SwiftDataTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315762224644B004B4478 /* SwiftDataTable.swift */; };
-		058315962224644B004B4478 /* VirtualPositionTrackable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315782224644B004B4478 /* VirtualPositionTrackable.swift */; };
-		058315972224644B004B4478 /* CollectionViewCellRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315792224644B004B4478 /* CollectionViewCellRepresentable.swift */; };
-		058315982224644B004B4478 /* DataCellRowRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583157A2224644B004B4478 /* DataCellRowRepresentable.swift */; };
-		058315992224644B004B4478 /* SwiftDataTableDataSourceAndDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583157B2224644B004B4478 /* SwiftDataTableDataSourceAndDelegate.swift */; };
-		0583159A2224644B004B4478 /* CollectionViewSupplementaryElementRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583157C2224644B004B4478 /* CollectionViewSupplementaryElementRepresentable.swift */; };
-		0583159B2224644B004B4478 /* DataHeaderFooter.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0583157E2224644B004B4478 /* DataHeaderFooter.xib */; };
-		0583159C2224644B004B4478 /* DataHeaderFooterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583157F2224644B004B4478 /* DataHeaderFooterViewModel.swift */; };
-		0583159D2224644B004B4478 /* DataHeaderFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315802224644B004B4478 /* DataHeaderFooter.swift */; };
-		0583159E2224644B004B4478 /* DataStructureModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315812224644B004B4478 /* DataStructureModel.swift */; };
 		058D4BB71E954000002A2DC9 /* DataTableWithDataSourceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058D4BB61E954000002A2DC9 /* DataTableWithDataSourceViewController.swift */; };
 		05D66E6F22B94942003004D9 /* SwiftDataTablesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D66E6E22B94942003004D9 /* SwiftDataTablesTests.swift */; };
-		05D66E7822B980C6003004D9 /* DataTableFixedColumnType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D66E7722B980C6003004D9 /* DataTableFixedColumnType.swift */; };
 		05D66E7A22B981D0003004D9 /* DataTableFixedColumnTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D66E7922B981D0003004D9 /* DataTableFixedColumnTypeTests.swift */; };
 		05DDE6B11E71AF2C003BD61E /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05DDE6B01E71AF2C003BD61E /* File.swift */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* DataTableWithDataSetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* DataTableWithDataSetViewController.swift */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
+		E234B0C2231353BF009FC712 /* SwiftDataTables.h in Headers */ = {isa = PBXBuildFile; fileRef = E234B0C0231353BF009FC712 /* SwiftDataTables.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E234B0C5231353BF009FC712 /* SwiftDataTables.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E234B0BE231353BF009FC712 /* SwiftDataTables.framework */; };
+		E234B0C6231353BF009FC712 /* SwiftDataTables.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E234B0BE231353BF009FC712 /* SwiftDataTables.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E234B0CB231353C8009FC712 /* SwiftDataTables.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0583155E2224644B004B4478 /* SwiftDataTables.bundle */; };
+		E234B0CC231353CE009FC712 /* DataTableSearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315692224644B004B4478 /* DataTableSearchTextField.swift */; };
+		E234B0CD231353CE009FC712 /* SwiftDataTableLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315702224644B004B4478 /* SwiftDataTableLayout.swift */; };
+		E234B0CE231353CE009FC712 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315742224644B004B4478 /* DataStore.swift */; };
+		E234B0CF231353CE009FC712 /* SwiftDataTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315762224644B004B4478 /* SwiftDataTable.swift */; };
+		E234B0D0231353DB009FC712 /* DataTableSortType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315682224644B004B4478 /* DataTableSortType.swift */; };
+		E234B0D1231353DB009FC712 /* DataTableConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583156A2224644B004B4478 /* DataTableConfiguration.swift */; };
+		E234B0D2231353DB009FC712 /* DataTableValueType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315752224644B004B4478 /* DataTableValueType.swift */; };
+		E234B0D3231353DB009FC712 /* DataStructureModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315812224644B004B4478 /* DataStructureModel.swift */; };
+		E234B0D4231353DB009FC712 /* DataTableFixedColumnType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D66E7722B980C6003004D9 /* DataTableFixedColumnType.swift */; };
+		E234B0D5231353EA009FC712 /* PaginationHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315612224644B004B4478 /* PaginationHeaderViewModel.swift */; };
+		E234B0D6231353EA009FC712 /* PaginationHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 058315622224644B004B4478 /* PaginationHeader.xib */; };
+		E234B0D7231353EA009FC712 /* PaginationHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315632224644B004B4478 /* PaginationHeader.swift */; };
+		E234B0D8231353F0009FC712 /* MenuLengthHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 058315652224644B004B4478 /* MenuLengthHeader.xib */; };
+		E234B0D9231353F0009FC712 /* MenuLengthHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315662224644B004B4478 /* MenuLengthHeader.swift */; };
+		E234B0DA231353F0009FC712 /* MenuLengthHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315672224644B004B4478 /* MenuLengthHeaderViewModel.swift */; };
+		E234B0DB231353F6009FC712 /* DataCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583156C2224644B004B4478 /* DataCellViewModel.swift */; };
+		E234B0DC231353F6009FC712 /* DataCellLayoutAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583156D2224644B004B4478 /* DataCellLayoutAttributes.swift */; };
+		E234B0DD231353F6009FC712 /* DataCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0583156E2224644B004B4478 /* DataCell.xib */; };
+		E234B0DE231353F6009FC712 /* DataCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583156F2224644B004B4478 /* DataCell.swift */; };
+		E234B0DF231353F9009FC712 /* SwiftDataTable+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315722224644B004B4478 /* SwiftDataTable+Extensions.swift */; };
+		E234B0E0231353FE009FC712 /* DataTableSortable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315732224644B004B4478 /* DataTableSortable.swift */; };
+		E234B0E123135406009FC712 /* DataHeaderFooter.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0583157E2224644B004B4478 /* DataHeaderFooter.xib */; };
+		E234B0E223135406009FC712 /* DataHeaderFooterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583157F2224644B004B4478 /* DataHeaderFooterViewModel.swift */; };
+		E234B0E323135406009FC712 /* DataHeaderFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315802224644B004B4478 /* DataHeaderFooter.swift */; };
+		E234B0E523135425009FC712 /* VirtualPositionTrackable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315782224644B004B4478 /* VirtualPositionTrackable.swift */; };
+		E234B0E623135425009FC712 /* CollectionViewCellRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315792224644B004B4478 /* CollectionViewCellRepresentable.swift */; };
+		E234B0E723135425009FC712 /* DataCellRowRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583157A2224644B004B4478 /* DataCellRowRepresentable.swift */; };
+		E234B0E823135425009FC712 /* SwiftDataTableDataSourceAndDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583157B2224644B004B4478 /* SwiftDataTableDataSourceAndDelegate.swift */; };
+		E234B0E923135425009FC712 /* CollectionViewSupplementaryElementRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583157C2224644B004B4478 /* CollectionViewSupplementaryElementRepresentable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,7 +59,28 @@
 			remoteGlobalIDString = 607FACCF1AFB9204008FA782;
 			remoteInfo = SwiftDataTables_Example;
 		};
+		E234B0C3231353BF009FC712 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 607FACC81AFB9204008FA782 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E234B0BD231353BF009FC712;
+			remoteInfo = SwiftDataTables;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E234B0CA231353BF009FC712 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				E234B0C6231353BF009FC712 /* SwiftDataTables.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0557FFCA20D18824003EC229 /* MenuTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTableViewController.swift; sourceTree = "<group>"; };
@@ -103,6 +127,9 @@
 		607FACD71AFB9204008FA782 /* DataTableWithDataSetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTableWithDataSetViewController.swift; sourceTree = "<group>"; };
 		607FACDC1AFB9204008FA782 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		607FACDF1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		E234B0BE231353BF009FC712 /* SwiftDataTables.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftDataTables.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E234B0C0231353BF009FC712 /* SwiftDataTables.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwiftDataTables.h; sourceTree = "<group>"; };
+		E234B0C1231353BF009FC712 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +141,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		607FACCD1AFB9204008FA782 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E234B0C5231353BF009FC712 /* SwiftDataTables.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E234B0BB231353BF009FC712 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -240,6 +275,7 @@
 			children = (
 				607FACD21AFB9204008FA782 /* DemoSwiftDataTables */,
 				05D66E6D22B94942003004D9 /* SwiftDataTablesTests */,
+				E234B0BF231353BF009FC712 /* SwiftDataTables */,
 				607FACD11AFB9204008FA782 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -249,6 +285,7 @@
 			children = (
 				607FACD01AFB9204008FA782 /* SwiftDataTables_Example.app */,
 				05D66E6C22B94942003004D9 /* SwiftDataTablesTests.xctest */,
+				E234B0BE231353BF009FC712 /* SwiftDataTables.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -278,7 +315,27 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		E234B0BF231353BF009FC712 /* SwiftDataTables */ = {
+			isa = PBXGroup;
+			children = (
+				E234B0C0231353BF009FC712 /* SwiftDataTables.h */,
+				E234B0C1231353BF009FC712 /* Info.plist */,
+			);
+			path = SwiftDataTables;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		E234B0B9231353BF009FC712 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E234B0C2231353BF009FC712 /* SwiftDataTables.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
 		05D66E6B22B94942003004D9 /* SwiftDataTablesTests */ = {
@@ -306,15 +363,35 @@
 				607FACCC1AFB9204008FA782 /* Sources */,
 				607FACCD1AFB9204008FA782 /* Frameworks */,
 				607FACCE1AFB9204008FA782 /* Resources */,
+				E234B0CA231353BF009FC712 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				E234B0C4231353BF009FC712 /* PBXTargetDependency */,
 			);
 			name = SwiftDataTables_Example;
 			productName = SwiftDataTables;
 			productReference = 607FACD01AFB9204008FA782 /* SwiftDataTables_Example.app */;
 			productType = "com.apple.product-type.application";
+		};
+		E234B0BD231353BF009FC712 /* SwiftDataTables */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E234B0C7231353BF009FC712 /* Build configuration list for PBXNativeTarget "SwiftDataTables" */;
+			buildPhases = (
+				E234B0B9231353BF009FC712 /* Headers */,
+				E234B0BA231353BF009FC712 /* Sources */,
+				E234B0BB231353BF009FC712 /* Frameworks */,
+				E234B0BC231353BF009FC712 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SwiftDataTables;
+			productName = SwiftDataTables;
+			productReference = E234B0BE231353BF009FC712 /* SwiftDataTables.framework */;
+			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
@@ -328,13 +405,16 @@
 				TargetAttributes = {
 					05D66E6B22B94942003004D9 = {
 						CreatedOnToolsVersion = 10.2.1;
-						DevelopmentTeam = R85C7FUGTC;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 607FACCF1AFB9204008FA782;
 					};
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
 						LastSwiftMigration = 1020;
+					};
+					E234B0BD231353BF009FC712 = {
+						CreatedOnToolsVersion = 10.3;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -353,6 +433,7 @@
 			targets = (
 				607FACCF1AFB9204008FA782 /* SwiftDataTables_Example */,
 				05D66E6B22B94942003004D9 /* SwiftDataTablesTests */,
+				E234B0BD231353BF009FC712 /* SwiftDataTables */,
 			);
 		};
 /* End PBXProject section */
@@ -369,13 +450,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				058315842224644B004B4478 /* PaginationHeader.xib in Resources */,
-				0583158E2224644B004B4478 /* DataCell.xib in Resources */,
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
-				058315862224644B004B4478 /* MenuLengthHeader.xib in Resources */,
-				058315822224644B004B4478 /* SwiftDataTables.bundle in Resources */,
-				0583159B2224644B004B4478 /* DataHeaderFooter.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E234B0BC231353BF009FC712 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E234B0D6231353EA009FC712 /* PaginationHeader.xib in Resources */,
+				E234B0D8231353F0009FC712 /* MenuLengthHeader.xib in Resources */,
+				E234B0CB231353C8009FC712 /* SwiftDataTables.bundle in Resources */,
+				E234B0E123135406009FC712 /* DataHeaderFooter.xib in Resources */,
+				E234B0DD231353F6009FC712 /* DataCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -395,36 +483,43 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				058315962224644B004B4478 /* VirtualPositionTrackable.swift in Sources */,
-				058315932224644B004B4478 /* DataStore.swift in Sources */,
-				0583159A2224644B004B4478 /* CollectionViewSupplementaryElementRepresentable.swift in Sources */,
-				058315922224644B004B4478 /* DataTableSortable.swift in Sources */,
-				058315952224644B004B4478 /* SwiftDataTable.swift in Sources */,
-				058315892224644B004B4478 /* DataTableSortType.swift in Sources */,
-				0583159E2224644B004B4478 /* DataStructureModel.swift in Sources */,
 				607FACD81AFB9204008FA782 /* DataTableWithDataSetViewController.swift in Sources */,
-				0583159D2224644B004B4478 /* DataHeaderFooter.swift in Sources */,
-				05D66E7822B980C6003004D9 /* DataTableFixedColumnType.swift in Sources */,
-				058315902224644B004B4478 /* SwiftDataTableLayout.swift in Sources */,
-				058315872224644B004B4478 /* MenuLengthHeader.swift in Sources */,
-				058315832224644B004B4478 /* PaginationHeaderViewModel.swift in Sources */,
-				0583158A2224644B004B4478 /* DataTableSearchTextField.swift in Sources */,
-				058315852224644B004B4478 /* PaginationHeader.swift in Sources */,
-				058315882224644B004B4478 /* MenuLengthHeaderViewModel.swift in Sources */,
-				0583158C2224644B004B4478 /* DataCellViewModel.swift in Sources */,
 				05DDE6B11E71AF2C003BD61E /* File.swift in Sources */,
-				058315942224644B004B4478 /* DataTableValueType.swift in Sources */,
 				0557FFCB20D18824003EC229 /* MenuTableViewController.swift in Sources */,
-				0583158B2224644B004B4478 /* DataTableConfiguration.swift in Sources */,
-				058315972224644B004B4478 /* CollectionViewCellRepresentable.swift in Sources */,
 				058D4BB71E954000002A2DC9 /* DataTableWithDataSourceViewController.swift in Sources */,
-				0583158D2224644B004B4478 /* DataCellLayoutAttributes.swift in Sources */,
-				058315912224644B004B4478 /* SwiftDataTable+Extensions.swift in Sources */,
-				0583158F2224644B004B4478 /* DataCell.swift in Sources */,
-				058315992224644B004B4478 /* SwiftDataTableDataSourceAndDelegate.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
-				0583159C2224644B004B4478 /* DataHeaderFooterViewModel.swift in Sources */,
-				058315982224644B004B4478 /* DataCellRowRepresentable.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E234B0BA231353BF009FC712 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E234B0E0231353FE009FC712 /* DataTableSortable.swift in Sources */,
+				E234B0DA231353F0009FC712 /* MenuLengthHeaderViewModel.swift in Sources */,
+				E234B0D0231353DB009FC712 /* DataTableSortType.swift in Sources */,
+				E234B0E623135425009FC712 /* CollectionViewCellRepresentable.swift in Sources */,
+				E234B0E823135425009FC712 /* SwiftDataTableDataSourceAndDelegate.swift in Sources */,
+				E234B0DC231353F6009FC712 /* DataCellLayoutAttributes.swift in Sources */,
+				E234B0DE231353F6009FC712 /* DataCell.swift in Sources */,
+				E234B0E523135425009FC712 /* VirtualPositionTrackable.swift in Sources */,
+				E234B0D5231353EA009FC712 /* PaginationHeaderViewModel.swift in Sources */,
+				E234B0E923135425009FC712 /* CollectionViewSupplementaryElementRepresentable.swift in Sources */,
+				E234B0E223135406009FC712 /* DataHeaderFooterViewModel.swift in Sources */,
+				E234B0D2231353DB009FC712 /* DataTableValueType.swift in Sources */,
+				E234B0CD231353CE009FC712 /* SwiftDataTableLayout.swift in Sources */,
+				E234B0D4231353DB009FC712 /* DataTableFixedColumnType.swift in Sources */,
+				E234B0D7231353EA009FC712 /* PaginationHeader.swift in Sources */,
+				E234B0CE231353CE009FC712 /* DataStore.swift in Sources */,
+				E234B0E723135425009FC712 /* DataCellRowRepresentable.swift in Sources */,
+				E234B0D1231353DB009FC712 /* DataTableConfiguration.swift in Sources */,
+				E234B0CF231353CE009FC712 /* SwiftDataTable.swift in Sources */,
+				E234B0DB231353F6009FC712 /* DataCellViewModel.swift in Sources */,
+				E234B0E323135406009FC712 /* DataHeaderFooter.swift in Sources */,
+				E234B0D9231353F0009FC712 /* MenuLengthHeader.swift in Sources */,
+				E234B0DF231353F9009FC712 /* SwiftDataTable+Extensions.swift in Sources */,
+				E234B0CC231353CE009FC712 /* DataTableSearchTextField.swift in Sources */,
+				E234B0D3231353DB009FC712 /* DataStructureModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -435,6 +530,11 @@
 			isa = PBXTargetDependency;
 			target = 607FACCF1AFB9204008FA782 /* SwiftDataTables_Example */;
 			targetProxy = 05D66E7122B94942003004D9 /* PBXContainerItemProxy */;
+		};
+		E234B0C4231353BF009FC712 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E234B0BD231353BF009FC712 /* SwiftDataTables */;
+			targetProxy = E234B0C3231353BF009FC712 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -463,7 +563,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = R85C7FUGTC;
+				DEVELOPMENT_TEAM = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = SwiftDataTablesTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
@@ -491,7 +591,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = R85C7FUGTC;
+				DEVELOPMENT_TEAM = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = SwiftDataTablesTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
@@ -616,6 +716,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "$(SRCROOT)/DemoSwiftDataTables/Info.plist";
@@ -641,6 +742,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "$(SRCROOT)/DemoSwiftDataTables/Info.plist";
@@ -656,6 +758,77 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "DemoSwiftDataTables/SwiftDataTables_Example-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		E234B0C8231353BF009FC712 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = SwiftDataTables/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = demo.SwiftDataTables.SwiftDataTables;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		E234B0C9231353BF009FC712 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = SwiftDataTables/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = demo.SwiftDataTables.SwiftDataTables;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
 		};
@@ -685,6 +858,15 @@
 			buildConfigurations = (
 				607FACF01AFB9204008FA782 /* Debug */,
 				607FACF11AFB9204008FA782 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E234B0C7231353BF009FC712 /* Build configuration list for PBXNativeTarget "SwiftDataTables" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E234B0C8231353BF009FC712 /* Debug */,
+				E234B0C9231353BF009FC712 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
