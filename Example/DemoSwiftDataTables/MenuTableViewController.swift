@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import SwiftDataTables
 
 struct MenuItem {
     let title: String
