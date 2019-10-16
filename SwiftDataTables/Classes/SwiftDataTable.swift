@@ -341,7 +341,7 @@ public extension SwiftDataTable {
         //let viewModels: DataTableViewModelContent =
         self.rowViewModels = dataStructure.data.map{ currentRowData in
             return currentRowData.map {
-                return DataCellViewModel(data: $0)
+                return DataCellViewModel(data: $0, dataTableConfiguration: options)
             }
         }
         self.paginationViewModel = PaginationHeaderViewModel()
