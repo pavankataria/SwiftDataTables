@@ -173,6 +173,9 @@ extension MenuViewController {
         section.append(MenuItem(title: "Without scroll bars", config: configurationWithoutScrollBars()))
         section.append(MenuItem(title: "Alternating colours", config: configurationAlternatingColours()))
         section.append(MenuItem(title: "Fixed/Frozen columns", config: configurationFixedColumns()))
+        section.append(MenuItem(title: "With borders", config: configurationBorders()))
+        section.append(MenuItem(title: "Header with background colour", config: configurationColouredHeader()))
+        section.append(MenuItem(title: "With centered text", config: configurationCenteredText()))
         return section
     }
 }
@@ -225,6 +228,27 @@ extension MenuViewController {
         ]
         return configuration
     }
+
+    private func configurationBorders() -> DataTableConfiguration {
+        var configuration = DataTableConfiguration()
+        configuration.shouldShowDataBorders = true
+        configuration.shouldShowHeaderFooterBorders = true
+        return configuration
+    }
+
+    private func configurationCenteredText() -> DataTableConfiguration {
+        var configuration = DataTableConfiguration()
+        configuration.dataTextAlignment = .center
+        configuration.headerFooterTextAlignment = .center
+        return configuration
+    }
+
+    private func configurationColouredHeader() -> DataTableConfiguration {
+        var configuration = DataTableConfiguration()
+        configuration.headerFooterBackgroundColor = UIColor(1, 0.90, 0.90)
+        return configuration
+    }
+
     private func configurationFixedColumns() -> DataTableConfiguration {
         var configuration = DataTableConfiguration()
         configuration.fixedColumns = DataTableFixedColumnType(leftColumns: 1, rightColumns: 1)

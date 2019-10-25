@@ -334,6 +334,7 @@ public extension SwiftDataTable {
                 data: dataStructure.footerTitles[$0],
                 sortType: sortTypeForFooter
             )
+            headerViewModel.configure(dataTable: self, columnIndex: $0)
             return headerViewModel
         }
         
