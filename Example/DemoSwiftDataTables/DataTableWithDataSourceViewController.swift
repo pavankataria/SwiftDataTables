@@ -23,13 +23,25 @@ class DataTableWithDataSourceViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupViews()
+        setupConstraints()
+    }
+    func setupViews() {
         automaticallyAdjustsScrollViewInsets = false
         navigationController?.navigationBar.isTranslucent = false
         title = "Streaming fans"
         view.backgroundColor = UIColor.white
-        dataTable.frame = view.frame
         view.addSubview(dataTable)
         dataTable.reload()
+    }
+    
+    func setupConstraints() {
+        NSLayoutConstraint.activate([
+            dataTable.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
+            dataTable.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            dataTable.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor),
+            dataTable.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+        ])
     }
     
     public func addDataSourceAfter(){
@@ -63,8 +75,8 @@ class DataTableWithDataSourceViewController: UIViewController {
 extension DataTableWithDataSourceViewController {
     private func makeDataTable() -> SwiftDataTable {
         let dataTable = SwiftDataTable(dataSource: self)
+        dataTable.translatesAutoresizingMaskIntoConstraints = false
         dataTable.delegate = self
-        dataTable.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         return dataTable
     }
 }

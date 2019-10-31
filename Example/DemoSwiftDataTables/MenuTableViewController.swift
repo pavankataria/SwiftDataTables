@@ -64,59 +64,6 @@ class MenuViewController: UITableViewController {
     }
 }
 
-class GenericDataTableViewController: UIViewController {
-    
-    var dataTable: SwiftDataTable! = nil
-    let configuration: DataTableConfiguration
-    
-    public init(with configuration: DataTableConfiguration){
-        self.configuration = configuration
-        super.init(nibName: nil, bundle: nil)
-    }
-    public required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.navigationController?.navigationBar.isTranslucent = false
-        self.title = "Employee Balances"
-        self.view.backgroundColor = UIColor.white
-        self.dataTable = SwiftDataTable(
-            data: self.data(),
-            headerTitles: self.columnHeaders(),
-            options: self.configuration
-        )
-        self.automaticallyAdjustsScrollViewInsets = false
-        self.dataTable.backgroundColor = UIColor(red: 235/255, green: 235/255, blue: 235/255, alpha: 1)
-        self.dataTable.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        self.dataTable.frame = self.view.frame
-        self.view.addSubview(self.dataTable)
-        self.dataTable.delegate = self
-    }
-    func columnHeaders() -> [String] {
-        return [
-            "Id",
-            "Name",
-            "Email",
-            "Number",
-            "City",
-            "Balance"
-        ]
-    }
-    
-    func data() -> [[DataTableValueType]]{
-        return exampleDataSet().map {
-            $0.compactMap (DataTableValueType.init)
-        }
-    }
-}
-
-extension GenericDataTableViewController: SwiftDataTableDelegate {
-    func didSelectItem(_ dataTable: SwiftDataTable, indexPath: IndexPath) {
-        print("did select item at indexPath: \(indexPath) dataValue: \(dataTable.data(for: indexPath))")
-    }
-}
 //MARK: - Data source and delegate methods
 extension MenuViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
