@@ -10,36 +10,50 @@ import UIKit
 import SwiftDataTables
 
 class DataTableWithDataSetViewController: UIViewController {
-    
-    var dataTable: SwiftDataTable! = nil
+    //MARK: - Properties
+    lazy var dataTable = makeDataTable()
 
+    //MARK: - Lifecycle
     override func viewDidLoad() {
-        
         super.viewDidLoad()
-        
-        self.navigationController?.navigationBar.isTranslucent = false
-        self.title = "Employee Balances"
-
-        self.view.backgroundColor = UIColor.white
-        
+        setupViews()
+        setupConstraints()
+    }
+    func setupViews() {
+        navigationController?.navigationBar.isTranslucent = false
+        title = "Employee Balances"
+        view.backgroundColor = UIColor.white
+        automaticallyAdjustsScrollViewInsets = false
+        view.addSubview(dataTable)
+    }
+    func setupConstraints() {
+        NSLayoutConstraint.activate([
+            dataTable.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
+            dataTable.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            dataTable.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor),
+            dataTable.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+        ])
+    }
+}
+extension DataTableWithDataSetViewController {
+    func makeOptions() -> DataTableConfiguration {
         var options = DataTableConfiguration()
         options.shouldContentWidthScaleToFillFrame = false
         options.defaultOrdering = DataTableColumnOrder(index: 1, order: .ascending)
-        
-        self.dataTable = SwiftDataTable(
-            data: self.data(),
-            headerTitles: self.columnHeaders(),
-            options: options
+        return options
+    }
+    func makeDataTable() -> SwiftDataTable {
+        let dataTable = SwiftDataTable(
+            data: data(),
+            headerTitles: columnHeaders(),
+            options: makeOptions()
         )
-        self.automaticallyAdjustsScrollViewInsets = false
-        
-        self.dataTable.backgroundColor = UIColor.init(red: 235/255, green: 235/255, blue: 235/255, alpha: 1)
-        self.dataTable.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        self.dataTable.frame = self.view.frame
-        self.view.addSubview(self.dataTable);
-        self.dataTable.delegate = self
+        dataTable.translatesAutoresizingMaskIntoConstraints = false
+        dataTable.backgroundColor = UIColor.init(red: 235/255, green: 235/255, blue: 235/255, alpha: 1)
+        return dataTable
     }
 }
+
 extension DataTableWithDataSetViewController: SwiftDataTableDelegate {
     func didSelectItem(_ dataTable: SwiftDataTable, indexPath: IndexPath) {
         print("did select item at indexPath: \(indexPath) dataValue: \(dataTable.data(for: indexPath))")

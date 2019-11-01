@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0557FFCB20D18824003EC229 /* MenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0557FFCA20D18824003EC229 /* MenuTableViewController.swift */; };
 		058D4BB71E954000002A2DC9 /* DataTableWithDataSourceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058D4BB61E954000002A2DC9 /* DataTableWithDataSourceViewController.swift */; };
+		05C6856F236BA59000A42ED9 /* GenericDataTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05C6856E236BA59000A42ED9 /* GenericDataTableViewController.swift */; };
 		05D66E6F22B94942003004D9 /* SwiftDataTablesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D66E6E22B94942003004D9 /* SwiftDataTablesTests.swift */; };
 		05D66E7A22B981D0003004D9 /* DataTableFixedColumnTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D66E7922B981D0003004D9 /* DataTableFixedColumnTypeTests.swift */; };
 		05DDE6B11E71AF2C003BD61E /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05DDE6B01E71AF2C003BD61E /* File.swift */; };
@@ -115,6 +116,7 @@
 		058315812224644B004B4478 /* DataStructureModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStructureModel.swift; sourceTree = "<group>"; };
 		058D4BB21E953FDD002A2DC9 /* SwiftDataTables_Example-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SwiftDataTables_Example-Bridging-Header.h"; sourceTree = "<group>"; };
 		058D4BB61E954000002A2DC9 /* DataTableWithDataSourceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataTableWithDataSourceViewController.swift; sourceTree = "<group>"; };
+		05C6856E236BA59000A42ED9 /* GenericDataTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericDataTableViewController.swift; sourceTree = "<group>"; };
 		05D66E6C22B94942003004D9 /* SwiftDataTablesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftDataTablesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		05D66E6E22B94942003004D9 /* SwiftDataTablesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataTablesTests.swift; sourceTree = "<group>"; };
 		05D66E7022B94942003004D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -298,6 +300,7 @@
 				0557FFCA20D18824003EC229 /* MenuTableViewController.swift */,
 				607FACD71AFB9204008FA782 /* DataTableWithDataSetViewController.swift */,
 				058D4BB61E954000002A2DC9 /* DataTableWithDataSourceViewController.swift */,
+				05C6856E236BA59000A42ED9 /* GenericDataTableViewController.swift */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
@@ -484,6 +487,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				607FACD81AFB9204008FA782 /* DataTableWithDataSetViewController.swift in Sources */,
+				05C6856F236BA59000A42ED9 /* GenericDataTableViewController.swift in Sources */,
 				05DDE6B11E71AF2C003BD61E /* File.swift in Sources */,
 				0557FFCB20D18824003EC229 /* MenuTableViewController.swift in Sources */,
 				058D4BB71E954000002A2DC9 /* DataTableWithDataSourceViewController.swift in Sources */,
@@ -652,7 +656,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -701,7 +705,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -720,7 +724,7 @@
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "$(SRCROOT)/DemoSwiftDataTables/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				OTHER_LDFLAGS = "";
@@ -746,7 +750,7 @@
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "$(SRCROOT)/DemoSwiftDataTables/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				OTHER_LDFLAGS = "";
