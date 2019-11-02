@@ -25,6 +25,8 @@ public struct DataTableConfiguration: Equatable {
     public var heightForSearchView: CGFloat = 60
     public var heightOfInterRowSpacing: CGFloat = 1
 
+    public var shouldShowDataBorders: Bool = false
+    public var shouldShowHeaderFooterBorders: Bool = false
     public var shouldShowFooter: Bool = true
     public var shouldShowSearchSection: Bool = true
     public var shouldSearchHeaderFloat: Bool = false
@@ -49,6 +51,11 @@ public struct DataTableConfiguration: Equatable {
     ]
     
     public var fixedColumns: DataTableFixedColumnType? = nil
+
+    public var headerFooterBackgroundColor: UIColor = UIColor.white
+
+    public var dataTextAlignment: NSTextAlignment = .natural
+    public var headerFooterTextAlignment: NSTextAlignment = .natural
     
     public init(){
         

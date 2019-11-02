@@ -17,5 +17,11 @@ class DataCell: UICollectionViewCell {
     func setup(_ viewModel: DataCellViewModel){
         self.dataLabel.text = viewModel.data.stringRepresentation
 //        self.contentView.backgroundColor = .white
+        self.dataLabel.textAlignment = viewModel.dataTextAlignement ?? .natural
+        guard let showBorders = viewModel.shouldShowDataBorders else { return }
+        if showBorders {
+            self.layer.borderWidth = 1.0
+            self.layer.borderColor = UIColor.black.cgColor
+        }
     }
 }

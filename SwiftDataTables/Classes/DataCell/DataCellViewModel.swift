@@ -10,7 +10,9 @@ import Foundation
 import UIKit
 
 open class DataCellViewModel: VirtualPositionTrackable, CollectionViewCellRepresentable {
-    
+    //MARK: - Private Properties
+    private var dataTableConfiguration: DataTableConfiguration?
+
     //MARK: - Public Properties
     var xPositionRunningTotal: CGFloat?  = nil
     var yPositionRunningTotal: CGFloat?  = nil
@@ -21,9 +23,19 @@ open class DataCellViewModel: VirtualPositionTrackable, CollectionViewCellRepres
     public var stringRepresentation: String {
         return self.data.stringRepresentation
     }
+
+    public var shouldShowDataBorders: Bool? {
+        return dataTableConfiguration?.shouldShowDataBorders ?? false
+    }
+
+    public var dataTextAlignement: NSTextAlignment? {
+        return dataTableConfiguration?.dataTextAlignment ?? .natural
+    }
+
     //MARK: - Lifecycle
-    init(data: DataTableValueType){
+    init(data: DataTableValueType, dataTableConfiguration: DataTableConfiguration?){
         self.data = data
+        self.dataTableConfiguration = dataTableConfiguration
     }
     
     static func registerCell(collectionView: UICollectionView) {

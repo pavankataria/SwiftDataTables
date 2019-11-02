@@ -49,6 +49,18 @@ public class DataHeaderFooterViewModel: DataTableSortable {
     var tintColorForSortingElement: UIColor? {
         return (dataTable != nil && sortType != .unspecified) ? dataTable.options.sortArrowTintColor : UIColor.gray
     }
+
+    var backgroundColorForHeaderFooter: UIColor? {
+        return (dataTable != nil) ? dataTable.options.headerFooterBackgroundColor : UIColor.white
+    }
+
+    var shouldShowHeaderFooterBorders: Bool? {
+        return (dataTable != nil) ? dataTable.options.shouldShowHeaderFooterBorders : false
+    }
+
+    var headerFooterTextAlignment: NSTextAlignment? {
+        return (dataTable != nil) ? dataTable.options.headerFooterTextAlignment : .natural
+    }
     
     //MARK: - Events
     

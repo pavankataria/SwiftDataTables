@@ -334,6 +334,7 @@ public extension SwiftDataTable {
                 data: dataStructure.footerTitles[$0],
                 sortType: sortTypeForFooter
             )
+            headerViewModel.configure(dataTable: self, columnIndex: $0)
             return headerViewModel
         }
         
@@ -341,7 +342,7 @@ public extension SwiftDataTable {
         //let viewModels: DataTableViewModelContent =
         self.rowViewModels = dataStructure.data.map{ currentRowData in
             return currentRowData.map {
-                return DataCellViewModel(data: $0)
+                return DataCellViewModel(data: $0, dataTableConfiguration: options)
             }
         }
         self.paginationViewModel = PaginationHeaderViewModel()
