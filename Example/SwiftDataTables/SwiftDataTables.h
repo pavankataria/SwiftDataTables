@@ -3,7 +3,7 @@
 //  SwiftDataTables
 //
 //  Created by Madhava Jay on 25/8/19.
-//  Copyright © 2019 CocoaPods. All rights reserved.
+//  Copyright © 2017 Pavan Kataria. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

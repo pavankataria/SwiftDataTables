@@ -205,8 +205,7 @@ public class SwiftDataTable: UIView {
         let dataCellIdentifier = String(describing: DataCell.self)
         let podBundle = Bundle(for: SwiftDataTable.self)
         
-        
-        collectionView.register(UINib(nibName: dataCellIdentifier, bundle: podBundle), forCellWithReuseIdentifier: dataCellIdentifier)
+        collectionView.register(DataCell.self, forCellWithReuseIdentifier: dataCellIdentifier)
         
         let headerIdentifier = String(describing: DataHeaderFooter.self)
         collectionView.register(UINib(nibName: headerIdentifier, bundle: podBundle), forSupplementaryViewOfKind: SupplementaryViewType.columnHeader.rawValue, withReuseIdentifier: headerIdentifier)

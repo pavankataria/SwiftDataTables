@@ -38,7 +38,6 @@
 		E234B0DA231353F0009FC712 /* MenuLengthHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315672224644B004B4478 /* MenuLengthHeaderViewModel.swift */; };
 		E234B0DB231353F6009FC712 /* DataCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583156C2224644B004B4478 /* DataCellViewModel.swift */; };
 		E234B0DC231353F6009FC712 /* DataCellLayoutAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583156D2224644B004B4478 /* DataCellLayoutAttributes.swift */; };
-		E234B0DD231353F6009FC712 /* DataCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0583156E2224644B004B4478 /* DataCell.xib */; };
 		E234B0DE231353F6009FC712 /* DataCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583156F2224644B004B4478 /* DataCell.swift */; };
 		E234B0DF231353F9009FC712 /* SwiftDataTable+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315722224644B004B4478 /* SwiftDataTable+Extensions.swift */; };
 		E234B0E0231353FE009FC712 /* DataTableSortable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315732224644B004B4478 /* DataTableSortable.swift */; };
@@ -97,7 +96,6 @@
 		0583156A2224644B004B4478 /* DataTableConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataTableConfiguration.swift; sourceTree = "<group>"; };
 		0583156C2224644B004B4478 /* DataCellViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataCellViewModel.swift; sourceTree = "<group>"; };
 		0583156D2224644B004B4478 /* DataCellLayoutAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataCellLayoutAttributes.swift; sourceTree = "<group>"; };
-		0583156E2224644B004B4478 /* DataCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DataCell.xib; sourceTree = "<group>"; };
 		0583156F2224644B004B4478 /* DataCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataCell.swift; sourceTree = "<group>"; };
 		058315702224644B004B4478 /* SwiftDataTableLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftDataTableLayout.swift; sourceTree = "<group>"; };
 		058315722224644B004B4478 /* SwiftDataTable+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwiftDataTable+Extensions.swift"; sourceTree = "<group>"; };
@@ -213,7 +211,6 @@
 			children = (
 				0583156C2224644B004B4478 /* DataCellViewModel.swift */,
 				0583156D2224644B004B4478 /* DataCellLayoutAttributes.swift */,
-				0583156E2224644B004B4478 /* DataCell.xib */,
 				0583156F2224644B004B4478 /* DataCell.swift */,
 			);
 			path = DataCell;
@@ -466,7 +463,6 @@
 				E234B0D8231353F0009FC712 /* MenuLengthHeader.xib in Resources */,
 				E234B0CB231353C8009FC712 /* SwiftDataTables.bundle in Resources */,
 				E234B0E123135406009FC712 /* DataHeaderFooter.xib in Resources */,
-				E234B0DD231353F6009FC712 /* DataCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -786,7 +782,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = SwiftDataTables/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -822,7 +818,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = SwiftDataTables/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = demo.SwiftDataTables.SwiftDataTables;

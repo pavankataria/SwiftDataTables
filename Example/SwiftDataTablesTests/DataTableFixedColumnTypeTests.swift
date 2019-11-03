@@ -3,7 +3,7 @@
 //  SwiftDataTablesTests
 //
 //  Created by Pavan Kataria on 18/06/2019.
-//  Copyright © 2019 CocoaPods. All rights reserved.
+//  Copyright © 2017 Pavan Kataria. All rights reserved.
 //
 
 import XCTest
