@@ -9,13 +9,31 @@
 import UIKit
 
 class PaginationHeader: UICollectionReusableView {
+    //MARK: - Properties
+    let label = UILabel()
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    //MARK: - Lifecycle
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setup()
     }
     
-    func setup(_ viewModel: PaginationHeaderViewModel){
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setup() {
+        label.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(label)
+        label.text = "Pagination"
+        NSLayoutConstraint.activate([
+            label.topAnchor.constraint(equalTo: topAnchor),
+            label.leadingAnchor.constraint(equalTo: leadingAnchor),
+            label.trailingAnchor.constraint(equalTo: trailingAnchor),
+            label.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ])
+    }
+    func configure(_ viewModel: PaginationHeaderViewModel){
         
     }
 }

@@ -31,9 +31,7 @@
 		E234B0D3231353DB009FC712 /* DataStructureModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315812224644B004B4478 /* DataStructureModel.swift */; };
 		E234B0D4231353DB009FC712 /* DataTableFixedColumnType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D66E7722B980C6003004D9 /* DataTableFixedColumnType.swift */; };
 		E234B0D5231353EA009FC712 /* PaginationHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315612224644B004B4478 /* PaginationHeaderViewModel.swift */; };
-		E234B0D6231353EA009FC712 /* PaginationHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 058315622224644B004B4478 /* PaginationHeader.xib */; };
 		E234B0D7231353EA009FC712 /* PaginationHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315632224644B004B4478 /* PaginationHeader.swift */; };
-		E234B0D8231353F0009FC712 /* MenuLengthHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 058315652224644B004B4478 /* MenuLengthHeader.xib */; };
 		E234B0D9231353F0009FC712 /* MenuLengthHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315662224644B004B4478 /* MenuLengthHeader.swift */; };
 		E234B0DA231353F0009FC712 /* MenuLengthHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315672224644B004B4478 /* MenuLengthHeaderViewModel.swift */; };
 		E234B0DB231353F6009FC712 /* DataCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583156C2224644B004B4478 /* DataCellViewModel.swift */; };
@@ -85,9 +83,7 @@
 		0557FFCA20D18824003EC229 /* MenuTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTableViewController.swift; sourceTree = "<group>"; };
 		0583155E2224644B004B4478 /* SwiftDataTables.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SwiftDataTables.bundle; sourceTree = "<group>"; };
 		058315612224644B004B4478 /* PaginationHeaderViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginationHeaderViewModel.swift; sourceTree = "<group>"; };
-		058315622224644B004B4478 /* PaginationHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PaginationHeader.xib; sourceTree = "<group>"; };
 		058315632224644B004B4478 /* PaginationHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginationHeader.swift; sourceTree = "<group>"; };
-		058315652224644B004B4478 /* MenuLengthHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MenuLengthHeader.xib; sourceTree = "<group>"; };
 		058315662224644B004B4478 /* MenuLengthHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuLengthHeader.swift; sourceTree = "<group>"; };
 		058315672224644B004B4478 /* MenuLengthHeaderViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuLengthHeaderViewModel.swift; sourceTree = "<group>"; };
 		058315682224644B004B4478 /* DataTableSortType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataTableSortType.swift; sourceTree = "<group>"; };
@@ -185,7 +181,6 @@
 			isa = PBXGroup;
 			children = (
 				058315612224644B004B4478 /* PaginationHeaderViewModel.swift */,
-				058315622224644B004B4478 /* PaginationHeader.xib */,
 				058315632224644B004B4478 /* PaginationHeader.swift */,
 			);
 			path = PaginationHeader;
@@ -194,7 +189,6 @@
 		058315642224644B004B4478 /* MenuLengthHeader */ = {
 			isa = PBXGroup;
 			children = (
-				058315652224644B004B4478 /* MenuLengthHeader.xib */,
 				058315662224644B004B4478 /* MenuLengthHeader.swift */,
 				058315672224644B004B4478 /* MenuLengthHeaderViewModel.swift */,
 			);
@@ -464,8 +458,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E234B0D6231353EA009FC712 /* PaginationHeader.xib in Resources */,
-				E234B0D8231353F0009FC712 /* MenuLengthHeader.xib in Resources */,
 				E234B0CB231353C8009FC712 /* SwiftDataTables.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

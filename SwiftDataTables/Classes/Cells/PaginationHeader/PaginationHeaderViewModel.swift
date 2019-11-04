@@ -33,7 +33,7 @@ extension PaginationHeaderViewModel: CollectionViewSupplementaryElementRepresent
                 return UICollectionReusableView()
         }
         
-        headerView.setup(self)
+        headerView.configure(self)
         return headerView
     }
 }
