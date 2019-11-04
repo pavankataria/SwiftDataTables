@@ -202,22 +202,18 @@ public class SwiftDataTable: UIView {
     
     //TODO: Abstract away the registering of classes so that a user can register their own nibs or classes.
     func registerCell(collectionView: UICollectionView){
-        let dataCellIdentifier = String(describing: DataCell.self)
         let podBundle = Bundle(for: SwiftDataTable.self)
         
-        collectionView.register(DataCell.self, forCellWithReuseIdentifier: dataCellIdentifier)
+        collectionView.register(DataCell.self, forCellWithReuseIdentifier: String(describing: DataCell.self))
         
         let headerIdentifier = String(describing: DataHeaderFooter.self)
-        collectionView.register(UINib(nibName: headerIdentifier, bundle: podBundle), forSupplementaryViewOfKind: SupplementaryViewType.columnHeader.rawValue, withReuseIdentifier: headerIdentifier)
-        
-        collectionView.register(UINib(nibName:  headerIdentifier, bundle: podBundle), forSupplementaryViewOfKind: SupplementaryViewType.footerHeader.rawValue, withReuseIdentifier: headerIdentifier)
+        collectionView.register(DataHeaderFooter.self, forSupplementaryViewOfKind: SupplementaryViewType.columnHeader.rawValue, withReuseIdentifier: headerIdentifier)
+        collectionView.register(DataHeaderFooter.self, forSupplementaryViewOfKind: SupplementaryViewType.footerHeader.rawValue, withReuseIdentifier: headerIdentifier)
         
         let paginationIdentifier = String(describing: PaginationHeader.self)
         collectionView.register(UINib(nibName: paginationIdentifier, bundle: podBundle), forSupplementaryViewOfKind: SupplementaryViewType.paginationHeader.rawValue, withReuseIdentifier: paginationIdentifier)
         
-        let menuLengthIdentifier = String(describing: MenuLengthHeader.self)
-        
-        collectionView.register(UINib(nibName: menuLengthIdentifier, bundle: podBundle), forSupplementaryViewOfKind: SupplementaryViewType.searchHeader.rawValue, withReuseIdentifier: menuLengthIdentifier)
+        collectionView.register(MenuLengthHeader.self, forSupplementaryViewOfKind: SupplementaryViewType.searchHeader.rawValue, withReuseIdentifier: String(describing: MenuLengthHeader.self))
     }
     
     func set(data: DataTableContent, headerTitles: [String], options: DataTableConfiguration? = nil, shouldReplaceLayout: Bool = false){

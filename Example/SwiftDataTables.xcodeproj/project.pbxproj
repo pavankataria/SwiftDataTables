@@ -41,7 +41,6 @@
 		E234B0DE231353F6009FC712 /* DataCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583156F2224644B004B4478 /* DataCell.swift */; };
 		E234B0DF231353F9009FC712 /* SwiftDataTable+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315722224644B004B4478 /* SwiftDataTable+Extensions.swift */; };
 		E234B0E0231353FE009FC712 /* DataTableSortable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315732224644B004B4478 /* DataTableSortable.swift */; };
-		E234B0E123135406009FC712 /* DataHeaderFooter.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0583157E2224644B004B4478 /* DataHeaderFooter.xib */; };
 		E234B0E223135406009FC712 /* DataHeaderFooterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583157F2224644B004B4478 /* DataHeaderFooterViewModel.swift */; };
 		E234B0E323135406009FC712 /* DataHeaderFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315802224644B004B4478 /* DataHeaderFooter.swift */; };
 		E234B0E523135425009FC712 /* VirtualPositionTrackable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315782224644B004B4478 /* VirtualPositionTrackable.swift */; };
@@ -108,7 +107,6 @@
 		0583157A2224644B004B4478 /* DataCellRowRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataCellRowRepresentable.swift; sourceTree = "<group>"; };
 		0583157B2224644B004B4478 /* SwiftDataTableDataSourceAndDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftDataTableDataSourceAndDelegate.swift; sourceTree = "<group>"; };
 		0583157C2224644B004B4478 /* CollectionViewSupplementaryElementRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewSupplementaryElementRepresentable.swift; sourceTree = "<group>"; };
-		0583157E2224644B004B4478 /* DataHeaderFooter.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DataHeaderFooter.xib; sourceTree = "<group>"; };
 		0583157F2224644B004B4478 /* DataHeaderFooterViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataHeaderFooterViewModel.swift; sourceTree = "<group>"; };
 		058315802224644B004B4478 /* DataHeaderFooter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataHeaderFooter.swift; sourceTree = "<group>"; };
 		058315812224644B004B4478 /* DataStructureModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStructureModel.swift; sourceTree = "<group>"; };
@@ -171,17 +169,14 @@
 		0583155F2224644B004B4478 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				05D66E7622B98083003004D9 /* Models */,
-				058315602224644B004B4478 /* PaginationHeader */,
-				058315642224644B004B4478 /* MenuLengthHeader */,
-				0583156B2224644B004B4478 /* DataCell */,
-				058315712224644B004B4478 /* Extensions */,
-				058315772224644B004B4478 /* Protocols */,
-				0583157D2224644B004B4478 /* HeaderFooter */,
-				058315692224644B004B4478 /* DataTableSearchTextField.swift */,
-				058315702224644B004B4478 /* SwiftDataTableLayout.swift */,
 				058315742224644B004B4478 /* DataStore.swift */,
+				058315692224644B004B4478 /* DataTableSearchTextField.swift */,
 				058315762224644B004B4478 /* SwiftDataTable.swift */,
+				058315702224644B004B4478 /* SwiftDataTableLayout.swift */,
+				05F1892F236F9C5400CAA218 /* Cells */,
+				058315712224644B004B4478 /* Extensions */,
+				05D66E7622B98083003004D9 /* Models */,
+				058315772224644B004B4478 /* Protocols */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -240,7 +235,6 @@
 		0583157D2224644B004B4478 /* HeaderFooter */ = {
 			isa = PBXGroup;
 			children = (
-				0583157E2224644B004B4478 /* DataHeaderFooter.xib */,
 				0583157F2224644B004B4478 /* DataHeaderFooterViewModel.swift */,
 				058315802224644B004B4478 /* DataHeaderFooter.swift */,
 			);
@@ -267,6 +261,17 @@
 				05D66E7722B980C6003004D9 /* DataTableFixedColumnType.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		05F1892F236F9C5400CAA218 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				0583156B2224644B004B4478 /* DataCell */,
+				0583157D2224644B004B4478 /* HeaderFooter */,
+				058315642224644B004B4478 /* MenuLengthHeader */,
+				058315602224644B004B4478 /* PaginationHeader */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		607FACC71AFB9204008FA782 = {
@@ -462,7 +467,6 @@
 				E234B0D6231353EA009FC712 /* PaginationHeader.xib in Resources */,
 				E234B0D8231353F0009FC712 /* MenuLengthHeader.xib in Resources */,
 				E234B0CB231353C8009FC712 /* SwiftDataTables.bundle in Resources */,
-				E234B0E123135406009FC712 /* DataHeaderFooter.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

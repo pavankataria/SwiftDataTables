@@ -80,7 +80,7 @@ extension DataHeaderFooterViewModel: CollectionViewSupplementaryElementRepresent
                 return UICollectionReusableView()
         }
         
-        headerView.setup(viewModel: self)
+        headerView.configure(viewModel: self)
         switch kind {
         case SwiftDataTable.SupplementaryViewType.columnHeader.rawValue:
             headerView.didTapEvent = { [weak self] in

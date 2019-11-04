@@ -35,7 +35,7 @@ extension MenuLengthHeaderViewModel: CollectionViewSupplementaryElementRepresent
                 return UICollectionReusableView()
         }
         
-        headerView.setup(self)
+        headerView.configure(self)
         return headerView
     }
 }
