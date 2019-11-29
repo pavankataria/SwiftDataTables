@@ -23,6 +23,7 @@ public struct DataTableConfiguration: Equatable {
     public var heightForSectionFooter: CGFloat = 44
     public var heightForSectionHeader: CGFloat = 44
     public var heightForSearchView: CGFloat = 60
+    public var rightOffsetForSearchView: CGFloat = 0
     public var heightOfInterRowSpacing: CGFloat = 1
 
     public var shouldShowFooter: Bool = true

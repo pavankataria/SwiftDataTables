@@ -129,6 +129,11 @@ public protocol SwiftDataTableDataSource: class {
     /// - Returns: the height of the search view
     @objc optional func heightForSearchView(in dataTable: SwiftDataTable) -> CGFloat
     
+    /// The right offset of the search view from the right. Defaults to 0.
+    ///
+    /// - Parameter dataTable: SwiftDataTable
+    /// - Returns: the right offset of the search view from the right
+    @objc optional func rightOffsetForSearchView(in dataTable: SwiftDataTable) -> CGFloat
     
     /// Height of the inter row spacing. Defaults to 1.
     ///

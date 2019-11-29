@@ -189,7 +189,7 @@ public class SwiftDataTable: UIView {
     public override func layoutSubviews() {
         super.layoutSubviews()
         let searchBarHeight = self.heightForSearchView()
-        self.searchBar.frame = CGRect(x: 0, y: 0, width: self.bounds.width, height: searchBarHeight)
+        self.searchBar.frame = CGRect(x: 0, y: 0, width: self.bounds.width - self.rightOffsetForSearchView(), height: searchBarHeight)
         self.collectionView.frame = CGRect(x: 0, y: searchBarHeight, width: self.bounds.width, height: self.bounds.height-searchBarHeight)
     }
     
@@ -658,6 +658,13 @@ extension SwiftDataTable {
         }
         return self.delegate?.heightForSearchView?(in: self) ?? self.options.heightForSearchView
     }
+    
+    func rightOffsetForSearchView() -> CGFloat {
+           guard self.shouldShowSearchSection() else {
+               return 0
+           }
+           return self.delegate?.rightOffsetForSearchView?(in: self) ?? self.options.rightOffsetForSearchView
+       }
     
     func showVerticalScrollBars() -> Bool {
         return self.delegate?.shouldShowVerticalScrollBars?(in: self) ?? self.options.shouldShowVerticalScrollBars
