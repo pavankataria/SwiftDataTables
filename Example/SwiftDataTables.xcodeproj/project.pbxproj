@@ -31,18 +31,14 @@
 		E234B0D3231353DB009FC712 /* DataStructureModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315812224644B004B4478 /* DataStructureModel.swift */; };
 		E234B0D4231353DB009FC712 /* DataTableFixedColumnType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D66E7722B980C6003004D9 /* DataTableFixedColumnType.swift */; };
 		E234B0D5231353EA009FC712 /* PaginationHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315612224644B004B4478 /* PaginationHeaderViewModel.swift */; };
-		E234B0D6231353EA009FC712 /* PaginationHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 058315622224644B004B4478 /* PaginationHeader.xib */; };
 		E234B0D7231353EA009FC712 /* PaginationHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315632224644B004B4478 /* PaginationHeader.swift */; };
-		E234B0D8231353F0009FC712 /* MenuLengthHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 058315652224644B004B4478 /* MenuLengthHeader.xib */; };
 		E234B0D9231353F0009FC712 /* MenuLengthHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315662224644B004B4478 /* MenuLengthHeader.swift */; };
 		E234B0DA231353F0009FC712 /* MenuLengthHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315672224644B004B4478 /* MenuLengthHeaderViewModel.swift */; };
 		E234B0DB231353F6009FC712 /* DataCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583156C2224644B004B4478 /* DataCellViewModel.swift */; };
 		E234B0DC231353F6009FC712 /* DataCellLayoutAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583156D2224644B004B4478 /* DataCellLayoutAttributes.swift */; };
-		E234B0DD231353F6009FC712 /* DataCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0583156E2224644B004B4478 /* DataCell.xib */; };
 		E234B0DE231353F6009FC712 /* DataCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583156F2224644B004B4478 /* DataCell.swift */; };
 		E234B0DF231353F9009FC712 /* SwiftDataTable+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315722224644B004B4478 /* SwiftDataTable+Extensions.swift */; };
 		E234B0E0231353FE009FC712 /* DataTableSortable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315732224644B004B4478 /* DataTableSortable.swift */; };
-		E234B0E123135406009FC712 /* DataHeaderFooter.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0583157E2224644B004B4478 /* DataHeaderFooter.xib */; };
 		E234B0E223135406009FC712 /* DataHeaderFooterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583157F2224644B004B4478 /* DataHeaderFooterViewModel.swift */; };
 		E234B0E323135406009FC712 /* DataHeaderFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315802224644B004B4478 /* DataHeaderFooter.swift */; };
 		E234B0E523135425009FC712 /* VirtualPositionTrackable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315782224644B004B4478 /* VirtualPositionTrackable.swift */; };
@@ -87,9 +83,7 @@
 		0557FFCA20D18824003EC229 /* MenuTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTableViewController.swift; sourceTree = "<group>"; };
 		0583155E2224644B004B4478 /* SwiftDataTables.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SwiftDataTables.bundle; sourceTree = "<group>"; };
 		058315612224644B004B4478 /* PaginationHeaderViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginationHeaderViewModel.swift; sourceTree = "<group>"; };
-		058315622224644B004B4478 /* PaginationHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PaginationHeader.xib; sourceTree = "<group>"; };
 		058315632224644B004B4478 /* PaginationHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginationHeader.swift; sourceTree = "<group>"; };
-		058315652224644B004B4478 /* MenuLengthHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MenuLengthHeader.xib; sourceTree = "<group>"; };
 		058315662224644B004B4478 /* MenuLengthHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuLengthHeader.swift; sourceTree = "<group>"; };
 		058315672224644B004B4478 /* MenuLengthHeaderViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuLengthHeaderViewModel.swift; sourceTree = "<group>"; };
 		058315682224644B004B4478 /* DataTableSortType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataTableSortType.swift; sourceTree = "<group>"; };
@@ -97,7 +91,6 @@
 		0583156A2224644B004B4478 /* DataTableConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataTableConfiguration.swift; sourceTree = "<group>"; };
 		0583156C2224644B004B4478 /* DataCellViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataCellViewModel.swift; sourceTree = "<group>"; };
 		0583156D2224644B004B4478 /* DataCellLayoutAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataCellLayoutAttributes.swift; sourceTree = "<group>"; };
-		0583156E2224644B004B4478 /* DataCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DataCell.xib; sourceTree = "<group>"; };
 		0583156F2224644B004B4478 /* DataCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataCell.swift; sourceTree = "<group>"; };
 		058315702224644B004B4478 /* SwiftDataTableLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftDataTableLayout.swift; sourceTree = "<group>"; };
 		058315722224644B004B4478 /* SwiftDataTable+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwiftDataTable+Extensions.swift"; sourceTree = "<group>"; };
@@ -110,7 +103,6 @@
 		0583157A2224644B004B4478 /* DataCellRowRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataCellRowRepresentable.swift; sourceTree = "<group>"; };
 		0583157B2224644B004B4478 /* SwiftDataTableDataSourceAndDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftDataTableDataSourceAndDelegate.swift; sourceTree = "<group>"; };
 		0583157C2224644B004B4478 /* CollectionViewSupplementaryElementRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewSupplementaryElementRepresentable.swift; sourceTree = "<group>"; };
-		0583157E2224644B004B4478 /* DataHeaderFooter.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DataHeaderFooter.xib; sourceTree = "<group>"; };
 		0583157F2224644B004B4478 /* DataHeaderFooterViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataHeaderFooterViewModel.swift; sourceTree = "<group>"; };
 		058315802224644B004B4478 /* DataHeaderFooter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataHeaderFooter.swift; sourceTree = "<group>"; };
 		058315812224644B004B4478 /* DataStructureModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStructureModel.swift; sourceTree = "<group>"; };
@@ -173,17 +165,14 @@
 		0583155F2224644B004B4478 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				05D66E7622B98083003004D9 /* Models */,
-				058315602224644B004B4478 /* PaginationHeader */,
-				058315642224644B004B4478 /* MenuLengthHeader */,
-				0583156B2224644B004B4478 /* DataCell */,
-				058315712224644B004B4478 /* Extensions */,
-				058315772224644B004B4478 /* Protocols */,
-				0583157D2224644B004B4478 /* HeaderFooter */,
-				058315692224644B004B4478 /* DataTableSearchTextField.swift */,
-				058315702224644B004B4478 /* SwiftDataTableLayout.swift */,
 				058315742224644B004B4478 /* DataStore.swift */,
+				058315692224644B004B4478 /* DataTableSearchTextField.swift */,
 				058315762224644B004B4478 /* SwiftDataTable.swift */,
+				058315702224644B004B4478 /* SwiftDataTableLayout.swift */,
+				05F1892F236F9C5400CAA218 /* Cells */,
+				058315712224644B004B4478 /* Extensions */,
+				05D66E7622B98083003004D9 /* Models */,
+				058315772224644B004B4478 /* Protocols */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -192,7 +181,6 @@
 			isa = PBXGroup;
 			children = (
 				058315612224644B004B4478 /* PaginationHeaderViewModel.swift */,
-				058315622224644B004B4478 /* PaginationHeader.xib */,
 				058315632224644B004B4478 /* PaginationHeader.swift */,
 			);
 			path = PaginationHeader;
@@ -201,7 +189,6 @@
 		058315642224644B004B4478 /* MenuLengthHeader */ = {
 			isa = PBXGroup;
 			children = (
-				058315652224644B004B4478 /* MenuLengthHeader.xib */,
 				058315662224644B004B4478 /* MenuLengthHeader.swift */,
 				058315672224644B004B4478 /* MenuLengthHeaderViewModel.swift */,
 			);
@@ -213,7 +200,6 @@
 			children = (
 				0583156C2224644B004B4478 /* DataCellViewModel.swift */,
 				0583156D2224644B004B4478 /* DataCellLayoutAttributes.swift */,
-				0583156E2224644B004B4478 /* DataCell.xib */,
 				0583156F2224644B004B4478 /* DataCell.swift */,
 			);
 			path = DataCell;
@@ -243,7 +229,6 @@
 		0583157D2224644B004B4478 /* HeaderFooter */ = {
 			isa = PBXGroup;
 			children = (
-				0583157E2224644B004B4478 /* DataHeaderFooter.xib */,
 				0583157F2224644B004B4478 /* DataHeaderFooterViewModel.swift */,
 				058315802224644B004B4478 /* DataHeaderFooter.swift */,
 			);
@@ -270,6 +255,17 @@
 				05D66E7722B980C6003004D9 /* DataTableFixedColumnType.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		05F1892F236F9C5400CAA218 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				0583156B2224644B004B4478 /* DataCell */,
+				0583157D2224644B004B4478 /* HeaderFooter */,
+				058315642224644B004B4478 /* MenuLengthHeader */,
+				058315602224644B004B4478 /* PaginationHeader */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		607FACC71AFB9204008FA782 = {
@@ -462,11 +458,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E234B0D6231353EA009FC712 /* PaginationHeader.xib in Resources */,
-				E234B0D8231353F0009FC712 /* MenuLengthHeader.xib in Resources */,
 				E234B0CB231353C8009FC712 /* SwiftDataTables.bundle in Resources */,
-				E234B0E123135406009FC712 /* DataHeaderFooter.xib in Resources */,
-				E234B0DD231353F6009FC712 /* DataCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -786,7 +778,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = SwiftDataTables/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -822,7 +814,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = SwiftDataTables/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = demo.SwiftDataTables.SwiftDataTables;

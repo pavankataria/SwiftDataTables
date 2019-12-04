@@ -3,7 +3,7 @@
 //  SwiftDataTables_Example
 //
 //  Created by Pavan Kataria on 31/10/2019.
-//  Copyright © 2019 CocoaPods. All rights reserved.
+//  Copyright © 2017 Pavan Kataria. All rights reserved.
 //
 
 import Foundation
@@ -77,6 +77,6 @@ extension GenericDataTableViewController {
 
 extension GenericDataTableViewController: SwiftDataTableDelegate {
     func didSelectItem(_ dataTable: SwiftDataTable, indexPath: IndexPath) {
-        print("did select item at indexPath: \(indexPath) dataValue: \(dataTable.data(for: indexPath))")
+        debugPrint("did select item at indexPath: \(indexPath) dataValue: \(dataTable.data(for: indexPath))")
     }
 }

@@ -3,7 +3,7 @@
 //  SwiftDataTables
 //
 //  Created by Pavan Kataria on 05/04/2017.
-//  Copyright © 2017 CocoaPods. All rights reserved.
+//  Copyright © 2017 Pavan Kataria. All rights reserved.
 //
 
 import UIKit
@@ -100,6 +100,6 @@ extension DataTableWithDataSourceViewController: SwiftDataTableDataSource {
 
 extension DataTableWithDataSourceViewController: SwiftDataTableDelegate {
     func didSelectItem(_ dataTable: SwiftDataTable, indexPath: IndexPath) {
-        print("did select item at indexPath: \(indexPath) dataValue: \(dataTable.data(for: indexPath))")
+        debugPrint("did select item at indexPath: \(indexPath) dataValue: \(dataTable.data(for: indexPath))")
     }
 }

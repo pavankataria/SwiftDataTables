@@ -56,7 +56,7 @@ extension DataTableWithDataSetViewController {
 
 extension DataTableWithDataSetViewController: SwiftDataTableDelegate {
     func didSelectItem(_ dataTable: SwiftDataTable, indexPath: IndexPath) {
-        print("did select item at indexPath: \(indexPath) dataValue: \(dataTable.data(for: indexPath))")
+        debugPrint("did select item at indexPath: \(indexPath) dataValue: \(dataTable.data(for: indexPath))")
     }
     func fixedColumns(for dataTable: SwiftDataTable) -> DataTableFixedColumnType {
         return .init(leftColumns: 1, rightColumns: 1)
