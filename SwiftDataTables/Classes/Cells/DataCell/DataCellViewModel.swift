@@ -28,6 +28,7 @@ open class DataCellViewModel: VirtualPositionTrackable, CollectionViewCellRepres
     
     static func registerCell(collectionView: UICollectionView) {
         let identifier = String(describing: DataCell.self)
+        collectionView.register(DataCell.self, forCellWithReuseIdentifier: identifier)
         let nib = UINib(nibName: identifier, bundle: nil)
         collectionView.register(nib, forCellWithReuseIdentifier: identifier)
     }
@@ -37,7 +38,7 @@ open class DataCellViewModel: VirtualPositionTrackable, CollectionViewCellRepres
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as? DataCell else {
             fatalError("error in collection view cell")
         }
-        cell.setup(self)
+        cell.configure(self)
         return cell
     }
 }

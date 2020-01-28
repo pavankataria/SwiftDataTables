@@ -1,5 +1,5 @@
 //
-//  MenuLengthHeaderViewModel.swift
+//  PaginationHeaderViewModel.swift
 //  SwiftDataTables
 //
 //  Created by Pavan Kataria on 03/03/2017.
@@ -9,47 +9,31 @@
 import Foundation
 import UIKit
 
-class MenuLengthHeaderViewModel: NSObject {
-    //MARK: - Events
-    var searchTextFieldDidChangeEvent: ((String) -> Void)? = nil
+class PaginationHeaderViewModel {
+    
 }
 
-extension MenuLengthHeaderViewModel: CollectionViewSupplementaryElementRepresentable {
+extension PaginationHeaderViewModel: CollectionViewSupplementaryElementRepresentable {
     static func registerHeaderFooterViews(collectionView: UICollectionView) {
-        let identifier = String(describing: MenuLengthHeader.self)
+        let identifier = String(describing: PaginationHeader.self)
         let headerNib = UINib(nibName: identifier, bundle: nil)
         collectionView.register(headerNib, forCellWithReuseIdentifier: identifier)
     }
-    
+
     func dequeueView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, for indexPath: IndexPath) -> UICollectionReusableView {
-        
-        let identifier = String(describing: MenuLengthHeader.self)
-//        print("identifier at dequeue: \(identifier)")
+        let identifier = String(describing: PaginationHeader.self)
         guard
             let headerView = collectionView.dequeueReusableSupplementaryView(
                 ofKind: kind,
                 withReuseIdentifier:
                 identifier,
                 for: indexPath
-                ) as? MenuLengthHeader
+                ) as? PaginationHeader
             else {
                 return UICollectionReusableView()
         }
         
-        headerView.setup(self)
+        headerView.configure(self)
         return headerView
     }
-}
-
-extension MenuLengthHeaderViewModel {
-    @objc func textFieldDidChange(textField: UITextField){
-        guard let text = textField.text else {
-            return
-        }
-        self.searchTextFieldDidChangeEvent?(text)
-    }
-}
-
-extension MenuLengthHeaderViewModel: UISearchBarDelegate {
-    
 }
