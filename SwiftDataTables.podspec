@@ -31,7 +31,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '9.0'
   s.pod_target_xcconfig = { 'SWIFT_VERSION' => '5.0' }
 
-  s.source_files = 'SwiftDataTables/**/*'
+  s.source_files = 'SwiftDataTables/**/*.swift'
   s.resources    = 'SwiftDataTables/SwiftDataTables.bundle'
 
 end
