@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SwiftDataTables'
-  s.version          = '0.8.1'
+  s.version          = '0.8.2'
   s.summary          = 'A Swift Data Table package that allows ordering, searching, and paging with extensible options.'
   s.swift_version    = '5.0'
 
