@@ -77,7 +77,7 @@ public struct DataStructureModel {
         for column in Array(0..<self.headerTitles.count) {
             let averageForCurrentColumn = Array(0..<data.count).reduce(0){
                 let dataType: DataTableValueType = data[$1][column]
-                return $0 + dataType.stringRepresentation.count
+              return $0 + Int(dataType.stringRepresentation.widthOfString(usingFont: UIFont.systemFont(ofSize: 17)).rounded(.up))
             }
             columnContentAverages.append((data.count == 0) ? 1 : Float(averageForCurrentColumn) / Float(data.count))
         }
