@@ -47,7 +47,7 @@ class DataHeaderFooter: UICollectionReusableView {
     
     func setupViews() {
         titleLabel.adjustsFontSizeToFitWidth = true
-        titleLabel.font = UIFont.systemFont(ofSize: 17, weight: .heavy)
+        titleLabel.font = UIFont.systemFont(ofSize: UIFont.labelFontSize, weight: .heavy)
         addSubview(titleLabel)
         addSubview(sortingImageView)
         let tapGesture = UITapGestureRecognizer.init(target: self, action: #selector(DataHeaderFooter.didTapView))

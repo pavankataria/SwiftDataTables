@@ -11,7 +11,7 @@ import UIKit
 class DataCell: UICollectionViewCell {
 
     //MARK: - Properties
-    private enum Properties {
+    public enum Properties {
         static let verticalMargin: CGFloat = 5
         static let horizontalMargin: CGFloat = 15
         static let widthConstant: CGFloat = 20
