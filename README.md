@@ -206,9 +206,7 @@ Pavan Kataria
 
 ### 👨‍💻 Contributors
 
-[Sebastien Senechal](https://github.com/altagir)
-[Hais Daekin](https://github.com/Hais)
-
+**Consider contributing to this project over at https://opencollective.com/swiftdatatables!**
 
 <!--## Contributors 
 Thanks to the developers listed below:
