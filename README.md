@@ -39,6 +39,8 @@ https://img.shields.io/cocoapods/p/SwiftDataTables.svg
 
 `SwiftDataTables` allows you to display grid-like data sets in a nicely formatted table for iOS. The main goal for the end-user is to be able to obtain useful information from the table as quickly as possible with the following features: ordering, searching, and paging; and to provide an easy implementation with extensible options for the developer. 
 
+**You can now contribute to this project over at https://opencollective.com/swiftdatatables!**
+
 ## Major Features include:
 - [x] Tested on iOS 8.0, 9, 10, 11, and 12 onwards. 
 - [x] Full Swift 5 support
