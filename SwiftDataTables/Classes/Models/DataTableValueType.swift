@@ -14,22 +14,38 @@ import Foundation
 public enum DataTableValueType {
     
     //MARK: - Properties
-    case string(String)
-    case int(Int)
-    case float(Float)
-    case double(Double)
+    case string(String, String? = nil)
+    case int(Int, String? = nil)
+    case float(Float, String? = nil)
+    case double(Double, String? = nil)
     
     public var stringRepresentation: String {
         get {
             switch self {
-            case .string(let value):
-                return String(value)
-            case .int(let value):
-                return String(value)
-            case .float(let value):
-                return String(value)
-            case .double(let value):
-                return String(value)
+            case .string(let value, let format):
+                if let format = format {
+                    return String(format: format, value)
+                } else {
+                    return String(value)
+                }
+            case .int(let value, let format):
+                if let format = format {
+                    return String(format: format, value)
+                } else {
+                    return String(value)
+                }
+            case .float(let value, let format):
+                if let format = format {
+                    return String(format: format, value)
+                } else {
+                    return String(value)
+                }
+            case .double(let value, let format):
+                if let format = format {
+                    return String(format: format, value)
+                } else {
+                    return String(value)
+                }
             }
         }
     }
@@ -67,13 +83,13 @@ extension DataTableValueType: Comparable {
     }
     public static func < (lhs: DataTableValueType, rhs: DataTableValueType) -> Bool {
         switch (lhs, rhs) {
-        case (.string(let lhsValue), .string(let rhsValue)):
+        case (.string(let lhsValue, _), .string(let rhsValue, _)):
             return lhsValue < rhsValue
-        case (.int(let lhsValue), .int(let rhsValue)):
+        case (.int(let lhsValue, _), .int(let rhsValue, _)):
             return lhsValue < rhsValue
-        case (.float(let lhsValue), .float(let rhsValue)):
+        case (.float(let lhsValue, _), .float(let rhsValue, _)):
             return lhsValue < rhsValue
-        case (.double(let lhsValue), .double(let rhsValue)):
+        case (.double(let lhsValue, _), .double(let rhsValue, _)):
             return lhsValue < rhsValue
         default:
             return lhs.stringRepresentation < rhs.stringRepresentation
