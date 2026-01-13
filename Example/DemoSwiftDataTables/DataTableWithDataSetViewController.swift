@@ -50,6 +50,7 @@ extension DataTableWithDataSetViewController {
         )
         dataTable.translatesAutoresizingMaskIntoConstraints = false
         dataTable.backgroundColor = UIColor.init(red: 235/255, green: 235/255, blue: 235/255, alpha: 1)
+        dataTable.accessibilityIdentifier = "SwiftDataTable"
         return dataTable
     }
 }

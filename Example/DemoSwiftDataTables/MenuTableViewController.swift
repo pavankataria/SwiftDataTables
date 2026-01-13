@@ -35,6 +35,7 @@ class MenuViewController: UITableViewController {
         super.viewDidLoad()
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: Properties.menuItemIdentifier)
         tableView.rowHeight = 70
+        tableView.accessibilityIdentifier = "MenuTableView"
         self.tableView.reloadData()
     }
     //MARK: - Actions
@@ -74,8 +75,11 @@ extension MenuViewController {
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Properties.menuItemIdentifier, for: indexPath)
-        cell.textLabel?.text = self.menuItems[indexPath.section][indexPath.row].title
+        let menuItem = self.menuItems[indexPath.section][indexPath.row]
+        cell.textLabel?.text = menuItem.title
         cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        // Accessibility identifiers for UI testing
+        cell.accessibilityIdentifier = "MenuItem_\(indexPath.section)_\(indexPath.row)"
         return cell
     }
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {

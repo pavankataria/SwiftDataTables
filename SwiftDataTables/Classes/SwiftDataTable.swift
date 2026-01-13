@@ -58,6 +58,7 @@ public class SwiftDataTable: UIView {
         searchBar.searchBarStyle = .minimal;
         searchBar.placeholder = "Search";
         searchBar.delegate = self
+        searchBar.accessibilityIdentifier = "SwiftDataTable_SearchBar"
         if #available(iOS 13.0, *) {
             searchBar.backgroundColor = .systemBackground
             searchBar.barTintColor = .label
@@ -65,8 +66,8 @@ public class SwiftDataTable: UIView {
             searchBar.backgroundColor = .white
             searchBar.barTintColor = .white
         }
-        
-        
+
+
         self.addSubview(searchBar)
         return searchBar
     }()
@@ -77,6 +78,7 @@ public class SwiftDataTable: UIView {
             fatalError("The layout needs to be set first")
         }
         let collectionView = UICollectionView(frame: self.bounds, collectionViewLayout: layout)
+        collectionView.accessibilityIdentifier = "SwiftDataTable_CollectionView"
         if #available(iOS 13.0, *) {
             collectionView.backgroundColor = UIColor.systemBackground
         } else {
@@ -388,6 +390,9 @@ extension SwiftDataTable: UICollectionViewDataSource, UICollectionViewDelegate {
         cellViewModel = self.rowModel(at: indexPath)
         //}
         let cell = cellViewModel.dequeueCell(collectionView: collectionView, indexPath: indexPath)
+        if let dataCell = cell as? DataCell {
+            dataCell.configureAccessibility(section: indexPath.section, item: indexPath.item)
+        }
         return cell
     }
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -437,7 +442,12 @@ extension SwiftDataTable: UICollectionViewDataSource, UICollectionViewDelegate {
         case .footerHeader: viewModel = self.footerViewModels[indexPath.index]
         case .paginationHeader: viewModel = self.paginationViewModel
         }
-        return viewModel.dequeueView(collectionView: collectionView, viewForSupplementaryElementOfKind: kind, for: indexPath)
+        let view = viewModel.dequeueView(collectionView: collectionView, viewForSupplementaryElementOfKind: kind, for: indexPath)
+        if let headerFooter = view as? DataHeaderFooter {
+            let isHeader = elementKind == .columnHeader
+            headerFooter.configureAccessibility(columnIndex: indexPath.index, isHeader: isHeader)
+        }
+        return view
     }
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         delegate?.didSelectItem?(self, indexPath: indexPath)

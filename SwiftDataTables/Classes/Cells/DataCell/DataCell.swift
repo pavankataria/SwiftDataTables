@@ -45,4 +45,11 @@ class DataCell: UICollectionViewCell {
         self.dataLabel.text = viewModel.data.stringRepresentation
 //        self.contentView.backgroundColor = .white
     }
+
+    func configureAccessibility(section: Int, item: Int) {
+        self.accessibilityIdentifier = "DataCell_\(section)_\(item)"
+        self.dataLabel.accessibilityIdentifier = "DataCellLabel_\(section)_\(item)"
+        self.isAccessibilityElement = true
+        self.accessibilityLabel = dataLabel.text
+    }
 }

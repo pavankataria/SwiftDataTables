@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AABB112233445566 /* SwiftDataTablesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABB112233445567 /* SwiftDataTablesUITests.swift */; };
 		0557FFCB20D18824003EC229 /* MenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0557FFCA20D18824003EC229 /* MenuTableViewController.swift */; };
 		058D4BB71E954000002A2DC9 /* DataTableWithDataSourceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058D4BB61E954000002A2DC9 /* DataTableWithDataSourceViewController.swift */; };
 		05C6856F236BA59000A42ED9 /* GenericDataTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05C6856E236BA59000A42ED9 /* GenericDataTableViewController.swift */; };
@@ -49,6 +50,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		AABB112233445568 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 607FACC81AFB9204008FA782 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 607FACCF1AFB9204008FA782;
+			remoteInfo = SwiftDataTables_Example;
+		};
 		05D66E7122B94942003004D9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 607FACC81AFB9204008FA782 /* Project object */;
@@ -80,6 +88,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		AABB112233445567 /* SwiftDataTablesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataTablesUITests.swift; sourceTree = "<group>"; };
+		AABB112233445569 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AABB11223344556A /* SwiftDataTablesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftDataTablesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0557FFCA20D18824003EC229 /* MenuTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTableViewController.swift; sourceTree = "<group>"; };
 		0583155E2224644B004B4478 /* SwiftDataTables.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SwiftDataTables.bundle; sourceTree = "<group>"; };
 		058315612224644B004B4478 /* PaginationHeaderViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginationHeaderViewModel.swift; sourceTree = "<group>"; };
@@ -127,6 +138,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		AABB11223344556B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		05D66E6922B94942003004D9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -245,6 +263,15 @@
 			path = SwiftDataTablesTests;
 			sourceTree = "<group>";
 		};
+		AABB11223344556C /* SwiftDataTablesUITests */ = {
+			isa = PBXGroup;
+			children = (
+				AABB112233445567 /* SwiftDataTablesUITests.swift */,
+				AABB112233445569 /* Info.plist */,
+			);
+			path = SwiftDataTablesUITests;
+			sourceTree = "<group>";
+		};
 		05D66E7622B98083003004D9 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -273,6 +300,7 @@
 			children = (
 				607FACD21AFB9204008FA782 /* DemoSwiftDataTables */,
 				05D66E6D22B94942003004D9 /* SwiftDataTablesTests */,
+				AABB11223344556C /* SwiftDataTablesUITests */,
 				E234B0BF231353BF009FC712 /* SwiftDataTables */,
 				607FACD11AFB9204008FA782 /* Products */,
 			);
@@ -283,6 +311,7 @@
 			children = (
 				607FACD01AFB9204008FA782 /* SwiftDataTables_Example.app */,
 				05D66E6C22B94942003004D9 /* SwiftDataTablesTests.xctest */,
+				AABB11223344556A /* SwiftDataTablesUITests.xctest */,
 				E234B0BE231353BF009FC712 /* SwiftDataTables.framework */,
 			);
 			name = Products;
@@ -337,6 +366,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		AABB11223344556D /* SwiftDataTablesUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AABB112233445570 /* Build configuration list for PBXNativeTarget "SwiftDataTablesUITests" */;
+			buildPhases = (
+				AABB11223344556E /* Sources */,
+				AABB11223344556B /* Frameworks */,
+				AABB11223344556F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AABB112233445571 /* PBXTargetDependency */,
+			);
+			name = SwiftDataTablesUITests;
+			productName = SwiftDataTablesUITests;
+			productReference = AABB11223344556A /* SwiftDataTablesUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		05D66E6B22B94942003004D9 /* SwiftDataTablesTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 05D66E7322B94942003004D9 /* Build configuration list for PBXNativeTarget "SwiftDataTablesTests" */;
@@ -402,6 +449,11 @@
 				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = CocoaPods;
 				TargetAttributes = {
+					AABB11223344556D = {
+						CreatedOnToolsVersion = 10.2.1;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 607FACCF1AFB9204008FA782;
+					};
 					05D66E6B22B94942003004D9 = {
 						CreatedOnToolsVersion = 10.2.1;
 						ProvisioningStyle = Automatic;
@@ -432,12 +484,20 @@
 			targets = (
 				607FACCF1AFB9204008FA782 /* SwiftDataTables_Example */,
 				05D66E6B22B94942003004D9 /* SwiftDataTablesTests */,
+				AABB11223344556D /* SwiftDataTablesUITests */,
 				E234B0BD231353BF009FC712 /* SwiftDataTables */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		AABB11223344556F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		05D66E6A22B94942003004D9 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -465,6 +525,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		AABB11223344556E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AABB112233445566 /* SwiftDataTablesUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		05D66E6822B94942003004D9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -522,6 +590,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		AABB112233445571 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 607FACCF1AFB9204008FA782 /* SwiftDataTables_Example */;
+			targetProxy = AABB112233445568 /* PBXContainerItemProxy */;
+		};
 		05D66E7222B94942003004D9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 607FACCF1AFB9204008FA782 /* SwiftDataTables_Example */;
@@ -598,6 +671,59 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SwiftDataTables_Example.app/SwiftDataTables_Example";
+			};
+			name = Release;
+		};
+		AABB112233445572 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = SwiftDataTablesUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pavankataria.SwiftDataTablesUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = SwiftDataTables_Example;
+			};
+			name = Debug;
+		};
+		AABB112233445573 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = SwiftDataTablesUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pavankataria.SwiftDataTablesUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = SwiftDataTables_Example;
 			};
 			name = Release;
 		};
@@ -831,6 +957,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		AABB112233445570 /* Build configuration list for PBXNativeTarget "SwiftDataTablesUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AABB112233445572 /* Debug */,
+				AABB112233445573 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		05D66E7322B94942003004D9 /* Build configuration list for PBXNativeTarget "SwiftDataTablesTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
