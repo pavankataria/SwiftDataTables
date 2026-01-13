@@ -76,6 +76,16 @@ class DataHeaderFooter: UICollectionReusableView {
         self.sortingImageView.tintColor = viewModel.tintColorForSortingElement
         self.backgroundColor = .white
     }
+
+    func configureAccessibility(columnIndex: Int, isHeader: Bool) {
+        let prefix = isHeader ? "ColumnHeader" : "ColumnFooter"
+        self.accessibilityIdentifier = "\(prefix)_\(columnIndex)"
+        self.titleLabel.accessibilityIdentifier = "\(prefix)Label_\(columnIndex)"
+        self.sortingImageView.accessibilityIdentifier = "\(prefix)SortArrow_\(columnIndex)"
+        self.isAccessibilityElement = true
+        self.accessibilityLabel = titleLabel.text
+        self.accessibilityTraits = .button
+    }
     @objc func didTapView(){
         self.didTapEvent?()
     }

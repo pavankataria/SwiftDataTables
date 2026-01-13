@@ -75,6 +75,7 @@ extension DataTableWithDataSourceViewController {
         let dataTable = SwiftDataTable(dataSource: self)
         dataTable.translatesAutoresizingMaskIntoConstraints = false
         dataTable.delegate = self
+        dataTable.accessibilityIdentifier = "SwiftDataTable"
         return dataTable
     }
 }
