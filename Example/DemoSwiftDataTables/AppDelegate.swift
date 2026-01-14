@@ -15,6 +15,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var navigationController: UINavigationController?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        configureNavigationBarAppearance()
+
         let window = UIWindow(frame: UIScreen.main.bounds)
         let instance = MenuViewController()
         self.navigationController = UINavigationController(rootViewController: instance)
@@ -22,5 +24,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window = window
         window.makeKeyAndVisible()
         return true
+    }
+
+    private func configureNavigationBarAppearance() {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = .systemBackground
+
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        UINavigationBar.appearance().compactAppearance = appearance
     }
 }

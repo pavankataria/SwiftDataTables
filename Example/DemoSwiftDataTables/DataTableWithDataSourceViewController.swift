@@ -27,8 +27,6 @@ class DataTableWithDataSourceViewController: UIViewController {
         setupConstraints()
     }
     func setupViews() {
-        automaticallyAdjustsScrollViewInsets = false
-        navigationController?.navigationBar.isTranslucent = false
         title = "Streaming fans"
         view.backgroundColor = UIColor.white
         view.addSubview(dataTable)

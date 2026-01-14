@@ -29,10 +29,8 @@ class GenericDataTableViewController: UIViewController {
         setupConstraints()
     }
     func setupViews() {
-        navigationController?.navigationBar.isTranslucent = false
         title = "Employee Balances"
         view.backgroundColor = UIColor.white
-        automaticallyAdjustsScrollViewInsets = false
         view.addSubview(dataTable)
     }
     func setupConstraints() {

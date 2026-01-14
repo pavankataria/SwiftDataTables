@@ -38,3 +38,6 @@ Carthage
 
 # Local backlog/notes
 .local-*
+
+# Claude Code
+.claude

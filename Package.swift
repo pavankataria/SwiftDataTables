@@ -15,7 +15,10 @@ let package = Package(
         .target(
             name: "SwiftDataTables",
             dependencies: [],
-            path: "SwiftDataTables"),
+            path: "SwiftDataTables",
+            swiftSettings: [
+                .enableUpcomingFeature("StrictConcurrency")
+            ]),
         .testTarget(
             name: "SwiftDataTablesTests",
             dependencies: ["SwiftDataTables"],
