@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: macos-15
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Select Xcode
+      run: sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+
+    - name: Show Xcode version
+      run: xcodebuild -version
+
+    - name: Build framework
+      run: |
+        xcodebuild build \
+          -project Example/SwiftDataTables.xcodeproj \
+          -scheme SwiftDataTables \
+          -destination 'platform=iOS Simulator,name=iPhone 16' \
+          -configuration Debug \
+          CODE_SIGNING_ALLOWED=NO
+
+    - name: Run tests
+      run: |
+        xcodebuild test \
+          -project Example/SwiftDataTables.xcodeproj \
+          -scheme SwiftDataTables-Example \
+          -destination 'platform=iOS Simulator,name=iPhone 16' \
+          -configuration Debug \
+          CODE_SIGNING_ALLOWED=NO
