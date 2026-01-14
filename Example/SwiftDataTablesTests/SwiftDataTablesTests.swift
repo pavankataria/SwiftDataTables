@@ -7,21 +7,34 @@
 //
 
 import XCTest
-@testable import SwiftDataTables_Example
+import UIKit
+@testable import SwiftDataTables
 
 class SwiftDataTablesTests: XCTestCase {
-    
+
     func test_swiftDataTable_withConfigurationOptions_initialises() {
-        var configuration : DataTableConfiguration = DataTableConfiguration()
+        var configuration = DataTableConfiguration()
         configuration.highlightedAlternatingRowColors = [
-            .init(1, 0.7, 0.7), .init(1, 0.7, 0.5), .init(1, 1, 0.5), .init(0.5, 1, 0.5), .init(0.5, 0.7, 1), .init(0.5, 0.5, 1), .init(1, 0.5, 0.5)
+            UIColor(red: 1, green: 0.7, blue: 0.7, alpha: 1),
+            UIColor(red: 1, green: 0.7, blue: 0.5, alpha: 1),
+            UIColor(red: 1, green: 1, blue: 0.5, alpha: 1),
+            UIColor(red: 0.5, green: 1, blue: 0.5, alpha: 1),
+            UIColor(red: 0.5, green: 0.7, blue: 1, alpha: 1),
+            UIColor(red: 0.5, green: 0.5, blue: 1, alpha: 1),
+            UIColor(red: 1, green: 0.5, blue: 0.5, alpha: 1)
         ]
         configuration.unhighlightedAlternatingRowColors = [
-            .init(1, 0.90, 0.90), .init(1, 0.90, 0.7), .init(1, 1, 0.7), .init(0.7, 1, 0.7), .init(0.7, 0.9, 1), .init(0.7, 0.7, 1), .init(1, 0.7, 0.7)
+            UIColor(red: 1, green: 0.90, blue: 0.90, alpha: 1),
+            UIColor(red: 1, green: 0.90, blue: 0.7, alpha: 1),
+            UIColor(red: 1, green: 1, blue: 0.7, alpha: 1),
+            UIColor(red: 0.7, green: 1, blue: 0.7, alpha: 1),
+            UIColor(red: 0.7, green: 0.9, blue: 1, alpha: 1),
+            UIColor(red: 0.7, green: 0.7, blue: 1, alpha: 1),
+            UIColor(red: 1, green: 0.7, blue: 0.7, alpha: 1)
         ]
-        
+
         let dataTable = SwiftDataTable(data: [[String]](), headerTitles: [], options: configuration, frame: .zero)
-        
+
         XCTAssertEqual(dataTable.options, configuration)
     }
 }
