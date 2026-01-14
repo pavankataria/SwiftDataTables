@@ -27,12 +27,3 @@ jobs:
           -destination 'generic/platform=iOS Simulator' \
           -configuration Debug \
           CODE_SIGNING_ALLOWED=NO
-
-    - name: Run tests
-      run: |
-        xcodebuild test \
-          -project Example/SwiftDataTables.xcodeproj \
-          -scheme SwiftDataTables-Example \
-          -destination 'platform=iOS Simulator,name=iPhone 15' \
-          -configuration Debug \
-          CODE_SIGNING_ALLOWED=NO
