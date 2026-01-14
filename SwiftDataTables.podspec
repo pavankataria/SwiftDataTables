@@ -28,7 +28,7 @@ Pod::Spec.new do |s|
   s.source           = { :git => 'https://github.com/pavankataria/SwiftDataTables.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/pavan_kataria'
 
-  s.ios.deployment_target = '9.0'
+  s.ios.deployment_target = '17.0'
   s.pod_target_xcconfig = { 'SWIFT_VERSION' => '5.0' }
 
   s.source_files = 'SwiftDataTables/**/*.swift'

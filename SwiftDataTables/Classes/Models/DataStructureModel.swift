@@ -6,7 +6,7 @@
 //  Copyright © 2017 Pavan Kataria. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 
 //struct DataTableColumnModel {
