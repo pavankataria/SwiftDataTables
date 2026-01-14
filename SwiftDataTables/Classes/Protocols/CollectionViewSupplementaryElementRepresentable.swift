@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-@objc protocol CollectionViewSupplementaryElementRepresentable {
+@MainActor @objc protocol CollectionViewSupplementaryElementRepresentable {
     static func registerHeaderFooterViews(collectionView: UICollectionView)
     func dequeueView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, for indexPath: IndexPath) -> UICollectionReusableView
 }

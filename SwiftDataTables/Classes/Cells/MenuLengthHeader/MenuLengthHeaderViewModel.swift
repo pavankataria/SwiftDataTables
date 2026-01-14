@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 
+@MainActor
 class MenuLengthHeaderViewModel: NSObject {
     //MARK: - Events
     var searchTextFieldDidChangeEvent: ((String) -> Void)? = nil

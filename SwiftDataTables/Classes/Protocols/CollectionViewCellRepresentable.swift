@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-@objc protocol CollectionViewCellRepresentable {
+@MainActor @objc protocol CollectionViewCellRepresentable {
     static func registerCell(collectionView: UICollectionView)
     func dequeueCell(collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell
     @objc optional func sizeForItem(collectionView: UICollectionView, layout: UICollectionViewLayout, indexPath: IndexPath) -> CGSize
