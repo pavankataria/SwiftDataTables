@@ -14,27 +14,22 @@ https://img.shields.io/cocoapods/p/SwiftDataTables.svg
     <a href="https://github.com/pavankataria/SwiftDataTables/actions/workflows/ci.yml">
         <img src="https://github.com/pavankataria/SwiftDataTables/actions/workflows/ci.yml/badge.svg" alt="CI Status" />
     </a>
-
     <a href="https://developer.apple.com/swift">
         <img src="https://img.shields.io/badge/Swift-5.9-orange.svg?style=flat" alt="Swift 5.9" />
     </a>
-
     <a href="https://developer.apple.com/ios/">
         <img src="https://img.shields.io/badge/iOS-17+-blue.svg?style=flat" alt="iOS 17+" />
     </a>
-
     <a href="https://swift.org/package-manager">
         <img src="https://img.shields.io/badge/SPM-compatible-brightgreen.svg?style=flat" alt="SPM Compatible" />
     </a>
-
    <a href="https://cocoapods.org/pods/SwiftDataTables">
         <img src="https://img.shields.io/badge/Cocoapods-compatible-4BC51D.svg?style=flat" />
     </a>
-    
    <a href="https://en.wikipedia.org/wiki/MIT_License">
         <img src="https://img.shields.io/badge/License-MIT-brightgreen.svg?style=flat" />
    </a>
-       <a href="https://opencollective.com/swiftdatatables">
+    <a href="https://opencollective.com/swiftdatatables">
         <img src="https://img.shields.io/badge/Sponsor-Open%20Collective-blue.svg?style=flat" alt="Sponsor" />
     </a>
 
@@ -64,7 +59,8 @@ https://img.shields.io/cocoapods/p/SwiftDataTables.svg
 - **Customisable** - Configure headers, footers, colours, and more via delegate or configuration object
 - **DataSource Pattern** - Static data or dynamic content via protocol
 
-<img src="http://g.recordit.co/Mh9PYXB9T4.gif" width="50%"><img src="/Example/SwiftDataTables-Preview.gif" width="50%">
+<!-- <img src="http://g.recordit.co/Mh9PYXB9T4.gif" width="50%"> -->
+<img src="/Example/SwiftDataTables-Preview.gif" width="50%">
 
 ## Install
 
