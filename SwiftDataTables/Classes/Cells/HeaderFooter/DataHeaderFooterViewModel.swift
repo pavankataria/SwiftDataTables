@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 
 
+@MainActor
 public class DataHeaderFooterViewModel: DataTableSortable {
 
     //MARK: - Properties

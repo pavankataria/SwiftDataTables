@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 
+@MainActor
 protocol VirtualPositionTrackable {
     var xPositionRunningTotal: CGFloat? { get set }
     var yPositionRunningTotal: CGFloat? { get set }

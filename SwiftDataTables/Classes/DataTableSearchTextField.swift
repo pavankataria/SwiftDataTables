@@ -16,13 +16,11 @@ class DataTableSearchTextField: UITextField {
     //MARK: - Lifecycle
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.setup()
-    }
-    
-    public func setup(){
-        self.borderStyle = .none
-        self.backgroundColor = UIColor.white
-        self.clearButtonMode = .always
+        MainActor.assumeIsolated {
+            borderStyle = .none
+            backgroundColor = UIColor.white
+            clearButtonMode = .always
+        }
     }
     
     override func layoutSubviews() {

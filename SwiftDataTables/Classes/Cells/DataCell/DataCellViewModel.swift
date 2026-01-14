@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 
+@MainActor
 open class DataCellViewModel: VirtualPositionTrackable, CollectionViewCellRepresentable {
     
     //MARK: - Public Properties
@@ -51,9 +52,10 @@ extension DataCellViewModel: Equatable {
     /// - Parameters:
     ///   - lhs: A value to compare.
     ///   - rhs: Another value to compare.
-    public static func ==(lhs: DataCellViewModel, rhs: DataCellViewModel) -> Bool {
-        return lhs.data == rhs.data
-        && lhs.highlighted == rhs.highlighted
+    nonisolated public static func ==(lhs: DataCellViewModel, rhs: DataCellViewModel) -> Bool {
+        MainActor.assumeIsolated {
+            lhs.data == rhs.data && lhs.highlighted == rhs.highlighted
+        }
     }
 
 }

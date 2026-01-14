@@ -7,6 +7,7 @@
 //
 
 import Foundation
+@MainActor
 public protocol DataTableSortable {
     var sortType: DataTableSortType { get set }
 }
