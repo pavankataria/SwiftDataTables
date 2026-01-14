@@ -11,18 +11,33 @@ https://img.shields.io/cocoapods/p/SwiftDataTables.svg
 ![Swift DataTables](https://user-images.githubusercontent.com/1791244/43036589-70947a6c-8cfc-11e8-9fe8-37abb78317aa.png)
 
 <p align="center">
-   <a href="https://developer.apple.com/swift">
-        <img src="https://img.shields.io/badge/Swift-5-orange.svg?style=flat" />
+    <a href="https://github.com/pavankataria/SwiftDataTables/actions/workflows/ci.yml">
+        <img src="https://github.com/pavankataria/SwiftDataTables/actions/workflows/ci.yml/badge.svg" alt="CI Status" />
     </a>
-  <a href="https://github.com/Carthage/Carthage">
-        <img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" />
-   </a>
+
+    <a href="https://developer.apple.com/swift">
+        <img src="https://img.shields.io/badge/Swift-5.9-orange.svg?style=flat" alt="Swift 5.9" />
+    </a>
+
+    <a href="https://developer.apple.com/ios/">
+        <img src="https://img.shields.io/badge/iOS-17+-blue.svg?style=flat" alt="iOS 17+" />
+    </a>
+
+    <a href="https://swift.org/package-manager">
+        <img src="https://img.shields.io/badge/SPM-compatible-brightgreen.svg?style=flat" alt="SPM Compatible" />
+    </a>
+
    <a href="https://cocoapods.org/pods/SwiftDataTables">
         <img src="https://img.shields.io/badge/Cocoapods-compatible-4BC51D.svg?style=flat" />
     </a>
+    
    <a href="https://en.wikipedia.org/wiki/MIT_License">
         <img src="https://img.shields.io/badge/License-MIT-brightgreen.svg?style=flat" />
    </a>
+       <a href="https://opencollective.com/swiftdatatables">
+        <img src="https://img.shields.io/badge/Sponsor-Open%20Collective-blue.svg?style=flat" alt="Sponsor" />
+    </a>
+
 <!--    <img src="https://img.shields.io/cocoapods/dt/SwiftDataTables.svg" />
    <img src="https://img.shields.io/cocoapods/at/SwiftDataTables.svg" />
      -->
@@ -42,21 +57,12 @@ https://img.shields.io/cocoapods/p/SwiftDataTables.svg
 **You can now contribute to this project over at https://opencollective.com/swiftdatatables!**
 
 ## Major Features include:
-- [x] Tested on iOS 8.0, 9, 10, 11, and 12 onwards. 
-- [x] Full Swift 5 support
-- [x] Mobile friendly. Tables adapt to the viewport size.
-- [x] Instant search. Filter results by text search.
-- [X] Fixed/frozen columns support for both left and right sides.
-- [x] Continued support and active development! 
-- [x] Full Datasource and delegate support!
-- [x] Demo project available show casing all types of customisations
-- [x] Or easy plugin configuration object can be passed with default values for your swift data table's visual presentation.
-- [x] Can filter your datasource by scanning all fields.
-- [x] Can sort various types of data in your grid, smartly, detecting numbers and strings
-- [x] Width columns and height rows configurable or fall back to automatic proportion scaling depending on content
-- [x] Beautiful alternating colours for rows and column selections.
-- [x] Fully configurable header and footer labels including search view too. 
-- [x] and beautiful clean presentation. 
+- **Sorting** - Tap column headers to sort by any column
+- **Searching** - Built-in search bar filters across all fields
+- **Fixed Columns** - Freeze columns on left or right sides
+- **Flexible Sizing** - Auto-calculated or custom column widths and row heights
+- **Customisable** - Configure headers, footers, colours, and more via delegate or configuration object
+- **DataSource Pattern** - Static data or dynamic content via protocol
 
 <img src="http://g.recordit.co/Mh9PYXB9T4.gif" width="50%"><img src="/Example/SwiftDataTables-Preview.gif" width="50%">
 
