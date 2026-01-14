@@ -24,7 +24,7 @@ jobs:
         xcodebuild build \
           -project Example/SwiftDataTables.xcodeproj \
           -scheme SwiftDataTables \
-          -destination 'platform=iOS Simulator,name=iPhone 16' \
+          -destination 'generic/platform=iOS Simulator' \
           -configuration Debug \
           CODE_SIGNING_ALLOWED=NO
 
@@ -33,6 +33,6 @@ jobs:
         xcodebuild test \
           -project Example/SwiftDataTables.xcodeproj \
           -scheme SwiftDataTables-Example \
-          -destination 'platform=iOS Simulator,name=iPhone 16' \
+          -destination 'generic/platform=iOS Simulator' \
           -configuration Debug \
           CODE_SIGNING_ALLOWED=NO
