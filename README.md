@@ -14,13 +14,8 @@ https://img.shields.io/cocoapods/p/SwiftDataTables.svg
     <a href="https://github.com/pavankataria/SwiftDataTables/actions/workflows/ci.yml">
         <img src="https://github.com/pavankataria/SwiftDataTables/actions/workflows/ci.yml/badge.svg" alt="CI Status" />
     </a>
-    <a href="https://developer.apple.com/swift">
-        <img src="https://img.shields.io/badge/Swift-5.9-orange.svg?style=flat" alt="Swift 5.9" />
-    </a>
-    <a href="https://developer.apple.com/ios/">
-        <img src="https://img.shields.io/badge/iOS-17+-blue.svg?style=flat" alt="iOS 17+" />
-    </a>
-    <a href="https://swift.org/package-manager">
+
+<a href="https://swift.org/package-manager">
         <img src="https://img.shields.io/badge/SPM-compatible-brightgreen.svg?style=flat" alt="SPM Compatible" />
     </a>
    <a href="https://cocoapods.org/pods/SwiftDataTables">
@@ -29,17 +24,20 @@ https://img.shields.io/cocoapods/p/SwiftDataTables.svg
    <a href="https://en.wikipedia.org/wiki/MIT_License">
         <img src="https://img.shields.io/badge/License-MIT-brightgreen.svg?style=flat" />
    </a>
-    <a href="https://opencollective.com/swiftdatatables">
-        <img src="https://img.shields.io/badge/Sponsor-Open%20Collective-blue.svg?style=flat" alt="Sponsor" />
-    </a>
-
-<!--    <img src="https://img.shields.io/cocoapods/dt/SwiftDataTables.svg" />
-   <img src="https://img.shields.io/cocoapods/at/SwiftDataTables.svg" />
-     -->
    <a href="https://github.com/pavankataria/SwiftDataTables/releases">
         <img src="https://img.shields.io/github/release/pavankataria/SwiftDataTables.svg" />
    </a>
-       <a href="https://twitter.com/pavan_kataria">
+<a href="https://developer.apple.com/swift">
+        <img src="https://img.shields.io/badge/Swift-5.9-orange.svg?style=flat" alt="Swift 5.9" />
+    </a>
+
+<a href="https://developer.apple.com/ios/">
+        <img src="https://img.shields.io/badge/iOS-17+-blue.svg?style=flat" alt="iOS 17+" />
+    </a>
+       <a href="https://opencollective.com/swiftdatatables">
+        <img src="https://img.shields.io/badge/Sponsor-Open%20Collective-blue.svg?style=flat" alt="Sponsor" />
+    </a>
+    <a href="https://twitter.com/pavan_kataria">
         <img src="https://img.shields.io/badge/contact-@pavan__kataria-blue.svg?style=flat" alt="Twitter: @pavan_kataria" />
     </a>
 </p>
