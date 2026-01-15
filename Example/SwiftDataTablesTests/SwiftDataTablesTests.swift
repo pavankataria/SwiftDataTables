@@ -10,6 +10,7 @@ import XCTest
 import UIKit
 @testable import SwiftDataTables
 
+@MainActor
 class SwiftDataTablesTests: XCTestCase {
 
     func test_swiftDataTable_withConfigurationOptions_initialises() {
