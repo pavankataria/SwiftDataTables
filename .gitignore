@@ -36,8 +36,8 @@ Carthage
 #
 # Pods/
 
-# Local backlog/notes
-.local-*
-
 # Claude Code
 .claude
+
+# Documentation (local only)
+docs/
