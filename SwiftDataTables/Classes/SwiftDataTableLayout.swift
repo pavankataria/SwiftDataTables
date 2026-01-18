@@ -38,53 +38,68 @@ class SwiftDataTableLayout: UICollectionViewFlowLayout {
     
     public override func prepare(){
         super.prepare()
-        
+
         guard self.cache.isEmpty else {
             return
         }
-        let date = Date()
         self.dataTable.calculateColumnWidths()
-        var xOffsets = [CGFloat]()
-        var yOffsets = [CGFloat]()
-        
-        //Reduces the computation by working out one column
-        for column in 0..<self.dataTable.numberOfColumns() {
-            let currentColumnXOffset = Array(0..<column).reduce(self.dataTable.widthForRowHeader()) {
-                $0 + self.dataTable.widthForColumn(index: $1)
-            }
-            xOffsets.append(currentColumnXOffset)
-        }
-        
-        //Reduces the computation by calculating the height offset against one column
-        let defaultUpperHeight = /*self.dataTable.heightForSearchView() + */self.dataTable.heightForSectionHeader()
-        
-        var counter = 0
-        for row in Array(0..<self.dataTable.numberOfRows()){
-            counter += 1
-            let currentRowYOffset = Array(0..<row).reduce(defaultUpperHeight) { $0 + self.dataTable.heightForRow(index: $1) + self.dataTable.heightOfInterRowSpacing() }
-            yOffsets.append(currentRowYOffset)
-        }
-        
-        
-        //Item equals the current item in the row
-        for row in Array(0..<self.dataTable.numberOfRows()){
-            for item in Array(0..<self.dataTable.numberOfColumns()) {
-                let width = self.dataTable.widthForColumn(index: item)
+        prepareOptimized()
+        self.calculateScrollBarIndicators()
+    }
 
-                let indexPath = IndexPath(item: item, section: row)
-                //Should this method call be used or is keeping an array of row heights more efficcient?
-                let height = self.dataTable.heightForRow(index: row)
-                
-                let frame = CGRect(x: xOffsets[item], y: yOffsets[row], width: width, height: height)
-//                let insetFrame = CGRectInset(frame, cellPadding, cellPadding)
+    private func prepareOptimized() {
+        let numberOfRows = self.dataTable.numberOfRows()
+        let numberOfColumns = self.dataTable.numberOfColumns()
+
+        // Pre-calculate column X offsets in O(n) - accumulate instead of recalculating
+        var xOffsets = [CGFloat]()
+        xOffsets.reserveCapacity(numberOfColumns)
+        var runningX = self.dataTable.widthForRowHeader()
+        for column in 0..<numberOfColumns {
+            xOffsets.append(runningX)
+            runningX += self.dataTable.widthForColumn(index: column)
+        }
+
+        // Pre-calculate column widths (avoid repeated calls)
+        var columnWidths = [CGFloat]()
+        columnWidths.reserveCapacity(numberOfColumns)
+        for column in 0..<numberOfColumns {
+            columnWidths.append(self.dataTable.widthForColumn(index: column))
+        }
+
+        // Pre-calculate row heights (single pass - avoid calling heightForRow twice per row)
+        var rowHeights = [CGFloat]()
+        rowHeights.reserveCapacity(numberOfRows)
+        for row in 0..<numberOfRows {
+            rowHeights.append(self.dataTable.heightForRow(index: row))
+        }
+
+        // Pre-calculate row Y offsets in O(n) using cached heights
+        var yOffsets = [CGFloat]()
+        yOffsets.reserveCapacity(numberOfRows)
+        var runningY = self.dataTable.heightForSectionHeader()
+        let interRowSpacing = self.dataTable.heightOfInterRowSpacing()
+        for row in 0..<numberOfRows {
+            yOffsets.append(runningY)
+            runningY += rowHeights[row] + interRowSpacing
+        }
+
+        // Reserve capacity for cache to avoid reallocations
+        cache.reserveCapacity(numberOfRows * numberOfColumns)
+
+        // Build layout attributes using cached values
+        for row in 0..<numberOfRows {
+            let height = rowHeights[row]
+            let y = yOffsets[row]
+
+            for column in 0..<numberOfColumns {
+                let indexPath = IndexPath(item: column, section: row)
+                let frame = CGRect(x: xOffsets[column], y: y, width: columnWidths[column], height: height)
                 let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
-                attributes.frame = frame//insetFrame
+                attributes.frame = frame
                 cache.append(attributes)
             }
         }
-        self.calculateScrollBarIndicators()
-        let timeLapsed = Date().timeIntervalSince(date)
-        debugPrint("\ntime lapsed: \(timeLapsed)\nfor \(self.cache.count) rows\n")
     }
     
     fileprivate func heightOfFooter() -> CGFloat {

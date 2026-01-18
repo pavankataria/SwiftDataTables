@@ -20,17 +20,15 @@ public enum DataTableValueType {
     case double(Double)
     
     public var stringRepresentation: String {
-        get {
-            switch self {
-            case .string(let value):
-                return String(value)
-            case .int(let value):
-                return String(value)
-            case .float(let value):
-                return String(value)
-            case .double(let value):
-                return String(value)
-            }
+        switch self {
+        case .string(let value):
+            return value
+        case .int(let value):
+            return String(value)
+        case .float(let value):
+            return String(value)
+        case .double(let value):
+            return String(value)
         }
     }
     
