@@ -223,13 +223,15 @@ public class SwiftDataTable: UIView {
     }
     
     func set(data: DataTableContent, headerTitles: [String], options: DataTableConfiguration? = nil, shouldReplaceLayout: Bool = false){
+        let resolvedOptions = options ?? self.options
+        self.options = resolvedOptions
         self.dataStructure = DataStructureModel(
             data: data,
             headerTitles: headerTitles,
-            useEstimatedColumnWidths: options?.useEstimatedColumnWidths ?? self.options.useEstimatedColumnWidths
+            useEstimatedColumnWidths: resolvedOptions.resolvedColumnWidthStrategy.prefersEstimation
         )
         self.createDataCellViewModels(with: self.dataStructure)
-        self.applyOptions(options)
+        self.applyOptions(resolvedOptions)
         if(shouldReplaceLayout){
             self.layout = SwiftDataTableLayout(dataTable: self)
         }
@@ -690,10 +692,10 @@ extension SwiftDataTable {
     /// - Parameter index: The column index
     /// - Returns: The automatic width of the column irrespective of the Data Grid frame width
     func automaticWidthForColumn(index: Int) -> CGFloat {
-        let columnAverage: CGFloat = CGFloat(dataStructure.averageDataLengthForColumn(index: index))
-        let sortingArrowVisualElementWidth = DataHeaderFooter.Properties.sortIndicatorWidth
-        let averageDataColumnWidth: CGFloat = columnAverage + sortingArrowVisualElementWidth + (DataCell.Properties.horizontalMargin * 2)
-        return max(averageDataColumnWidth, max(self.minimumColumnWidth(), self.minimumHeaderColumnWidth(index: index)))
+        return dataStructure.columnWidth(
+            index: index,
+            configuration: options
+        )
     }
     
     func calculateContentWidth() -> CGFloat {
@@ -702,7 +704,7 @@ extension SwiftDataTable {
     
     
     func minimumColumnWidth() -> CGFloat {
-        return 70
+        return self.options.minColumnWidth
     }
     
     func minimumHeaderColumnWidth(index: Int) -> CGFloat {

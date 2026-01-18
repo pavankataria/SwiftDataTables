@@ -68,9 +68,12 @@ public struct DataStructureModel {
     public func averageDataLengthForColumn(
         index: Int) -> Float {
         if self.shouldFitTitles {
-            let headerWidth: Float = useEstimatedWidths
-                ? Float(self.headerTitles[index].count) * 7.0
-                : Float(self.headerTitles[index].count)
+            let headerWidth: Float
+            if useEstimatedWidths {
+                headerWidth = Float(self.headerTitles[index].count) * Float(DataTableConfiguration.defaultAverageCharacterWidth)
+            } else {
+                headerWidth = Float(self.headerTitles[index].widthOfString(usingFont: UIFont.boldSystemFont(ofSize: UIFont.labelFontSize)))
+            }
             return max(self.columnAverageContentLength[index], headerWidth)
         }
         return self.columnAverageContentLength[index]
@@ -83,7 +86,7 @@ public struct DataStructureModel {
 
         if useEstimatedWidths {
             // Fast path: Use character count estimation (~7 points per character)
-            let estimatedCharWidth: Float = 7.0
+            let estimatedCharWidth: Float = Float(DataTableConfiguration.defaultAverageCharacterWidth)
             for column in 0..<self.headerTitles.count {
                 var totalWidth: Float = 0
                 for row in data {
@@ -120,5 +123,128 @@ public struct DataStructureModel {
         }
         //Check the configuration object to see what it wants us to display otherwise return default
         return .hidden
+    }
+
+    func columnWidth(
+        index: Int,
+        configuration: DataTableConfiguration,
+        dataFont: UIFont = UIFont.systemFont(ofSize: UIFont.labelFontSize),
+        headerFont: UIFont = UIFont.boldSystemFont(ofSize: UIFont.labelFontSize)
+    ) -> CGFloat {
+        let strategy = configuration.resolvedColumnWidthStrategy
+        guard self.headerTitles.indices.contains(index) else {
+            return configuration.minColumnWidth
+        }
+
+        let columnData = self.columnData(for: index)
+        let baseContentWidth: CGFloat
+        if let provider = configuration.columnWidthProvider {
+            baseContentWidth = provider(index, columnData, self.headerTitles[index], dataFont)
+        } else {
+            baseContentWidth = self.baseContentWidth(
+                for: columnData,
+                strategy: strategy,
+                dataFont: dataFont
+            )
+        }
+
+        let paddedWidth = baseContentWidth
+            + DataHeaderFooter.Properties.sortIndicatorWidth
+            + (DataCell.Properties.horizontalMargin * 2)
+        let headerMinimum = self.headerWidth(for: self.headerTitles[index], font: headerFont)
+        return clampWidth(paddedWidth, headerMinimum: headerMinimum, minWidth: configuration.minColumnWidth, maxWidth: configuration.maxColumnWidth)
+    }
+
+    private func baseContentWidth(for columnData: [DataTableValueType], strategy: DataTableColumnWidthStrategy, dataFont: UIFont) -> CGFloat {
+        switch strategy {
+        case .fixed(let width):
+            return width
+        case .estimated(let averageCharWidth):
+            return averageEstimatedWidth(for: columnData, averageCharWidth: averageCharWidth)
+        case .hybrid(let sampleSize, let averageCharWidth):
+            let estimatedAverage = averageEstimatedWidth(for: columnData, averageCharWidth: averageCharWidth)
+            let sampledMax = maximumMeasuredWidth(for: columnData, font: dataFont, sampleSize: sampleSize)
+            return max(estimatedAverage, sampledMax)
+        case .maxMeasured:
+            return maximumMeasuredWidth(for: columnData, font: dataFont, sampleSize: nil)
+        case .sampledMax(let sampleSize):
+            return maximumMeasuredWidth(for: columnData, font: dataFont, sampleSize: sampleSize)
+        case .percentileMeasured(let percentile, let sampleSize):
+            let widths = measuredWidths(for: columnData, font: dataFont, sampleSize: sampleSize)
+            return percentileWidth(in: widths, percentile: percentile)
+        }
+    }
+
+    private func columnData(for index: Int) -> [DataTableValueType] {
+        return self.data.compactMap { $0[safe: index] }
+    }
+
+    private func measuredWidths(for columnData: [DataTableValueType], font: UIFont, sampleSize: Int?) -> [CGFloat] {
+        let values = sampledValues(columnData, sampleSize: sampleSize)
+        return values.map { value in
+            value.stringRepresentation.widthOfString(usingFont: font).rounded(.up)
+        }
+    }
+
+    private func averageEstimatedWidth(for columnData: [DataTableValueType], averageCharWidth: CGFloat) -> CGFloat {
+        guard !columnData.isEmpty else {
+            return 0
+        }
+        let totalWidth = columnData.reduce(CGFloat.zero) { partialResult, value in
+            partialResult + (CGFloat(value.stringRepresentation.count) * averageCharWidth)
+        }
+        return totalWidth / CGFloat(columnData.count)
+    }
+
+    private func maximumMeasuredWidth(for columnData: [DataTableValueType], font: UIFont, sampleSize: Int?) -> CGFloat {
+        return measuredWidths(for: columnData, font: font, sampleSize: sampleSize).max() ?? 0
+    }
+
+    private func percentileWidth(in widths: [CGFloat], percentile: Double) -> CGFloat {
+        guard !widths.isEmpty else {
+            return 0
+        }
+        let clampedPercentile = min(max(percentile, 0), 1)
+        let sorted = widths.sorted()
+        let percentileIndex = Int(round(clampedPercentile * CGFloat(sorted.count - 1)))
+        return sorted[percentileIndex]
+    }
+
+    private func sampledValues<T>(_ values: [T], sampleSize: Int?) -> [T] {
+        guard let sampleSize = sampleSize, sampleSize > 0, values.count > sampleSize else {
+            return values
+        }
+
+        let strideValue = max(1, Int(ceil(Double(values.count) / Double(sampleSize))))
+        var result = [T]()
+        var index = 0
+        while index < values.count && result.count < sampleSize {
+            result.append(values[index])
+            index += strideValue
+        }
+        return result
+    }
+
+    private func headerWidth(for title: String, font: UIFont) -> CGFloat {
+        return title.widthOfString(usingFont: font)
+            + DataHeaderFooter.Properties.sortIndicatorWidth
+            + DataHeaderFooter.Properties.labelHorizontalMargin
+    }
+
+    private func clampWidth(_ width: CGFloat, headerMinimum: CGFloat, minWidth: CGFloat, maxWidth: CGFloat?) -> CGFloat {
+        let minClamped = max(width, minWidth)
+        let maxClamped = maxWidth.map { min(minClamped, $0) } ?? minClamped
+        return max(maxClamped, headerMinimum)
+    }
+}
+
+extension DataTableColumnWidthStrategy {
+    var prefersEstimation: Bool {
+        switch self {
+        case .estimated, .hybrid:
+            return true
+        default:
+            return false
+        }
     }
 }

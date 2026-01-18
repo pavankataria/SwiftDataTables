@@ -55,6 +55,10 @@ class MenuViewController: UITableViewController {
         let instance = ColumnWidthBugDemoViewController()
         show(instance, sender: self)
     }
+    private func showColumnWidthStrategyDemo() {
+        let instance = ColumnWidthStrategyDemoViewController()
+        show(instance, sender: self)
+    }
     private func showPerformanceDemo() {
         let instance = PerformanceDemoViewController()
         show(instance, sender: self)
@@ -107,6 +111,8 @@ extension MenuViewController {
             showColumnWidthBugDemo()
         case (0, 4):
             showPerformanceDemo()
+        case (0, 5):
+            showColumnWidthStrategyDemo()
         case (1, let row):
             showGenericExample(for: row)
         default: fatalError("An example hasn't been created for [section: \(indexPath.section) row: \(indexPath.row)]")
@@ -121,7 +127,9 @@ extension MenuViewController {
             MenuItem(title: "Initialised with Data Source"),
             MenuItem(title: "Initialised with Empty Data Source"),
             MenuItem(title: "⚠️ Column Width Bug Demo"),
-            MenuItem(title: "🚀 Performance Stress Test")]
+            MenuItem(title: "🚀 Performance Stress Test"),
+            MenuItem(title: "📏 Column Width Strategies Demo"),
+        ]
         let sectionTwo = self.exampleConfigurations
         
         return [sectionOne, sectionTwo]
