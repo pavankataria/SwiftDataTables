@@ -200,6 +200,7 @@ public class SwiftDataTable: UIView {
     public override func layoutSubviews() {
         super.layoutSubviews()
         let searchBarHeight = self.heightForSearchView()
+        self.searchBar.isHidden = !self.shouldShowSearchSection()
         self.searchBar.frame = CGRect(x: 0, y: 0, width: self.bounds.width, height: searchBarHeight)
         self.collectionView.frame = CGRect(x: 0, y: searchBarHeight, width: self.bounds.width, height: self.bounds.height-searchBarHeight)
     }
@@ -222,7 +223,11 @@ public class SwiftDataTable: UIView {
     }
     
     func set(data: DataTableContent, headerTitles: [String], options: DataTableConfiguration? = nil, shouldReplaceLayout: Bool = false){
-        self.dataStructure = DataStructureModel(data: data, headerTitles: headerTitles)
+        self.dataStructure = DataStructureModel(
+            data: data,
+            headerTitles: headerTitles,
+            useEstimatedColumnWidths: options?.useEstimatedColumnWidths ?? self.options.useEstimatedColumnWidths
+        )
         self.createDataCellViewModels(with: self.dataStructure)
         self.applyOptions(options)
         if(shouldReplaceLayout){
@@ -686,8 +691,8 @@ extension SwiftDataTable {
     /// - Returns: The automatic width of the column irrespective of the Data Grid frame width
     func automaticWidthForColumn(index: Int) -> CGFloat {
         let columnAverage: CGFloat = CGFloat(dataStructure.averageDataLengthForColumn(index: index))
-        let sortingArrowVisualElementWidth: CGFloat = 10 // This is ugly
-      let averageDataColumnWidth: CGFloat = columnAverage + sortingArrowVisualElementWidth + (DataCell.Properties.horizontalMargin * 2)
+        let sortingArrowVisualElementWidth = DataHeaderFooter.Properties.sortIndicatorWidth
+        let averageDataColumnWidth: CGFloat = columnAverage + sortingArrowVisualElementWidth + (DataCell.Properties.horizontalMargin * 2)
         return max(averageDataColumnWidth, max(self.minimumColumnWidth(), self.minimumHeaderColumnWidth(index: index)))
     }
     
@@ -701,7 +706,8 @@ extension SwiftDataTable {
     }
     
     func minimumHeaderColumnWidth(index: Int) -> CGFloat {
-      return CGFloat(self.dataStructure.headerTitles[index].widthOfString(usingFont: UIFont.boldSystemFont(ofSize: UIFont.labelFontSize)))
+        let textWidth = CGFloat(self.dataStructure.headerTitles[index].widthOfString(usingFont: UIFont.boldSystemFont(ofSize: UIFont.labelFontSize)))
+        return textWidth + DataHeaderFooter.Properties.sortIndicatorWidth + DataHeaderFooter.Properties.labelHorizontalMargin
     }
     
     func heightForPaginationView() -> CGFloat {
