@@ -11,7 +11,7 @@ import UIKit
 class DataHeaderFooter: UICollectionReusableView {
 
     //MARK: - Properties
-    private enum Properties {
+    enum Properties {
         static let labelHorizontalMargin: CGFloat = 15
         static let labelVerticalMargin: CGFloat = 5
         static let separator: CGFloat = 5
@@ -20,7 +20,9 @@ class DataHeaderFooter: UICollectionReusableView {
         static let imageViewWidthConstant: CGFloat = 20
         static let imageViewAspectRatio: CGFloat = 0.75
 
-        
+        static var sortIndicatorWidth: CGFloat {
+            separator + imageViewWidthConstant + imageViewHorizontalMargin
+        }
     }
     let titleLabel = UILabel()
     let sortingImageView = UIImageView()
