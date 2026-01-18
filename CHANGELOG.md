@@ -7,10 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [Unreleased] - v0.9.0 (MINOR)
+## [Unreleased] - v0.9.0: Self-Sizing Cells & Auto Layout
 
 ### Summary
-Major performance optimization release delivering **~150x faster layout** for large datasets with zero breaking changes. Tables that previously took minutes to render now load in under a second.
+This release adds first-class support for **Auto Layout-driven cells** with automatic row heights and text wrapping. Use custom `UICollectionViewCell` subclasses with full constraint-based sizing to build rich, dynamic table layouts.
+
+Also includes: new column width strategy API, major performance optimizations for large datasets, and bug fixes.
+
+### Column Width Mode API
+- Added `DataTableColumnWidthMode` with explicit text-based and Auto Layout-based sizing.
+- Added `columnWidthMode` / `columnWidthModeProvider` for per-column overrides.
+- `DataTableColumnWidthStrategy` now represents text-only strategies for `.fitContentText`.
+- Deterministic sampling remains for repeatable widths across large datasets.
+- Clarified header minimum behaviour: header width (incl. sort indicator) is always enforced and can exceed `maxColumnWidth`.
+- **Breaking:** removed `columnWidthStrategy` / `columnWidthStrategyProvider` / `useEstimatedColumnWidths` in favour of `columnWidthMode`.
+
+### Row Height + Wrapping
+- Added `textLayout` for single-line vs wrapping text.
+- Added `rowHeightMode` with automatic sizing (uses estimated height for initial layout).
+- Added `cellSizingMode` with Auto Layout-based custom cell sizing (height only).
+- **Breaking:** `DataTableCustomCellProvider` now uses dynamic reuse identifiers (`reuseIdentifierFor` / `sizingCellFor`) to align with UICollectionView patterns.
 
 ---
 
@@ -91,16 +107,16 @@ Two main bottlenecks were identified:
 **If You Need Precise Font Widths:**
 ```swift
 var config = DataTableConfiguration()
-config.useEstimatedColumnWidths = false  // Use font measurement (slower)
+config.columnWidthMode = .fitContentText(strategy: .maxMeasured) // Use font measurement (slower)
 ```
 
 ---
 
 ### Added
 
-- **`DataTableConfiguration.useEstimatedColumnWidths`** (`Bool`, default: `true`)
-  - Enables character-count based width estimation
-  - Set to `false` to use precise font measurement (slower but pixel-perfect)
+- **`DataTableConfiguration.columnWidthMode`** (`DataTableColumnWidthMode`)
+  - Explicitly selects text measurement or Auto Layout measurement for column widths
+  - Supports per-column overrides via `columnWidthModeProvider`
 
 ---
 
@@ -136,13 +152,9 @@ config.useEstimatedColumnWidths = false  // Use font measurement (slower)
 
 **MINOR version bump (0.8.1 → 0.9.0)** because:
 
-✅ No breaking API changes
-✅ All existing code compiles without modification
-✅ New configuration options have sensible defaults
-✅ Behavioral change is performance improvement only
-✅ Visual output is virtually identical
-
-Users upgrading will see faster tables with no code changes needed.
+- New features: Auto Layout cells, self-sizing rows, text wrapping
+- Breaking API changes in column width configuration
+- Signals "approaching 1.0" - gather feedback before locking API
 
 ---
 
@@ -150,11 +162,10 @@ Users upgrading will see faster tables with no code changes needed.
 
 | File | Changes |
 |------|---------|
-| `DataTableConfiguration.swift` | Added `useEstimatedColumnWidths` option |
-| `DataStructureModel.swift` | Estimated width calculation, fixed header width comparison |
-| `DataTableValueType.swift` | Fixed redundant String copy in `.string` case |
-| `SwiftDataTableLayout.swift` | O(n) algorithm implementation, row height caching |
-| `SwiftDataTable.swift` | Pass config options, fix search bar visibility |
+| `DataTableConfiguration.swift` | Added `columnWidthMode` / `columnWidthModeProvider` |
+| `DataTableColumnWidthStrategy.swift` | Added `DataTableColumnWidthMode` and Auto Layout sampling enum |
+| `DataStructureModel.swift` | Strategy-based text width calculation with explicit mode |
+| `SwiftDataTable.swift` | Auto Layout width measurement and mode resolver |
 
 ---
 

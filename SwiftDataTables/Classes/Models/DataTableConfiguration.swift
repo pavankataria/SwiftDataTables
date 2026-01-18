@@ -72,7 +72,7 @@ public enum DataTableTextLayout: Equatable {
 
 public enum DataTableRowHeightMode: Equatable {
     case fixed(CGFloat)
-    case automatic(estimated: CGFloat = 44, precompute: Bool = true)
+    case automatic(estimated: CGFloat = 44)
 }
 
 public struct DataTableCustomCellProvider {
@@ -194,7 +194,7 @@ extension DataTableRowHeightMode {
         switch self {
         case .fixed(let height):
             return height
-        case .automatic(let estimated, _):
+        case .automatic(let estimated):
             return estimated
         }
     }
