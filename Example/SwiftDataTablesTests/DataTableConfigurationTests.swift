@@ -93,6 +93,30 @@ class DataTableConfigurationTests: XCTestCase {
         XCTAssertNil(config.fixedColumns)
     }
 
+    func test_default_columnWidthStrategy_isEstimated() {
+        let config = DataTableConfiguration()
+        XCTAssertEqual(config.columnWidthStrategy, DataTableConfiguration.defaultColumnWidthStrategy)
+    }
+
+    func test_default_minAndMaxColumnWidth_defaults() {
+        let config = DataTableConfiguration()
+        XCTAssertEqual(config.minColumnWidth, 70)
+        XCTAssertNil(config.maxColumnWidth)
+    }
+
+    func test_resolvedStrategy_respectsDeprecatedFlagWhenUnset() {
+        var config = DataTableConfiguration()
+        config.useEstimatedColumnWidths = false
+        XCTAssertEqual(config.resolvedColumnWidthStrategy, .maxMeasured)
+    }
+
+    func test_resolvedStrategy_prefersExplicitStrategy() {
+        var config = DataTableConfiguration()
+        config.columnWidthStrategy = .hybrid(sampleSize: 10, averageCharWidth: 8)
+        config.useEstimatedColumnWidths = false
+        XCTAssertEqual(config.resolvedColumnWidthStrategy, .hybrid(sampleSize: 10, averageCharWidth: 8))
+    }
+
     func test_default_highlightedAlternatingRowColors_hasTwoColors() {
         let config = DataTableConfiguration()
         XCTAssertEqual(config.highlightedAlternatingRowColors.count, 2)
@@ -228,5 +252,24 @@ class DataTableColumnOrderTests: XCTestCase {
     func test_canCreateOrder_forFirstColumn() {
         let order = DataTableColumnOrder(index: 0, order: .ascending)
         XCTAssertEqual(order.index, 0)
+    }
+}
+
+class DataTableColumnWidthStrategyTests: XCTestCase {
+    func test_columnWidth_providerIsClampedByMax() {
+        var config = DataTableConfiguration()
+        config.minColumnWidth = 50
+        config.maxColumnWidth = 60
+        config.columnWidthStrategy = .fixed(width: 10)
+        config.columnWidthProvider = { _, _, _, _ in 10 }
+
+        let model = DataStructureModel(
+            data: [[.string("value")]],
+            headerTitles: ["H"],
+            useEstimatedColumnWidths: false
+        )
+
+        let width = model.columnWidth(index: 0, configuration: config)
+        XCTAssertEqual(width, 60)
     }
 }

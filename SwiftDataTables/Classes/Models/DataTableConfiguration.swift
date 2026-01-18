@@ -65,6 +65,11 @@ public struct DataTableColumnOrder: Equatable {
     }
 }
 public struct DataTableConfiguration: Equatable {
+    public static let defaultAverageCharacterWidth: CGFloat = 7.0
+    public static let defaultColumnWidthStrategy: DataTableColumnWidthStrategy = .estimated(averageCharWidth: DataTableConfiguration.defaultAverageCharacterWidth)
+
+    private var columnWidthStrategyWasSetExplicitly = false
+
     public var defaultOrdering: DataTableColumnOrder? = nil
     public var heightForSectionFooter: CGFloat = 44
     public var heightForSectionHeader: CGFloat = 44
@@ -96,9 +101,53 @@ public struct DataTableConfiguration: Equatable {
     
     public var fixedColumns: DataTableFixedColumnType? = nil
 
+    public var columnWidthStrategy: DataTableColumnWidthStrategy = DataTableConfiguration.defaultColumnWidthStrategy {
+        didSet {
+            columnWidthStrategyWasSetExplicitly = true
+        }
+    }
+    public var minColumnWidth: CGFloat = 70
+    public var maxColumnWidth: CGFloat? = nil
+    public var columnWidthProvider: ((Int, [DataTableValueType], String, UIFont) -> CGFloat)? = nil
+
+    @available(*, deprecated, message: "Use columnWidthStrategy instead.")
     public var useEstimatedColumnWidths: Bool = true
+
+    var resolvedColumnWidthStrategy: DataTableColumnWidthStrategy {
+        if columnWidthStrategyWasSetExplicitly {
+            return columnWidthStrategy
+        }
+        return useEstimatedColumnWidths ? columnWidthStrategy : .maxMeasured
+    }
 
     public init(){
 
+    }
+}
+
+extension DataTableConfiguration {
+    public static func == (lhs: DataTableConfiguration, rhs: DataTableConfiguration) -> Bool {
+        return lhs.defaultOrdering == rhs.defaultOrdering &&
+        lhs.heightForSectionFooter == rhs.heightForSectionFooter &&
+        lhs.heightForSectionHeader == rhs.heightForSectionHeader &&
+        lhs.heightForSearchView == rhs.heightForSearchView &&
+        lhs.heightOfInterRowSpacing == rhs.heightOfInterRowSpacing &&
+        lhs.shouldShowFooter == rhs.shouldShowFooter &&
+        lhs.shouldShowSearchSection == rhs.shouldShowSearchSection &&
+        lhs.shouldSearchHeaderFloat == rhs.shouldSearchHeaderFloat &&
+        lhs.shouldSectionFootersFloat == rhs.shouldSectionFootersFloat &&
+        lhs.shouldSectionHeadersFloat == rhs.shouldSectionHeadersFloat &&
+        lhs.shouldContentWidthScaleToFillFrame == rhs.shouldContentWidthScaleToFillFrame &&
+        lhs.shouldShowVerticalScrollBars == rhs.shouldShowVerticalScrollBars &&
+        lhs.shouldShowHorizontalScrollBars == rhs.shouldShowHorizontalScrollBars &&
+        lhs.sortArrowTintColor == rhs.sortArrowTintColor &&
+        lhs.shouldSupportRightToLeftInterfaceDirection == rhs.shouldSupportRightToLeftInterfaceDirection &&
+        lhs.highlightedAlternatingRowColors == rhs.highlightedAlternatingRowColors &&
+        lhs.unhighlightedAlternatingRowColors == rhs.unhighlightedAlternatingRowColors &&
+        lhs.fixedColumns == rhs.fixedColumns &&
+        lhs.useEstimatedColumnWidths == rhs.useEstimatedColumnWidths &&
+        lhs.columnWidthStrategy == rhs.columnWidthStrategy &&
+        lhs.minColumnWidth == rhs.minColumnWidth &&
+        lhs.maxColumnWidth == rhs.maxColumnWidth
     }
 }
