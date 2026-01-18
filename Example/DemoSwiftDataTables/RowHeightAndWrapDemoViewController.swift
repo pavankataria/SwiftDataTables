@@ -187,11 +187,11 @@ final class RowHeightAndWrapDemoViewController: UIViewController {
         config.shouldContentWidthScaleToFillFrame = scaleToFillSwitch.isOn
 
         config.textLayout = wrapSwitch.isOn ? .wrap : .singleLine()
-        config.rowHeightMode = autoHeightSwitch.isOn ? .automatic(estimated: 60, precompute: true) : .fixed(44)
+        config.rowHeightMode = autoHeightSwitch.isOn ? .automatic(estimated: 60) : .fixed(44)
 
         if customCellSwitch.isOn {
             config.cellSizingMode = .autoLayout(provider: makeCustomCellProvider())
-            config.rowHeightMode = .automatic(estimated: 72, precompute: true)
+            config.rowHeightMode = .automatic(estimated: 72)
         } else {
             config.cellSizingMode = .defaultCell
         }

@@ -15,5 +15,3 @@ FOUNDATION_EXPORT double SwiftDataTablesVersionNumber;
 FOUNDATION_EXPORT const unsigned char SwiftDataTablesVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <SwiftDataTables/PublicHeader.h>
-
-

@@ -160,7 +160,7 @@ final class CustomCellsAutoHeightDemoViewController: UIViewController {
         config.shouldShowSearchSection = false
         config.textLayout = .singleLine()
         config.cellSizingMode = .autoLayout(provider: makeCustomCellProvider())
-        config.rowHeightMode = .automatic(estimated: 60, precompute: true)
+        config.rowHeightMode = .automatic(estimated: 60)
 
         dataTable?.removeFromSuperview()
         let start = Date()

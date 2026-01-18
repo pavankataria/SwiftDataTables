@@ -87,8 +87,145 @@ To run the example project do the following:
 
 If you have any questions or wish to make any suggestions, please open an issue with the appropriate label, and I'll get back to you right away. Thank you
 
-## Configuration 
+## Configuration
 There's a configuration object that can be set on the data table for quick option settings. Or you can use the delegate methods for dynamic option changes.
+
+---
+
+## Self-Sizing Cells & Layout
+
+SwiftDataTables automatically sizes columns and rows to fit your content. This section explains how to control that behaviour to prevent clipping and achieve the layout you want.
+
+### The Problem This Solves
+
+By default, column widths are calculated using the **average** content width across all rows. This works well for uniform data, but causes clipping when:
+- Some rows have empty values while others have long content
+- A few outlier rows contain much longer text than typical rows
+
+**v0.9.0 introduces new width strategies** that use the **maximum** width instead of average, ensuring content is never clipped.
+
+### Quick Start: Prevent Clipping
+
+```swift
+var config = DataTableConfiguration()
+
+// Use hybrid strategy: fast estimation + sampled maximum (recommended)
+config.columnWidthMode = .fitContentText(strategy: .hybrid(sampleSize: 100, averageCharWidth: 7))
+
+// Or use pure maximum measurement (slower but most accurate)
+config.columnWidthMode = .fitContentText(strategy: .maxMeasured)
+```
+
+### Column Width Modes
+
+Control how column widths are calculated:
+
+```swift
+var config = DataTableConfiguration()
+config.columnWidthMode = .fitContentText(strategy: .hybrid(sampleSize: 100, averageCharWidth: 7))
+config.minColumnWidth = 44
+config.maxColumnWidth = 280
+```
+
+**Available Modes:**
+
+| Mode | Description | Performance |
+|------|-------------|-------------|
+| `.fitContentText(strategy:)` | Calculate width from text content | Varies by strategy |
+| `.fitContentAutoLayout(sample:)` | Use Auto Layout on custom cells | Slower |
+| `.fixed(width:)` | Fixed width for all columns | Fastest |
+
+**Text Measurement Strategies** (for `.fitContentText`):
+
+| Strategy | Description | Best For |
+|----------|-------------|----------|
+| `.estimatedAverage(averageCharWidth:)` | `charCount × avgWidth` averaged across rows | Large datasets, uniform data |
+| `.hybrid(sampleSize:, averageCharWidth:)` | Max of estimated average and sampled measured max | **Recommended default** |
+| `.sampledMax(sampleSize:)` | Measure a sample, take the maximum | Balancing accuracy vs speed |
+| `.maxMeasured` | Measure every row, take maximum | Small datasets, maximum accuracy |
+| `.percentileMeasured(percentile:, sampleSize:)` | Use a percentile (e.g., 95th) of sampled widths | Ignoring extreme outliers |
+| `.fixed(width:)` | Fixed base width before padding | Known content widths |
+
+**Per-Column Overrides:**
+
+```swift
+config.columnWidthModeProvider = { columnIndex in
+    switch columnIndex {
+    case 0: return .fixed(width: 60)  // ID column - fixed width
+    case 3: return .fitContentText(strategy: .maxMeasured)  // Description - measure all
+    default: return nil  // Use global mode
+    }
+}
+```
+
+**Clamping:**
+
+- `minColumnWidth`: Minimum width after calculation (default: 70)
+- `maxColumnWidth`: Maximum width cap (default: nil = no cap)
+- Header width (including sort indicator) always wins and can exceed `maxColumnWidth`
+
+### Row Heights & Text Wrapping
+
+When column widths are capped, text may need to wrap. Configure this with:
+
+```swift
+var config = DataTableConfiguration()
+
+// Enable text wrapping
+config.textLayout = .wrap
+
+// Automatic row heights based on content
+config.rowHeightMode = .automatic(estimated: 60)
+```
+
+**Text Layout Options:**
+- `.singleLine(truncation:)` - Single line with truncation (default)
+- `.wrap` - Multi-line text wrapping
+
+**Row Height Modes:**
+- `.fixed(CGFloat)` - Fixed height for all rows (default: 44)
+- `.automatic(estimated:)` - Height varies per row based on content
+
+### Custom Cells with Auto Layout
+
+For complete control, provide your own cell classes with Auto Layout constraints:
+
+```swift
+let provider = DataTableCustomCellProvider(
+    register: { collectionView in
+        collectionView.register(MyCustomCell.self, forCellWithReuseIdentifier: "custom")
+    },
+    reuseIdentifierFor: { indexPath in
+        return "custom"
+    },
+    configure: { cell, value, indexPath in
+        (cell as? MyCustomCell)?.configure(with: value)
+    },
+    sizingCellFor: { reuseIdentifier in
+        return MyCustomCell()  // Off-screen cell for measurement
+    }
+)
+
+config.cellSizingMode = .autoLayout(provider: provider)
+config.rowHeightMode = .automatic(estimated: 60)
+```
+
+When using `.autoLayout`:
+- Column widths are fixed by `columnWidthMode`
+- Row heights are computed via `systemLayoutSizeFitting` using the fixed width
+- Your cells must have proper Auto Layout constraints for self-sizing
+
+### Performance Considerations
+
+| Strategy | 10K Rows | 50K Rows | Notes |
+|----------|----------|----------|-------|
+| `.estimatedAverage` | ~0.02s | ~0.1s | Fastest, may clip outliers |
+| `.hybrid` | ~0.05s | ~0.2s | Good balance |
+| `.maxMeasured` | ~0.5s | ~2s | Most accurate, measures all |
+
+For large datasets (10K+ rows), `.estimatedAverage` or `.hybrid` are recommended.
+
+---
 
 ## Data Source methods. 
 This is an optional data source implementation, you can also initialiase your `SwiftDataTable` with a static data set as shown in the Demo project so you can avoid conforming to the data source. But for those who want to show more dynamic content, use the following `SwiftDataTableDataSource` protocol.
