@@ -51,6 +51,14 @@ class MenuViewController: UITableViewController {
         let instance = DataTableWithDataSourceViewController()
         show(instance, sender: self)
     }
+    private func showColumnWidthBugDemo() {
+        let instance = ColumnWidthBugDemoViewController()
+        show(instance, sender: self)
+    }
+    private func showPerformanceDemo() {
+        let instance = PerformanceDemoViewController()
+        show(instance, sender: self)
+    }
     private func showGenericExample(for index: Int){
         let menuItem = self.exampleConfigurations[index]
         guard let configuration = menuItem.config else {
@@ -95,6 +103,10 @@ extension MenuViewController {
             showDataStoreWithDataSource()
         case (0, 2):
             showDataStoreWithEmptyDataSet()
+        case (0, 3):
+            showColumnWidthBugDemo()
+        case (0, 4):
+            showPerformanceDemo()
         case (1, let row):
             showGenericExample(for: row)
         default: fatalError("An example hasn't been created for [section: \(indexPath.section) row: \(indexPath.row)]")
@@ -107,7 +119,9 @@ extension MenuViewController {
         let sectionOne: [MenuItem] = [
             MenuItem(title: "Initialised with Data Set"),
             MenuItem(title: "Initialised with Data Source"),
-            MenuItem(title: "Initialised with Empty Data Source")]
+            MenuItem(title: "Initialised with Empty Data Source"),
+            MenuItem(title: "⚠️ Column Width Bug Demo"),
+            MenuItem(title: "🚀 Performance Stress Test")]
         let sectionTwo = self.exampleConfigurations
         
         return [sectionOne, sectionTwo]

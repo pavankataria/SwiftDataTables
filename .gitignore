@@ -41,3 +41,6 @@ Carthage
 
 # Documentation (local only)
 docs/
+
+# Local Xcode config (development team, etc)
+Example/Local.xcconfig
