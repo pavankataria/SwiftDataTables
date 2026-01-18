@@ -16,11 +16,33 @@ final class ColumnWidthStrategyDemoViewController: UIViewController {
         let strategy: DataTableColumnWidthStrategy
     }
 
+    private enum ColumnStrategyChoice: Int, CaseIterable {
+        case global
+        case estimated
+        case maxMeasured
+        case sampledMax
+        case hybrid
+        case percentile95
+        case fixed
+
+        var title: String {
+            switch self {
+            case .global: return "Global"
+            case .estimated: return "Estimated"
+            case .maxMeasured: return "Max"
+            case .sampledMax: return "Sampled"
+            case .hybrid: return "Hybrid"
+            case .percentile95: return "P95"
+            case .fixed: return "Fixed"
+            }
+        }
+    }
+
     private lazy var strategyOptions: [StrategyOption] = [
         StrategyOption(
-            title: "Default: Estimated",
-            description: "Default. Fast; uses char count × 7pt (averageCharWidth).",
-            strategy: .estimated(averageCharWidth: 7)
+            title: "Default: Est Avg",
+            description: "Default. Fast; averages char-count widths using 7pt.",
+            strategy: .estimatedAverage(averageCharWidth: 7)
         ),
         StrategyOption(
             title: "Hybrid",
@@ -120,6 +142,10 @@ final class ColumnWidthStrategyDemoViewController: UIViewController {
         return toggle
     }()
 
+    private lazy var idStrategyControl: UISegmentedControl = makeColumnStrategyControl()
+    private lazy var nameStrategyControl: UISegmentedControl = makeColumnStrategyControl()
+    private lazy var notesStrategyControl: UISegmentedControl = makeColumnStrategyControl()
+
     private lazy var providerIDWidthControl: UISegmentedControl = {
         let control = UISegmentedControl(items: ["60", "80", "100"])
         control.selectedSegmentIndex = 0
@@ -149,6 +175,14 @@ final class ColumnWidthStrategyDemoViewController: UIViewController {
         return toggle
     }()
 
+    private lazy var advancedToggleSwitch: UISwitch = {
+        let toggle = UISwitch()
+        toggle.isOn = false
+        toggle.addTarget(self, action: #selector(advancedToggleChanged), for: .valueChanged)
+        toggle.translatesAutoresizingMaskIntoConstraints = false
+        return toggle
+    }()
+
     private lazy var configSummaryLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
@@ -159,6 +193,7 @@ final class ColumnWidthStrategyDemoViewController: UIViewController {
     }()
 
     private var controlsStack: UIStackView!
+    private var advancedStack: UIStackView!
     private var dataTable: SwiftDataTable?
 
     private let headers = ["ID", "Name", "Notes"]
@@ -176,22 +211,38 @@ final class ColumnWidthStrategyDemoViewController: UIViewController {
     private func setupViews() {
         let minRow = labeledRow(label: "Min width", control: minWidthControl)
         let maxRow = labeledRow(label: "Max width", control: maxWidthControl)
-        let providerRow = labeledRow(label: "Use columnWidthProvider", control: providerSwitch)
+        let scaleRow = labeledRow(label: "Scale columns to fill frame if shorter", control: scaleToFillSwitch)
+        let advancedRow = labeledRow(label: "Show advanced", control: advancedToggleSwitch)
+        let idStrategyRow = labeledRow(label: "Strategy: ID", control: idStrategyControl)
+        let nameStrategyRow = labeledRow(label: "Strategy: Name", control: nameStrategyControl)
+        let notesStrategyRow = labeledRow(label: "Strategy: Notes", control: notesStrategyControl)
+        let providerRow = labeledRow(label: "Use per-column strategy provider", control: providerSwitch)
         let providerIDRow = labeledRow(label: "Provider: ID width", control: providerIDWidthControl)
         let providerNameRow = labeledRow(label: "Provider: Name width", control: providerNameWidthControl)
         let providerNotesRow = labeledRow(label: "Provider: Notes width", control: providerNotesWidthControl)
-        let scaleRow = labeledRow(label: "Scale to fill frame", control: scaleToFillSwitch)
+
+        advancedStack = UIStackView(arrangedSubviews: [
+            idStrategyRow,
+            nameStrategyRow,
+            notesStrategyRow,
+            providerRow,
+            providerIDRow,
+            providerNameRow,
+            providerNotesRow
+        ])
+        advancedStack.axis = .vertical
+        advancedStack.spacing = 8
+        advancedStack.translatesAutoresizingMaskIntoConstraints = false
+        advancedStack.isHidden = true
 
         controlsStack = UIStackView(arrangedSubviews: [
             buttonGridStack,
             strategyDescriptionLabel,
             minRow,
             maxRow,
-            providerRow,
-            providerIDRow,
-            providerNameRow,
-            providerNotesRow,
             scaleRow,
+            advancedRow,
+            advancedStack,
             configSummaryLabel
         ])
         controlsStack.axis = .vertical
@@ -229,20 +280,31 @@ final class ColumnWidthStrategyDemoViewController: UIViewController {
         strategyDescriptionLabel.text = option.description
 
         var config = DataTableConfiguration()
-        config.columnWidthStrategy = option.strategy
+        let globalMode: DataTableColumnWidthMode
+        switch option.strategy {
+        case .fixed(let width):
+            globalMode = .fixed(width: width)
+        default:
+            globalMode = .fitContentText(strategy: option.strategy)
+        }
+        config.columnWidthMode = globalMode
         config.minColumnWidth = currentMinWidth()
         config.maxColumnWidth = currentMaxWidth()
         config.shouldContentWidthScaleToFillFrame = scaleToFillSwitch.isOn
 
-        if providerSwitch.isOn {
-            // Provider overrides strategy; keep it simple to demonstrate the API.
-            config.columnWidthProvider = { index, _, _, _ in
-                switch index {
-                case 0: return self.currentProviderIDWidth()
-                case 1: return self.currentProviderNameWidth()
-                case 2: return self.currentProviderNotesWidth()
-                default: return self.currentProviderNameWidth()
+        let useProviderOverride = providerSwitch.isOn
+        let usesPerColumnStrategies = hasPerColumnStrategy()
+        let shouldUseProvider = useProviderOverride || usesPerColumnStrategies
+
+        if shouldUseProvider {
+            config.columnWidthModeProvider = { [weak self] index in
+                guard let self = self else { return nil }
+                if useProviderOverride {
+                    return .fixed(width: self.customProviderWidth(for: index))
                 }
+
+                let choice = self.columnStrategyChoice(for: index)
+                return self.modeForChoice(choice, columnIndex: index, globalMode: globalMode)
             }
         }
 
@@ -279,6 +341,61 @@ final class ColumnWidthStrategyDemoViewController: UIViewController {
         return row
     }
 
+    private func makeColumnStrategyControl() -> UISegmentedControl {
+        let items = ColumnStrategyChoice.allCases.map { $0.title }
+        let control = UISegmentedControl(items: items)
+        control.selectedSegmentIndex = 0
+        control.addTarget(self, action: #selector(configOptionChanged), for: .valueChanged)
+        return control
+    }
+
+    private func columnStrategyChoice(for columnIndex: Int) -> ColumnStrategyChoice {
+        let control: UISegmentedControl
+        switch columnIndex {
+        case 0: control = idStrategyControl
+        case 1: control = nameStrategyControl
+        case 2: control = notesStrategyControl
+        default: control = nameStrategyControl
+        }
+        return ColumnStrategyChoice(rawValue: control.selectedSegmentIndex) ?? .global
+    }
+
+    private func hasPerColumnStrategy() -> Bool {
+        return [0, 1, 2].contains { columnStrategyChoice(for: $0) != .global }
+    }
+
+    private func modeForChoice(
+        _ choice: ColumnStrategyChoice,
+        columnIndex: Int,
+        globalMode: DataTableColumnWidthMode
+    ) -> DataTableColumnWidthMode {
+        switch choice {
+        case .global:
+            return globalMode
+        case .estimated:
+            return .fitContentText(strategy: .estimatedAverage(averageCharWidth: 7))
+        case .maxMeasured:
+            return .fitContentText(strategy: .maxMeasured)
+        case .sampledMax:
+            return .fitContentText(strategy: .sampledMax(sampleSize: 12))
+        case .hybrid:
+            return .fitContentText(strategy: .hybrid(sampleSize: 12, averageCharWidth: 7))
+        case .percentile95:
+            return .fitContentText(strategy: .percentileMeasured(percentile: 0.95, sampleSize: 12))
+        case .fixed:
+            return .fixed(width: customProviderWidth(for: columnIndex))
+        }
+    }
+
+    private func customProviderWidth(for columnIndex: Int) -> CGFloat {
+        switch columnIndex {
+        case 0: return currentProviderIDWidth()
+        case 1: return currentProviderNameWidth()
+        case 2: return currentProviderNotesWidth()
+        default: return currentProviderNameWidth()
+        }
+    }
+
     private func currentMinWidth() -> CGFloat {
         switch minWidthControl.selectedSegmentIndex {
         case 0: return 44
@@ -305,7 +422,7 @@ final class ColumnWidthStrategyDemoViewController: UIViewController {
             strategyInfo = "\(option.title): estimated (w=\(Int(w))pt) + sampled max over \(n) rows."
         case .sampledMax(let n):
             strategyInfo = "\(option.title): sampled max over \(n) rows."
-        case .estimated(let w):
+        case .estimatedAverage(let w):
             strategyInfo = "\(option.title): estimated via char count × \(Int(w))pt."
         case .fixed(let w):
             strategyInfo = "\(option.title): fixed \(Int(w))pt before padding/clamp."
@@ -317,9 +434,17 @@ final class ColumnWidthStrategyDemoViewController: UIViewController {
         let max = config.maxColumnWidth.map { "max \(Int($0))pt (soft cap)" } ?? "max none"
         let provider: String
         if providerSwitch.isOn {
-            provider = "provider ON (ID→\(Int(currentProviderIDWidth())) • Name→\(Int(currentProviderNameWidth())) • Notes→\(Int(currentProviderNotesWidth())); padded/clamped)"
+            provider = "strategy provider override ON (fixed: ID=\(Int(currentProviderIDWidth())) Name=\(Int(currentProviderNameWidth())) Notes=\(Int(currentProviderNotesWidth())); padded/clamped)"
+        } else if hasPerColumnStrategy() {
+            provider = "strategy provider auto ON (per-column strategies active)"
         } else {
-            provider = "provider OFF"
+            provider = "strategy provider OFF"
+        }
+        let perColumn: String
+        if providerSwitch.isOn {
+            perColumn = "per-column: disabled by strategy provider override"
+        } else {
+            perColumn = "per-column: ID=\(columnStrategyChoice(for: 0).title) Name=\(columnStrategyChoice(for: 1).title) Notes=\(columnStrategyChoice(for: 2).title)"
         }
         let scaleNote = scaleToFillSwitch.isOn ? "scale-to-fill ON (columns are proportionally expanded)" : "scale-to-fill OFF"
         let headerNote = "Note: header minimum can exceed max; header wins."
@@ -328,6 +453,7 @@ final class ColumnWidthStrategyDemoViewController: UIViewController {
             strategyInfo,
             "\(min) · \(max)",
             provider,
+            perColumn,
             scaleNote,
             headerNote
         ].joined(separator: "\n")
@@ -338,11 +464,26 @@ final class ColumnWidthStrategyDemoViewController: UIViewController {
         applyStrategy(index: selectedIndex)
     }
 
+    @objc private func advancedToggleChanged() {
+        advancedStack.isHidden = !advancedToggleSwitch.isOn
+    }
+
     private func updateProviderControlsEnabled() {
-        let isEnabled = providerSwitch.isOn
-        providerIDWidthControl.isEnabled = isEnabled
-        providerNameWidthControl.isEnabled = isEnabled
-        providerNotesWidthControl.isEnabled = isEnabled
+        let overrideOn = providerSwitch.isOn
+        idStrategyControl.isEnabled = !overrideOn
+        nameStrategyControl.isEnabled = !overrideOn
+        notesStrategyControl.isEnabled = !overrideOn
+
+        let usesFixed = !overrideOn && [
+            columnStrategyChoice(for: 0),
+            columnStrategyChoice(for: 1),
+            columnStrategyChoice(for: 2)
+        ].contains(.fixed)
+
+        let enableCustomWidths = overrideOn || usesFixed
+        providerIDWidthControl.isEnabled = enableCustomWidths
+        providerNameWidthControl.isEnabled = enableCustomWidths
+        providerNotesWidthControl.isEnabled = enableCustomWidths
     }
 
     private func currentProviderIDWidth() -> CGFloat {
@@ -355,9 +496,9 @@ final class ColumnWidthStrategyDemoViewController: UIViewController {
 
     private func currentProviderNameWidth() -> CGFloat {
         switch providerNameWidthControl.selectedSegmentIndex {
-        case 0: return 80
-        case 2: return 140
-        default: return 100
+        case 0: return 120
+        case 2: return 180
+        default: return 140
         }
     }
 

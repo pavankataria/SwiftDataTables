@@ -59,6 +59,14 @@ class MenuViewController: UITableViewController {
         let instance = ColumnWidthStrategyDemoViewController()
         show(instance, sender: self)
     }
+    private func showRowHeightWrapDemo() {
+        let instance = RowHeightAndWrapDemoViewController()
+        show(instance, sender: self)
+    }
+    private func showCustomCellsAutoHeightDemo() {
+        let instance = CustomCellsAutoHeightDemoViewController()
+        show(instance, sender: self)
+    }
     private func showPerformanceDemo() {
         let instance = PerformanceDemoViewController()
         show(instance, sender: self)
@@ -113,6 +121,10 @@ extension MenuViewController {
             showPerformanceDemo()
         case (0, 5):
             showColumnWidthStrategyDemo()
+        case (0, 6):
+            showRowHeightWrapDemo()
+        case (0, 7):
+            showCustomCellsAutoHeightDemo()
         case (1, let row):
             showGenericExample(for: row)
         default: fatalError("An example hasn't been created for [section: \(indexPath.section) row: \(indexPath.row)]")
@@ -129,6 +141,8 @@ extension MenuViewController {
             MenuItem(title: "⚠️ Column Width Bug Demo"),
             MenuItem(title: "🚀 Performance Stress Test"),
             MenuItem(title: "📏 Column Width Strategies Demo"),
+            MenuItem(title: "🧵 Row Height + Wrap Demo"),
+            MenuItem(title: "🧱 Custom Cells + Auto Height Demo"),
         ]
         let sectionTwo = self.exampleConfigurations
         
