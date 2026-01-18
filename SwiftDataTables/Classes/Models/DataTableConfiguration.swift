@@ -64,11 +64,56 @@ public struct DataTableColumnOrder: Equatable {
         self.order = order
     }
 }
+
+public enum DataTableTextLayout: Equatable {
+    case singleLine(truncation: NSLineBreakMode = .byTruncatingTail)
+    case wrap
+}
+
+public enum DataTableRowHeightMode: Equatable {
+    case fixed(CGFloat)
+    case automatic(estimated: CGFloat = 44, precompute: Bool = true)
+}
+
+public struct DataTableCustomCellProvider {
+    public let register: (UICollectionView) -> Void
+    public let reuseIdentifierFor: (IndexPath) -> String
+    public let configure: (UICollectionViewCell, DataTableValueType, IndexPath) -> Void
+    public let sizingCellFor: (String) -> UICollectionViewCell
+
+    public init(
+        register: @escaping (UICollectionView) -> Void,
+        reuseIdentifierFor: @escaping (IndexPath) -> String,
+        configure: @escaping (UICollectionViewCell, DataTableValueType, IndexPath) -> Void,
+        sizingCellFor: @escaping (String) -> UICollectionViewCell
+    ) {
+        self.register = register
+        self.reuseIdentifierFor = reuseIdentifierFor
+        self.configure = configure
+        self.sizingCellFor = sizingCellFor
+    }
+}
+
+public enum DataTableCellSizingMode: Equatable {
+    case defaultCell
+    case autoLayout(provider: DataTableCustomCellProvider)
+
+    public static func == (lhs: DataTableCellSizingMode, rhs: DataTableCellSizingMode) -> Bool {
+        switch (lhs, rhs) {
+        case (.defaultCell, .defaultCell):
+            return true
+        case (.autoLayout, .autoLayout):
+            return true
+        default:
+            return false
+        }
+    }
+}
 public struct DataTableConfiguration: Equatable {
     public static let defaultAverageCharacterWidth: CGFloat = 7.0
-    public static let defaultColumnWidthStrategy: DataTableColumnWidthStrategy = .estimated(averageCharWidth: DataTableConfiguration.defaultAverageCharacterWidth)
-
-    private var columnWidthStrategyWasSetExplicitly = false
+    public static let defaultColumnWidthMode: DataTableColumnWidthMode = .fitContentText(
+        strategy: .estimatedAverage(averageCharWidth: DataTableConfiguration.defaultAverageCharacterWidth)
+    )
 
     public var defaultOrdering: DataTableColumnOrder? = nil
     public var heightForSectionFooter: CGFloat = 44
@@ -101,24 +146,14 @@ public struct DataTableConfiguration: Equatable {
     
     public var fixedColumns: DataTableFixedColumnType? = nil
 
-    public var columnWidthStrategy: DataTableColumnWidthStrategy = DataTableConfiguration.defaultColumnWidthStrategy {
-        didSet {
-            columnWidthStrategyWasSetExplicitly = true
-        }
-    }
+    public var columnWidthMode: DataTableColumnWidthMode = DataTableConfiguration.defaultColumnWidthMode
     public var minColumnWidth: CGFloat = 70
     public var maxColumnWidth: CGFloat? = nil
-    public var columnWidthProvider: ((Int, [DataTableValueType], String, UIFont) -> CGFloat)? = nil
+    public var columnWidthModeProvider: ((Int) -> DataTableColumnWidthMode?)? = nil
 
-    @available(*, deprecated, message: "Use columnWidthStrategy instead.")
-    public var useEstimatedColumnWidths: Bool = true
-
-    var resolvedColumnWidthStrategy: DataTableColumnWidthStrategy {
-        if columnWidthStrategyWasSetExplicitly {
-            return columnWidthStrategy
-        }
-        return useEstimatedColumnWidths ? columnWidthStrategy : .maxMeasured
-    }
+    public var textLayout: DataTableTextLayout = .singleLine()
+    public var rowHeightMode: DataTableRowHeightMode = .fixed(44)
+    public var cellSizingMode: DataTableCellSizingMode = .defaultCell
 
     public init(){
 
@@ -145,9 +180,33 @@ extension DataTableConfiguration {
         lhs.highlightedAlternatingRowColors == rhs.highlightedAlternatingRowColors &&
         lhs.unhighlightedAlternatingRowColors == rhs.unhighlightedAlternatingRowColors &&
         lhs.fixedColumns == rhs.fixedColumns &&
-        lhs.useEstimatedColumnWidths == rhs.useEstimatedColumnWidths &&
-        lhs.columnWidthStrategy == rhs.columnWidthStrategy &&
+        lhs.columnWidthMode == rhs.columnWidthMode &&
         lhs.minColumnWidth == rhs.minColumnWidth &&
-        lhs.maxColumnWidth == rhs.maxColumnWidth
+        lhs.maxColumnWidth == rhs.maxColumnWidth &&
+        lhs.textLayout == rhs.textLayout &&
+        lhs.rowHeightMode == rhs.rowHeightMode &&
+        lhs.cellSizingMode == rhs.cellSizingMode
+    }
+}
+
+extension DataTableRowHeightMode {
+    var estimatedHeight: CGFloat {
+        switch self {
+        case .fixed(let height):
+            return height
+        case .automatic(let estimated, _):
+            return estimated
+        }
+    }
+}
+
+extension DataTableCellSizingMode {
+    var usesAutoLayout: Bool {
+        switch self {
+        case .autoLayout:
+            return true
+        case .defaultCell:
+            return false
+        }
     }
 }

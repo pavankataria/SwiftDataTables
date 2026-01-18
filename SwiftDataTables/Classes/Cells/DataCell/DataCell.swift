@@ -15,6 +15,7 @@ class DataCell: UICollectionViewCell {
         static let verticalMargin: CGFloat = 5
         static let horizontalMargin: CGFloat = 15
         static let widthConstant: CGFloat = 20
+        static let defaultFont: UIFont = UIFont.systemFont(ofSize: UIFont.labelFontSize)
     }
     
     let dataLabel = UILabel()
@@ -31,18 +32,30 @@ class DataCell: UICollectionViewCell {
     
     private func setup() {
         dataLabel.translatesAutoresizingMaskIntoConstraints = false
+        dataLabel.font = Properties.defaultFont
         contentView.addSubview(dataLabel)
         NSLayoutConstraint.activate([
             dataLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: Properties.widthConstant),
             dataLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Properties.verticalMargin),
             dataLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Properties.verticalMargin),
             dataLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Properties.horizontalMargin),
-            dataLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Properties.horizontalMargin),
+            dataLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Properties.horizontalMargin),
         ])
     }
     
     func configure(_ viewModel: DataCellViewModel){
         self.dataLabel.text = viewModel.data.stringRepresentation
 //        self.contentView.backgroundColor = .white
+    }
+
+    func applyTextLayout(_ layout: DataTableTextLayout) {
+        switch layout {
+        case .singleLine(let truncation):
+            dataLabel.numberOfLines = 1
+            dataLabel.lineBreakMode = truncation
+        case .wrap:
+            dataLabel.numberOfLines = 0
+            dataLabel.lineBreakMode = .byWordWrapping
+        }
     }
 }

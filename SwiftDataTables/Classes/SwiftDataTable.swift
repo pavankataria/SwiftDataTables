@@ -120,6 +120,8 @@ public class SwiftDataTable: UIView {
     fileprivate var paginationViewModel: PaginationHeaderViewModel!
     fileprivate var menuLengthViewModel: MenuLengthHeaderViewModel!
     fileprivate var columnWidths = [CGFloat]()
+    fileprivate var rowHeights = [CGFloat]()
+    private var sizingCellCacheByReuseId: [String: UICollectionViewCell] = [:]
     
     
     //    fileprivate var refreshControl: UIRefreshControl! = {
@@ -210,6 +212,7 @@ public class SwiftDataTable: UIView {
     }
     @objc func deviceOrientationWillChange() {
         self.layout?.clearLayoutCache()
+        invalidateRowHeights()
     }
     
     //TODO: Abstract away the registering of classes so that a user can register their own nibs or classes.
@@ -228,13 +231,14 @@ public class SwiftDataTable: UIView {
         self.dataStructure = DataStructureModel(
             data: data,
             headerTitles: headerTitles,
-            useEstimatedColumnWidths: resolvedOptions.resolvedColumnWidthStrategy.prefersEstimation
+            useEstimatedColumnWidths: resolvedOptions.columnWidthMode.prefersEstimatedTextWidths
         )
         self.createDataCellViewModels(with: self.dataStructure)
-        self.applyOptions(resolvedOptions)
         if(shouldReplaceLayout){
             self.layout = SwiftDataTableLayout(dataTable: self)
         }
+        self.applyOptions(resolvedOptions)
+        invalidateRowHeights()
         
     }
     
@@ -245,6 +249,14 @@ public class SwiftDataTable: UIView {
         if let defaultOrdering = options.defaultOrdering {
             self.applyDefaultColumnOrder(defaultOrdering)
         }
+        registerCustomCellIfNeeded()
+    }
+
+    private func registerCustomCellIfNeeded() {
+        guard case .autoLayout(let provider) = options.cellSizingMode else {
+            return
+        }
+        provider.register(collectionView)
     }
     
     func calculateColumnWidths(){
@@ -254,6 +266,7 @@ public class SwiftDataTable: UIView {
             self.columnWidths.append(self.automaticWidthForColumn(index: columnIndex))
         }
         self.scaleColumnWidthsIfRequired()
+        self.calculateRowHeights()
     }
     func scaleColumnWidthsIfRequired(){
         guard self.shouldContentWidthScaleToFillFrame() else {
@@ -278,6 +291,146 @@ public class SwiftDataTable: UIView {
             //apply final result of each column width to the column width array.
             self.columnWidths[columnIndex] = columnWidth + gapPortionToDistributeToCurrentColumn
         }
+    }
+
+    private func invalidateRowHeights() {
+        rowHeights.removeAll()
+        sizingCellCacheByReuseId.removeAll()
+    }
+
+    private var usesAutomaticRowHeights: Bool {
+        if options.cellSizingMode.usesAutoLayout {
+            return true
+        }
+        switch options.rowHeightMode {
+        case .automatic:
+            return true
+        case .fixed:
+            return false
+        }
+    }
+
+    private func calculateRowHeights() {
+        rowHeights.removeAll()
+        guard usesAutomaticRowHeights else {
+            return
+        }
+        guard !usesDelegateRowHeights() else {
+            return
+        }
+
+        switch options.cellSizingMode {
+        case .autoLayout(let provider):
+            rowHeights = calculateAutoLayoutRowHeights(provider: provider)
+        case .defaultCell:
+            rowHeights = calculateDefaultRowHeights()
+        }
+    }
+
+    private func calculateDefaultRowHeights() -> [CGFloat] {
+        let rowCount = numberOfRows()
+        guard rowCount > 0 else { return [] }
+
+        let font = DataCell.Properties.defaultFont
+        let verticalPadding = DataCell.Properties.verticalMargin * 2
+        let singleLineHeight = ceil(font.lineHeight + verticalPadding)
+
+        switch options.textLayout {
+        case .singleLine:
+            return Array(repeating: singleLineHeight, count: rowCount)
+        case .wrap:
+            break
+        }
+
+        var heights = [CGFloat]()
+        heights.reserveCapacity(rowCount)
+        let columnCount = numberOfColumns()
+
+        for rowIndex in 0..<rowCount {
+            let row = currentRowViewModels[rowIndex]
+            var maxHeight = singleLineHeight
+            for columnIndex in 0..<columnCount {
+                guard columnIndex < row.count else { continue }
+                let columnWidth = columnWidths[safe: columnIndex] ?? 0
+                let textWidth = max(columnWidth - (DataCell.Properties.horizontalMargin * 2), 0)
+                let textHeight = measuredTextHeight(
+                    for: row[columnIndex].data,
+                    font: font,
+                    width: textWidth
+                )
+                maxHeight = max(maxHeight, textHeight + verticalPadding)
+            }
+            heights.append(maxHeight)
+        }
+
+        return heights
+    }
+
+    private func calculateAutoLayoutRowHeights(provider: DataTableCustomCellProvider) -> [CGFloat] {
+        let rowCount = numberOfRows()
+        guard rowCount > 0 else { return [] }
+
+        let estimatedHeight = options.rowHeightMode.estimatedHeight
+        let targetHeight = max(estimatedHeight, 1)
+        let columnCount = numberOfColumns()
+        var heights = [CGFloat]()
+        heights.reserveCapacity(rowCount)
+
+        for rowIndex in 0..<rowCount {
+            let row = currentRowViewModels[rowIndex]
+            var maxHeight: CGFloat = 0
+            for columnIndex in 0..<columnCount {
+                guard columnIndex < row.count else { continue }
+                let value = row[columnIndex].data
+                let indexPath = IndexPath(item: columnIndex, section: rowIndex)
+                let reuseId = provider.reuseIdentifierFor(indexPath)
+                let sizingCell = self.sizingCell(for: reuseId, provider: provider)
+                provider.configure(sizingCell, value, indexPath)
+                let columnWidth = columnWidths[safe: columnIndex] ?? 0
+                sizingCell.bounds = CGRect(x: 0, y: 0, width: columnWidth, height: targetHeight)
+                sizingCell.setNeedsLayout()
+                sizingCell.layoutIfNeeded()
+                let targetSize = CGSize(width: columnWidth, height: UIView.layoutFittingCompressedSize.height)
+                let size = sizingCell.contentView.systemLayoutSizeFitting(
+                    targetSize,
+                    withHorizontalFittingPriority: .required,
+                    verticalFittingPriority: .fittingSizeLevel
+                )
+                maxHeight = max(maxHeight, ceil(size.height))
+            }
+            heights.append(max(maxHeight, estimatedHeight))
+        }
+
+        return heights
+    }
+
+    private func sizingCell(for reuseId: String, provider: DataTableCustomCellProvider) -> UICollectionViewCell {
+        if let cached = sizingCellCacheByReuseId[reuseId] {
+            return cached
+        }
+        let sizingCell = provider.sizingCellFor(reuseId)
+        sizingCellCacheByReuseId[reuseId] = sizingCell
+        return sizingCell
+    }
+
+    private func measuredTextHeight(for value: DataTableValueType, font: UIFont, width: CGFloat) -> CGFloat {
+        guard width > 0 else {
+            return ceil(font.lineHeight)
+        }
+        let rect = (value.stringRepresentation as NSString).boundingRect(
+            with: CGSize(width: width, height: .greatestFiniteMagnitude),
+            options: [.usesLineFragmentOrigin, .usesFontLeading],
+            attributes: [.font: font],
+            context: nil
+        )
+        return ceil(max(rect.height, font.lineHeight))
+    }
+
+    private func usesDelegateRowHeights() -> Bool {
+        guard let delegate = delegate as AnyObject? else {
+            return false
+        }
+        return delegate.responds(to: #selector(SwiftDataTableDelegate.dataTable(_:heightForRowAt:)))
     }
     
     public func reloadEverything(){
@@ -387,15 +540,20 @@ extension SwiftDataTable: UICollectionViewDataSource, UICollectionViewDelegate {
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cellViewModel: DataCellViewModel
-        //if let dataSource = self.dataSource {
-        //    cellViewModel = dataSource.dataTable(self, dataForRowAt: indexPath.row)
-        //}
-        //else {
-        cellViewModel = self.rowModel(at: indexPath)
-        //}
-        let cell = cellViewModel.dequeueCell(collectionView: collectionView, indexPath: indexPath)
-        return cell
+        let cellViewModel = self.rowModel(at: indexPath)
+        switch options.cellSizingMode {
+        case .autoLayout(let provider):
+            let reuseId = provider.reuseIdentifierFor(indexPath)
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseId, for: indexPath)
+            provider.configure(cell, cellViewModel.data, indexPath)
+            return cell
+        case .defaultCell:
+            let cell = cellViewModel.dequeueCell(collectionView: collectionView, indexPath: indexPath)
+            if let dataCell = cell as? DataCell {
+                dataCell.applyTextLayout(options.textLayout)
+            }
+            return cell
+        }
     }
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let numberOfItemsInLine: CGFloat = 6
@@ -597,7 +755,21 @@ extension SwiftDataTable {
         return self.currentRowViewModels.count
     }
     func heightForRow(index: Int) -> CGFloat {
-        return self.delegate?.dataTable?(self, heightForRowAt: index) ?? 44
+        if let height = self.delegate?.dataTable?(self, heightForRowAt: index) {
+            return height
+        }
+        if usesAutomaticRowHeights {
+            if rowHeights.indices.contains(index) {
+                return rowHeights[index]
+            }
+            return options.rowHeightMode.estimatedHeight
+        }
+        switch options.rowHeightMode {
+        case .fixed(let height):
+            return height
+        case .automatic(let estimated, _):
+            return estimated
+        }
     }
     
     func rowModel(at indexPath: IndexPath) -> DataCellViewModel {
@@ -692,10 +864,21 @@ extension SwiftDataTable {
     /// - Parameter index: The column index
     /// - Returns: The automatic width of the column irrespective of the Data Grid frame width
     func automaticWidthForColumn(index: Int) -> CGFloat {
-        return dataStructure.columnWidth(
-            index: index,
-            configuration: options
-        )
+        let mode = options.columnWidthModeProvider?(index) ?? options.columnWidthMode
+        let headerMinimum = minimumHeaderColumnWidth(index: index)
+        switch mode {
+        case .fixed(let width):
+            return clampColumnWidth(width, headerMinimum: headerMinimum)
+        case .fitContentText(let strategy):
+            return dataStructure.columnWidth(
+                index: index,
+                strategy: strategy,
+                configuration: options
+            )
+        case .fitContentAutoLayout(let sample):
+            let contentWidth = autoLayoutWidthForColumn(index: index, sample: sample)
+            return clampColumnWidth(contentWidth, headerMinimum: headerMinimum)
+        }
     }
     
     func calculateContentWidth() -> CGFloat {
@@ -710,6 +893,85 @@ extension SwiftDataTable {
     func minimumHeaderColumnWidth(index: Int) -> CGFloat {
         let textWidth = CGFloat(self.dataStructure.headerTitles[index].widthOfString(usingFont: UIFont.boldSystemFont(ofSize: UIFont.labelFontSize)))
         return textWidth + DataHeaderFooter.Properties.sortIndicatorWidth + DataHeaderFooter.Properties.labelHorizontalMargin
+    }
+
+    private func clampColumnWidth(_ width: CGFloat, headerMinimum: CGFloat) -> CGFloat {
+        let minClamped = max(width, options.minColumnWidth)
+        let maxClamped = options.maxColumnWidth.map { min(minClamped, $0) } ?? minClamped
+        return max(maxClamped, headerMinimum)
+    }
+
+    private func autoLayoutWidthForColumn(index: Int, sample: DataTableAutoLayoutWidthSample) -> CGFloat {
+        guard case .autoLayout(let provider) = options.cellSizingMode else {
+            assertionFailure("fitContentAutoLayout requires cellSizingMode.autoLayout(provider:).")
+            return options.minColumnWidth
+        }
+
+        let rowCount = numberOfRows()
+        guard rowCount > 0 else {
+            return 0
+        }
+
+        let indices = sampledRowIndices(rowCount: rowCount, sample: sample)
+        var measuredWidths = [CGFloat]()
+        measuredWidths.reserveCapacity(indices.count)
+
+        for rowIndex in indices {
+            let row = currentRowViewModels[rowIndex]
+            guard index < row.count else { continue }
+            let value = row[index].data
+            let indexPath = IndexPath(item: index, section: rowIndex)
+            let reuseId = provider.reuseIdentifierFor(indexPath)
+            let sizingCell = self.sizingCell(for: reuseId, provider: provider)
+            provider.configure(sizingCell, value, indexPath)
+
+            sizingCell.bounds = CGRect(x: 0, y: 0, width: 1, height: options.rowHeightMode.estimatedHeight)
+            sizingCell.setNeedsLayout()
+            sizingCell.layoutIfNeeded()
+
+            let size = sizingCell.contentView.systemLayoutSizeFitting(
+                UIView.layoutFittingCompressedSize,
+                withHorizontalFittingPriority: .fittingSizeLevel,
+                verticalFittingPriority: .fittingSizeLevel
+            )
+            measuredWidths.append(ceil(size.width))
+        }
+
+        switch sample {
+        case .all, .sampledMax:
+            return measuredWidths.max() ?? 0
+        case .percentile(let percentile, _):
+            return percentileWidth(in: measuredWidths, percentile: percentile)
+        }
+    }
+
+    private func sampledRowIndices(rowCount: Int, sample: DataTableAutoLayoutWidthSample) -> [Int] {
+        switch sample {
+        case .all:
+            return Array(0..<rowCount)
+        case .sampledMax(let sampleSize), .percentile(_, let sampleSize):
+            guard sampleSize > 0, rowCount > sampleSize else {
+                return Array(0..<rowCount)
+            }
+            let strideValue = max(1, Int(ceil(Double(rowCount) / Double(sampleSize))))
+            var result = [Int]()
+            var index = 0
+            while index < rowCount && result.count < sampleSize {
+                result.append(index)
+                index += strideValue
+            }
+            return result
+        }
+    }
+
+    private func percentileWidth(in widths: [CGFloat], percentile: Double) -> CGFloat {
+        guard !widths.isEmpty else {
+            return 0
+        }
+        let clampedPercentile = min(max(percentile, 0), 1)
+        let sorted = widths.sorted()
+        let percentileIndex = Int(round(clampedPercentile * CGFloat(sorted.count - 1)))
+        return sorted[percentileIndex]
     }
     
     func heightForPaginationView() -> CGFloat {
@@ -785,6 +1047,7 @@ extension SwiftDataTable: UISearchBarDelegate {
             self.searchRowViewModels = self.filteredResults(with: needle, on: self.rowViewModels)
             //            print("needle: \(needle), rows found: \(self.searchRowViewModels!.count)")
         }
+        invalidateRowHeights()
         self.layout?.clearLayoutCache()
         //        self.collectionView.scrollToItem(at: IndexPath(0), at: UICollectionViewScrollPosition.top, animated: false)
         //So the header view doesn't flash when user is at the bottom of the collectionview and a search result is returned that doesn't feel the screen.
@@ -840,6 +1103,8 @@ extension SwiftDataTable {
         self.rowViewModels = DataTableViewModelContent()
         self.paginationViewModel = PaginationHeaderViewModel()
         self.menuLengthViewModel = MenuLengthHeaderViewModel()
+        invalidateRowHeights()
+        registerCustomCellIfNeeded()
         //self.reload();
     }
 }

@@ -127,26 +127,21 @@ public struct DataStructureModel {
 
     func columnWidth(
         index: Int,
+        strategy: DataTableColumnWidthStrategy,
         configuration: DataTableConfiguration,
         dataFont: UIFont = UIFont.systemFont(ofSize: UIFont.labelFontSize),
         headerFont: UIFont = UIFont.boldSystemFont(ofSize: UIFont.labelFontSize)
     ) -> CGFloat {
-        let strategy = configuration.resolvedColumnWidthStrategy
         guard self.headerTitles.indices.contains(index) else {
             return configuration.minColumnWidth
         }
 
         let columnData = self.columnData(for: index)
-        let baseContentWidth: CGFloat
-        if let provider = configuration.columnWidthProvider {
-            baseContentWidth = provider(index, columnData, self.headerTitles[index], dataFont)
-        } else {
-            baseContentWidth = self.baseContentWidth(
-                for: columnData,
-                strategy: strategy,
-                dataFont: dataFont
-            )
-        }
+        let baseContentWidth = self.baseContentWidth(
+            for: columnData,
+            strategy: strategy,
+            dataFont: dataFont
+        )
 
         let paddedWidth = baseContentWidth
             + DataHeaderFooter.Properties.sortIndicatorWidth
@@ -159,7 +154,7 @@ public struct DataStructureModel {
         switch strategy {
         case .fixed(let width):
             return width
-        case .estimated(let averageCharWidth):
+        case .estimatedAverage(let averageCharWidth):
             return averageEstimatedWidth(for: columnData, averageCharWidth: averageCharWidth)
         case .hybrid(let sampleSize, let averageCharWidth):
             let estimatedAverage = averageEstimatedWidth(for: columnData, averageCharWidth: averageCharWidth)
@@ -241,7 +236,7 @@ public struct DataStructureModel {
 extension DataTableColumnWidthStrategy {
     var prefersEstimation: Bool {
         switch self {
-        case .estimated, .hybrid:
+        case .estimatedAverage, .hybrid:
             return true
         default:
             return false
