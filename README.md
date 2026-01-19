@@ -51,9 +51,10 @@ https://img.shields.io/cocoapods/p/SwiftDataTables.svg
 
 ## Major Features include:
 - **Sorting** - Tap column headers to sort by any column
-- **Searching** - Built-in search bar filters across all fields
+- **Searching** - Built-in search bar or native navigation bar search via UISearchController
 - **Fixed Columns** - Freeze columns on left or right sides
-- **Flexible Sizing** - Auto-calculated or custom column widths and row heights
+- **Self-Sizing Cells** - Automatic row heights with text wrapping support
+- **Flexible Column Widths** - Multiple strategies from fast estimation to precise measurement
 - **Customisable** - Configure headers, footers, colours, and more via delegate or configuration object
 - **DataSource Pattern** - Static data or dynamic content via protocol
 
@@ -224,6 +225,38 @@ When using `.autoLayout`:
 | `.maxMeasured` | ~0.5s | ~2s | Most accurate, measures all |
 
 For large datasets (10K+ rows), `.estimatedAverage` or `.hybrid` are recommended.
+
+---
+
+## Navigation Bar Search
+
+SwiftDataTables supports native iOS navigation bar search via UISearchController. This gives you the standard iOS search experience with minimal code:
+
+```swift
+override func viewDidLoad() {
+    super.viewDidLoad()
+
+    let dataTable = SwiftDataTable(data: myData, headerTitles: headers)
+    view.addSubview(dataTable)
+
+    // One line to enable navigation bar search
+    dataTable.installSearchController(on: self)
+}
+```
+
+The `installSearchController(on:)` method:
+- Creates a pre-configured UISearchController
+- Attaches it to the view controller's navigation item
+- Hides the embedded search bar automatically
+- Handles all search filtering for you
+
+For more control, use `makeSearchController()` to get the UISearchController and configure it yourself:
+
+```swift
+let searchController = dataTable.makeSearchController()
+searchController.searchBar.placeholder = "Find items..."
+navigationItem.searchController = searchController
+```
 
 ---
 
