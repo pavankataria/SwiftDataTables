@@ -131,16 +131,24 @@ class SwiftDataTableLayout: UICollectionViewFlowLayout {
         //Item Cells
         let minY = rect.minY-rect.height
         var attributes = [UICollectionViewLayoutAttributes]()
-//
+
+        // Safety check: validate cache against current data source
+        let numberOfSections = self.dataTable.numberOfRows()
+        let numberOfItems = self.dataTable.numberOfColumns()
+
         let firstMatchIndex = binarySearchAttributes(self.cache, value: minY)
         // Left side
         for att in self.cache[..<firstMatchIndex].reversed() {
             guard att.frame.maxY >= rect.minY else { break }
+            // Validate index path is still valid
+            guard att.indexPath.section < numberOfSections && att.indexPath.item < numberOfItems else { continue }
             attributes.append(att)
         }
         // Right side
         for att in self.cache[firstMatchIndex...] {
             guard att.frame.minY <= rect.maxY else { break }
+            // Validate index path is still valid
+            guard att.indexPath.section < numberOfSections && att.indexPath.item < numberOfItems else { continue }
             attributes.append(att)
         }
         attributes = attributes.compactMap { self.adjustAttributesPosition($0, at: $0.indexPath.item, zIndexPosition: 1) }
@@ -186,8 +194,32 @@ class SwiftDataTableLayout: UICollectionViewFlowLayout {
     override func invalidateLayout() {
         super.invalidateLayout()
     }
+
     override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
         return true
+    }
+
+    // MARK: - Batch Update Support
+
+    override func prepare(forCollectionViewUpdates updateItems: [UICollectionViewUpdateItem]) {
+        super.prepare(forCollectionViewUpdates: updateItems)
+        // Clear cache when sections are being inserted or deleted
+        // This prevents returning stale attributes for non-existent index paths
+        for item in updateItems {
+            if item.indexPathBeforeUpdate?.item == NSNotFound || item.indexPathAfterUpdate?.item == NSNotFound {
+                // This is a section-level update
+                clearLayoutCache()
+                break
+            }
+        }
+    }
+
+    override func finalizeCollectionViewUpdates() {
+        super.finalizeCollectionViewUpdates()
+        insertedIndexPaths.removeAllObjects()
+        removedIndexPaths.removeAllObjects()
+        insertedSectionIndices.removeAllObjects()
+        removedSectionIndices.removeAllObjects()
     }
     
     override var flipsHorizontallyInOppositeLayoutDirection: Bool {
