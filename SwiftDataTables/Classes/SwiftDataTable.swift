@@ -108,7 +108,7 @@ public class SwiftDataTable: UIView {
         }
     }
     
-    fileprivate(set) var headerViewModels = [DataHeaderFooterViewModel]()
+    internal private(set) var headerViewModels = [DataHeaderFooterViewModel]()
     fileprivate(set) var footerViewModels = [DataHeaderFooterViewModel]()
     fileprivate var rowViewModels = DataTableViewModelContent() {
         didSet {
@@ -548,37 +548,31 @@ public extension SwiftDataTable {
         let oldIdentifiers = self.currentRowIdentifiers
         let oldViewModels = self.rowViewModels
 
-        // Update stored identifiers
-        self.currentRowIdentifiers = rowIdentifiers
-
-        // Update the underlying data structure
-        self.dataStructure = DataStructureModel(
-            data: data,
-            headerTitles: self.dataStructure.headerTitles,
-            useEstimatedColumnWidths: options.columnWidthMode.prefersEstimatedTextWidths
-        )
-
         // Create new view models
         let newViewModels: DataTableViewModelContent = data.map { row in
             row.map { DataCellViewModel(data: $0) }
         }
 
-        // Update stored view models
-        self.rowViewModels = newViewModels
-
-        // Invalidate caches
-        invalidateRowHeights()
-        layout?.clearLayoutCache()
-
-        // Apply the diff
+        // Apply the diff with animation, or just reload
         if animatingDifferences && !oldViewModels.isEmpty {
             applyDiff(
                 oldIdentifiers: oldIdentifiers,
                 newIdentifiers: rowIdentifiers,
+                newData: data,
+                newViewModels: newViewModels,
                 completion: completion
             )
         } else {
-            // No animation or starting from empty - just reload
+            // No animation or starting from empty - update data and reload
+            self.currentRowIdentifiers = rowIdentifiers
+            self.dataStructure = DataStructureModel(
+                data: data,
+                headerTitles: self.dataStructure.headerTitles,
+                useEstimatedColumnWidths: options.columnWidthMode.prefersEstimatedTextWidths
+            )
+            self.rowViewModels = newViewModels
+            invalidateRowHeights()
+            layout?.clearLayoutCache()
             self.collectionView.reloadData()
             completion?(true)
         }
@@ -587,6 +581,8 @@ public extension SwiftDataTable {
     private func applyDiff(
         oldIdentifiers: [String],
         newIdentifiers: [String],
+        newData: DataTableContent,
+        newViewModels: DataTableViewModelContent,
         completion: ((Bool) -> Void)?
     ) {
         // Build identity maps for O(n) lookup
@@ -616,25 +612,59 @@ public extension SwiftDataTable {
             }
         }
 
+        // Helper to apply the new data
+        let applyNewData = { [weak self] in
+            guard let self = self else { return }
+            self.currentRowIdentifiers = newIdentifiers
+            self.dataStructure = DataStructureModel(
+                data: newData,
+                headerTitles: self.dataStructure.headerTitles,
+                useEstimatedColumnWidths: self.options.columnWidthMode.prefersEstimatedTextWidths
+            )
+            self.rowViewModels = newViewModels
+            self.invalidateRowHeights()
+            self.layout?.clearLayoutCache()
+        }
+
         // If there are many changes, just reload (performance optimization)
         let totalChanges = deletions.count + insertions.count
         let totalRows = max(oldIdentifiers.count, newIdentifiers.count)
         if totalRows > 0 && Double(totalChanges) / Double(totalRows) > 0.5 {
-            // More than 50% changed - just reload
+            // More than 50% changed - apply data and reload
+            applyNewData()
             self.collectionView.reloadData()
             completion?(true)
             return
         }
 
+        // For animated batch updates, we need to:
+        // 1. Apply deletions first (using old data indices)
+        // 2. Then apply the new data
+        // 3. Then apply insertions (using new data indices)
+        //
+        // UICollectionView's performBatchUpdates handles this automatically
+        // if we provide the correct indices and update data at the right time.
+
         // Apply batch updates
         self.collectionView.performBatchUpdates({
+            // Delete sections first (indices relative to old data)
             if !deletions.isEmpty {
                 self.collectionView.deleteSections(deletions)
             }
+
+            // Now apply the new data - this must happen during the batch update
+            // so the collection view sees the correct number of sections for insertions
+            applyNewData()
+
+            // Insert sections (indices relative to new data)
             if !insertions.isEmpty {
                 self.collectionView.insertSections(insertions)
             }
-        }, completion: { finished in
+        }, completion: { [weak self] finished in
+            guard let self = self else {
+                completion?(finished)
+                return
+            }
             // Reload visible items to ensure they're up to date
             if !self.collectionView.indexPathsForVisibleItems.isEmpty {
                 self.collectionView.reloadItems(at: self.collectionView.indexPathsForVisibleItems)
