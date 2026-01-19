@@ -98,6 +98,26 @@ class DataTableConfigurationTests: XCTestCase {
         XCTAssertEqual(config.columnWidthMode, DataTableConfiguration.defaultColumnWidthMode)
     }
 
+    func test_default_textLayout_isSingleLine() {
+        let config = DataTableConfiguration()
+        XCTAssertEqual(config.textLayout, .singleLine())
+    }
+
+    func test_default_rowHeightMode_isFixed44() {
+        let config = DataTableConfiguration()
+        XCTAssertEqual(config.rowHeightMode, .fixed(44))
+    }
+
+    func test_default_cellSizingMode_isDefaultCell() {
+        let config = DataTableConfiguration()
+        XCTAssertEqual(config.cellSizingMode, .defaultCell)
+    }
+
+    func test_default_columnWidthModeProvider_isNil() {
+        let config = DataTableConfiguration()
+        XCTAssertNil(config.columnWidthModeProvider)
+    }
+
     func test_default_minAndMaxColumnWidth_defaults() {
         let config = DataTableConfiguration()
         XCTAssertEqual(config.minColumnWidth, 70)
@@ -256,5 +276,57 @@ class DataTableColumnWidthModeTests: XCTestCase {
 
         let width = model.columnWidth(index: 0, strategy: .fixed(width: 10), configuration: config)
         XCTAssertEqual(width, 60)
+    }
+
+    func test_prefersEstimatedTextWidths_isTrueForEstimatedAndHybrid() {
+        let estimated = DataTableColumnWidthMode.fitContentText(
+            strategy: .estimatedAverage(averageCharWidth: 7)
+        )
+        let hybrid = DataTableColumnWidthMode.fitContentText(
+            strategy: .hybrid(sampleSize: 10, averageCharWidth: 7)
+        )
+
+        XCTAssertTrue(estimated.prefersEstimatedTextWidths)
+        XCTAssertTrue(hybrid.prefersEstimatedTextWidths)
+    }
+
+    func test_prefersEstimatedTextWidths_isFalseForFixedAndAutoLayout() {
+        let fixed = DataTableColumnWidthMode.fixed(width: 120)
+        let autoLayout = DataTableColumnWidthMode.fitContentAutoLayout(sample: .all)
+
+        XCTAssertFalse(fixed.prefersEstimatedTextWidths)
+        XCTAssertFalse(autoLayout.prefersEstimatedTextWidths)
+    }
+}
+
+@MainActor
+class DataTableCellSizingModeTests: XCTestCase {
+    func test_autoLayoutModes_areEqualEvenWithDifferentProviders() {
+        let providerA = DataTableCustomCellProvider(
+            register: { _ in },
+            reuseIdentifierFor: { _ in "A" },
+            configure: { _, _, _ in },
+            sizingCellFor: { _ in UICollectionViewCell(frame: .zero) }
+        )
+        let providerB = DataTableCustomCellProvider(
+            register: { _ in },
+            reuseIdentifierFor: { _ in "B" },
+            configure: { _, _, _ in },
+            sizingCellFor: { _ in UICollectionViewCell(frame: .zero) }
+        )
+
+        XCTAssertEqual(
+            DataTableCellSizingMode.autoLayout(provider: providerA),
+            DataTableCellSizingMode.autoLayout(provider: providerB)
+        )
+    }
+}
+
+class SearchBarPositionTests: XCTestCase {
+    func test_searchBarPosition_casesAreEquatable() {
+        XCTAssertEqual(SearchBarPosition.embedded, .embedded)
+        XCTAssertEqual(SearchBarPosition.navigationBar, .navigationBar)
+        XCTAssertEqual(SearchBarPosition.hidden, .hidden)
+        XCTAssertNotEqual(SearchBarPosition.embedded, .hidden)
     }
 }

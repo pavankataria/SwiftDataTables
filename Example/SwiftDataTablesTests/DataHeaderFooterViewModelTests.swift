@@ -9,6 +9,7 @@ import XCTest
 import UIKit
 @testable import SwiftDataTables
 
+@MainActor
 class DataHeaderFooterViewModelTests: XCTestCase {
 
     // MARK: - Initialization Tests
@@ -89,6 +90,7 @@ class DataHeaderFooterViewModelTests: XCTestCase {
 
 // MARK: - DataCellViewModel Tests
 
+@MainActor
 class DataCellViewModelTests: XCTestCase {
 
     // MARK: - Initialization Tests
