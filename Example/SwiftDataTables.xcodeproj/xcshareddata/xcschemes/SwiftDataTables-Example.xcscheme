@@ -55,16 +55,6 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "607FACE41AFB9204008FA782"
-               BuildableName = "SwiftDataTables_Tests.xctest"
-               BlueprintName = "SwiftDataTables_Tests"
-               ReferencedContainer = "container:SwiftDataTables.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "05D66E6B22B94942003004D9"
                BuildableName = "SwiftDataTablesTests.xctest"
                BlueprintName = "SwiftDataTablesTests"
