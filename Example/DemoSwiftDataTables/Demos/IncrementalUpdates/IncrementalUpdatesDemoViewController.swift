@@ -25,7 +25,7 @@ final class IncrementalUpdatesDemoViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Incremental Updates"
+        title = "Live Data Updates"
         view.backgroundColor = .systemBackground
 
         controls = makeExplanationControls()
@@ -70,7 +70,12 @@ final class IncrementalUpdatesDemoViewController: UIViewController {
 
     @objc func addRow() {
         let row = generateRandomRow()
-        let index = tableData.isEmpty ? 0 : Int.random(in: 0...tableData.count)
+        let index: Int
+        if controls.randomInsertSwitch.isOn {
+            index = tableData.isEmpty ? 0 : Int.random(in: 0...tableData.count)
+        } else {
+            index = tableData.count
+        }
         tableData.insert(row, at: index)
         dataTable.setData(tableData, animatingDifferences: controls.animationSwitch.isOn)
         log("Inserted at index \(index)")
@@ -79,7 +84,12 @@ final class IncrementalUpdatesDemoViewController: UIViewController {
 
     @objc func add5Rows() {
         let newRows = (0..<5).map { _ in generateRandomRow() }
-        let insertIndex = tableData.isEmpty ? 0 : Int.random(in: 0...tableData.count)
+        let insertIndex: Int
+        if controls.randomInsertSwitch.isOn {
+            insertIndex = tableData.isEmpty ? 0 : Int.random(in: 0...tableData.count)
+        } else {
+            insertIndex = tableData.count
+        }
         for (i, row) in newRows.enumerated() {
             tableData.insert(row, at: insertIndex + i)
         }
@@ -160,6 +170,16 @@ final class IncrementalUpdatesDemoViewController: UIViewController {
         dataTable.setData(tableData, animatingDifferences: controls.animationSwitch.isOn)
         log("Cleared \(count) rows")
         updateRowCount()
+    }
+
+    @objc func randomiseAll() {
+        guard tableData.count >= 2 else {
+            log("Need at least 2 rows")
+            return
+        }
+        tableData.shuffle()
+        dataTable.setData(tableData, animatingDifferences: controls.animationSwitch.isOn)
+        log("Randomised \(tableData.count) rows")
     }
 
     // MARK: - Helpers

@@ -10,16 +10,16 @@ extension IncrementalUpdatesDemoViewController {
     struct ExplanationControls {
         let view: DemoExplanationView
         let animationSwitch: UISwitch
+        let randomInsertSwitch: UISwitch
         let rowCountLabel: UILabel
         let operationLogLabel: UILabel
     }
 
     func makeExplanationControls() -> ExplanationControls {
         let buttonsRow1 = UIStackView(arrangedSubviews: [
-            makeButton(title: "+ Row", action: #selector(addRow)),
             makeButton(title: "+ 5 Rows", action: #selector(add5Rows)),
-            makeButton(title: "- Row", action: #selector(deleteRow)),
             makeButton(title: "- 5 Rows", action: #selector(delete5Rows)),
+            makeButton(title: "Randomise", action: #selector(randomiseAll)),
         ])
         buttonsRow1.axis = .horizontal
         buttonsRow1.spacing = 8
@@ -36,6 +36,11 @@ extension IncrementalUpdatesDemoViewController {
 
         let (animationSwitch, animationRow) = DemoExplanationView.toggleRow(
             label: "Animate", isOn: true,
+            target: self, action: #selector(animationToggleChanged(_:))
+        )
+
+        let (randomInsertSwitch, randomInsertRow) = DemoExplanationView.toggleRow(
+            label: "Random Insert", isOn: true,
             target: self, action: #selector(animationToggleChanged(_:))
         )
 
@@ -56,12 +61,13 @@ extension IncrementalUpdatesDemoViewController {
 
         let explanationView = DemoExplanationView(
             description: "Snapshot diffing: modify data, call setData(), table animates the diff",
-            controls: [buttonsRow1, buttonsRow2, animationRow, infoRow]
+            controls: [buttonsRow1, buttonsRow2, animationRow, randomInsertRow, infoRow]
         )
 
         return ExplanationControls(
             view: explanationView,
             animationSwitch: animationSwitch,
+            randomInsertSwitch: randomInsertSwitch,
             rowCountLabel: rowCountLabel,
             operationLogLabel: operationLogLabel
         )
