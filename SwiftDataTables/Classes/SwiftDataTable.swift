@@ -116,6 +116,7 @@ public class SwiftDataTable: UIView {
         }
     }
     fileprivate var searchRowViewModels: DataTableViewModelContent!
+    private var currentRowIdentifiers: [String] = []
     
     fileprivate var paginationViewModel: PaginationHeaderViewModel!
     fileprivate var menuLengthViewModel: MenuLengthHeaderViewModel!
@@ -469,6 +470,177 @@ public class SwiftDataTable: UIView {
     
     public func data(for indexPath: IndexPath) -> DataTableValueType {
         return rows[indexPath.section][indexPath.row].data
+    }
+}
+
+// MARK: - Snapshot-Based Incremental Updates
+public extension SwiftDataTable {
+
+    /// Updates the table data using snapshot diffing with automatic content-based identity.
+    ///
+    /// This method uses row content to determine identity. Two rows with identical content
+    /// are considered the same row. For more control, use `setData(_:rowIdentifiers:...)`.
+    ///
+    /// - Parameters:
+    ///   - data: The new complete data set for the table
+    ///   - animatingDifferences: If true, animates insertions/deletions. If false, reloads immediately.
+    ///   - completion: Called when the update completes
+    ///
+    /// Example:
+    /// ```swift
+    /// // Modify your local data
+    /// myData.append(newRow)
+    /// myData.remove(at: 0)
+    ///
+    /// // Tell the table to diff and update
+    /// dataTable.setData(myData, animatingDifferences: true)
+    /// ```
+    func setData(
+        _ data: DataTableContent,
+        animatingDifferences: Bool = true,
+        completion: ((Bool) -> Void)? = nil
+    ) {
+        // Use content-based identity when no explicit IDs provided
+        let identifiers = data.map { row in
+            row.map { $0.stringRepresentation }.joined(separator: "\u{001F}")
+        }
+        setData(data, rowIdentifiers: identifiers, animatingDifferences: animatingDifferences, completion: completion)
+    }
+
+    /// Updates the table data using snapshot diffing with explicit row identifiers.
+    ///
+    /// Use this method when your rows have stable identifiers (e.g., database IDs).
+    /// This is more robust than content-based identity for real-world data.
+    ///
+    /// - Parameters:
+    ///   - data: The new complete data set for the table
+    ///   - rowIdentifiers: Array of unique identifiers, one per row. Must match data.count.
+    ///   - animatingDifferences: If true, animates insertions/deletions. If false, reloads immediately.
+    ///   - completion: Called when the update completes
+    ///
+    /// Example with database records:
+    /// ```swift
+    /// // Your model has stable IDs
+    /// struct User { let id: String; let name: String; let score: Int }
+    ///
+    /// // Convert to table format
+    /// let tableData: DataTableContent = users.map { user in
+    ///     [.string(user.id), .string(user.name), .int(user.score)]
+    /// }
+    /// let identifiers = users.map { $0.id }
+    ///
+    /// // Update with stable IDs
+    /// dataTable.setData(tableData, rowIdentifiers: identifiers, animatingDifferences: true)
+    /// ```
+    func setData(
+        _ data: DataTableContent,
+        rowIdentifiers: [String],
+        animatingDifferences: Bool = true,
+        completion: ((Bool) -> Void)? = nil
+    ) {
+        guard data.count == rowIdentifiers.count else {
+            assertionFailure("rowIdentifiers count (\(rowIdentifiers.count)) must match data count (\(data.count))")
+            self.collectionView.reloadData()
+            completion?(false)
+            return
+        }
+
+        let oldIdentifiers = self.currentRowIdentifiers
+        let oldViewModels = self.rowViewModels
+
+        // Update stored identifiers
+        self.currentRowIdentifiers = rowIdentifiers
+
+        // Update the underlying data structure
+        self.dataStructure = DataStructureModel(
+            data: data,
+            headerTitles: self.dataStructure.headerTitles,
+            useEstimatedColumnWidths: options.columnWidthMode.prefersEstimatedTextWidths
+        )
+
+        // Create new view models
+        let newViewModels: DataTableViewModelContent = data.map { row in
+            row.map { DataCellViewModel(data: $0) }
+        }
+
+        // Update stored view models
+        self.rowViewModels = newViewModels
+
+        // Invalidate caches
+        invalidateRowHeights()
+        layout?.clearLayoutCache()
+
+        // Apply the diff
+        if animatingDifferences && !oldViewModels.isEmpty {
+            applyDiff(
+                oldIdentifiers: oldIdentifiers,
+                newIdentifiers: rowIdentifiers,
+                completion: completion
+            )
+        } else {
+            // No animation or starting from empty - just reload
+            self.collectionView.reloadData()
+            completion?(true)
+        }
+    }
+
+    private func applyDiff(
+        oldIdentifiers: [String],
+        newIdentifiers: [String],
+        completion: ((Bool) -> Void)?
+    ) {
+        // Build identity maps for O(n) lookup
+        var oldIdToIndex = [String: Int]()
+        for (index, id) in oldIdentifiers.enumerated() {
+            oldIdToIndex[id] = index
+        }
+
+        var newIdToIndex = [String: Int]()
+        for (index, id) in newIdentifiers.enumerated() {
+            newIdToIndex[id] = index
+        }
+
+        // Calculate deletions (IDs in old but not in new)
+        var deletions = IndexSet()
+        for (index, id) in oldIdentifiers.enumerated() {
+            if newIdToIndex[id] == nil {
+                deletions.insert(index)
+            }
+        }
+
+        // Calculate insertions (IDs in new but not in old)
+        var insertions = IndexSet()
+        for (index, id) in newIdentifiers.enumerated() {
+            if oldIdToIndex[id] == nil {
+                insertions.insert(index)
+            }
+        }
+
+        // If there are many changes, just reload (performance optimization)
+        let totalChanges = deletions.count + insertions.count
+        let totalRows = max(oldIdentifiers.count, newIdentifiers.count)
+        if totalRows > 0 && Double(totalChanges) / Double(totalRows) > 0.5 {
+            // More than 50% changed - just reload
+            self.collectionView.reloadData()
+            completion?(true)
+            return
+        }
+
+        // Apply batch updates
+        self.collectionView.performBatchUpdates({
+            if !deletions.isEmpty {
+                self.collectionView.deleteSections(deletions)
+            }
+            if !insertions.isEmpty {
+                self.collectionView.insertSections(insertions)
+            }
+        }, completion: { finished in
+            // Reload visible items to ensure they're up to date
+            if !self.collectionView.indexPathsForVisibleItems.isEmpty {
+                self.collectionView.reloadItems(at: self.collectionView.indexPathsForVisibleItems)
+            }
+            completion?(finished)
+        })
     }
 }
 
