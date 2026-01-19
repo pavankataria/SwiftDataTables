@@ -72,6 +72,7 @@ class MenuViewController: UITableViewController {
                 MenuItem(title: "Static Data Set"),
                 MenuItem(title: "Dynamic Data Source"),
                 MenuItem(title: "Empty Data Source"),
+                MenuItem(title: "Incremental Updates"),
             ],
             // Section 1: Layout & Sizing
             [
@@ -168,6 +169,8 @@ extension MenuViewController {
             instance.addDataSourceAfter()
         case 2:
             show(DataTableWithDataSourceViewController(), sender: self)
+        case 3:
+            show(IncrementalUpdatesDemoViewController(), sender: self)
         default:
             break
         }
