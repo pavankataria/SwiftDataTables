@@ -12,6 +12,7 @@
 		05D66E6F22B94942003004D9 /* SwiftDataTablesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D66E6E22B94942003004D9 /* SwiftDataTablesTests.swift */; };
 		05D66E7A22B981D0003004D9 /* DataTableFixedColumnTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D66E7922B981D0003004D9 /* DataTableFixedColumnTypeTests.swift */; };
 		061375FFFA234C72995ACD7A /* SwiftDataTableColumnWidthProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B32554DB4F47F48EFFB578 /* SwiftDataTableColumnWidthProviderTests.swift */; };
+		E3A1C0A4D4F04B2A9B5CF000 /* SwiftDataTableIncrementalUpdatesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A1C0A3D4F04B2A9B5CF000 /* SwiftDataTableIncrementalUpdatesTests.swift */; };
 		3385E372C74D42EEB5E75515 /* SwiftDataTableRowHeightTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9299816831254E94AAAE03A8 /* SwiftDataTableRowHeightTests.swift */; };
 		4B6CE1D9EBE24FCD92532EE7 /* DataStructureModelColumnWidthTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36595E1F6E6F4693963BFC0C /* DataStructureModelColumnWidthTests.swift */; };
 		5F20F1A8D0684541AED663A8 /* SwiftDataTableAutoLayoutColumnWidthTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE8EDD24DB1434EAA47295C /* SwiftDataTableAutoLayoutColumnWidthTests.swift */; };
@@ -28,6 +29,7 @@
 		5ACBD0C6A6B48FE8379B74F6 /* DataTableColumnWidthStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E40CA4B13B7CC3A40A6811 /* DataTableColumnWidthStrategy.swift */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		68E81A038BEEE72606B5D9D4 /* FixedColumnsDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97538D4EDA2BA75CF0EDD1E9 /* FixedColumnsDemoViewController.swift */; };
+		E3A1C0A6D4F04B2A9B5CF000 /* IncrementalUpdatesDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A1C0A5D4F04B2A9B5CF000 /* IncrementalUpdatesDemoViewController.swift */; };
 		6BB376025F415AA919822F89 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62EF41EF8632BE5568D5721 /* AppDelegate.swift */; };
 		7075D4A7DB74F015D99AEC1A /* CustomCellsAutoHeightDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF95C3EF2BDC5AD6405D7B7 /* CustomCellsAutoHeightDemoViewController.swift */; };
 		75149E6B5B643A356AB36026 /* ColumnWidthStrategyDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D536EABE47910826744437E /* ColumnWidthStrategyDemoViewController.swift */; };
@@ -50,6 +52,7 @@
 		E234B0CF231353CE009FC712 /* SwiftDataTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315762224644B004B4478 /* SwiftDataTable.swift */; };
 		E234B0D0231353DB009FC712 /* DataTableSortType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315682224644B004B4478 /* DataTableSortType.swift */; };
 		E234B0D1231353DB009FC712 /* DataTableConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583156A2224644B004B4478 /* DataTableConfiguration.swift */; };
+		E3A1C0A2D4F04B2A9B5CF000 /* DataTableAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A1C0A1D4F04B2A9B5CF000 /* DataTableAnimation.swift */; };
 		E234B0D2231353DB009FC712 /* DataTableValueType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315752224644B004B4478 /* DataTableValueType.swift */; };
 		E234B0D3231353DB009FC712 /* DataStructureModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315812224644B004B4478 /* DataStructureModel.swift */; };
 		E234B0D4231353DB009FC712 /* DataTableFixedColumnType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D66E7722B980C6003004D9 /* DataTableFixedColumnType.swift */; };
@@ -112,6 +115,7 @@
 		058315682224644B004B4478 /* DataTableSortType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataTableSortType.swift; sourceTree = "<group>"; };
 		058315692224644B004B4478 /* DataTableSearchTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataTableSearchTextField.swift; sourceTree = "<group>"; };
 		0583156A2224644B004B4478 /* DataTableConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataTableConfiguration.swift; sourceTree = "<group>"; };
+		E3A1C0A1D4F04B2A9B5CF000 /* DataTableAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataTableAnimation.swift; sourceTree = "<group>"; };
 		0583156C2224644B004B4478 /* DataCellViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataCellViewModel.swift; sourceTree = "<group>"; };
 		0583156D2224644B004B4478 /* DataCellLayoutAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataCellLayoutAttributes.swift; sourceTree = "<group>"; };
 		0583156F2224644B004B4478 /* DataCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataCell.swift; sourceTree = "<group>"; };
@@ -132,8 +136,10 @@
 		058D4BB21E953FDD002A2DC9 /* SwiftDataTables_Example-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SwiftDataTables_Example-Bridging-Header.h"; sourceTree = "<group>"; };
 		05D66E6C22B94942003004D9 /* SwiftDataTablesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftDataTablesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		05D66E6E22B94942003004D9 /* SwiftDataTablesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataTablesTests.swift; sourceTree = "<group>"; };
+		E3A1C0A3D4F04B2A9B5CF000 /* SwiftDataTableIncrementalUpdatesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataTableIncrementalUpdatesTests.swift; sourceTree = "<group>"; };
 		05D66E7022B94942003004D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		05D66E7722B980C6003004D9 /* DataTableFixedColumnType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTableFixedColumnType.swift; sourceTree = "<group>"; };
+		E3A1C0A5D4F04B2A9B5CF000 /* IncrementalUpdatesDemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncrementalUpdatesDemoViewController.swift; sourceTree = "<group>"; };
 		05D66E7922B981D0003004D9 /* DataTableFixedColumnTypeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTableFixedColumnTypeTests.swift; sourceTree = "<group>"; };
 		1020EABCA27B4494A44CFC0C /* SwiftDataTableCustomCellProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataTableCustomCellProviderTests.swift; sourceTree = "<group>"; };
 		10B32554DB4F47F48EFFB578 /* SwiftDataTableColumnWidthProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataTableColumnWidthProviderTests.swift; sourceTree = "<group>"; };
@@ -282,12 +288,12 @@
 			path = HeaderFooter;
 			sourceTree = "<group>";
 		};
-		05D66E6D22B94942003004D9 /* SwiftDataTablesTests */ = {
-			isa = PBXGroup;
-			children = (
-				05D66E6E22B94942003004D9 /* SwiftDataTablesTests.swift */,
-				6AE3A46369A2424599009AA9 /* DataTableConfigurationTests.swift */,
-				9D4C8CD782CF4B0E89DC3A68 /* DataCellTextLayoutTests.swift */,
+			05D66E6D22B94942003004D9 /* SwiftDataTablesTests */ = {
+				isa = PBXGroup;
+				children = (
+					05D66E6E22B94942003004D9 /* SwiftDataTablesTests.swift */,
+					6AE3A46369A2424599009AA9 /* DataTableConfigurationTests.swift */,
+					9D4C8CD782CF4B0E89DC3A68 /* DataCellTextLayoutTests.swift */,
 				5BE43DBB53744CC9BF20F6F7 /* DataHeaderFooterViewModelTests.swift */,
 				36595E1F6E6F4693963BFC0C /* DataStructureModelColumnWidthTests.swift */,
 				05D66E7922B981D0003004D9 /* DataTableFixedColumnTypeTests.swift */,
@@ -295,22 +301,24 @@
 				54F368F7D5974B7E82474AE0 /* DataTableValueTypeTests.swift */,
 				FAE8EDD24DB1434EAA47295C /* SwiftDataTableAutoLayoutColumnWidthTests.swift */,
 				10B32554DB4F47F48EFFB578 /* SwiftDataTableColumnWidthProviderTests.swift */,
-				1020EABCA27B4494A44CFC0C /* SwiftDataTableCustomCellProviderTests.swift */,
-				9299816831254E94AAAE03A8 /* SwiftDataTableRowHeightTests.swift */,
-				E0AABA490CE9485AAB039BE8 /* SwiftDataTableSearchControllerTests.swift */,
-				05D66E7022B94942003004D9 /* Info.plist */,
-			);
-			path = SwiftDataTablesTests;
-			sourceTree = "<group>";
+					1020EABCA27B4494A44CFC0C /* SwiftDataTableCustomCellProviderTests.swift */,
+					9299816831254E94AAAE03A8 /* SwiftDataTableRowHeightTests.swift */,
+					E0AABA490CE9485AAB039BE8 /* SwiftDataTableSearchControllerTests.swift */,
+					E3A1C0A3D4F04B2A9B5CF000 /* SwiftDataTableIncrementalUpdatesTests.swift */,
+					05D66E7022B94942003004D9 /* Info.plist */,
+				);
+				path = SwiftDataTablesTests;
+				sourceTree = "<group>";
 		};
-		05D66E7622B98083003004D9 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				058315682224644B004B4478 /* DataTableSortType.swift */,
-				0583156A2224644B004B4478 /* DataTableConfiguration.swift */,
-				0583157C2224644B004B4478 /* CollectionViewSupplementaryElementRepresentable.swift */,
-				058315752224644B004B4478 /* DataTableValueType.swift */,
-				058315812224644B004B4478 /* DataStructureModel.swift */,
+			05D66E7622B98083003004D9 /* Models */ = {
+				isa = PBXGroup;
+				children = (
+					058315682224644B004B4478 /* DataTableSortType.swift */,
+					0583156A2224644B004B4478 /* DataTableConfiguration.swift */,
+					E3A1C0A1D4F04B2A9B5CF000 /* DataTableAnimation.swift */,
+					0583157C2224644B004B4478 /* CollectionViewSupplementaryElementRepresentable.swift */,
+					058315752224644B004B4478 /* DataTableValueType.swift */,
+					058315812224644B004B4478 /* DataStructureModel.swift */,
 				05D66E7722B980C6003004D9 /* DataTableFixedColumnType.swift */,
 				A3E40CA4B13B7CC3A40A6811 /* DataTableColumnWidthStrategy.swift */,
 			);
@@ -380,16 +388,17 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		A816B1C818BCF2C944625009 /* Demos */ = {
-			isa = PBXGroup;
-			children = (
-				7F45F07BF618B454A64B68AF /* DataTableWithDataSetViewController.swift */,
-				50FA0163CB78B87F273FF057 /* DataTableWithDataSourceViewController.swift */,
-				3D628162AC35FCB107FE21B1 /* PerformanceDemoViewController.swift */,
-				6D536EABE47910826744437E /* ColumnWidthStrategyDemoViewController.swift */,
-				BE69775D8428AA83F1805778 /* RowHeightAndWrapDemoViewController.swift */,
-				EBF95C3EF2BDC5AD6405D7B7 /* CustomCellsAutoHeightDemoViewController.swift */,
-				97538D4EDA2BA75CF0EDD1E9 /* FixedColumnsDemoViewController.swift */,
+			A816B1C818BCF2C944625009 /* Demos */ = {
+				isa = PBXGroup;
+				children = (
+					7F45F07BF618B454A64B68AF /* DataTableWithDataSetViewController.swift */,
+					50FA0163CB78B87F273FF057 /* DataTableWithDataSourceViewController.swift */,
+					3D628162AC35FCB107FE21B1 /* PerformanceDemoViewController.swift */,
+					E3A1C0A5D4F04B2A9B5CF000 /* IncrementalUpdatesDemoViewController.swift */,
+					6D536EABE47910826744437E /* ColumnWidthStrategyDemoViewController.swift */,
+					BE69775D8428AA83F1805778 /* RowHeightAndWrapDemoViewController.swift */,
+					EBF95C3EF2BDC5AD6405D7B7 /* CustomCellsAutoHeightDemoViewController.swift */,
+					97538D4EDA2BA75CF0EDD1E9 /* FixedColumnsDemoViewController.swift */,
 				63750EB6BF834D33DA1E68C4 /* ShowHideElementsDemoViewController.swift */,
 				DD5020E2161572C7C541358C /* FloatingElementsDemoViewController.swift */,
 				684BD65A57D63A5BD689DBEF /* DefaultSortingDemoViewController.swift */,
@@ -566,6 +575,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3A1C0A4D4F04B2A9B5CF000 /* SwiftDataTableIncrementalUpdatesTests.swift in Sources */,
 				061375FFFA234C72995ACD7A /* SwiftDataTableColumnWidthProviderTests.swift in Sources */,
 				05D66E6F22B94942003004D9 /* SwiftDataTablesTests.swift in Sources */,
 				05D66E7A22B981D0003004D9 /* DataTableFixedColumnTypeTests.swift in Sources */,
@@ -590,6 +600,7 @@
 				2F80D9D4B6C9036A65806CB9 /* MenuTableViewController.swift in Sources */,
 				040B58D67039A7D36001D27B /* DataTableWithDataSetViewController.swift in Sources */,
 				0225FF8B0BC1111FB183B7B9 /* DataTableWithDataSourceViewController.swift in Sources */,
+				E3A1C0A6D4F04B2A9B5CF000 /* IncrementalUpdatesDemoViewController.swift in Sources */,
 				89118AC12F34FD8D47AD3911 /* PerformanceDemoViewController.swift in Sources */,
 				75149E6B5B643A356AB36026 /* ColumnWidthStrategyDemoViewController.swift in Sources */,
 				C11B4E7380F0317038C2239F /* RowHeightAndWrapDemoViewController.swift in Sources */,
@@ -614,6 +625,7 @@
 				E234B0E0231353FE009FC712 /* DataTableSortable.swift in Sources */,
 				E234B0DA231353F0009FC712 /* MenuLengthHeaderViewModel.swift in Sources */,
 				E234B0D0231353DB009FC712 /* DataTableSortType.swift in Sources */,
+				E3A1C0A2D4F04B2A9B5CF000 /* DataTableAnimation.swift in Sources */,
 				E234B0E623135425009FC712 /* CollectionViewCellRepresentable.swift in Sources */,
 				E234B0E823135425009FC712 /* SwiftDataTableDataSourceAndDelegate.swift in Sources */,
 				E234B0DC231353F6009FC712 /* DataCellLayoutAttributes.swift in Sources */,
