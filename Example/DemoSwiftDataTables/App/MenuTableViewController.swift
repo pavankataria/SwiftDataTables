@@ -187,7 +187,7 @@ extension MenuViewController {
         case 3:
             show(CustomCellsAutoHeightDemoViewController(), sender: self)
         case 4:
-            show(HeightsCustomizationDemoViewController(), sender: self)
+            show(HeightsCustomisationDemoViewController(), sender: self)
         default:
             break
         }
