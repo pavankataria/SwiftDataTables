@@ -9,97 +9,94 @@
 import UIKit
 
 class SwiftDataTableLayout: UICollectionViewFlowLayout {
-    
+
     //MARK: - Properties
     fileprivate(set) open var dataTable: SwiftDataTable
     var insertedIndexPaths = NSMutableArray()
     var removedIndexPaths = NSMutableArray()
     var insertedSectionIndices = NSMutableArray()
     var removedSectionIndices = NSMutableArray()
-    
-    private var cache = [UICollectionViewLayoutAttributes]()
-    private var filteredCache = [UICollectionViewLayoutAttributes]()
-//    private var filteredCache = [UICollectionViewLayoutAttributes]()
-    
+
+    // On-demand layout metadata (replaces bulk cache)
+    private var cachedColumnXOffsets = [CGFloat]()
+    private var cachedColumnWidths = [CGFloat]()
+    private var cachedRowYOffsets = [CGFloat]()  // Cumulative Y offset for binary search
+    private var cachedRowHeights = [CGFloat]()
+    private var cachedContentSize: CGSize = .zero
+    private var needsMetadataUpdate = true
+
     //MARK: - Lifecycle
     init(dataTable: SwiftDataTable){
         self.dataTable = dataTable
         super.init()
-//        self.collectionView?.isPrefetchingEnabled = false;
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    public func clearLayoutCache(){
-        self.cache.removeAll()
+    public func clearLayoutCache() {
+        needsMetadataUpdate = true
     }
-    
-    public override func prepare(){
+
+    public override func prepare() {
         super.prepare()
 
-        guard self.cache.isEmpty else {
-            return
-        }
+        guard needsMetadataUpdate else { return }
+
         self.dataTable.calculateColumnWidths()
-        prepareOptimized()
+        prepareMetadata()
         self.calculateScrollBarIndicators()
+        needsMetadataUpdate = false
     }
 
-    private func prepareOptimized() {
+    /// Prepares only metadata needed for on-demand layout (not actual attributes)
+    private func prepareMetadata() {
         let numberOfRows = self.dataTable.numberOfRows()
         let numberOfColumns = self.dataTable.numberOfColumns()
 
-        // Pre-calculate column X offsets in O(n) - accumulate instead of recalculating
-        var xOffsets = [CGFloat]()
-        xOffsets.reserveCapacity(numberOfColumns)
+        // Calculate column X offsets
+        cachedColumnXOffsets.removeAll(keepingCapacity: true)
+        cachedColumnXOffsets.reserveCapacity(numberOfColumns)
         var runningX = self.dataTable.widthForRowHeader()
         for column in 0..<numberOfColumns {
-            xOffsets.append(runningX)
+            cachedColumnXOffsets.append(runningX)
             runningX += self.dataTable.widthForColumn(index: column)
         }
 
-        // Pre-calculate column widths (avoid repeated calls)
-        var columnWidths = [CGFloat]()
-        columnWidths.reserveCapacity(numberOfColumns)
+        // Calculate column widths
+        cachedColumnWidths.removeAll(keepingCapacity: true)
+        cachedColumnWidths.reserveCapacity(numberOfColumns)
         for column in 0..<numberOfColumns {
-            columnWidths.append(self.dataTable.widthForColumn(index: column))
+            cachedColumnWidths.append(self.dataTable.widthForColumn(index: column))
         }
 
-        // Pre-calculate row heights (single pass - avoid calling heightForRow twice per row)
-        var rowHeights = [CGFloat]()
-        rowHeights.reserveCapacity(numberOfRows)
+        // Calculate row heights
+        cachedRowHeights.removeAll(keepingCapacity: true)
+        cachedRowHeights.reserveCapacity(numberOfRows)
         for row in 0..<numberOfRows {
-            rowHeights.append(self.dataTable.heightForRow(index: row))
+            cachedRowHeights.append(self.dataTable.heightForRow(index: row))
         }
 
-        // Pre-calculate row Y offsets in O(n) using cached heights
-        var yOffsets = [CGFloat]()
-        yOffsets.reserveCapacity(numberOfRows)
+        // Calculate cumulative row Y offsets for binary search
+        cachedRowYOffsets.removeAll(keepingCapacity: true)
+        cachedRowYOffsets.reserveCapacity(numberOfRows)
         var runningY = self.dataTable.heightForSectionHeader()
         let interRowSpacing = self.dataTable.heightOfInterRowSpacing()
         for row in 0..<numberOfRows {
-            yOffsets.append(runningY)
-            runningY += rowHeights[row] + interRowSpacing
+            cachedRowYOffsets.append(runningY)
+            runningY += cachedRowHeights[row] + interRowSpacing
         }
 
-        // Reserve capacity for cache to avoid reallocations
-        cache.reserveCapacity(numberOfRows * numberOfColumns)
-
-        // Build layout attributes using cached values
-        for row in 0..<numberOfRows {
-            let height = rowHeights[row]
-            let y = yOffsets[row]
-
-            for column in 0..<numberOfColumns {
-                let indexPath = IndexPath(item: column, section: row)
-                let frame = CGRect(x: xOffsets[column], y: y, width: columnWidths[column], height: height)
-                let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
-                attributes.frame = frame
-                cache.append(attributes)
-            }
+        // Cache content size to avoid O(n) recalculation on every scroll
+        let contentWidth = self.dataTable.calculateContentWidth()
+        let contentHeight: CGFloat
+        if let lastY = cachedRowYOffsets.last, let lastH = cachedRowHeights.last {
+            contentHeight = lastY + lastH + interRowSpacing + heightOfFooter()
+        } else {
+            contentHeight = self.dataTable.heightForSectionHeader() + heightOfFooter()
         }
+        cachedContentSize = CGSize(width: contentWidth, height: contentHeight)
     }
     
     fileprivate func heightOfFooter() -> CGFloat {
@@ -119,39 +116,66 @@ class SwiftDataTableLayout: UICollectionViewFlowLayout {
     }
     
     override var collectionViewContentSize: CGSize {
+        // Use cached size for O(1) performance during scrolling
+        // Falls back to calculation if cache is empty (shouldn't happen in normal flow)
+        if cachedContentSize != .zero {
+            return cachedContentSize
+        }
         let width = self.dataTable.calculateContentWidth()
-        let height = Array(0..<self.dataTable.numberOfRows()).reduce(self.dataTable.heightForSectionHeader() + self.heightOfFooter()/* + self.dataTable.heightForSearchView()*/) {
-                $0 + self.dataTable.heightForRow(index: $1) + self.dataTable.heightOfInterRowSpacing()
+        let height = Array(0..<self.dataTable.numberOfRows()).reduce(self.dataTable.heightForSectionHeader() + self.heightOfFooter()) {
+            $0 + self.dataTable.heightForRow(index: $1) + self.dataTable.heightOfInterRowSpacing()
         }
         return CGSize(width: width, height: height)
     }
     
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
-
-        //Item Cells
-        let minY = rect.minY-rect.height
         var attributes = [UICollectionViewLayoutAttributes]()
 
-        // Safety check: validate cache against current data source
-        let numberOfSections = self.dataTable.numberOfRows()
-        let numberOfItems = self.dataTable.numberOfColumns()
+        let numberOfRows = self.dataTable.numberOfRows()
+        let numberOfColumns = self.dataTable.numberOfColumns()
 
-        let firstMatchIndex = binarySearchAttributes(self.cache, value: minY)
-        // Left side
-        for att in self.cache[..<firstMatchIndex].reversed() {
-            guard att.frame.maxY >= rect.minY else { break }
-            // Validate index path is still valid
-            guard att.indexPath.section < numberOfSections && att.indexPath.item < numberOfItems else { continue }
-            attributes.append(att)
+        guard numberOfRows > 0, numberOfColumns > 0 else {
+            return attributes
         }
-        // Right side
-        for att in self.cache[firstMatchIndex...] {
-            guard att.frame.minY <= rect.maxY else { break }
-            // Validate index path is still valid
-            guard att.indexPath.section < numberOfSections && att.indexPath.item < numberOfItems else { continue }
-            attributes.append(att)
+
+        // Safety check: if row count changed, recalculate metadata
+        if cachedRowYOffsets.count != numberOfRows {
+            self.dataTable.calculateColumnWidths()
+            prepareMetadata()
         }
-        attributes = attributes.compactMap { self.adjustAttributesPosition($0, at: $0.indexPath.item, zIndexPosition: 1) }
+
+        // Binary search to find first visible row
+        let firstVisibleRow = binarySearchRowForY(rect.minY)
+        let lastVisibleRow = binarySearchRowForY(rect.maxY)
+
+        // Generate attributes on-demand for visible rows only
+        for row in firstVisibleRow...min(lastVisibleRow, numberOfRows - 1) {
+            guard row < cachedRowYOffsets.count, row < cachedRowHeights.count else { continue }
+
+            let y = cachedRowYOffsets[row]
+            let height = cachedRowHeights[row]
+
+            // Skip rows that are completely outside the rect
+            guard y + height >= rect.minY && y <= rect.maxY else { continue }
+
+            for column in 0..<numberOfColumns {
+                guard column < cachedColumnXOffsets.count, column < cachedColumnWidths.count else { continue }
+
+                let indexPath = IndexPath(item: column, section: row)
+                let frame = CGRect(
+                    x: cachedColumnXOffsets[column],
+                    y: y,
+                    width: cachedColumnWidths[column],
+                    height: height
+                )
+                let cellAttributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
+                cellAttributes.frame = frame
+
+                if let adjusted = adjustAttributesPosition(cellAttributes, at: column, zIndexPosition: 1) {
+                    attributes.append(adjusted)
+                }
+            }
+        }
 //        //MARK: Search Header
 //        if self.dataTable.shouldShowSearchSection(){
 //            let menuLengthIndexPath = IndexPath(index: 0)
@@ -203,12 +227,14 @@ class SwiftDataTableLayout: UICollectionViewFlowLayout {
 
     override func prepare(forCollectionViewUpdates updateItems: [UICollectionViewUpdateItem]) {
         super.prepare(forCollectionViewUpdates: updateItems)
-        // Clear cache when sections are being inserted or deleted
-        // This prevents returning stale attributes for non-existent index paths
+
+        // Check if there are section-level changes
         for item in updateItems {
             if item.indexPathBeforeUpdate?.item == NSNotFound || item.indexPathAfterUpdate?.item == NSNotFound {
-                // This is a section-level update
-                clearLayoutCache()
+                // Section-level update - recalculate metadata immediately
+                // This ensures layout attributes are correct during batch animation
+                self.dataTable.calculateColumnWidths()
+                prepareMetadata()
                 break
             }
         }
@@ -252,26 +278,42 @@ extension SwiftDataTableLayout {
     }
     
     override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-        let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
-        let initialRowYPosition = /*self.dataTable.heightForSearchView() + */self.dataTable.heightForSectionHeader()
-        
-        let x: CGFloat = Array(0..<indexPath.row).reduce(self.dataTable.widthForRowHeader()) { $0 + self.dataTable.widthForColumn(index: $1)}
-        let y = initialRowYPosition + CGFloat(Int(self.dataTable.heightForRow(index: 0)) * indexPath.section)
-        let width = self.dataTable.widthForColumn(index: indexPath.row)
-        let height = self.dataTable.heightForRow(index: indexPath.section)
-        
-        if indexPath.row == 0 {
-            let xOffsetTopView: CGFloat = self.dataTable.collectionView.contentOffset.x
-            attributes.frame.origin.x = xOffsetTopView
-            attributes.zIndex += 1
+        let row = indexPath.section
+        let column = indexPath.item
+
+        // Safety check: if row count changed, recalculate metadata
+        let numberOfRows = self.dataTable.numberOfRows()
+        if cachedRowYOffsets.count != numberOfRows {
+            self.dataTable.calculateColumnWidths()
+            prepareMetadata()
         }
-        attributes.frame = CGRect(
-            x: max(0, x),
-            y: max(0, y),
-            width: width,
-            height: height
-        )
-        return attributes
+
+        // Use cached values if available, otherwise calculate
+        let x: CGFloat
+        let width: CGFloat
+        if column < cachedColumnXOffsets.count && column < cachedColumnWidths.count {
+            x = cachedColumnXOffsets[column]
+            width = cachedColumnWidths[column]
+        } else {
+            x = Array(0..<column).reduce(self.dataTable.widthForRowHeader()) { $0 + self.dataTable.widthForColumn(index: $1) }
+            width = self.dataTable.widthForColumn(index: column)
+        }
+
+        let y: CGFloat
+        let height: CGFloat
+        if row < cachedRowYOffsets.count && row < cachedRowHeights.count {
+            y = cachedRowYOffsets[row]
+            height = cachedRowHeights[row]
+        } else {
+            let initialRowYPosition = self.dataTable.heightForSectionHeader()
+            y = initialRowYPosition + CGFloat(Int(self.dataTable.heightForRow(index: 0)) * row)
+            height = self.dataTable.heightForRow(index: row)
+        }
+
+        let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
+        attributes.frame = CGRect(x: max(0, x), y: max(0, y), width: width, height: height)
+
+        return adjustAttributesPosition(attributes, at: column, zIndexPosition: 1)
     }
 //    func adjustSupplementaryView(attributes: UICollectionViewLayoutAttributes?, at columnPosition: Int) -> UICollectionViewLayoutAttributes? {
 //        guard let attributes = attributes else { return nil }
@@ -408,18 +450,24 @@ extension SwiftDataTableLayout {
         return attribute
     }
     
-    private func binarySearchAttributes(_ attributes: [UICollectionViewLayoutAttributes], value: CGFloat) -> Int {
-        var imin = 0, imax = attributes.count
-        while imin < imax {
-            let imid = imin + (imax - imin)/2
-            
-            if attributes[imid].frame.minY < value {
-                imin = imid+1
-            }
-            else {
-                imax = imid
+    /// Binary search to find the first row whose Y offset is >= the given value.
+    /// Returns the row index to start iterating from.
+    private func binarySearchRowForY(_ targetY: CGFloat) -> Int {
+        guard !cachedRowYOffsets.isEmpty else { return 0 }
+
+        var low = 0
+        var high = cachedRowYOffsets.count
+
+        while low < high {
+            let mid = low + (high - low) / 2
+            // Include row height to check if row intersects with targetY
+            let rowBottom = cachedRowYOffsets[mid] + (mid < cachedRowHeights.count ? cachedRowHeights[mid] : 0)
+            if rowBottom < targetY {
+                low = mid + 1
+            } else {
+                high = mid
             }
         }
-        return imin
+        return max(0, low)
     }
 }
