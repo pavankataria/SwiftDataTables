@@ -117,12 +117,19 @@ public class SwiftDataTable: UIView {
     }
     fileprivate var searchRowViewModels: DataTableViewModelContent!
     private var currentRowIdentifiers: [String] = []
+    internal var precomputedChangedIdentifiers: Set<String>?
+    internal var typedData: Any?
+    internal var typedColumns: Any?
     
     fileprivate var paginationViewModel: PaginationHeaderViewModel!
     fileprivate var menuLengthViewModel: MenuLengthHeaderViewModel!
     fileprivate var columnWidths = [CGFloat]()
     fileprivate var rowHeights = [CGFloat]()
     private var sizingCellCacheByReuseId: [String: UICollectionViewCell] = [:]
+
+    internal func seedRowIdentifiers(_ identifiers: [String]) {
+        currentRowIdentifiers = identifiers
+    }
     
     
     //    fileprivate var refreshControl: UIRefreshControl! = {
@@ -585,6 +592,8 @@ public extension SwiftDataTable {
         newViewModels: DataTableViewModelContent,
         completion: ((Bool) -> Void)?
     ) {
+        let oldViewModels = self.rowViewModels
+
         // Build identity maps for O(n) lookup
         var oldIdToIndex = [String: Int]()
         for (index, id) in oldIdentifiers.enumerated() {
@@ -612,6 +621,52 @@ public extension SwiftDataTable {
             }
         }
 
+        // Calculate reloads (same ID but content changed)
+        // Check if TypedAPI provided pre-computed changed identifiers via isContentEqual
+        let precomputedChanges = self.precomputedChangedIdentifiers
+        self.precomputedChangedIdentifiers = nil  // Clear after reading (one-time use)
+
+        var reloadIndexPaths = Set<IndexPath>()
+        var reloadSections = IndexSet()
+        var changedRows = Set<Int>()
+        for (newIndex, id) in newIdentifiers.enumerated() {
+            guard let oldIndex = oldIdToIndex[id] else { continue }
+
+            let rowChangedById = precomputedChanges?.contains(id) ?? false
+            if precomputedChanges != nil && !rowChangedById {
+                continue
+            }
+
+            let oldRow = oldViewModels[oldIndex]
+            let newRow = newViewModels[newIndex]
+
+            guard oldRow.count == newRow.count else {
+                reloadSections.insert(newIndex)
+                changedRows.insert(newIndex)
+                continue
+            }
+
+            var changedColumns = [Int]()
+            for columnIndex in 0..<newRow.count {
+                if oldRow[columnIndex].data != newRow[columnIndex].data {
+                    changedColumns.append(columnIndex)
+                }
+            }
+
+            if rowChangedById || !changedColumns.isEmpty {
+                changedRows.insert(newIndex)
+                if rowChangedById && changedColumns.isEmpty {
+                    for columnIndex in 0..<newRow.count {
+                        reloadIndexPaths.insert(IndexPath(item: columnIndex, section: newIndex))
+                    }
+                } else {
+                    for columnIndex in changedColumns {
+                        reloadIndexPaths.insert(IndexPath(item: columnIndex, section: newIndex))
+                    }
+                }
+            }
+        }
+
         // Helper to apply the new data
         let applyNewData = { [weak self] in
             guard let self = self else { return }
@@ -622,12 +677,12 @@ public extension SwiftDataTable {
                 useEstimatedColumnWidths: self.options.columnWidthMode.prefersEstimatedTextWidths
             )
             self.rowViewModels = newViewModels
-            self.invalidateRowHeights()
-            self.layout?.clearLayoutCache()
+            // Note: Layout metadata is adjusted incrementally via prepare(forCollectionViewUpdates:)
+            // No need to clear entire cache or invalidate all row heights
         }
 
         // If there are many changes, just reload (performance optimization)
-        let totalChanges = deletions.count + insertions.count
+        let totalChanges = deletions.count + insertions.count + changedRows.count
         let totalRows = max(oldIdentifiers.count, newIdentifiers.count)
         if totalRows > 0 && Double(totalChanges) / Double(totalRows) > 0.5 {
             // More than 50% changed - apply data and reload
@@ -641,11 +696,19 @@ public extension SwiftDataTable {
         // 1. Apply deletions first (using old data indices)
         // 2. Then apply the new data
         // 3. Then apply insertions (using new data indices)
+        // 4. Reload sections with content changes
         //
         // UICollectionView's performBatchUpdates handles this automatically
         // if we provide the correct indices and update data at the right time.
 
         // Apply batch updates
+        let sortedReloadIndexPaths = reloadIndexPaths.sorted {
+            if $0.section == $1.section {
+                return $0.item < $1.item
+            }
+            return $0.section < $1.section
+        }
+
         self.collectionView.performBatchUpdates({
             // Delete sections first (indices relative to old data)
             if !deletions.isEmpty {
@@ -660,18 +723,30 @@ public extension SwiftDataTable {
             if !insertions.isEmpty {
                 self.collectionView.insertSections(insertions)
             }
-        }, completion: { [weak self] finished in
-            guard let self = self else {
-                completion?(finished)
-                return
+
+            // Reload rows/cells with content changes (indices relative to new data)
+            if !reloadSections.isEmpty {
+                self.collectionView.reloadSections(reloadSections)
             }
-            // Reload visible items to ensure they're up to date
-            if !self.collectionView.indexPathsForVisibleItems.isEmpty {
-                self.collectionView.reloadItems(at: self.collectionView.indexPathsForVisibleItems)
+            if !sortedReloadIndexPaths.isEmpty {
+                self.collectionView.reloadItems(at: sortedReloadIndexPaths)
             }
+        }, completion: { finished in
             completion?(finished)
         })
     }
+
+    /// Compares two rows for content equality (used by diffing)
+    private func rowContentEqual(_ old: [DataCellViewModel], _ new: [DataCellViewModel]) -> Bool {
+        guard old.count == new.count else { return false }
+        for i in 0..<old.count {
+            if old[i].data != new[i].data {
+                return false  // Early exit on first difference
+            }
+        }
+        return true
+    }
+
 }
 
 public extension SwiftDataTable {

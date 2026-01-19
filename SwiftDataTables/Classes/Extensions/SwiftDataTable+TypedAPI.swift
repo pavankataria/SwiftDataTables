@@ -81,6 +81,9 @@ public extension SwiftDataTable {
 
         // Store column extractors and data for typed operations
         storeTypedContext(data: data, columns: columns)
+
+        // Seed identifiers so the first diff doesn't treat all rows as inserts.
+        seedRowIdentifiers(data.map { "\($0.id)" })
     }
 
     // MARK: - Typed Data Updates
@@ -89,6 +92,10 @@ public extension SwiftDataTable {
     ///
     /// The table uses each model's `id` property (from `Identifiable` conformance)
     /// to determine which rows were added, removed, or moved.
+    ///
+    /// If the model conforms to `DataTableDifferentiable`, the table uses
+    /// `isContentEqual(to:)` to detect content changes. Otherwise, it compares
+    /// extracted column values.
     ///
     /// - Parameters:
     ///   - data: The new complete data set.
@@ -123,6 +130,15 @@ public extension SwiftDataTable {
             return
         }
 
+        // Get old data for comparison
+        let oldData = getStoredData() as? [T] ?? []
+
+        // Build ID → old model map for O(n) lookup
+        var oldIdToModel = [String: T]()
+        for model in oldData {
+            oldIdToModel["\(model.id)"] = model
+        }
+
         // Convert typed data to DataTableContent
         let content: DataTableContent = data.map { item in
             columnDefs.map { column in
@@ -132,6 +148,95 @@ public extension SwiftDataTable {
 
         // Extract identifiers from Identifiable conformance
         let identifiers = data.map { "\($0.id)" }
+
+        // Find changed rows using column extractors (if we have old data)
+        if !oldData.isEmpty {
+            var changedIds = Set<String>()
+            for newModel in data {
+                let id = "\(newModel.id)"
+                if let oldModel = oldIdToModel[id] {
+                    // Compare using column extractors - early exit on first difference
+                    let hasChanged = columnDefs.contains { column in
+                        guard let extract = column.extract else { return false }
+                        return extract(oldModel) != extract(newModel)
+                    }
+                    if hasChanged {
+                        changedIds.insert(id)
+                    }
+                }
+            }
+            precomputedChangedIdentifiers = changedIds
+        }
+
+        // Store updated data
+        storeTypedContext(data: data, columns: columnDefs)
+
+        // Use existing setData with identifiers
+        setData(content, rowIdentifiers: identifiers, animatingDifferences: animatingDifferences, completion: completion)
+    }
+
+    /// Updates the table data using differentiable models with optimized change detection.
+    ///
+    /// This overload is used when your model conforms to `DataTableDifferentiable`
+    /// (which combines `Identifiable` and `ContentEquatable`). It uses
+    /// `isContentEqual(to:)` for efficient content comparison instead of
+    /// comparing all column values.
+    ///
+    /// - Parameters:
+    ///   - data: The new complete data set.
+    ///   - columns: Column definitions (uses stored columns if nil).
+    ///   - animatingDifferences: Whether to animate the changes.
+    ///   - completion: Called when the update completes.
+    func setData<T: DataTableDifferentiable>(
+        _ data: [T],
+        columns: [DataTableColumn<T>]? = nil,
+        animatingDifferences: Bool = true,
+        completion: ((Bool) -> Void)? = nil
+    ) {
+        // Get column extractors
+        let columnDefs: [DataTableColumn<T>]
+        if let cols = columns {
+            columnDefs = cols
+        } else if let stored = getStoredColumns() as? [DataTableColumn<T>] {
+            columnDefs = stored
+        } else {
+            assertionFailure("No columns provided and no stored columns found. Provide columns parameter.")
+            completion?(false)
+            return
+        }
+
+        // Get old data for comparison
+        let oldData = getStoredData() as? [T] ?? []
+
+        // Build ID → old model map for O(n) lookup
+        var oldIdToModel = [String: T]()
+        for model in oldData {
+            oldIdToModel["\(model.id)"] = model
+        }
+
+        // Convert typed data to DataTableContent
+        let content: DataTableContent = data.map { item in
+            columnDefs.map { column in
+                column.extract?(item) ?? .string("")
+            }
+        }
+
+        // Extract identifiers from Identifiable conformance
+        let identifiers = data.map { "\($0.id)" }
+
+        // Find changed rows using isContentEqual
+        var changedIds = Set<String>()
+        for newModel in data {
+            let id = "\(newModel.id)"
+            if let oldModel = oldIdToModel[id] {
+                if !newModel.isContentEqual(to: oldModel) {
+                    changedIds.insert(id)
+                }
+            }
+        }
+
+        // Store changed identifiers for applyDiff to use
+        precomputedChangedIdentifiers = changedIds
 
         // Store updated data
         storeTypedContext(data: data, columns: columnDefs)
@@ -164,24 +269,18 @@ public extension SwiftDataTable {
 
 // MARK: - Private Storage
 
-/// Keys for associated object storage
-private enum TypedAPIKeys {
-    static var storedData = "SwiftDataTable.storedData"
-    static var storedColumns = "SwiftDataTable.storedColumns"
-}
-
 private extension SwiftDataTable {
 
     func storeTypedContext<T>(data: [T], columns: [DataTableColumn<T>]) {
-        objc_setAssociatedObject(self, &TypedAPIKeys.storedData, data, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-        objc_setAssociatedObject(self, &TypedAPIKeys.storedColumns, columns, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        typedData = data
+        typedColumns = columns
     }
 
     func getStoredData() -> Any? {
-        return objc_getAssociatedObject(self, &TypedAPIKeys.storedData)
+        return typedData
     }
 
     func getStoredColumns() -> Any? {
-        return objc_getAssociatedObject(self, &TypedAPIKeys.storedColumns)
+        return typedColumns
     }
 }
