@@ -3,102 +3,16 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00CB54354CCF90ADD9F451E3 /* IncrementalUpdatesDemoViewController+Explanation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D6DB35090822BFD28E8AB /* IncrementalUpdatesDemoViewController+Explanation.swift */; };
-		03A7D16BDFA61A28D5528DB0 /* DataTableColumn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423316DEB4342E88FE62EEEE /* DataTableColumn.swift */; };
-		05D66E6F22B94942003004D9 /* SwiftDataTablesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D66E6E22B94942003004D9 /* SwiftDataTablesTests.swift */; };
-		05D66E7A22B981D0003004D9 /* DataTableFixedColumnTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D66E7922B981D0003004D9 /* DataTableFixedColumnTypeTests.swift */; };
-		05E68EE243C94B15948AEAB5 /* FixedColumnsDemoViewController+Explanation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DC734F4780873365C685AB3 /* FixedColumnsDemoViewController+Explanation.swift */; };
-		061375FFFA234C72995ACD7A /* SwiftDataTableColumnWidthProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B32554DB4F47F48EFFB578 /* SwiftDataTableColumnWidthProviderTests.swift */; };
-		0BFA0E88B66E29F790A37200 /* RowSelectionDemoViewController+Explanation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D2CB3B30E6CA11F5237F89 /* RowSelectionDemoViewController+Explanation.swift */; };
-		0F5FF4833C45FC5013F75847 /* ColumnWidthStrategyDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6AA0B83356AC7C4C09DFA2 /* ColumnWidthStrategyDemoViewController.swift */; };
-		13633D80D60B7090BA2845ED /* PerformanceDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FED2B097D1E8A438C0331B92 /* PerformanceDemoViewController.swift */; };
-		1AB30BE579773052FFA611EB /* DefaultSortingDemoViewController+Explanation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7D5CDCBA587C9C918E43F8 /* DefaultSortingDemoViewController+Explanation.swift */; };
-		1FA10B415F0CA7B4E88ED9F0 /* SortArrowStylingDemoViewController+Explanation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D351DBCFFB56585118E8DF93 /* SortArrowStylingDemoViewController+Explanation.swift */; };
-		26FF4E40AB59179E8ABB25AA /* UserCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A1787C0CD5EA339B3962B0 /* UserCardCell.swift */; };
-		2F80D9D4B6C9036A65806CB9 /* MenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEA41AD92EDA3A9A70B70E4 /* MenuTableViewController.swift */; };
 		301755532C6643B201CCDA1C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1AE823D2F468F8A5CDB0F01B /* Images.xcassets */; };
-		3146B263290C03A1B0C6E1FD /* DataTableValueConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD0C51069F11C5FDAEC3800 /* DataTableValueConvertible.swift */; };
-		3385E372C74D42EEB5E75515 /* SwiftDataTableRowHeightTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9299816831254E94AAAE03A8 /* SwiftDataTableRowHeightTests.swift */; };
-		3B0DF624BE5507DE37841654 /* InstructionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C46F02372C476D920F10019 /* InstructionsView.swift */; };
-		3BC5FE22DA6E1F22AB38CD5B /* DefaultSortingDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0C528E70AA38232094EC8D /* DefaultSortingDemoViewController.swift */; };
-		4361EDD042A1594E8C25E7C5 /* FloatingElementsDemoViewController+Explanation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F6E4EF5CBAFB504D4731AB /* FloatingElementsDemoViewController+Explanation.swift */; };
-		45A6D03B436FDD1E13FF1FE1 /* ShowHideElementsDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7FB8C3B052F05B21BB81E59 /* ShowHideElementsDemoViewController.swift */; };
-		4828F9F6097DC7D4EA9F015C /* DataTableWithDataSetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 905143FC1C4CAF98AC14768E /* DataTableWithDataSetViewController.swift */; };
-		4B6CE1D9EBE24FCD92532EE7 /* DataStructureModelColumnWidthTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36595E1F6E6F4693963BFC0C /* DataStructureModelColumnWidthTests.swift */; };
-		4BAF310909973AF587F79236 /* NotesCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0EA2559A8327B535E9A9E2 /* NotesCardCell.swift */; };
-		4BE2D814CE87080E10461261 /* CustomCellsAutoHeightDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6397410769F26B2B89AE1868 /* CustomCellsAutoHeightDemoViewController.swift */; };
-		511C38D1C53CF22471F53F8A /* RowHeightWrapDemoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D879DC49C3A41A698066E67 /* RowHeightWrapDemoCell.swift */; };
-		586CE82C81AF156EF2C4FC06 /* NativeSearchDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB38CE2E91EE417C901FF778 /* NativeSearchDemoViewController.swift */; };
-		59D097FF3E973AEC10FD5ABA /* RowHeightAndWrapTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AFE5383EF950C50EC2B69AF /* RowHeightAndWrapTypes.swift */; };
-		5ACBD0C6A6B48FE8379B74F6 /* DataTableColumnWidthStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E40CA4B13B7CC3A40A6811 /* DataTableColumnWidthStrategy.swift */; };
-		5F20F1A8D0684541AED663A8 /* SwiftDataTableAutoLayoutColumnWidthTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE8EDD24DB1434EAA47295C /* SwiftDataTableAutoLayoutColumnWidthTests.swift */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
-		6BB376025F415AA919822F89 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62EF41EF8632BE5568D5721 /* AppDelegate.swift */; };
-		71DD3D64D76912B9757D90FA /* SwiftDataTable+TypedAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F877CD62662397E19D96EC /* SwiftDataTable+TypedAPI.swift */; };
-		72AC33FE805C40EA9439CB88 /* DataTableValueTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F368F7D5974B7E82474AE0 /* DataTableValueTypeTests.swift */; };
-		8464F3082213E92DD31A49B5 /* IncrementalUpdatesDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31083063A2BFDE6E04D9C8D9 /* IncrementalUpdatesDemoViewController.swift */; };
-		94A1BA2C9BD043AA041F5C4E /* HeightsCustomisationDemoViewController+Explanation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A869C397EE5D37F9646F2A /* HeightsCustomisationDemoViewController+Explanation.swift */; };
-		9897276618DFEC0DF0DD61A6 /* SwiftDataTableTypedAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD79D849EFE758FB34B79F18 /* SwiftDataTableTypedAPITests.swift */; };
-		993B64E5626CAFF4E02D4F40 /* GenericDataTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53934DF0C205DE2E6367E26B /* GenericDataTableViewController.swift */; };
-		9BBD80EDC544AEEC4318234A /* FixedColumnsDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22050ADFDB996215BA543A58 /* FixedColumnsDemoViewController.swift */; };
-		9CE2EE0B45191F169C955405 /* IndexBadgeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F8803E82FCE881D0E8EC51C /* IndexBadgeCell.swift */; };
-		9D8084828EA94A9C80F09409 /* SwiftDataTableSearchControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0AABA490CE9485AAB039BE8 /* SwiftDataTableSearchControllerTests.swift */; };
-		9E5F4A0909D24EB98A88C2BB /* DataTableConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE3A46369A2424599009AA9 /* DataTableConfigurationTests.swift */; };
-		9F83366AF093470CBC2169C2 /* DataHeaderFooterViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE43DBB53744CC9BF20F6F7 /* DataHeaderFooterViewModelTests.swift */; };
-		A37FB433A194EB360A363ECC /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72CD5B8B4F5397AFA8FB54E6 /* SampleData.swift */; };
-		A6328D282C3463900B2A7CF9 /* ColumnWidthStrategyTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F72904A441A442D1C68145D /* ColumnWidthStrategyTypes.swift */; };
-		AA87057B6EFE49589EA65361 /* DataTableSortTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62CECB5DF8834B8EA8ED0A71 /* DataTableSortTypeTests.swift */; };
-		AB63B5D79518AE39ECEFFF1C /* PerformanceDemoViewController+Explanation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC70BD2797EFFCD68AC1AFA9 /* PerformanceDemoViewController+Explanation.swift */; };
-		AC4E7E8B01D5EB1C1D7B5922 /* RowSelectionDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB517EA96BE062CF2FFADA3 /* RowSelectionDemoViewController.swift */; };
-		B49C6B61BE99731CF903DC6D /* NativeSearchDemoViewController+Explanation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FEDE0B82C4366E636C06ECB /* NativeSearchDemoViewController+Explanation.swift */; };
-		BB31956F2E185FB075A062B2 /* DemoExplanationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E240D6CD4A744971D248385 /* DemoExplanationView.swift */; };
-		D11384A87D3D29F16C17074C /* ShowHideElementsDemoViewController+Explanation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1367E302C13B9D838D41EA4D /* ShowHideElementsDemoViewController+Explanation.swift */; };
-		D9476D58991B283FF6DFEB79 /* DataTableValueConvertibleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E92DFC29273C3426FFFE2F /* DataTableValueConvertibleTests.swift */; };
-		E13AD41ED82E4B07B24C1177 /* DataCellTextLayoutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4C8CD782CF4B0E89DC3A68 /* DataCellTextLayoutTests.swift */; };
 		E234B0C2231353BF009FC712 /* SwiftDataTables.h in Headers */ = {isa = PBXBuildFile; fileRef = E234B0C0231353BF009FC712 /* SwiftDataTables.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E234B0C5231353BF009FC712 /* SwiftDataTables.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E234B0BE231353BF009FC712 /* SwiftDataTables.framework */; };
 		E234B0C6231353BF009FC712 /* SwiftDataTables.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E234B0BE231353BF009FC712 /* SwiftDataTables.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E234B0CB231353C8009FC712 /* SwiftDataTables.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0583155E2224644B004B4478 /* SwiftDataTables.bundle */; };
-		E234B0CC231353CE009FC712 /* DataTableSearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315692224644B004B4478 /* DataTableSearchTextField.swift */; };
-		E234B0CD231353CE009FC712 /* SwiftDataTableLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315702224644B004B4478 /* SwiftDataTableLayout.swift */; };
-		E234B0CE231353CE009FC712 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315742224644B004B4478 /* DataStore.swift */; };
-		E234B0CF231353CE009FC712 /* SwiftDataTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315762224644B004B4478 /* SwiftDataTable.swift */; };
-		E234B0D0231353DB009FC712 /* DataTableSortType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315682224644B004B4478 /* DataTableSortType.swift */; };
-		E234B0D1231353DB009FC712 /* DataTableConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583156A2224644B004B4478 /* DataTableConfiguration.swift */; };
-		E234B0D2231353DB009FC712 /* DataTableValueType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315752224644B004B4478 /* DataTableValueType.swift */; };
-		E234B0D3231353DB009FC712 /* DataStructureModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315812224644B004B4478 /* DataStructureModel.swift */; };
-		E234B0D4231353DB009FC712 /* DataTableFixedColumnType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D66E7722B980C6003004D9 /* DataTableFixedColumnType.swift */; };
-		E234B0D5231353EA009FC712 /* PaginationHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315612224644B004B4478 /* PaginationHeaderViewModel.swift */; };
-		E234B0D7231353EA009FC712 /* PaginationHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315632224644B004B4478 /* PaginationHeader.swift */; };
-		E234B0D9231353F0009FC712 /* MenuLengthHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315662224644B004B4478 /* MenuLengthHeader.swift */; };
-		E234B0DA231353F0009FC712 /* MenuLengthHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315672224644B004B4478 /* MenuLengthHeaderViewModel.swift */; };
-		E234B0DB231353F6009FC712 /* DataCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583156C2224644B004B4478 /* DataCellViewModel.swift */; };
-		E234B0DC231353F6009FC712 /* DataCellLayoutAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583156D2224644B004B4478 /* DataCellLayoutAttributes.swift */; };
-		E234B0DE231353F6009FC712 /* DataCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583156F2224644B004B4478 /* DataCell.swift */; };
-		E234B0DF231353F9009FC712 /* SwiftDataTable+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315722224644B004B4478 /* SwiftDataTable+Extensions.swift */; };
-		E234B0E0231353FE009FC712 /* DataTableSortable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315732224644B004B4478 /* DataTableSortable.swift */; };
-		E234B0E223135406009FC712 /* DataHeaderFooterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583157F2224644B004B4478 /* DataHeaderFooterViewModel.swift */; };
-		E234B0E323135406009FC712 /* DataHeaderFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315802224644B004B4478 /* DataHeaderFooter.swift */; };
-		E234B0E523135425009FC712 /* VirtualPositionTrackable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315782224644B004B4478 /* VirtualPositionTrackable.swift */; };
-		E234B0E623135425009FC712 /* CollectionViewCellRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058315792224644B004B4478 /* CollectionViewCellRepresentable.swift */; };
-		E234B0E723135425009FC712 /* DataCellRowRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583157A2224644B004B4478 /* DataCellRowRepresentable.swift */; };
-		E234B0E823135425009FC712 /* SwiftDataTableDataSourceAndDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583157B2224644B004B4478 /* SwiftDataTableDataSourceAndDelegate.swift */; };
-		E234B0E923135425009FC712 /* CollectionViewSupplementaryElementRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583157C2224644B004B4478 /* CollectionViewSupplementaryElementRepresentable.swift */; };
-		E3A1C0A2D4F04B2A9B5CF000 /* DataTableAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A1C0A1D4F04B2A9B5CF000 /* DataTableAnimation.swift */; };
-		E3A1C0A4D4F04B2A9B5CF000 /* SwiftDataTableIncrementalUpdatesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A1C0A3D4F04B2A9B5CF000 /* SwiftDataTableIncrementalUpdatesTests.swift */; };
-		EB6C37C5D0B2CA81420075B4 /* StatusPillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44FFB8041E767C5FC6FA81E2 /* StatusPillCell.swift */; };
-		EDA24C1E370445C6829E639D /* SwiftDataTableCustomCellProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1020EABCA27B4494A44CFC0C /* SwiftDataTableCustomCellProviderTests.swift */; };
-		EDE4AB720CA93CF85E0CC36F /* SortArrowStylingDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA72D418BFF455D6F1E42C61 /* SortArrowStylingDemoViewController.swift */; };
-		EE2DD4756C22299CF0D4DB95 /* RowHeightAndWrapDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93A9A11D70A4BF36B41464D /* RowHeightAndWrapDemoViewController.swift */; };
-		F40D21921E80539497875270 /* FloatingElementsDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34B1478ED6DE8DFFE3CBA33 /* FloatingElementsDemoViewController.swift */; };
-		F6B0728AF60471F872AC9FA9 /* DataTableColumnTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307D638E5DF0E7A5D3FF4B1D /* DataTableColumnTests.swift */; };
-		F8F436377560301E31A2DCF8 /* HeightsCustomisationDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF09ECBCDB707483A2D579E /* HeightsCustomisationDemoViewController.swift */; };
-		FCA7F7D65334F2C866E39637 /* CustomCellsAutoHeightTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E293E74E1DEB41C9AD12A66 /* CustomCellsAutoHeightTypes.swift */; };
-		FF0C5F92B48EC09942DA323F /* DataTableWithDataSourceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79ECF0F6E28EB23FF75CD3A4 /* DataTableWithDataSourceViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -133,104 +47,35 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		043D6DB35090822BFD28E8AB /* IncrementalUpdatesDemoViewController+Explanation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "IncrementalUpdatesDemoViewController+Explanation.swift"; sourceTree = "<group>"; };
 		0583155E2224644B004B4478 /* SwiftDataTables.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SwiftDataTables.bundle; sourceTree = "<group>"; };
-		058315612224644B004B4478 /* PaginationHeaderViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginationHeaderViewModel.swift; sourceTree = "<group>"; };
-		058315632224644B004B4478 /* PaginationHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginationHeader.swift; sourceTree = "<group>"; };
-		058315662224644B004B4478 /* MenuLengthHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuLengthHeader.swift; sourceTree = "<group>"; };
-		058315672224644B004B4478 /* MenuLengthHeaderViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuLengthHeaderViewModel.swift; sourceTree = "<group>"; };
-		058315682224644B004B4478 /* DataTableSortType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataTableSortType.swift; sourceTree = "<group>"; };
-		058315692224644B004B4478 /* DataTableSearchTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataTableSearchTextField.swift; sourceTree = "<group>"; };
-		0583156A2224644B004B4478 /* DataTableConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataTableConfiguration.swift; sourceTree = "<group>"; };
-		0583156C2224644B004B4478 /* DataCellViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataCellViewModel.swift; sourceTree = "<group>"; };
-		0583156D2224644B004B4478 /* DataCellLayoutAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataCellLayoutAttributes.swift; sourceTree = "<group>"; };
-		0583156F2224644B004B4478 /* DataCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataCell.swift; sourceTree = "<group>"; };
-		058315702224644B004B4478 /* SwiftDataTableLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftDataTableLayout.swift; sourceTree = "<group>"; };
-		058315722224644B004B4478 /* SwiftDataTable+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwiftDataTable+Extensions.swift"; sourceTree = "<group>"; };
-		058315732224644B004B4478 /* DataTableSortable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataTableSortable.swift; sourceTree = "<group>"; };
-		058315742224644B004B4478 /* DataStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
-		058315752224644B004B4478 /* DataTableValueType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataTableValueType.swift; sourceTree = "<group>"; };
-		058315762224644B004B4478 /* SwiftDataTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftDataTable.swift; sourceTree = "<group>"; };
-		058315782224644B004B4478 /* VirtualPositionTrackable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VirtualPositionTrackable.swift; sourceTree = "<group>"; };
-		058315792224644B004B4478 /* CollectionViewCellRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewCellRepresentable.swift; sourceTree = "<group>"; };
-		0583157A2224644B004B4478 /* DataCellRowRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataCellRowRepresentable.swift; sourceTree = "<group>"; };
-		0583157B2224644B004B4478 /* SwiftDataTableDataSourceAndDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftDataTableDataSourceAndDelegate.swift; sourceTree = "<group>"; };
-		0583157C2224644B004B4478 /* CollectionViewSupplementaryElementRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CollectionViewSupplementaryElementRepresentable.swift; path = ../Protocols/CollectionViewSupplementaryElementRepresentable.swift; sourceTree = "<group>"; };
-		0583157F2224644B004B4478 /* DataHeaderFooterViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataHeaderFooterViewModel.swift; sourceTree = "<group>"; };
-		058315802224644B004B4478 /* DataHeaderFooter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataHeaderFooter.swift; sourceTree = "<group>"; };
-		058315812224644B004B4478 /* DataStructureModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStructureModel.swift; sourceTree = "<group>"; };
 		058D4BB21E953FDD002A2DC9 /* SwiftDataTables_Example-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SwiftDataTables_Example-Bridging-Header.h"; sourceTree = "<group>"; };
 		05D66E6C22B94942003004D9 /* SwiftDataTablesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftDataTablesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		05D66E6E22B94942003004D9 /* SwiftDataTablesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataTablesTests.swift; sourceTree = "<group>"; };
-		05D66E7022B94942003004D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		05D66E7722B980C6003004D9 /* DataTableFixedColumnType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTableFixedColumnType.swift; sourceTree = "<group>"; };
-		05D66E7922B981D0003004D9 /* DataTableFixedColumnTypeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTableFixedColumnTypeTests.swift; sourceTree = "<group>"; };
-		0D879DC49C3A41A698066E67 /* RowHeightWrapDemoCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RowHeightWrapDemoCell.swift; sourceTree = "<group>"; };
-		0F8803E82FCE881D0E8EC51C /* IndexBadgeCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = IndexBadgeCell.swift; sourceTree = "<group>"; };
-		1020EABCA27B4494A44CFC0C /* SwiftDataTableCustomCellProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataTableCustomCellProviderTests.swift; sourceTree = "<group>"; };
-		10B32554DB4F47F48EFFB578 /* SwiftDataTableColumnWidthProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataTableColumnWidthProviderTests.swift; sourceTree = "<group>"; };
-		1367E302C13B9D838D41EA4D /* ShowHideElementsDemoViewController+Explanation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "ShowHideElementsDemoViewController+Explanation.swift"; sourceTree = "<group>"; };
-		17F877CD62662397E19D96EC /* SwiftDataTable+TypedAPI.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "SwiftDataTable+TypedAPI.swift"; path = "../SwiftDataTables/Classes/Extensions/SwiftDataTable+TypedAPI.swift"; sourceTree = SOURCE_ROOT; };
 		1AE823D2F468F8A5CDB0F01B /* Images.xcassets */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		1F72904A441A442D1C68145D /* ColumnWidthStrategyTypes.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ColumnWidthStrategyTypes.swift; sourceTree = "<group>"; };
-		22050ADFDB996215BA543A58 /* FixedColumnsDemoViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FixedColumnsDemoViewController.swift; sourceTree = "<group>"; };
-		307D638E5DF0E7A5D3FF4B1D /* DataTableColumnTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataTableColumnTests.swift; sourceTree = "<group>"; };
-		31083063A2BFDE6E04D9C8D9 /* IncrementalUpdatesDemoViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = IncrementalUpdatesDemoViewController.swift; sourceTree = "<group>"; };
-		36595E1F6E6F4693963BFC0C /* DataStructureModelColumnWidthTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStructureModelColumnWidthTests.swift; sourceTree = "<group>"; };
-		37F6E4EF5CBAFB504D4731AB /* FloatingElementsDemoViewController+Explanation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "FloatingElementsDemoViewController+Explanation.swift"; sourceTree = "<group>"; };
-		3D0C528E70AA38232094EC8D /* DefaultSortingDemoViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DefaultSortingDemoViewController.swift; sourceTree = "<group>"; };
-		3E293E74E1DEB41C9AD12A66 /* CustomCellsAutoHeightTypes.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CustomCellsAutoHeightTypes.swift; sourceTree = "<group>"; };
-		423316DEB4342E88FE62EEEE /* DataTableColumn.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DataTableColumn.swift; path = ../SwiftDataTables/Classes/Models/DataTableColumn.swift; sourceTree = SOURCE_ROOT; };
-		44FFB8041E767C5FC6FA81E2 /* StatusPillCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = StatusPillCell.swift; sourceTree = "<group>"; };
-		4FEDE0B82C4366E636C06ECB /* NativeSearchDemoViewController+Explanation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "NativeSearchDemoViewController+Explanation.swift"; sourceTree = "<group>"; };
-		53934DF0C205DE2E6367E26B /* GenericDataTableViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GenericDataTableViewController.swift; sourceTree = "<group>"; };
-		54F368F7D5974B7E82474AE0 /* DataTableValueTypeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTableValueTypeTests.swift; sourceTree = "<group>"; };
-		5AFE5383EF950C50EC2B69AF /* RowHeightAndWrapTypes.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RowHeightAndWrapTypes.swift; sourceTree = "<group>"; };
-		5BE43DBB53744CC9BF20F6F7 /* DataHeaderFooterViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataHeaderFooterViewModelTests.swift; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* SwiftDataTables_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftDataTables_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACDF1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		62CECB5DF8834B8EA8ED0A71 /* DataTableSortTypeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTableSortTypeTests.swift; sourceTree = "<group>"; };
-		6397410769F26B2B89AE1868 /* CustomCellsAutoHeightDemoViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CustomCellsAutoHeightDemoViewController.swift; sourceTree = "<group>"; };
-		66E92DFC29273C3426FFFE2F /* DataTableValueConvertibleTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataTableValueConvertibleTests.swift; sourceTree = "<group>"; };
-		6AE3A46369A2424599009AA9 /* DataTableConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTableConfigurationTests.swift; sourceTree = "<group>"; };
-		6DEA41AD92EDA3A9A70B70E4 /* MenuTableViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MenuTableViewController.swift; sourceTree = "<group>"; };
-		6E240D6CD4A744971D248385 /* DemoExplanationView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DemoExplanationView.swift; sourceTree = "<group>"; };
-		72CD5B8B4F5397AFA8FB54E6 /* SampleData.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SampleData.swift; sourceTree = "<group>"; };
-		79ECF0F6E28EB23FF75CD3A4 /* DataTableWithDataSourceViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataTableWithDataSourceViewController.swift; sourceTree = "<group>"; };
-		8C46F02372C476D920F10019 /* InstructionsView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = InstructionsView.swift; sourceTree = "<group>"; };
-		905143FC1C4CAF98AC14768E /* DataTableWithDataSetViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataTableWithDataSetViewController.swift; sourceTree = "<group>"; };
-		9299816831254E94AAAE03A8 /* SwiftDataTableRowHeightTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataTableRowHeightTests.swift; sourceTree = "<group>"; };
 		9CD312ABF7F23D160BFC21A7 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9D4C8CD782CF4B0E89DC3A68 /* DataCellTextLayoutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataCellTextLayoutTests.swift; sourceTree = "<group>"; };
-		9DC734F4780873365C685AB3 /* FixedColumnsDemoViewController+Explanation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "FixedColumnsDemoViewController+Explanation.swift"; sourceTree = "<group>"; };
-		A34B1478ED6DE8DFFE3CBA33 /* FloatingElementsDemoViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FloatingElementsDemoViewController.swift; sourceTree = "<group>"; };
-		A3A869C397EE5D37F9646F2A /* HeightsCustomisationDemoViewController+Explanation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "HeightsCustomisationDemoViewController+Explanation.swift"; sourceTree = "<group>"; };
-		A3E40CA4B13B7CC3A40A6811 /* DataTableColumnWidthStrategy.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataTableColumnWidthStrategy.swift; sourceTree = "<group>"; };
-		AC6AA0B83356AC7C4C09DFA2 /* ColumnWidthStrategyDemoViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ColumnWidthStrategyDemoViewController.swift; sourceTree = "<group>"; };
-		ACD0C51069F11C5FDAEC3800 /* DataTableValueConvertible.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DataTableValueConvertible.swift; path = ../SwiftDataTables/Classes/Models/DataTableValueConvertible.swift; sourceTree = SOURCE_ROOT; };
-		BCB517EA96BE062CF2FFADA3 /* RowSelectionDemoViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RowSelectionDemoViewController.swift; sourceTree = "<group>"; };
-		C93A9A11D70A4BF36B41464D /* RowHeightAndWrapDemoViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RowHeightAndWrapDemoViewController.swift; sourceTree = "<group>"; };
-		CB38CE2E91EE417C901FF778 /* NativeSearchDemoViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NativeSearchDemoViewController.swift; sourceTree = "<group>"; };
-		CD79D849EFE758FB34B79F18 /* SwiftDataTableTypedAPITests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SwiftDataTableTypedAPITests.swift; sourceTree = "<group>"; };
-		CF7D5CDCBA587C9C918E43F8 /* DefaultSortingDemoViewController+Explanation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "DefaultSortingDemoViewController+Explanation.swift"; sourceTree = "<group>"; };
-		D351DBCFFB56585118E8DF93 /* SortArrowStylingDemoViewController+Explanation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "SortArrowStylingDemoViewController+Explanation.swift"; sourceTree = "<group>"; };
-		DA0EA2559A8327B535E9A9E2 /* NotesCardCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NotesCardCell.swift; sourceTree = "<group>"; };
-		DC70BD2797EFFCD68AC1AFA9 /* PerformanceDemoViewController+Explanation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "PerformanceDemoViewController+Explanation.swift"; sourceTree = "<group>"; };
-		E0AABA490CE9485AAB039BE8 /* SwiftDataTableSearchControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataTableSearchControllerTests.swift; sourceTree = "<group>"; };
 		E234B0BE231353BF009FC712 /* SwiftDataTables.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftDataTables.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E234B0C0231353BF009FC712 /* SwiftDataTables.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwiftDataTables.h; sourceTree = "<group>"; };
 		E234B0C1231353BF009FC712 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E3A1C0A1D4F04B2A9B5CF000 /* DataTableAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataTableAnimation.swift; sourceTree = "<group>"; };
-		E3A1C0A3D4F04B2A9B5CF000 /* SwiftDataTableIncrementalUpdatesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataTableIncrementalUpdatesTests.swift; sourceTree = "<group>"; };
-		E3D2CB3B30E6CA11F5237F89 /* RowSelectionDemoViewController+Explanation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "RowSelectionDemoViewController+Explanation.swift"; sourceTree = "<group>"; };
-		F4A1787C0CD5EA339B3962B0 /* UserCardCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = UserCardCell.swift; sourceTree = "<group>"; };
-		F62EF41EF8632BE5568D5721 /* AppDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		F7FB8C3B052F05B21BB81E59 /* ShowHideElementsDemoViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ShowHideElementsDemoViewController.swift; sourceTree = "<group>"; };
-		FA72D418BFF455D6F1E42C61 /* SortArrowStylingDemoViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SortArrowStylingDemoViewController.swift; sourceTree = "<group>"; };
-		FAE8EDD24DB1434EAA47295C /* SwiftDataTableAutoLayoutColumnWidthTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataTableAutoLayoutColumnWidthTests.swift; sourceTree = "<group>"; };
-		FAF09ECBCDB707483A2D579E /* HeightsCustomisationDemoViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = HeightsCustomisationDemoViewController.swift; sourceTree = "<group>"; };
-		FED2B097D1E8A438C0331B92 /* PerformanceDemoViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PerformanceDemoViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		05B345502F1E8147000CCAAA /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 05D66E6B22B94942003004D9 /* SwiftDataTablesTests */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		05B345072F1E813C000CCAAA /* Demos */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Demos; sourceTree = "<group>"; };
+		05B3453D2F1E8147000CCAAA /* SwiftDataTablesTests */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (05B345502F1E8147000CCAAA /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = SwiftDataTablesTests; sourceTree = "<group>"; };
+		05B345552F1E814F000CCAAA /* Shared */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Shared; sourceTree = "<group>"; };
+		05B3455C2F1E8153000CCAAA /* App */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = App; sourceTree = "<group>"; };
+		05B346912F1E8207000CCAAA /* Classes */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Classes; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		05D66E6922B94942003004D9 /* Frameworks */ = {
@@ -262,191 +107,17 @@
 			isa = PBXGroup;
 			children = (
 				0583155E2224644B004B4478 /* SwiftDataTables.bundle */,
-				0583155F2224644B004B4478 /* Classes */,
+				05B346912F1E8207000CCAAA /* Classes */,
 			);
 			name = SwiftDataTables;
 			path = ../../SwiftDataTables;
-			sourceTree = "<group>";
-		};
-		0583155F2224644B004B4478 /* Classes */ = {
-			isa = PBXGroup;
-			children = (
-				058315742224644B004B4478 /* DataStore.swift */,
-				058315692224644B004B4478 /* DataTableSearchTextField.swift */,
-				058315762224644B004B4478 /* SwiftDataTable.swift */,
-				058315702224644B004B4478 /* SwiftDataTableLayout.swift */,
-				05F1892F236F9C5400CAA218 /* Cells */,
-				058315712224644B004B4478 /* Extensions */,
-				05D66E7622B98083003004D9 /* Models */,
-				058315772224644B004B4478 /* Protocols */,
-			);
-			path = Classes;
-			sourceTree = "<group>";
-		};
-		058315602224644B004B4478 /* PaginationHeader */ = {
-			isa = PBXGroup;
-			children = (
-				058315612224644B004B4478 /* PaginationHeaderViewModel.swift */,
-				058315632224644B004B4478 /* PaginationHeader.swift */,
-			);
-			path = PaginationHeader;
-			sourceTree = "<group>";
-		};
-		058315642224644B004B4478 /* MenuLengthHeader */ = {
-			isa = PBXGroup;
-			children = (
-				058315662224644B004B4478 /* MenuLengthHeader.swift */,
-				058315672224644B004B4478 /* MenuLengthHeaderViewModel.swift */,
-			);
-			path = MenuLengthHeader;
-			sourceTree = "<group>";
-		};
-		0583156B2224644B004B4478 /* DataCell */ = {
-			isa = PBXGroup;
-			children = (
-				0583156C2224644B004B4478 /* DataCellViewModel.swift */,
-				0583156D2224644B004B4478 /* DataCellLayoutAttributes.swift */,
-				0583156F2224644B004B4478 /* DataCell.swift */,
-			);
-			path = DataCell;
-			sourceTree = "<group>";
-		};
-		058315712224644B004B4478 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				058315722224644B004B4478 /* SwiftDataTable+Extensions.swift */,
-				17F877CD62662397E19D96EC /* SwiftDataTable+TypedAPI.swift */,
-			);
-			path = Extensions;
-			sourceTree = "<group>";
-		};
-		058315772224644B004B4478 /* Protocols */ = {
-			isa = PBXGroup;
-			children = (
-				058315732224644B004B4478 /* DataTableSortable.swift */,
-				058315782224644B004B4478 /* VirtualPositionTrackable.swift */,
-				058315792224644B004B4478 /* CollectionViewCellRepresentable.swift */,
-				0583157A2224644B004B4478 /* DataCellRowRepresentable.swift */,
-				0583157B2224644B004B4478 /* SwiftDataTableDataSourceAndDelegate.swift */,
-			);
-			path = Protocols;
-			sourceTree = "<group>";
-		};
-		0583157D2224644B004B4478 /* HeaderFooter */ = {
-			isa = PBXGroup;
-			children = (
-				0583157F2224644B004B4478 /* DataHeaderFooterViewModel.swift */,
-				058315802224644B004B4478 /* DataHeaderFooter.swift */,
-			);
-			path = HeaderFooter;
-			sourceTree = "<group>";
-		};
-		05D66E6D22B94942003004D9 /* SwiftDataTablesTests */ = {
-			isa = PBXGroup;
-			children = (
-				05D66E6E22B94942003004D9 /* SwiftDataTablesTests.swift */,
-				6AE3A46369A2424599009AA9 /* DataTableConfigurationTests.swift */,
-				9D4C8CD782CF4B0E89DC3A68 /* DataCellTextLayoutTests.swift */,
-				5BE43DBB53744CC9BF20F6F7 /* DataHeaderFooterViewModelTests.swift */,
-				36595E1F6E6F4693963BFC0C /* DataStructureModelColumnWidthTests.swift */,
-				05D66E7922B981D0003004D9 /* DataTableFixedColumnTypeTests.swift */,
-				62CECB5DF8834B8EA8ED0A71 /* DataTableSortTypeTests.swift */,
-				54F368F7D5974B7E82474AE0 /* DataTableValueTypeTests.swift */,
-				FAE8EDD24DB1434EAA47295C /* SwiftDataTableAutoLayoutColumnWidthTests.swift */,
-				10B32554DB4F47F48EFFB578 /* SwiftDataTableColumnWidthProviderTests.swift */,
-				1020EABCA27B4494A44CFC0C /* SwiftDataTableCustomCellProviderTests.swift */,
-				9299816831254E94AAAE03A8 /* SwiftDataTableRowHeightTests.swift */,
-				E0AABA490CE9485AAB039BE8 /* SwiftDataTableSearchControllerTests.swift */,
-				E3A1C0A3D4F04B2A9B5CF000 /* SwiftDataTableIncrementalUpdatesTests.swift */,
-				05D66E7022B94942003004D9 /* Info.plist */,
-				66E92DFC29273C3426FFFE2F /* DataTableValueConvertibleTests.swift */,
-				307D638E5DF0E7A5D3FF4B1D /* DataTableColumnTests.swift */,
-				CD79D849EFE758FB34B79F18 /* SwiftDataTableTypedAPITests.swift */,
-			);
-			path = SwiftDataTablesTests;
-			sourceTree = "<group>";
-		};
-		05D66E7622B98083003004D9 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				058315682224644B004B4478 /* DataTableSortType.swift */,
-				0583156A2224644B004B4478 /* DataTableConfiguration.swift */,
-				E3A1C0A1D4F04B2A9B5CF000 /* DataTableAnimation.swift */,
-				0583157C2224644B004B4478 /* CollectionViewSupplementaryElementRepresentable.swift */,
-				058315752224644B004B4478 /* DataTableValueType.swift */,
-				058315812224644B004B4478 /* DataStructureModel.swift */,
-				05D66E7722B980C6003004D9 /* DataTableFixedColumnType.swift */,
-				A3E40CA4B13B7CC3A40A6811 /* DataTableColumnWidthStrategy.swift */,
-				423316DEB4342E88FE62EEEE /* DataTableColumn.swift */,
-				ACD0C51069F11C5FDAEC3800 /* DataTableValueConvertible.swift */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		05F1892F236F9C5400CAA218 /* Cells */ = {
-			isa = PBXGroup;
-			children = (
-				0583156B2224644B004B4478 /* DataCell */,
-				0583157D2224644B004B4478 /* HeaderFooter */,
-				058315642224644B004B4478 /* MenuLengthHeader */,
-				058315602224644B004B4478 /* PaginationHeader */,
-			);
-			path = Cells;
-			sourceTree = "<group>";
-		};
-		0A3332CB1837DFF1A905965D /* ColumnWidthStrategy */ = {
-			isa = PBXGroup;
-			children = (
-				AC6AA0B83356AC7C4C09DFA2 /* ColumnWidthStrategyDemoViewController.swift */,
-				1F72904A441A442D1C68145D /* ColumnWidthStrategyTypes.swift */,
-			);
-			path = ColumnWidthStrategy;
-			sourceTree = "<group>";
-		};
-		1FB9954F76DE8FD022DD047D /* SortArrowStyling */ = {
-			isa = PBXGroup;
-			children = (
-				FA72D418BFF455D6F1E42C61 /* SortArrowStylingDemoViewController.swift */,
-				D351DBCFFB56585118E8DF93 /* SortArrowStylingDemoViewController+Explanation.swift */,
-			);
-			path = SortArrowStyling;
-			sourceTree = "<group>";
-		};
-		404D27355FA370D3DD95ED93 /* CustomCellsAutoHeight */ = {
-			isa = PBXGroup;
-			children = (
-				6397410769F26B2B89AE1868 /* CustomCellsAutoHeightDemoViewController.swift */,
-				3E293E74E1DEB41C9AD12A66 /* CustomCellsAutoHeightTypes.swift */,
-				0F8803E82FCE881D0E8EC51C /* IndexBadgeCell.swift */,
-				F4A1787C0CD5EA339B3962B0 /* UserCardCell.swift */,
-				44FFB8041E767C5FC6FA81E2 /* StatusPillCell.swift */,
-				DA0EA2559A8327B535E9A9E2 /* NotesCardCell.swift */,
-			);
-			path = CustomCellsAutoHeight;
-			sourceTree = "<group>";
-		};
-		460B898C80FC12875591293E /* DataTableWithDataSet */ = {
-			isa = PBXGroup;
-			children = (
-				905143FC1C4CAF98AC14768E /* DataTableWithDataSetViewController.swift */,
-			);
-			path = DataTableWithDataSet;
-			sourceTree = "<group>";
-		};
-		579CA92C4CFCAD13831B113C /* DefaultSorting */ = {
-			isa = PBXGroup;
-			children = (
-				3D0C528E70AA38232094EC8D /* DefaultSortingDemoViewController.swift */,
-				CF7D5CDCBA587C9C918E43F8 /* DefaultSortingDemoViewController+Explanation.swift */,
-			);
-			path = DefaultSorting;
 			sourceTree = "<group>";
 		};
 		607FACC71AFB9204008FA782 = {
 			isa = PBXGroup;
 			children = (
 				607FACD21AFB9204008FA782 /* DemoSwiftDataTables */,
-				05D66E6D22B94942003004D9 /* SwiftDataTablesTests */,
+				05B3453D2F1E8147000CCAAA /* SwiftDataTablesTests */,
 				E234B0BF231353BF009FC712 /* SwiftDataTables */,
 				607FACD11AFB9204008FA782 /* Products */,
 			);
@@ -467,31 +138,12 @@
 			children = (
 				0583155D2224644B004B4478 /* SwiftDataTables */,
 				058D4BB21E953FDD002A2DC9 /* SwiftDataTables_Example-Bridging-Header.h */,
-				60A71537D13153BEFDD08BCC /* App */,
-				A816B1C818BCF2C944625009 /* Demos */,
-				B2F45B322D6C47A74A914BEB /* Shared */,
+				05B3455C2F1E8153000CCAAA /* App */,
+				05B345072F1E813C000CCAAA /* Demos */,
+				05B345552F1E814F000CCAAA /* Shared */,
 				61EAFBCDE6470BC846F7C7BC /* Resources */,
 			);
 			path = DemoSwiftDataTables;
-			sourceTree = "<group>";
-		};
-		60A71537D13153BEFDD08BCC /* App */ = {
-			isa = PBXGroup;
-			children = (
-				F62EF41EF8632BE5568D5721 /* AppDelegate.swift */,
-				6DEA41AD92EDA3A9A70B70E4 /* MenuTableViewController.swift */,
-			);
-			path = App;
-			sourceTree = "<group>";
-		};
-		617830FF31EA97CEB532B180 /* RowHeightAndWrap */ = {
-			isa = PBXGroup;
-			children = (
-				C93A9A11D70A4BF36B41464D /* RowHeightAndWrapDemoViewController.swift */,
-				5AFE5383EF950C50EC2B69AF /* RowHeightAndWrapTypes.swift */,
-				0D879DC49C3A41A698066E67 /* RowHeightWrapDemoCell.swift */,
-			);
-			path = RowHeightAndWrap;
 			sourceTree = "<group>";
 		};
 		61EAFBCDE6470BC846F7C7BC /* Resources */ = {
@@ -504,101 +156,6 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		64115E3DD9AAEEE3BC73822D /* FixedColumns */ = {
-			isa = PBXGroup;
-			children = (
-				22050ADFDB996215BA543A58 /* FixedColumnsDemoViewController.swift */,
-				9DC734F4780873365C685AB3 /* FixedColumnsDemoViewController+Explanation.swift */,
-			);
-			path = FixedColumns;
-			sourceTree = "<group>";
-		};
-		84551ECC5539F263B842B734 /* Performance */ = {
-			isa = PBXGroup;
-			children = (
-				FED2B097D1E8A438C0331B92 /* PerformanceDemoViewController.swift */,
-				DC70BD2797EFFCD68AC1AFA9 /* PerformanceDemoViewController+Explanation.swift */,
-			);
-			path = Performance;
-			sourceTree = "<group>";
-		};
-		8E964C77E941145D97C4F960 /* NativeSearch */ = {
-			isa = PBXGroup;
-			children = (
-				CB38CE2E91EE417C901FF778 /* NativeSearchDemoViewController.swift */,
-				4FEDE0B82C4366E636C06ECB /* NativeSearchDemoViewController+Explanation.swift */,
-			);
-			path = NativeSearch;
-			sourceTree = "<group>";
-		};
-		A816B1C818BCF2C944625009 /* Demos */ = {
-			isa = PBXGroup;
-			children = (
-				CFFB477B9837460281685212 /* HeightsCustomisation */,
-				DFC2E3A4E74E52C1DAF2097E /* ShowHideElements */,
-				E985AB1501294175BA5DA417 /* FloatingElements */,
-				1FB9954F76DE8FD022DD047D /* SortArrowStyling */,
-				8E964C77E941145D97C4F960 /* NativeSearch */,
-				579CA92C4CFCAD13831B113C /* DefaultSorting */,
-				64115E3DD9AAEEE3BC73822D /* FixedColumns */,
-				B03FB4A37A66294935F9F7B2 /* RowSelection */,
-				84551ECC5539F263B842B734 /* Performance */,
-				F560A4B7431533EACBD714D6 /* IncrementalUpdates */,
-				0A3332CB1837DFF1A905965D /* ColumnWidthStrategy */,
-				617830FF31EA97CEB532B180 /* RowHeightAndWrap */,
-				404D27355FA370D3DD95ED93 /* CustomCellsAutoHeight */,
-				460B898C80FC12875591293E /* DataTableWithDataSet */,
-				DDDEF1E40625DB1846029398 /* DataTableWithDataSource */,
-			);
-			path = Demos;
-			sourceTree = "<group>";
-		};
-		B03FB4A37A66294935F9F7B2 /* RowSelection */ = {
-			isa = PBXGroup;
-			children = (
-				BCB517EA96BE062CF2FFADA3 /* RowSelectionDemoViewController.swift */,
-				E3D2CB3B30E6CA11F5237F89 /* RowSelectionDemoViewController+Explanation.swift */,
-			);
-			path = RowSelection;
-			sourceTree = "<group>";
-		};
-		B2F45B322D6C47A74A914BEB /* Shared */ = {
-			isa = PBXGroup;
-			children = (
-				53934DF0C205DE2E6367E26B /* GenericDataTableViewController.swift */,
-				72CD5B8B4F5397AFA8FB54E6 /* SampleData.swift */,
-				8C46F02372C476D920F10019 /* InstructionsView.swift */,
-				6E240D6CD4A744971D248385 /* DemoExplanationView.swift */,
-			);
-			path = Shared;
-			sourceTree = "<group>";
-		};
-		CFFB477B9837460281685212 /* HeightsCustomisation */ = {
-			isa = PBXGroup;
-			children = (
-				FAF09ECBCDB707483A2D579E /* HeightsCustomisationDemoViewController.swift */,
-				A3A869C397EE5D37F9646F2A /* HeightsCustomisationDemoViewController+Explanation.swift */,
-			);
-			path = HeightsCustomisation;
-			sourceTree = "<group>";
-		};
-		DDDEF1E40625DB1846029398 /* DataTableWithDataSource */ = {
-			isa = PBXGroup;
-			children = (
-				79ECF0F6E28EB23FF75CD3A4 /* DataTableWithDataSourceViewController.swift */,
-			);
-			path = DataTableWithDataSource;
-			sourceTree = "<group>";
-		};
-		DFC2E3A4E74E52C1DAF2097E /* ShowHideElements */ = {
-			isa = PBXGroup;
-			children = (
-				F7FB8C3B052F05B21BB81E59 /* ShowHideElementsDemoViewController.swift */,
-				1367E302C13B9D838D41EA4D /* ShowHideElementsDemoViewController+Explanation.swift */,
-			);
-			path = ShowHideElements;
-			sourceTree = "<group>";
-		};
 		E234B0BF231353BF009FC712 /* SwiftDataTables */ = {
 			isa = PBXGroup;
 			children = (
@@ -606,24 +163,6 @@
 				E234B0C1231353BF009FC712 /* Info.plist */,
 			);
 			path = SwiftDataTables;
-			sourceTree = "<group>";
-		};
-		E985AB1501294175BA5DA417 /* FloatingElements */ = {
-			isa = PBXGroup;
-			children = (
-				A34B1478ED6DE8DFFE3CBA33 /* FloatingElementsDemoViewController.swift */,
-				37F6E4EF5CBAFB504D4731AB /* FloatingElementsDemoViewController+Explanation.swift */,
-			);
-			path = FloatingElements;
-			sourceTree = "<group>";
-		};
-		F560A4B7431533EACBD714D6 /* IncrementalUpdates */ = {
-			isa = PBXGroup;
-			children = (
-				31083063A2BFDE6E04D9C8D9 /* IncrementalUpdatesDemoViewController.swift */,
-				043D6DB35090822BFD28E8AB /* IncrementalUpdatesDemoViewController+Explanation.swift */,
-			);
-			path = IncrementalUpdates;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -653,6 +192,9 @@
 			dependencies = (
 				05D66E7222B94942003004D9 /* PBXTargetDependency */,
 			);
+			fileSystemSynchronizedGroups = (
+				05B3453D2F1E8147000CCAAA /* SwiftDataTablesTests */,
+			);
 			name = SwiftDataTablesTests;
 			productName = SwiftDataTablesTests;
 			productReference = 05D66E6C22B94942003004D9 /* SwiftDataTablesTests.xctest */;
@@ -672,6 +214,11 @@
 			dependencies = (
 				E234B0C4231353BF009FC712 /* PBXTargetDependency */,
 			);
+			fileSystemSynchronizedGroups = (
+				05B345072F1E813C000CCAAA /* Demos */,
+				05B345552F1E814F000CCAAA /* Shared */,
+				05B3455C2F1E8153000CCAAA /* App */,
+			);
 			name = SwiftDataTables_Example;
 			productName = SwiftDataTables;
 			productReference = 607FACD01AFB9204008FA782 /* SwiftDataTables_Example.app */;
@@ -689,6 +236,9 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				05B346912F1E8207000CCAAA /* Classes */,
 			);
 			name = SwiftDataTables;
 			productName = SwiftDataTables;
@@ -773,23 +323,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E3A1C0A4D4F04B2A9B5CF000 /* SwiftDataTableIncrementalUpdatesTests.swift in Sources */,
-				061375FFFA234C72995ACD7A /* SwiftDataTableColumnWidthProviderTests.swift in Sources */,
-				05D66E6F22B94942003004D9 /* SwiftDataTablesTests.swift in Sources */,
-				05D66E7A22B981D0003004D9 /* DataTableFixedColumnTypeTests.swift in Sources */,
-				3385E372C74D42EEB5E75515 /* SwiftDataTableRowHeightTests.swift in Sources */,
-				4B6CE1D9EBE24FCD92532EE7 /* DataStructureModelColumnWidthTests.swift in Sources */,
-				5F20F1A8D0684541AED663A8 /* SwiftDataTableAutoLayoutColumnWidthTests.swift in Sources */,
-				72AC33FE805C40EA9439CB88 /* DataTableValueTypeTests.swift in Sources */,
-				9D8084828EA94A9C80F09409 /* SwiftDataTableSearchControllerTests.swift in Sources */,
-				9E5F4A0909D24EB98A88C2BB /* DataTableConfigurationTests.swift in Sources */,
-				9F83366AF093470CBC2169C2 /* DataHeaderFooterViewModelTests.swift in Sources */,
-				AA87057B6EFE49589EA65361 /* DataTableSortTypeTests.swift in Sources */,
-				E13AD41ED82E4B07B24C1177 /* DataCellTextLayoutTests.swift in Sources */,
-				EDA24C1E370445C6829E639D /* SwiftDataTableCustomCellProviderTests.swift in Sources */,
-				D9476D58991B283FF6DFEB79 /* DataTableValueConvertibleTests.swift in Sources */,
-				F6B0728AF60471F872AC9FA9 /* DataTableColumnTests.swift in Sources */,
-				9897276618DFEC0DF0DD61A6 /* SwiftDataTableTypedAPITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -797,45 +330,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6BB376025F415AA919822F89 /* AppDelegate.swift in Sources */,
-				2F80D9D4B6C9036A65806CB9 /* MenuTableViewController.swift in Sources */,
-				993B64E5626CAFF4E02D4F40 /* GenericDataTableViewController.swift in Sources */,
-				A37FB433A194EB360A363ECC /* SampleData.swift in Sources */,
-				3B0DF624BE5507DE37841654 /* InstructionsView.swift in Sources */,
-				BB31956F2E185FB075A062B2 /* DemoExplanationView.swift in Sources */,
-				45A6D03B436FDD1E13FF1FE1 /* ShowHideElementsDemoViewController.swift in Sources */,
-				D11384A87D3D29F16C17074C /* ShowHideElementsDemoViewController+Explanation.swift in Sources */,
-				F40D21921E80539497875270 /* FloatingElementsDemoViewController.swift in Sources */,
-				4361EDD042A1594E8C25E7C5 /* FloatingElementsDemoViewController+Explanation.swift in Sources */,
-				EDE4AB720CA93CF85E0CC36F /* SortArrowStylingDemoViewController.swift in Sources */,
-				1FA10B415F0CA7B4E88ED9F0 /* SortArrowStylingDemoViewController+Explanation.swift in Sources */,
-				586CE82C81AF156EF2C4FC06 /* NativeSearchDemoViewController.swift in Sources */,
-				B49C6B61BE99731CF903DC6D /* NativeSearchDemoViewController+Explanation.swift in Sources */,
-				3BC5FE22DA6E1F22AB38CD5B /* DefaultSortingDemoViewController.swift in Sources */,
-				1AB30BE579773052FFA611EB /* DefaultSortingDemoViewController+Explanation.swift in Sources */,
-				9BBD80EDC544AEEC4318234A /* FixedColumnsDemoViewController.swift in Sources */,
-				05E68EE243C94B15948AEAB5 /* FixedColumnsDemoViewController+Explanation.swift in Sources */,
-				AC4E7E8B01D5EB1C1D7B5922 /* RowSelectionDemoViewController.swift in Sources */,
-				0BFA0E88B66E29F790A37200 /* RowSelectionDemoViewController+Explanation.swift in Sources */,
-				13633D80D60B7090BA2845ED /* PerformanceDemoViewController.swift in Sources */,
-				AB63B5D79518AE39ECEFFF1C /* PerformanceDemoViewController+Explanation.swift in Sources */,
-				8464F3082213E92DD31A49B5 /* IncrementalUpdatesDemoViewController.swift in Sources */,
-				00CB54354CCF90ADD9F451E3 /* IncrementalUpdatesDemoViewController+Explanation.swift in Sources */,
-				0F5FF4833C45FC5013F75847 /* ColumnWidthStrategyDemoViewController.swift in Sources */,
-				EE2DD4756C22299CF0D4DB95 /* RowHeightAndWrapDemoViewController.swift in Sources */,
-				4BE2D814CE87080E10461261 /* CustomCellsAutoHeightDemoViewController.swift in Sources */,
-				4828F9F6097DC7D4EA9F015C /* DataTableWithDataSetViewController.swift in Sources */,
-				FF0C5F92B48EC09942DA323F /* DataTableWithDataSourceViewController.swift in Sources */,
-				F8F436377560301E31A2DCF8 /* HeightsCustomisationDemoViewController.swift in Sources */,
-				94A1BA2C9BD043AA041F5C4E /* HeightsCustomisationDemoViewController+Explanation.swift in Sources */,
-				A6328D282C3463900B2A7CF9 /* ColumnWidthStrategyTypes.swift in Sources */,
-				59D097FF3E973AEC10FD5ABA /* RowHeightAndWrapTypes.swift in Sources */,
-				511C38D1C53CF22471F53F8A /* RowHeightWrapDemoCell.swift in Sources */,
-				FCA7F7D65334F2C866E39637 /* CustomCellsAutoHeightTypes.swift in Sources */,
-				9CE2EE0B45191F169C955405 /* IndexBadgeCell.swift in Sources */,
-				26FF4E40AB59179E8ABB25AA /* UserCardCell.swift in Sources */,
-				EB6C37C5D0B2CA81420075B4 /* StatusPillCell.swift in Sources */,
-				4BAF310909973AF587F79236 /* NotesCardCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -843,36 +337,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E234B0E0231353FE009FC712 /* DataTableSortable.swift in Sources */,
-				E234B0DA231353F0009FC712 /* MenuLengthHeaderViewModel.swift in Sources */,
-				E234B0D0231353DB009FC712 /* DataTableSortType.swift in Sources */,
-				E3A1C0A2D4F04B2A9B5CF000 /* DataTableAnimation.swift in Sources */,
-				E234B0E623135425009FC712 /* CollectionViewCellRepresentable.swift in Sources */,
-				E234B0E823135425009FC712 /* SwiftDataTableDataSourceAndDelegate.swift in Sources */,
-				E234B0DC231353F6009FC712 /* DataCellLayoutAttributes.swift in Sources */,
-				E234B0DE231353F6009FC712 /* DataCell.swift in Sources */,
-				E234B0E523135425009FC712 /* VirtualPositionTrackable.swift in Sources */,
-				E234B0D5231353EA009FC712 /* PaginationHeaderViewModel.swift in Sources */,
-				E234B0E923135425009FC712 /* CollectionViewSupplementaryElementRepresentable.swift in Sources */,
-				E234B0E223135406009FC712 /* DataHeaderFooterViewModel.swift in Sources */,
-				E234B0D2231353DB009FC712 /* DataTableValueType.swift in Sources */,
-				E234B0CD231353CE009FC712 /* SwiftDataTableLayout.swift in Sources */,
-				E234B0D4231353DB009FC712 /* DataTableFixedColumnType.swift in Sources */,
-				E234B0D7231353EA009FC712 /* PaginationHeader.swift in Sources */,
-				E234B0CE231353CE009FC712 /* DataStore.swift in Sources */,
-				E234B0E723135425009FC712 /* DataCellRowRepresentable.swift in Sources */,
-				E234B0D1231353DB009FC712 /* DataTableConfiguration.swift in Sources */,
-				E234B0CF231353CE009FC712 /* SwiftDataTable.swift in Sources */,
-				E234B0DB231353F6009FC712 /* DataCellViewModel.swift in Sources */,
-				E234B0E323135406009FC712 /* DataHeaderFooter.swift in Sources */,
-				E234B0D9231353F0009FC712 /* MenuLengthHeader.swift in Sources */,
-				E234B0DF231353F9009FC712 /* SwiftDataTable+Extensions.swift in Sources */,
-				E234B0CC231353CE009FC712 /* DataTableSearchTextField.swift in Sources */,
-				E234B0D3231353DB009FC712 /* DataStructureModel.swift in Sources */,
-				5ACBD0C6A6B48FE8379B74F6 /* DataTableColumnWidthStrategy.swift in Sources */,
-				71DD3D64D76912B9757D90FA /* SwiftDataTable+TypedAPI.swift in Sources */,
-				03A7D16BDFA61A28D5528DB0 /* DataTableColumn.swift in Sources */,
-				3146B263290C03A1B0C6E1FD /* DataTableValueConvertible.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
