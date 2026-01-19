@@ -12,8 +12,8 @@ public enum DataTableFixedColumnSideType {
 public class DataTableFixedColumnType: NSObject {
     
     //MARK: - Properties
-    let leftColumns: Int
-    let rightColumns: Int
+    public let leftColumns: Int
+    public let rightColumns: Int
 
     //MARK: - Lifecycle
     public init(leftColumns: Int, rightColumns: Int){

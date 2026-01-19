@@ -10,25 +10,59 @@ import UIKit
 import SwiftDataTables
 
 class DataTableWithDataSetViewController: UIViewController {
-    //MARK: - Properties
+
+    private lazy var descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 13)
+        label.textColor = .secondaryLabel
+        label.numberOfLines = 0
+        label.text = "Static data initialisation. Pass your data array and headers directly to SwiftDataTable. Ideal for fixed datasets that don't change."
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
+    private lazy var configLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        label.textColor = .tertiaryLabel
+        label.numberOfLines = 0
+        label.text = "Config: defaultOrdering by Name (ascending) · fixed columns (1 left, 1 right)"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
+    private lazy var headerStack: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [descriptionLabel, configLabel])
+        stack.axis = .vertical
+        stack.spacing = 8
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
+    }()
+
     lazy var dataTable = makeDataTable()
 
-    //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
         setupConstraints()
     }
+
     func setupViews() {
-        title = "Employee Balances"
-        view.backgroundColor = UIColor.white
+        title = "Static Data Set"
+        view.backgroundColor = .systemBackground
+        view.addSubview(headerStack)
         view.addSubview(dataTable)
     }
+
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            dataTable.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
+            headerStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 12),
+            headerStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            headerStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+
+            dataTable.topAnchor.constraint(equalTo: headerStack.bottomAnchor, constant: 12),
             dataTable.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            dataTable.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor),
+            dataTable.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             dataTable.trailingAnchor.constraint(equalTo: view.trailingAnchor),
         ])
     }

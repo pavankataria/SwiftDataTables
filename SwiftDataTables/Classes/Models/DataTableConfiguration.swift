@@ -109,6 +109,17 @@ public enum DataTableCellSizingMode: Equatable {
         }
     }
 }
+
+/// Controls where the search bar is displayed
+public enum SearchBarPosition: Equatable {
+    /// Search bar is embedded within the data table (default)
+    case embedded
+    /// Search bar is placed in the navigation bar using UISearchController
+    /// Automatically attaches to parent view controller's navigationItem
+    case navigationBar
+    /// No search bar is displayed
+    case hidden
+}
 public struct DataTableConfiguration: Equatable {
     public static let defaultAverageCharacterWidth: CGFloat = 7.0
     public static let defaultColumnWidthMode: DataTableColumnWidthMode = .fitContentText(

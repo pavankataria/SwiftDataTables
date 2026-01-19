@@ -767,7 +767,7 @@ extension SwiftDataTable {
         switch options.rowHeightMode {
         case .fixed(let height):
             return height
-        case .automatic(let estimated, _):
+        case .automatic (let estimated):
             return estimated
         }
     }
@@ -1106,5 +1106,83 @@ extension SwiftDataTable {
         invalidateRowHeights()
         registerCustomCellIfNeeded()
         //self.reload();
+    }
+}
+
+// MARK: - Navigation Bar Search Controller Support
+extension SwiftDataTable {
+
+    /// Creates and configures a UISearchController for use with the navigation bar.
+    ///
+    /// This method simplifies integrating SwiftDataTable with iOS's native navigation bar search.
+    /// The returned UISearchController is pre-configured for optimal behavior with the data table.
+    ///
+    /// **Usage:**
+    /// ```swift
+    /// let searchController = dataTable.makeSearchController()
+    /// navigationItem.searchController = searchController
+    /// navigationItem.hidesSearchBarWhenScrolling = true
+    /// ```
+    ///
+    /// - Note: Remember to set `config.shouldShowSearchSection = false` to hide the embedded search bar.
+    /// - Returns: A configured UISearchController that filters the data table.
+    public func makeSearchController() -> UISearchController {
+        let controller = UISearchController(searchResultsController: nil)
+        controller.searchResultsUpdater = self
+        controller.obscuresBackgroundDuringPresentation = false
+        controller.searchBar.placeholder = "Search"
+        return controller
+    }
+
+    /// Installs a UISearchController in the navigation bar of the given view controller.
+    ///
+    /// This is the simplest way to add native iOS search bar behavior to your data table.
+    /// It automatically:
+    /// - Creates and configures the UISearchController
+    /// - Attaches it to the view controller's navigation item
+    /// - Enables the auto-hide on scroll behavior (iOS 16+)
+    /// - Hides the embedded search bar
+    ///
+    /// **Usage:**
+    /// ```swift
+    /// override func viewDidLoad() {
+    ///     super.viewDidLoad()
+    ///     view.addSubview(dataTable)
+    ///     dataTable.installSearchController(on: self)
+    /// }
+    /// ```
+    ///
+    /// - Parameters:
+    ///   - viewController: The view controller whose navigation item will receive the search controller.
+    ///   - hidesWhenScrolling: Whether the search bar hides when scrolling. Default is `true`.
+    /// - Returns: The installed UISearchController for further customization if needed.
+    @discardableResult
+    public func installSearchController(
+        on viewController: UIViewController,
+        hidesWhenScrolling: Bool = true
+    ) -> UISearchController {
+        let searchController = makeSearchController()
+
+        // Hide embedded search bar
+        self.searchBar.isHidden = true
+
+        // Install on navigation item
+        viewController.navigationItem.searchController = searchController
+        viewController.navigationItem.hidesSearchBarWhenScrolling = hidesWhenScrolling
+        viewController.definesPresentationContext = true
+
+        // Tell navigation controller which scroll view to track (iOS 16+)
+        if #available(iOS 16.0, *) {
+            viewController.setContentScrollView(self.collectionView, for: .top)
+        }
+
+        return searchController
+    }
+}
+
+// MARK: - UISearchResultsUpdating
+extension SwiftDataTable: UISearchResultsUpdating {
+    public func updateSearchResults(for searchController: UISearchController) {
+        executeSearch(searchController.searchBar.text ?? "")
     }
 }
