@@ -72,7 +72,9 @@ class MenuViewController: UITableViewController {
                 MenuItem(title: "Static Data Set"),
                 MenuItem(title: "Dynamic Data Source"),
                 MenuItem(title: "Empty Data Source"),
-                MenuItem(title: "Incremental Updates"),
+                MenuItem(title: "Live Data Updates"),
+                MenuItem(title: "Single Row Updates"),
+                MenuItem(title: "Cell-Level Updates"),
             ],
             // Section 1: Layout & Sizing
             [
@@ -171,6 +173,10 @@ extension MenuViewController {
             show(DataTableWithDataSourceViewController(), sender: self)
         case 3:
             show(IncrementalUpdatesDemoViewController(), sender: self)
+        case 4:
+            show(SingleRowUpdatesDemoViewController(), sender: self)
+        case 5:
+            show(CellLevelUpdatesDemoViewController(), sender: self)
         default:
             break
         }
