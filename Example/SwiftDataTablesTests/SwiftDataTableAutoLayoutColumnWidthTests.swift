@@ -58,6 +58,7 @@ final class SwiftDataTableAutoLayoutColumnWidthTests: XCTestCase {
     }
 }
 
+@MainActor
 private func makeTable(values: [String], sample: DataTableAutoLayoutWidthSample) -> SwiftDataTable {
     let provider = DataTableCustomCellProvider(
         register: { collectionView in

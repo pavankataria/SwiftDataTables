@@ -76,16 +76,16 @@ public enum DataTableRowHeightMode: Equatable {
 }
 
 public struct DataTableCustomCellProvider {
-    public let register: (UICollectionView) -> Void
-    public let reuseIdentifierFor: (IndexPath) -> String
-    public let configure: (UICollectionViewCell, DataTableValueType, IndexPath) -> Void
-    public let sizingCellFor: (String) -> UICollectionViewCell
+    public let register: @MainActor (UICollectionView) -> Void
+    public let reuseIdentifierFor: @MainActor (IndexPath) -> String
+    public let configure: @MainActor (UICollectionViewCell, DataTableValueType, IndexPath) -> Void
+    public let sizingCellFor: @MainActor (String) -> UICollectionViewCell
 
     public init(
-        register: @escaping (UICollectionView) -> Void,
-        reuseIdentifierFor: @escaping (IndexPath) -> String,
-        configure: @escaping (UICollectionViewCell, DataTableValueType, IndexPath) -> Void,
-        sizingCellFor: @escaping (String) -> UICollectionViewCell
+        register: @escaping @MainActor (UICollectionView) -> Void,
+        reuseIdentifierFor: @escaping @MainActor (IndexPath) -> String,
+        configure: @escaping @MainActor (UICollectionViewCell, DataTableValueType, IndexPath) -> Void,
+        sizingCellFor: @escaping @MainActor (String) -> UICollectionViewCell
     ) {
         self.register = register
         self.reuseIdentifierFor = reuseIdentifierFor
