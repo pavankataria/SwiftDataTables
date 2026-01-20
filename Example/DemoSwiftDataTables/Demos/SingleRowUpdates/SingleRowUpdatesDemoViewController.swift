@@ -129,7 +129,7 @@ final class SingleRowUpdatesDemoViewController: UIViewController {
         guard !rows.isEmpty else { return }
 
         let index = Int.random(in: 0..<rows.count)
-        var row = rows[index]
+        var row: SingleRowUpdatesDemoViewController.RowItem = rows[index]
         row.value = Double.random(in: 50...500)
         row.status = row.value > 250 ? "Up" : "Down"
         rows[index] = row
