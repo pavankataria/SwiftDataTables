@@ -125,6 +125,9 @@ public class SwiftDataTable: UIView {
     fileprivate var menuLengthViewModel: MenuLengthHeaderViewModel!
     fileprivate var columnWidths = [CGFloat]()
     fileprivate var rowHeights = [CGFloat]()
+
+    /// Tracks whether column widths have been computed at least once (for lockColumnWidthsAfterFirstLayout)
+    private var hasComputedColumnWidthsOnce = false
     private var sizingCellCacheByReuseId: [String: UICollectionViewCell] = [:]
 
     // MARK: - Row Metrics Store (Single Source of Truth)
@@ -273,37 +276,87 @@ public class SwiftDataTable: UIView {
         provider.register(collectionView)
     }
     
-    func calculateColumnWidths(){
-        //calculate the automatic widths for each column
-        self.columnWidths.removeAll()
-        for columnIndex in Array(0..<self.numberOfHeaderColumns()) {
-            self.columnWidths.append(self.automaticWidthForColumn(index: columnIndex))
-        }
-        self.scaleColumnWidthsIfRequired()
-        self.calculateRowHeights()
-    }
-    func scaleColumnWidthsIfRequired(){
-        guard self.shouldContentWidthScaleToFillFrame() else {
+    // MARK: - Column Width Calculation (Phase 2: Decoupled Width/Height)
+
+    /// Orchestrator: computes widths, detects changes, applies widths, and rebuilds heights if needed.
+    func calculateColumnWidths() {
+        let expectedColumnCount = numberOfHeaderColumns()
+        let schemaChanged = columnWidths.count != expectedColumnCount
+
+        // If locked and already computed, skip recalculation (unless schema changed)
+        if options.lockColumnWidthsAfterFirstLayout && hasComputedColumnWidthsOnce && !schemaChanged {
+            // Still need to rebuild heights in case data changed
+            calculateRowHeights()
             return
         }
-        self.scaleToFillColumnWidths()
+
+        let oldWidths = columnWidths
+        let newWidths = computeColumnWidths()
+        // TODO: Phase 3 - widthsChanged will be used to enable incremental height updates
+        // when widths are unchanged (skip full height rebuild)
+        let widthsChanged = !widthsAreEqual(oldWidths, newWidths, epsilon: 0.5)
+
+        applyColumnWidths(newWidths)
+        hasComputedColumnWidthsOnce = true
+
+        // If widths changed, we must rebuild all heights (wrapping depends on width)
+        if widthsChanged || metricsStore.rowCount == 0 {
+            calculateRowHeights()
+        } else {
+            // Widths unchanged - still rebuild heights for now until Phase 3 incremental updates
+            calculateRowHeights()
+        }
     }
-    func scaleToFillColumnWidths(){
-        //if content width is smaller than ipad width
-        let totalColumnWidth = self.columnWidths.reduce(0, +)
-        let totalWidth = self.frame.width
+
+    /// Pure calculation: returns column widths without side effects.
+    private func computeColumnWidths() -> [CGFloat] {
+        var widths = [CGFloat]()
+        for columnIndex in 0..<numberOfHeaderColumns() {
+            widths.append(automaticWidthForColumn(index: columnIndex))
+        }
+        return widths
+    }
+
+    /// Applies the computed widths and performs scaling if required.
+    private func applyColumnWidths(_ widths: [CGFloat]) {
+        columnWidths = widths
+        scaleColumnWidthsIfRequired()
+    }
+
+    /// Compares two width arrays with epsilon tolerance.
+    private func widthsAreEqual(_ lhs: [CGFloat], _ rhs: [CGFloat], epsilon: CGFloat) -> Bool {
+        guard lhs.count == rhs.count else { return false }
+        for i in 0..<lhs.count {
+            if abs(lhs[i] - rhs[i]) > epsilon {
+                return false
+            }
+        }
+        return true
+    }
+
+    private func scaleColumnWidthsIfRequired() {
+        guard shouldContentWidthScaleToFillFrame() else {
+            return
+        }
+        scaleToFillColumnWidths()
+    }
+
+    private func scaleToFillColumnWidths() {
+        // If content width is smaller than frame width, scale up proportionally
+        let totalColumnWidth = columnWidths.reduce(0, +)
+        let totalWidth = frame.width
         let gap: CGFloat = totalWidth - totalColumnWidth
         guard totalColumnWidth < totalWidth else {
             return
         }
-        //calculate the percentage width presence of each column in relation to the frame width of the collection view
-        for columnIndex in Array(0..<self.columnWidths.count) {
-            let columnWidth = self.columnWidths[columnIndex]
+        // Calculate the percentage width presence of each column in relation to the frame width
+        for columnIndex in 0..<columnWidths.count {
+            let columnWidth = columnWidths[columnIndex]
             let columnWidthPercentagePresence = columnWidth / totalColumnWidth
-            //add result of gap size divided by percentage column width to each column automatic width.
+            // Add result of gap size divided by percentage column width to each column automatic width
             let gapPortionToDistributeToCurrentColumn = gap * columnWidthPercentagePresence
-            //apply final result of each column width to the column width array.
-            self.columnWidths[columnIndex] = columnWidth + gapPortionToDistributeToCurrentColumn
+            // Apply final result of each column width to the column width array
+            columnWidths[columnIndex] = columnWidth + gapPortionToDistributeToCurrentColumn
         }
     }
 
