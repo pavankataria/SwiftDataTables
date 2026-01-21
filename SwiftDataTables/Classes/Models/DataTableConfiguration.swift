@@ -162,6 +162,10 @@ public struct DataTableConfiguration: Equatable {
     public var maxColumnWidth: CGFloat? = nil
     public var columnWidthModeProvider: ((Int) -> DataTableColumnWidthMode?)? = nil
 
+    /// When true, column widths are computed once and locked. Prevents width drift across data updates.
+    /// Default is false (widths recalculate on each data update).
+    public var lockColumnWidthsAfterFirstLayout: Bool = false
+
     public var textLayout: DataTableTextLayout = .singleLine()
     public var rowHeightMode: DataTableRowHeightMode = .fixed(44)
     public var cellSizingMode: DataTableCellSizingMode = .defaultCell
@@ -194,6 +198,7 @@ extension DataTableConfiguration {
         lhs.columnWidthMode == rhs.columnWidthMode &&
         lhs.minColumnWidth == rhs.minColumnWidth &&
         lhs.maxColumnWidth == rhs.maxColumnWidth &&
+        lhs.lockColumnWidthsAfterFirstLayout == rhs.lockColumnWidthsAfterFirstLayout &&
         lhs.textLayout == rhs.textLayout &&
         lhs.rowHeightMode == rhs.rowHeightMode &&
         lhs.cellSizingMode == rhs.cellSizingMode
