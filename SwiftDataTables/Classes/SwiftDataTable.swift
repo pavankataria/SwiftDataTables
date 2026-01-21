@@ -340,10 +340,10 @@ public class SwiftDataTable: UIView {
         // Set up row count in metricsStore
         metricsStore.setRowCount(rowCount, defaultHeight: defaultHeight)
 
-        guard usesAutomaticRowHeights else {
-            // For fixed heights, use the fixed value
-            if case .fixed(let height) = options.rowHeightMode {
-                for row in 0..<rowCount {
+        // Delegate heights take precedence over all other height modes
+        if usesDelegateRowHeights() {
+            for row in 0..<rowCount {
+                if let height = delegate?.dataTable?(self, heightForRowAt: row) {
                     metricsStore.setHeight(height, forRow: row)
                 }
             }
@@ -351,10 +351,10 @@ public class SwiftDataTable: UIView {
             return
         }
 
-        guard !usesDelegateRowHeights() else {
-            // Delegate provides heights - populate metricsStore with delegate values
-            for row in 0..<rowCount {
-                if let height = delegate?.dataTable?(self, heightForRowAt: row) {
+        // Fixed heights mode - use the configured fixed value
+        guard usesAutomaticRowHeights else {
+            if case .fixed(let height) = options.rowHeightMode {
+                for row in 0..<rowCount {
                     metricsStore.setHeight(height, forRow: row)
                 }
             }

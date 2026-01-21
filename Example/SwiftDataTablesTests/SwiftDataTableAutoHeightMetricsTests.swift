@@ -193,4 +193,59 @@ final class SwiftDataTableAutoHeightMetricsTests: XCTestCase {
         // Floating footer SHOULD contribute to content height
         XCTAssertGreaterThan(table.rowMetricsStore.footerHeight, 0)
     }
+
+    // MARK: - Delegate Height Precedence Tests (GPT Review Issue #1)
+
+    func test_metricsStore_delegateHeights_takePrecedenceOverFixedMode() {
+        var options = DataTableConfiguration()
+        options.rowHeightMode = .fixed(44)  // Fixed mode set to 44
+
+        let data: DataTableContent = [[.string("A")], [.string("B")], [.string("C")]]
+        let table = SwiftDataTable(data: data, headerTitles: ["H"], options: options)
+
+        // Create and assign mock delegate that returns different heights per row
+        let mockDelegate = MockHeightDelegate(heights: [100, 150, 200])
+        table.delegate = mockDelegate
+
+        table.calculateColumnWidths()
+
+        // Delegate heights should take precedence over fixed(44)
+        XCTAssertEqual(table.rowMetricsStore.heightForRow(0), 100)
+        XCTAssertEqual(table.rowMetricsStore.heightForRow(1), 150)
+        XCTAssertEqual(table.rowMetricsStore.heightForRow(2), 200)
+    }
+
+    func test_metricsStore_delegateHeights_takePrecedenceOverAutomaticMode() {
+        var options = DataTableConfiguration()
+        options.rowHeightMode = .automatic(estimated: 44)  // Automatic mode
+
+        let data: DataTableContent = [[.string("A")], [.string("B")]]
+        let table = SwiftDataTable(data: data, headerTitles: ["H"], options: options)
+
+        // Create and assign mock delegate
+        let mockDelegate = MockHeightDelegate(heights: [75, 125])
+        table.delegate = mockDelegate
+
+        table.calculateColumnWidths()
+
+        // Delegate heights should take precedence over automatic calculation
+        XCTAssertEqual(table.rowMetricsStore.heightForRow(0), 75)
+        XCTAssertEqual(table.rowMetricsStore.heightForRow(1), 125)
+    }
+}
+
+// MARK: - Mock Delegate for Height Testing
+
+private final class MockHeightDelegate: NSObject, SwiftDataTableDelegate {
+    private let heights: [CGFloat]
+
+    init(heights: [CGFloat]) {
+        self.heights = heights
+        super.init()
+    }
+
+    func dataTable(_ dataTable: SwiftDataTable, heightForRowAt index: Int) -> CGFloat {
+        guard index < heights.count else { return 44 }
+        return heights[index]
+    }
 }
