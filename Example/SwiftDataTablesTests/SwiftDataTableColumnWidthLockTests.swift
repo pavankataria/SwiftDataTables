@@ -112,6 +112,33 @@ final class SwiftDataTableColumnWidthLockTests: XCTestCase {
         XCTAssertNotEqual(config1, config2, "Configurations should differ when lockColumnWidthsAfterFirstLayout differs")
     }
 
+    // MARK: - Config Change Bypass Tests
+
+    func test_columnWidths_recalculated_whenColumnWidthModeChanges_despiteLock() {
+        // GPT Review Issue: Lock must be bypassed when columnWidthMode config changes
+        var options = DataTableConfiguration()
+        options.lockColumnWidthsAfterFirstLayout = true
+        options.columnWidthMode = .fixed(width: 150)
+        options.shouldContentWidthScaleToFillFrame = false
+
+        let data: DataTableContent = [[.string("Test")]]
+        let table = SwiftDataTable(data: data, headerTitles: ["Header"], options: options)
+        table.frame = CGRect(x: 0, y: 0, width: 400, height: 600)
+        table.calculateColumnWidths()
+
+        let initialWidth = table.widthForColumn(index: 0)
+
+        // Change columnWidthMode config - this should bypass the lock
+        table.options.columnWidthMode = .fixed(width: 250)
+        table.calculateColumnWidths()
+
+        let updatedWidth = table.widthForColumn(index: 0)
+
+        // Width should change when columnWidthMode changes, even with lock enabled
+        XCTAssertNotEqual(initialWidth, updatedWidth, "Width should recalculate when columnWidthMode changes, despite lock")
+        XCTAssertEqual(updatedWidth, 250, "Width should reflect new fixed width")
+    }
+
     // MARK: - Height Rebuild Tests
 
     func test_rowHeights_stillRebuilt_whenWidthsLocked() {
