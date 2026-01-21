@@ -539,7 +539,12 @@ public class SwiftDataTable: UIView {
         }
         return delegate.responds(to: #selector(SwiftDataTableDelegate.dataTable(_:heightForRowAt:)))
     }
-    
+
+    /// Returns true if content changes require layout metadata rebuild (auto-height or delegate heights)
+    private var requiresLayoutMetadataRebuildOnContentChange: Bool {
+        return usesAutomaticRowHeights || usesDelegateRowHeights()
+    }
+
     public func reloadEverything(){
         self.layout?.clearLayoutCache()
         self.collectionView.reloadData()
@@ -804,6 +809,16 @@ public extension SwiftDataTable {
         //
         // UICollectionView's performBatchUpdates handles this automatically
         // if we provide the correct indices and update data at the right time.
+
+        // Phase 2 fix: In auto-height or delegate-height modes, cell-level reloads don't trigger
+        // layout metadata rebuild. Convert them to section reloads so prepare(forCollectionViewUpdates:)
+        // sees section-level changes and triggers calculateColumnWidths() + prepareMetadata().
+        if requiresLayoutMetadataRebuildOnContentChange && !reloadIndexPaths.isEmpty {
+            for indexPath in reloadIndexPaths {
+                reloadSections.insert(indexPath.section)
+            }
+            reloadIndexPaths.removeAll()
+        }
 
         // Apply batch updates
         let sortedReloadIndexPaths = reloadIndexPaths.sorted {
