@@ -127,6 +127,12 @@ public class SwiftDataTable: UIView {
     fileprivate var rowHeights = [CGFloat]()
     private var sizingCellCacheByReuseId: [String: UICollectionViewCell] = [:]
 
+    // MARK: - Row Metrics Store (Single Source of Truth)
+    private let metricsStore = RowMetricsStore()
+
+    /// Provides read access to row metrics for the layout.
+    var rowMetricsStore: RowMetricsStore { metricsStore }
+
     internal func seedRowIdentifiers(_ identifiers: [String]) {
         currentRowIdentifiers = identifiers
     }
@@ -304,6 +310,7 @@ public class SwiftDataTable: UIView {
     private func invalidateRowHeights() {
         rowHeights.removeAll()
         sizingCellCacheByReuseId.removeAll()
+        metricsStore.clear()
     }
 
     private var usesAutomaticRowHeights: Bool {
@@ -320,19 +327,54 @@ public class SwiftDataTable: UIView {
 
     private func calculateRowHeights() {
         rowHeights.removeAll()
-        guard usesAutomaticRowHeights else {
-            return
-        }
-        guard !usesDelegateRowHeights() else {
+
+        // Configure metricsStore with layout parameters
+        metricsStore.headerHeight = heightForSectionHeader()
+        metricsStore.interRowSpacing = heightOfInterRowSpacing()
+        // Footer contributes to content height only when floating (matches heightOfFooter() in layout)
+        metricsStore.footerHeight = shouldShowFooterSection() && shouldSectionFootersFloat() ? heightForSectionFooter() + heightForPaginationView() : 0
+
+        let rowCount = numberOfRows()
+        let defaultHeight = options.rowHeightMode.estimatedHeight
+
+        // Set up row count in metricsStore
+        metricsStore.setRowCount(rowCount, defaultHeight: defaultHeight)
+
+        // Delegate heights take precedence over all other height modes
+        if usesDelegateRowHeights() {
+            for row in 0..<rowCount {
+                if let height = delegate?.dataTable?(self, heightForRowAt: row) {
+                    metricsStore.setHeight(height, forRow: row)
+                }
+            }
+            metricsStore.rebuildOffsets()
             return
         }
 
+        // Fixed heights mode - use the configured fixed value
+        guard usesAutomaticRowHeights else {
+            if case .fixed(let height) = options.rowHeightMode {
+                for row in 0..<rowCount {
+                    metricsStore.setHeight(height, forRow: row)
+                }
+            }
+            metricsStore.rebuildOffsets()
+            return
+        }
+
+        // Calculate automatic heights
         switch options.cellSizingMode {
         case .autoLayout(let provider):
             rowHeights = calculateAutoLayoutRowHeights(provider: provider)
         case .defaultCell:
             rowHeights = calculateDefaultRowHeights()
         }
+
+        // Sync rowHeights to metricsStore
+        for (row, height) in rowHeights.enumerated() {
+            metricsStore.setHeight(height, forRow: row)
+        }
+        metricsStore.rebuildOffsets()
     }
 
     private func calculateDefaultRowHeights() -> [CGFloat] {
@@ -472,6 +514,7 @@ public class SwiftDataTable: UIView {
         self.layout?.clearLayoutCache()
         self.collectionView.resetScrollPositionToTop()
         self.set(data: data, headerTitles: headerTitles, options: self.options)
+        calculateColumnWidths()  // Rebuild metricsStore before reloadData
         self.collectionView.reloadData()
     }
     
@@ -580,6 +623,7 @@ public extension SwiftDataTable {
             self.rowViewModels = newViewModels
             invalidateRowHeights()
             layout?.clearLayoutCache()
+            calculateColumnWidths()  // Rebuild metricsStore before reloadData
             self.collectionView.reloadData()
             completion?(true)
         }
@@ -685,8 +729,11 @@ public extension SwiftDataTable {
         let totalChanges = deletions.count + insertions.count + changedRows.count
         let totalRows = max(oldIdentifiers.count, newIdentifiers.count)
         if totalRows > 0 && Double(totalChanges) / Double(totalRows) > 0.5 {
-            // More than 50% changed - apply data and reload
+            // More than 50% changed - apply data, rebuild metrics, and reload
             applyNewData()
+            invalidateRowHeights()
+            layout?.clearLayoutCache()
+            calculateColumnWidths()  // This also rebuilds metricsStore
             self.collectionView.reloadData()
             completion?(true)
             return
