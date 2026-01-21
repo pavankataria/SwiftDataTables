@@ -128,6 +128,8 @@ public class SwiftDataTable: UIView {
 
     /// Tracks whether column widths have been computed at least once (for lockColumnWidthsAfterFirstLayout)
     private var hasComputedColumnWidthsOnce = false
+    /// Tracks the columnWidthMode used in the last width computation (for config-change detection)
+    private var lastColumnWidthMode: DataTableColumnWidthMode?
     private var sizingCellCacheByReuseId: [String: UICollectionViewCell] = [:]
 
     // MARK: - Row Metrics Store (Single Source of Truth)
@@ -282,9 +284,10 @@ public class SwiftDataTable: UIView {
     func calculateColumnWidths() {
         let expectedColumnCount = numberOfHeaderColumns()
         let schemaChanged = columnWidths.count != expectedColumnCount
+        let configChanged = lastColumnWidthMode != options.columnWidthMode
 
-        // If locked and already computed, skip recalculation (unless schema changed)
-        if options.lockColumnWidthsAfterFirstLayout && hasComputedColumnWidthsOnce && !schemaChanged {
+        // If locked and already computed, skip recalculation (unless schema or config changed)
+        if options.lockColumnWidthsAfterFirstLayout && hasComputedColumnWidthsOnce && !schemaChanged && !configChanged {
             // Still need to rebuild heights in case data changed
             calculateRowHeights()
             return
@@ -298,6 +301,7 @@ public class SwiftDataTable: UIView {
 
         applyColumnWidths(newWidths)
         hasComputedColumnWidthsOnce = true
+        lastColumnWidthMode = options.columnWidthMode
 
         // If widths changed, we must rebuild all heights (wrapping depends on width)
         if widthsChanged || metricsStore.rowCount == 0 {
