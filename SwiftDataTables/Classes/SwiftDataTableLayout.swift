@@ -17,13 +17,16 @@ class SwiftDataTableLayout: UICollectionViewFlowLayout {
     var insertedSectionIndices = NSMutableArray()
     var removedSectionIndices = NSMutableArray()
 
-    // On-demand layout metadata (replaces bulk cache)
+    // Column layout metadata (row metrics now come from metricsStore)
     private var cachedColumnXOffsets = [CGFloat]()
     private var cachedColumnWidths = [CGFloat]()
-    private var cachedRowYOffsets = [CGFloat]()  // Cumulative Y offset for binary search
-    private var cachedRowHeights = [CGFloat]()
-    private var cachedContentSize: CGSize = .zero
     private var needsMetadataUpdate = true
+
+    // MARK: - Row Metrics Store (Single Source of Truth)
+    /// Non-optional access to row metrics store. Asserts if accessed before dataTable is ready.
+    var metricsStore: RowMetricsStore {
+        return dataTable.rowMetricsStore
+    }
 
     //MARK: - Lifecycle
     init(dataTable: SwiftDataTable){
@@ -50,9 +53,8 @@ class SwiftDataTableLayout: UICollectionViewFlowLayout {
         needsMetadataUpdate = false
     }
 
-    /// Prepares only metadata needed for on-demand layout (not actual attributes)
+    /// Prepares column metadata. Row metrics come from metricsStore (single source of truth).
     private func prepareMetadata() {
-        let numberOfRows = self.dataTable.numberOfRows()
         let numberOfColumns = self.dataTable.numberOfColumns()
 
         // Calculate column X offsets
@@ -71,32 +73,7 @@ class SwiftDataTableLayout: UICollectionViewFlowLayout {
             cachedColumnWidths.append(self.dataTable.widthForColumn(index: column))
         }
 
-        // Calculate row heights
-        cachedRowHeights.removeAll(keepingCapacity: true)
-        cachedRowHeights.reserveCapacity(numberOfRows)
-        for row in 0..<numberOfRows {
-            cachedRowHeights.append(self.dataTable.heightForRow(index: row))
-        }
-
-        // Calculate cumulative row Y offsets for binary search
-        cachedRowYOffsets.removeAll(keepingCapacity: true)
-        cachedRowYOffsets.reserveCapacity(numberOfRows)
-        var runningY = self.dataTable.heightForSectionHeader()
-        let interRowSpacing = self.dataTable.heightOfInterRowSpacing()
-        for row in 0..<numberOfRows {
-            cachedRowYOffsets.append(runningY)
-            runningY += cachedRowHeights[row] + interRowSpacing
-        }
-
-        // Cache content size to avoid O(n) recalculation on every scroll
-        let contentWidth = self.dataTable.calculateContentWidth()
-        let contentHeight: CGFloat
-        if let lastY = cachedRowYOffsets.last, let lastH = cachedRowHeights.last {
-            contentHeight = lastY + lastH + interRowSpacing + heightOfFooter()
-        } else {
-            contentHeight = self.dataTable.heightForSectionHeader() + heightOfFooter()
-        }
-        cachedContentSize = CGSize(width: contentWidth, height: contentHeight)
+        // Row heights and Y offsets now come from metricsStore (populated by SwiftDataTable.calculateRowHeights())
     }
     
     fileprivate func heightOfFooter() -> CGFloat {
@@ -116,15 +93,16 @@ class SwiftDataTableLayout: UICollectionViewFlowLayout {
     }
     
     override var collectionViewContentSize: CGSize {
-        // Use cached size for O(1) performance during scrolling
-        // Falls back to calculation if cache is empty (shouldn't happen in normal flow)
-        if cachedContentSize != .zero {
-            return cachedContentSize
+        // Safety check: if metricsStore is stale (row count mismatch), rebuild
+        let numberOfRows = self.dataTable.numberOfRows()
+        if metricsStore.rowCount != numberOfRows && numberOfRows > 0 {
+            self.dataTable.calculateColumnWidths()
+            prepareMetadata()
         }
+
+        // Use metricsStore for O(1) content height lookup
         let width = self.dataTable.calculateContentWidth()
-        let height = Array(0..<self.dataTable.numberOfRows()).reduce(self.dataTable.heightForSectionHeader() + self.heightOfFooter()) {
-            $0 + self.dataTable.heightForRow(index: $1) + self.dataTable.heightOfInterRowSpacing()
-        }
+        let height = metricsStore.contentHeight
         return CGSize(width: width, height: height)
     }
     
@@ -139,21 +117,19 @@ class SwiftDataTableLayout: UICollectionViewFlowLayout {
         }
 
         // Safety check: if row count changed, recalculate metadata
-        if cachedRowYOffsets.count != numberOfRows {
+        if metricsStore.rowCount != numberOfRows {
             self.dataTable.calculateColumnWidths()
             prepareMetadata()
         }
 
-        // Binary search to find first visible row
-        let firstVisibleRow = binarySearchRowForY(rect.minY)
-        let lastVisibleRow = binarySearchRowForY(rect.maxY)
+        // Binary search to find first visible row using metricsStore
+        let firstVisibleRow = metricsStore.rowForYOffset(rect.minY)
+        let lastVisibleRow = metricsStore.rowForYOffset(rect.maxY)
 
         // Generate attributes on-demand for visible rows only
         for row in firstVisibleRow...min(lastVisibleRow, numberOfRows - 1) {
-            guard row < cachedRowYOffsets.count, row < cachedRowHeights.count else { continue }
-
-            let y = cachedRowYOffsets[row]
-            let height = cachedRowHeights[row]
+            let y = metricsStore.yOffsetForRow(row)
+            let height = metricsStore.heightForRow(row)
 
             // Skip rows that are completely outside the rect
             guard y + height >= rect.minY && y <= rect.maxY else { continue }
@@ -283,12 +259,12 @@ extension SwiftDataTableLayout {
 
         // Safety check: if row count changed, recalculate metadata
         let numberOfRows = self.dataTable.numberOfRows()
-        if cachedRowYOffsets.count != numberOfRows {
+        if metricsStore.rowCount != numberOfRows {
             self.dataTable.calculateColumnWidths()
             prepareMetadata()
         }
 
-        // Use cached values if available, otherwise calculate
+        // Use cached values for columns, metricsStore for rows
         let x: CGFloat
         let width: CGFloat
         if column < cachedColumnXOffsets.count && column < cachedColumnWidths.count {
@@ -299,16 +275,9 @@ extension SwiftDataTableLayout {
             width = self.dataTable.widthForColumn(index: column)
         }
 
-        let y: CGFloat
-        let height: CGFloat
-        if row < cachedRowYOffsets.count && row < cachedRowHeights.count {
-            y = cachedRowYOffsets[row]
-            height = cachedRowHeights[row]
-        } else {
-            let initialRowYPosition = self.dataTable.heightForSectionHeader()
-            y = initialRowYPosition + CGFloat(Int(self.dataTable.heightForRow(index: 0)) * row)
-            height = self.dataTable.heightForRow(index: row)
-        }
+        // Row metrics from metricsStore (single source of truth)
+        let y = metricsStore.yOffsetForRow(row)
+        let height = metricsStore.heightForRow(row)
 
         let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
         attributes.frame = CGRect(x: max(0, x), y: max(0, y), width: width, height: height)
@@ -450,24 +419,5 @@ extension SwiftDataTableLayout {
         return attribute
     }
     
-    /// Binary search to find the first row whose Y offset is >= the given value.
-    /// Returns the row index to start iterating from.
-    private func binarySearchRowForY(_ targetY: CGFloat) -> Int {
-        guard !cachedRowYOffsets.isEmpty else { return 0 }
-
-        var low = 0
-        var high = cachedRowYOffsets.count
-
-        while low < high {
-            let mid = low + (high - low) / 2
-            // Include row height to check if row intersects with targetY
-            let rowBottom = cachedRowYOffsets[mid] + (mid < cachedRowHeights.count ? cachedRowHeights[mid] : 0)
-            if rowBottom < targetY {
-                low = mid + 1
-            } else {
-                high = mid
-            }
-        }
-        return max(0, low)
-    }
+    // Binary search for visible rows is now handled by metricsStore.rowForYOffset()
 }
