@@ -112,6 +112,43 @@ final class SwiftDataTableAutoHeightMetricsTests: XCTestCase {
         XCTAssertEqual(table.rowMetricsStore.heightForRow(0), 44)
     }
 
+    func test_autoHeightDiff_updatesMetricsForItemReloads() {
+        var options = DataTableConfiguration()
+        options.rowHeightMode = .automatic(estimated: 44)
+        options.textLayout = .wrap
+        options.columnWidthMode = .fixed(width: 80)
+        options.minColumnWidth = 80
+        options.maxColumnWidth = 80
+        options.shouldContentWidthScaleToFillFrame = false
+        options.shouldShowSearchSection = false
+
+        let identifiers = ["1", "2"]
+        let data: DataTableContent = [[.string("Short")], [.string("Short 2")]]
+        let table = makeTableInWindow(data: data, headerTitles: ["H"], options: options)
+
+        // Seed identifiers without animation so diff path uses reloadItems on update.
+        table.setData(data, rowIdentifiers: identifiers, animatingDifferences: false)
+
+        let initialHeight = table.rowMetricsStore.heightForRow(0)
+        let initialOffset1 = table.rowMetricsStore.yOffsetForRow(1)
+
+        let longText = String(repeating: "Wrap ", count: 30)
+        let newData: DataTableContent = [[.string(longText)], [.string("Short 2")]]
+
+        let exp = expectation(description: "diff complete")
+        table.setData(newData, rowIdentifiers: identifiers, animatingDifferences: true) { _ in
+            exp.fulfill()
+        }
+        waitForExpectations(timeout: 1.0)
+        table.collectionView.layoutIfNeeded()
+
+        let updatedHeight = table.rowMetricsStore.heightForRow(0)
+        let updatedOffset1 = table.rowMetricsStore.yOffsetForRow(1)
+
+        XCTAssertGreaterThan(updatedHeight, initialHeight)
+        XCTAssertGreaterThan(updatedOffset1, initialOffset1)
+    }
+
     // MARK: - Automatic Row Height Tests
 
     func test_automaticHeight_metricsStore_reflectsWrappedText() {
@@ -231,6 +268,22 @@ final class SwiftDataTableAutoHeightMetricsTests: XCTestCase {
         // Delegate heights should take precedence over automatic calculation
         XCTAssertEqual(table.rowMetricsStore.heightForRow(0), 75)
         XCTAssertEqual(table.rowMetricsStore.heightForRow(1), 125)
+    }
+
+    private func makeTableInWindow(
+        data: DataTableContent,
+        headerTitles: [String],
+        options: DataTableConfiguration
+    ) -> SwiftDataTable {
+        let table = SwiftDataTable(data: data, headerTitles: headerTitles, options: options)
+        table.frame = CGRect(x: 0, y: 0, width: 320, height: 480)
+
+        let window = UIWindow(frame: table.frame)
+        window.addSubview(table)
+        window.makeKeyAndVisible()
+        table.layoutIfNeeded()
+
+        return table
     }
 }
 
