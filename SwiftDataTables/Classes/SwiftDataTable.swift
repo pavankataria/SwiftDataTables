@@ -311,10 +311,10 @@ public class SwiftDataTable: UIView {
         // If widths changed, we must rebuild all heights (wrapping depends on width)
         if widthsChanged || metricsStore.rowCount == 0 {
             calculateRowHeights()
-        } else {
-            // Widths unchanged - still rebuild heights for now until Phase 3 incremental updates
-            calculateRowHeights()
         }
+        // Phase 3: When widths unchanged, skip height rebuild here.
+        // Dirty rows will be processed incrementally after applyNewData() in applyDiff().
+        // This ensures measurements use the NEW data, not stale data.
     }
 
     /// Pure calculation: returns column widths without side effects.
@@ -373,6 +373,147 @@ public class SwiftDataTable: UIView {
         rowHeights.removeAll()
         sizingCellCacheByReuseId.removeAll()
         metricsStore.clear()
+    }
+
+    // MARK: - Incremental Height Updates (Phase 3)
+
+    /// Phase 3: Performs incremental height update after data is applied.
+    /// Called from inside performBatchUpdates after applyNewData().
+    private func performIncrementalHeightUpdate(deletions: IndexSet, insertions: IndexSet) {
+        let newRowCount = numberOfRows()
+        let oldRowCount = metricsStore.rowCount
+
+        // Handle row count changes FIRST - applies to ALL height modes including fixed
+        if newRowCount != oldRowCount {
+            if newRowCount < oldRowCount {
+                // Deletions: truncate metricsStore
+                metricsStore.truncateToCount(newRowCount)
+                // Invalidate from first deleted index onward (tail invalidation)
+                if let firstDeletion = deletions.min(), firstDeletion < newRowCount {
+                    let tailRows = IndexSet(integersIn: firstDeletion..<newRowCount)
+                    metricsStore.invalidateRows(tailRows)
+                }
+            } else {
+                // Insertions: append default-height rows
+                let defaultHeight = options.rowHeightMode.estimatedHeight
+                for _ in oldRowCount..<newRowCount {
+                    metricsStore.appendRow(height: defaultHeight)
+                }
+                // Invalidate from first insertion onward (shifted rows need re-measure)
+                if let firstInsertion = insertions.min(), firstInsertion < newRowCount {
+                    let tailRows = IndexSet(integersIn: firstInsertion..<newRowCount)
+                    metricsStore.invalidateRows(tailRows)
+                }
+            }
+            // Rebuild offsets after row count change
+            metricsStore.rebuildOffsets()
+        }
+
+        // For fixed heights without delegate, just sync and return
+        guard requiresLayoutMetadataRebuildOnContentChange else {
+            metricsStore.clearDirtyFlags()
+            rowHeights = (0..<metricsStore.rowCount).map { metricsStore.heightForRow($0) }
+            return
+        }
+
+        // Skip height recomputation if no dirty rows
+        guard metricsStore.hasDirtyRows else {
+            rowHeights = (0..<metricsStore.rowCount).map { metricsStore.heightForRow($0) }
+            return
+        }
+
+        // Now recompute dirty heights with the new data
+        if usesDelegateRowHeights() {
+            metricsStore.recomputeDirtyHeights { [weak self] row in
+                guard let self = self else { return 44 }
+                return self.delegate?.dataTable?(self, heightForRowAt: row) ?? 44
+            }
+        } else if usesAutomaticRowHeights {
+            metricsStore.recomputeDirtyHeights { [weak self] row in
+                guard let self = self else { return 0 }
+                return self.measureHeightForRow(row)
+            }
+        } else {
+            metricsStore.clearDirtyFlags()
+        }
+
+        // Sync to legacy rowHeights array for compatibility
+        rowHeights = (0..<metricsStore.rowCount).map { metricsStore.heightForRow($0) }
+    }
+
+    /// Measures height for a single row (used by incremental updates).
+    private func measureHeightForRow(_ row: Int) -> CGFloat {
+        switch options.cellSizingMode {
+        case .autoLayout(let provider):
+            return measureAutoLayoutHeightForRow(row, provider: provider)
+        case .defaultCell:
+            return measureDefaultHeightForRow(row)
+        }
+    }
+
+    /// Measures height for a row using AutoLayout sizing.
+    private func measureAutoLayoutHeightForRow(_ row: Int, provider: DataTableCustomCellProvider) -> CGFloat {
+        guard row < currentRowViewModels.count else { return options.rowHeightMode.estimatedHeight }
+
+        let estimatedHeight = options.rowHeightMode.estimatedHeight
+        let targetHeight = max(estimatedHeight, 1)
+        var maxHeight: CGFloat = 0
+        let rowData = currentRowViewModels[row]
+        let columnCount = numberOfColumns()
+
+        for columnIndex in 0..<columnCount {
+            guard columnIndex < rowData.count else { continue }
+            let value = rowData[columnIndex].data
+            let indexPath = IndexPath(item: columnIndex, section: row)
+            let reuseId = provider.reuseIdentifierFor(indexPath)
+            let sizingCell = self.sizingCell(for: reuseId, provider: provider)
+            provider.configure(sizingCell, value, indexPath)
+            let columnWidth = columnWidths[safe: columnIndex] ?? 0
+            sizingCell.bounds = CGRect(x: 0, y: 0, width: columnWidth, height: targetHeight)
+            sizingCell.setNeedsLayout()
+            sizingCell.layoutIfNeeded()
+            let targetSize = CGSize(width: columnWidth, height: UIView.layoutFittingCompressedSize.height)
+            let size = sizingCell.contentView.systemLayoutSizeFitting(
+                targetSize,
+                withHorizontalFittingPriority: .required,
+                verticalFittingPriority: .fittingSizeLevel
+            )
+            maxHeight = max(maxHeight, ceil(size.height))
+        }
+
+        return max(maxHeight, estimatedHeight)
+    }
+
+    /// Measures height for a row using default text-based sizing.
+    private func measureDefaultHeightForRow(_ row: Int) -> CGFloat {
+        guard row < currentRowViewModels.count else { return options.rowHeightMode.estimatedHeight }
+
+        let font = DataCell.Properties.defaultFont
+        let verticalPadding = DataCell.Properties.verticalMargin * 2
+        let singleLineHeight = ceil(font.lineHeight + verticalPadding)
+
+        if case .singleLine = options.textLayout {
+            return singleLineHeight
+        }
+
+        // Wrap mode: calculate based on text content
+        var maxHeight: CGFloat = singleLineHeight
+        let rowData = currentRowViewModels[row]
+        let columnCount = numberOfColumns()
+
+        for columnIndex in 0..<columnCount {
+            guard columnIndex < rowData.count else { continue }
+            let columnWidth = columnWidths[safe: columnIndex] ?? 0
+            let textWidth = max(columnWidth - (DataCell.Properties.horizontalMargin * 2), 0)
+            let textHeight = measuredTextHeight(
+                for: rowData[columnIndex].data,
+                font: font,
+                width: textWidth
+            )
+            maxHeight = max(maxHeight, textHeight + verticalPadding)
+        }
+
+        return maxHeight
     }
 
     private var usesAutomaticRowHeights: Bool {
@@ -833,6 +974,14 @@ public extension SwiftDataTable {
             return $0.section < $1.section
         }
 
+        // Phase 3: Mark dirty rows for incremental height updates
+        // Changed rows (content changed) + insertions (new rows) need height measurement
+        var dirtyRowIndices = IndexSet(changedRows)
+        dirtyRowIndices.formUnion(insertions)
+        if !dirtyRowIndices.isEmpty {
+            metricsStore.invalidateRows(dirtyRowIndices)
+        }
+
         self.collectionView.performBatchUpdates({
             // Delete sections first (indices relative to old data)
             if !deletions.isEmpty {
@@ -842,6 +991,9 @@ public extension SwiftDataTable {
             // Now apply the new data - this must happen during the batch update
             // so the collection view sees the correct number of sections for insertions
             applyNewData()
+
+            // Phase 3: Incremental height updates - now that data is applied, we can measure with new data
+            self.performIncrementalHeightUpdate(deletions: deletions, insertions: insertions)
 
             // Insert sections (indices relative to new data)
             if !insertions.isEmpty {

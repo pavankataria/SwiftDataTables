@@ -17,6 +17,17 @@ final class RowMetricsStore {
     private(set) var yOffsets: [CGFloat] = []
     private(set) var contentHeight: CGFloat = 0
 
+    // MARK: - Dirty Tracking (Phase 3)
+
+    /// Rows that need height recomputation
+    private var dirtyRows: IndexSet = []
+
+    /// Returns true if any rows are marked dirty
+    var hasDirtyRows: Bool { !dirtyRows.isEmpty }
+
+    /// Returns the earliest (lowest index) dirty row, or nil if none
+    var earliestDirtyRow: Int? { dirtyRows.min() }
+
     // MARK: - Configuration
 
     var headerHeight: CGFloat = 0
@@ -51,6 +62,21 @@ final class RowMetricsStore {
         rowHeights[row] = height
     }
 
+    /// Appends a new row with the given height (used for incremental insertions).
+    func appendRow(height: CGFloat) {
+        rowHeights.append(height)
+        yOffsets.append(0) // Will be recalculated by rebuildOffsets
+    }
+
+    /// Truncates the store to the given row count (used for incremental deletions).
+    func truncateToCount(_ count: Int) {
+        guard count < rowHeights.count else { return }
+        rowHeights.removeLast(rowHeights.count - count)
+        yOffsets.removeLast(yOffsets.count - count)
+        // Remove any dirty flags for rows that no longer exist
+        dirtyRows = dirtyRows.filteredIndexSet { $0 < count }
+    }
+
     /// Rebuilds all row heights using the provided measurer and recalculates Y offsets.
     /// This is the Phase 1 API - simple full rebuild.
     func rebuildAll(measurer: (Int) -> CGFloat) {
@@ -80,6 +106,74 @@ final class RowMetricsStore {
         rowHeights.removeAll()
         yOffsets.removeAll()
         contentHeight = 0
+        dirtyRows.removeAll()
+    }
+
+    // MARK: - Dirty Tracking API (Phase 3)
+
+    /// Marks specific rows as needing height recomputation.
+    func invalidateRows(_ rows: IndexSet) {
+        dirtyRows.formUnion(rows)
+    }
+
+    /// Marks all rows as dirty (used when widths change).
+    func invalidateAllRows() {
+        dirtyRows = IndexSet(integersIn: 0..<rowHeights.count)
+    }
+
+    /// Clears all dirty flags after recomputation.
+    func clearDirtyFlags() {
+        dirtyRows.removeAll()
+    }
+
+    // MARK: - Incremental Recompute (Phase 3)
+
+    /// Recomputes heights only for dirty rows, then rebuilds offsets from earliest dirty row.
+    /// Returns true if any rows were recomputed.
+    @discardableResult
+    func recomputeDirtyHeights(measurer: (Int) -> CGFloat) -> Bool {
+        guard !dirtyRows.isEmpty else { return false }
+
+        // Measure only dirty rows
+        for row in dirtyRows {
+            guard row < rowHeights.count else { continue }
+            rowHeights[row] = measurer(row)
+        }
+
+        // Rebuild offsets from earliest dirty row
+        if let earliest = earliestDirtyRow {
+            rebuildOffsets(fromRow: earliest)
+        }
+
+        clearDirtyFlags()
+        return true
+    }
+
+    /// Rebuilds Y offsets from the given row to the end (tail update).
+    /// More efficient than full rebuild when only later rows need offset adjustment.
+    func rebuildOffsets(fromRow startRow: Int) {
+        guard !rowHeights.isEmpty else {
+            contentHeight = headerHeight + footerHeight
+            return
+        }
+
+        let safeStart = max(0, min(startRow, rowHeights.count - 1))
+
+        // Calculate starting Y position
+        var runningY: CGFloat
+        if safeStart == 0 {
+            runningY = headerHeight
+        } else {
+            runningY = yOffsets[safeStart - 1] + rowHeights[safeStart - 1] + interRowSpacing
+        }
+
+        // Update offsets from startRow to end
+        for row in safeStart..<rowHeights.count {
+            yOffsets[row] = runningY
+            runningY += rowHeights[row] + interRowSpacing
+        }
+
+        contentHeight = runningY + footerHeight
     }
 
     // MARK: - Binary Search (for visible row lookup)
