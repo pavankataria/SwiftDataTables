@@ -115,7 +115,7 @@ final class SwiftDataTableColumnWidthLockTests: XCTestCase {
     // MARK: - Config Change Bypass Tests
 
     func test_columnWidths_recalculated_whenColumnWidthModeChanges_despiteLock() {
-        // GPT Review Issue: Lock must be bypassed when columnWidthMode config changes
+        // Lock must be bypassed when columnWidthMode config changes
         var options = DataTableConfiguration()
         options.lockColumnWidthsAfterFirstLayout = true
         options.columnWidthMode = .fixed(width: 150)
@@ -137,6 +137,36 @@ final class SwiftDataTableColumnWidthLockTests: XCTestCase {
         // Width should change when columnWidthMode changes, even with lock enabled
         XCTAssertNotEqual(initialWidth, updatedWidth, "Width should recalculate when columnWidthMode changes, despite lock")
         XCTAssertEqual(updatedWidth, 250, "Width should reflect new fixed width")
+    }
+
+    func test_columnWidths_recalculated_whenProviderVersionChanges_despiteLock() {
+        // Lock must be bypassed when columnWidthModeProviderVersion changes
+        var options = DataTableConfiguration()
+        options.lockColumnWidthsAfterFirstLayout = true
+        options.shouldContentWidthScaleToFillFrame = false
+
+        // Start with provider returning fixed 150
+        options.columnWidthModeProvider = { _ in .fixed(width: 150) }
+        options.columnWidthModeProviderVersion = 1
+
+        let data: DataTableContent = [[.string("Test")]]
+        let table = SwiftDataTable(data: data, headerTitles: ["Header"], options: options)
+        table.frame = CGRect(x: 0, y: 0, width: 400, height: 600)
+        table.calculateColumnWidths()
+
+        let initialWidth = table.widthForColumn(index: 0)
+        XCTAssertEqual(initialWidth, 150, "Initial width should be 150 from provider")
+
+        // Change provider to return 250, increment version to signal the change
+        table.options.columnWidthModeProvider = { _ in .fixed(width: 250) }
+        table.options.columnWidthModeProviderVersion = 2
+        table.calculateColumnWidths()
+
+        let updatedWidth = table.widthForColumn(index: 0)
+
+        // Width should change when provider version changes, even with lock enabled
+        XCTAssertNotEqual(initialWidth, updatedWidth, "Width should recalculate when providerVersion changes, despite lock")
+        XCTAssertEqual(updatedWidth, 250, "Width should reflect new provider's fixed width")
     }
 
     // MARK: - Height Rebuild Tests
