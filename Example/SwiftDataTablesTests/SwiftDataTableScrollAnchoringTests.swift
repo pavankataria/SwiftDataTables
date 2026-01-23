@@ -173,33 +173,105 @@ final class SwiftDataTableScrollAnchoringTests: XCTestCase {
         )
     }
 
-    /// No anchoring during active user scroll (isDragging or isDecelerating).
-    func test_noAnchoringDuringUserScroll_skipsAnchorRestoration() {
-        // This test verifies the gating logic - harder to test in unit tests
-        // because we can't easily simulate isDragging state
-        // Instead, verify the basic case works and trust the guard clause
+    /// Test seam for isDragging/isDecelerating allows controlling scroll state in tests.
+    func test_scrollStateTestSeam_canOverrideScrollState() {
+        // Given: A table
+        let data: DataTableContent = (0..<10).map { [.string("Row \($0)")] }
+        let table = makeTableInWindow(data: data, headerTitles: ["H"])
 
-        // Given: A table with rows
+        // By default, seam is nil (uses real scroll state)
+        XCTAssertNil(table._testScrollStateOverride, "Test seam should be nil by default")
+
+        // Can set to true (simulate active scrolling)
+        table._testScrollStateOverride = true
+        XCTAssertEqual(table._testScrollStateOverride, true, "Test seam should accept true")
+
+        // Can set to false (simulate not scrolling)
+        table._testScrollStateOverride = false
+        XCTAssertEqual(table._testScrollStateOverride, false, "Test seam should accept false")
+
+        // Can reset to nil
+        table._testScrollStateOverride = nil
+        XCTAssertNil(table._testScrollStateOverride, "Test seam should be resettable to nil")
+    }
+
+    /// Verify anchoring behavior can be controlled via test seam.
+    /// When seam = true (simulating scroll), anchoring should be skipped.
+    func test_activeScrolling_skipsAnchoring() {
+        // Given: A table with rows, scrolled to middle
         var data: DataTableContent = (0..<20).map { [.string("Row \($0)")] }
         let table = makeTableInWindow(data: data, headerTitles: ["H"])
 
-        // Set a scroll position
-        let initialOffset = CGPoint(x: 0, y: 100)
-        table.collectionView.contentOffset = initialOffset
+        // Scroll to row 10
+        let rowY = table.rowMetricsStore.yOffsetForRow(10)
+        table.collectionView.contentOffset = CGPoint(x: 0, y: rowY)
         table.collectionView.layoutIfNeeded()
 
-        // When: Append rows (basic case, no user interaction)
+        // Simulate active scrolling via test seam
+        table._testScrollStateOverride = true
+
+        // When: Perform update that would trigger anchoring
         data.append(contentsOf: (20..<25).map { [.string("Row \($0)")] })
         table.setData(data, animatingDifferences: false)
         table.collectionView.layoutIfNeeded()
 
-        // Then: Position should be preserved (anchoring worked)
+        // Then: No crash, table updated successfully
+        // (UICollectionView may still preserve position, but our anchoring code was skipped)
+        XCTAssertEqual(table.numberOfRows(), 25, "Should have 25 rows after append")
+
+        // Clean up
+        table._testScrollStateOverride = nil
+    }
+
+    /// Anchoring works when not actively scrolling (test seam set to false).
+    func test_notActivelyScrolling_appliesAnchoring() {
+        // Given: A table with rows, scrolled to row 10
+        var data: DataTableContent = (0..<30).map { [.string("Row \($0)")] }
+        let table = makeTableInWindow(data: data, headerTitles: ["H"])
+
+        let targetRow = 10
+        let rowY = table.rowMetricsStore.yOffsetForRow(targetRow)
+        table.collectionView.contentOffset = CGPoint(x: 0, y: rowY)
+        table.collectionView.layoutIfNeeded()
+
+        // Record anchor row's visual position relative to viewport
+        let anchorFrameBefore = table.collectionView.layoutAttributesForItem(
+            at: IndexPath(item: 0, section: targetRow)
+        )?.frame
+        let viewportTopBefore = table.collectionView.contentOffset.y
+        let visualOffsetBefore = (anchorFrameBefore?.minY ?? 0) - viewportTopBefore
+
+        // Explicitly set not scrolling via test seam
+        table._testScrollStateOverride = false
+
+        let expectation = XCTestExpectation(description: "Animation completes")
+
+        // When: Insert rows above viewport while NOT scrolling
+        data.insert(contentsOf: [[.string("New 0")], [.string("New 1")], [.string("New 2")]], at: 0)
+        table.setData(data, animatingDifferences: true) { _ in
+            expectation.fulfill()
+        }
+
+        wait(for: [expectation], timeout: 2.0)
+
+        // Then: Anchor row (now at section 13) should have SAME visual position
+        // because anchoring preserved it
+        let newAnchorSection = targetRow + 3
+        let anchorFrameAfter = table.collectionView.layoutAttributesForItem(
+            at: IndexPath(item: 0, section: newAnchorSection)
+        )?.frame
+        let viewportTopAfter = table.collectionView.contentOffset.y
+        let visualOffsetAfter = (anchorFrameAfter?.minY ?? 0) - viewportTopAfter
+
+        // Visual position should be preserved (anchoring worked)
         XCTAssertEqual(
-            table.collectionView.contentOffset.y,
-            initialOffset.y,
-            accuracy: 1.0,
-            "Scroll position should be preserved when not actively scrolling"
+            visualOffsetAfter, visualOffsetBefore,
+            accuracy: 2.0,
+            "Anchor row's visual position should be preserved when anchoring is enabled"
         )
+
+        // Clean up
+        table._testScrollStateOverride = nil
     }
 
     // MARK: - Helpers

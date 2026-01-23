@@ -433,13 +433,23 @@ public class SwiftDataTable: UIView {
             return
         }
 
+        // Large-scale mode: skip immediate measurement, let lazy measurement handle it
+        // Dirty rows in large-scale mode will be measured on scroll
+        if usesLargeScaleMode {
+            metricsStore.clearDirtyFlags()
+            rowHeights = (0..<metricsStore.rowCount).map { metricsStore.heightForRow($0) }
+            // Trigger lazy measurement for currently visible rows
+            measureVisibleRowsIfNeeded()
+            return
+        }
+
         // Skip height recomputation if no dirty rows
         guard metricsStore.hasDirtyRows else {
             rowHeights = (0..<metricsStore.rowCount).map { metricsStore.heightForRow($0) }
             return
         }
 
-        // Now recompute dirty heights with the new data
+        // Now recompute dirty heights with the new data (standard automatic mode)
         if usesDelegateRowHeights() {
             metricsStore.recomputeDirtyHeights { [weak self] row in
                 guard let self = self else { return 44 }
@@ -538,11 +548,16 @@ public class SwiftDataTable: UIView {
             return true
         }
         switch options.rowHeightMode {
-        case .automatic:
+        case .automatic, .largeScale:
             return true
         case .fixed:
             return false
         }
+    }
+
+    /// Returns true if large-scale mode is enabled for lazy row measurement.
+    private var usesLargeScaleMode: Bool {
+        return options.rowHeightMode.isLargeScaleMode
     }
 
     private func calculateRowHeights() {
@@ -557,30 +572,44 @@ public class SwiftDataTable: UIView {
         let rowCount = numberOfRows()
         let defaultHeight = options.rowHeightMode.estimatedHeight
 
-        // Set up row count in metricsStore
-        metricsStore.setRowCount(rowCount, defaultHeight: defaultHeight)
-
         // Delegate heights take precedence over all other height modes
         if usesDelegateRowHeights() {
+            metricsStore.setRowCount(rowCount, defaultHeight: defaultHeight, allMeasured: true)
             for row in 0..<rowCount {
                 if let height = delegate?.dataTable?(self, heightForRowAt: row) {
                     metricsStore.setHeight(height, forRow: row)
                 }
             }
             metricsStore.rebuildOffsets()
+            rowHeights = (0..<rowCount).map { metricsStore.heightForRow($0) }
             return
         }
 
         // Fixed heights mode - use the configured fixed value
         guard usesAutomaticRowHeights else {
+            metricsStore.setRowCount(rowCount, defaultHeight: defaultHeight, allMeasured: true)
             if case .fixed(let height) = options.rowHeightMode {
                 for row in 0..<rowCount {
                     metricsStore.setHeight(height, forRow: row)
                 }
             }
             metricsStore.rebuildOffsets()
+            rowHeights = (0..<rowCount).map { metricsStore.heightForRow($0) }
             return
         }
+
+        // Large-scale mode: use estimated heights, measure lazily on scroll
+        if usesLargeScaleMode {
+            metricsStore.setRowCount(rowCount, defaultHeight: defaultHeight, allMeasured: false)
+            metricsStore.rebuildOffsets()
+            // Measure initial visible rows if we have a valid bounds
+            measureVisibleRowsIfNeeded()
+            rowHeights = (0..<rowCount).map { metricsStore.heightForRow($0) }
+            return
+        }
+
+        // Standard automatic mode: measure all rows upfront
+        metricsStore.setRowCount(rowCount, defaultHeight: defaultHeight, allMeasured: true)
 
         // Calculate automatic heights
         switch options.cellSizingMode {
@@ -710,11 +739,24 @@ public class SwiftDataTable: UIView {
 
     // MARK: - Scroll Anchoring Methods (Phase 4)
 
+    /// Test seam: allows tests to override the scroll state check for anchoring.
+    /// When non-nil, this value is used instead of checking isDragging/isDecelerating.
+    /// Set to `true` to simulate active scrolling (skip anchoring), `false` to allow anchoring.
+    internal var _testScrollStateOverride: Bool?
+
+    /// Returns true if anchoring should be skipped due to active user scrolling.
+    private var isActivelyScrolling: Bool {
+        if let override = _testScrollStateOverride {
+            return override
+        }
+        return collectionView.isDragging || collectionView.isDecelerating
+    }
+
     /// Captures the current scroll anchor (first visible row + offset within that row).
     /// Returns nil if anchoring should be skipped (user is scrolling, no rows, etc.)
     private func captureScrollAnchor() -> ScrollAnchor? {
         // Skip anchoring during active user interaction
-        guard !collectionView.isDragging && !collectionView.isDecelerating else {
+        guard !isActivelyScrolling else {
             return nil
         }
 
@@ -762,7 +804,7 @@ public class SwiftDataTable: UIView {
         guard let anchor = anchor else { return }
 
         // Skip if still in active scroll
-        guard !collectionView.isDragging && !collectionView.isDecelerating else {
+        guard !isActivelyScrolling else {
             return
         }
 
@@ -791,6 +833,68 @@ public class SwiftDataTable: UIView {
 
         // Apply the offset adjustment without animation (immediate)
         collectionView.contentOffset.y = clampedY
+    }
+
+    // MARK: - Large-Scale Lazy Measurement (Phase 5)
+
+    /// Measures rows in the visible area plus prefetch window.
+    /// Called on scroll in large-scale mode to lazily measure rows as they become visible.
+    /// Uses scroll anchoring to prevent visual jumps when measurements change layout.
+    private func measureVisibleRowsIfNeeded() {
+        // Only active in large-scale mode
+        guard usesLargeScaleMode else { return }
+        guard metricsStore.rowCount > 0 else { return }
+
+        // Calculate visible row range
+        let visibleRange = calculateVisibleRowRange()
+        guard !visibleRange.isEmpty else { return }
+
+        // Expand by prefetch window
+        let prefetchWindow = options.rowHeightMode.prefetchWindow
+        let expandedStart = max(0, visibleRange.lowerBound - prefetchWindow)
+        let expandedEnd = min(metricsStore.rowCount, visibleRange.upperBound + prefetchWindow)
+        let measureRange = expandedStart..<expandedEnd
+
+        // Check if there are unmeasured rows in the range
+        let unmeasured = metricsStore.unmeasuredRowsInRange(measureRange)
+        guard !unmeasured.isEmpty else { return }
+
+        // Capture anchor before measurement (estimate→measured transitions can shift layout)
+        let anchor = captureScrollAnchor()
+
+        // Measure the rows
+        metricsStore.measureRowsInRange(measureRange) { [weak self] row in
+            guard let self = self else { return self?.options.rowHeightMode.estimatedHeight ?? 44 }
+            return self.measureHeightForRow(row)
+        }
+
+        // Sync to legacy rowHeights array
+        rowHeights = (0..<metricsStore.rowCount).map { metricsStore.heightForRow($0) }
+
+        // Restore anchor to prevent visual jump
+        if anchor != nil {
+            restoreScrollAnchor(anchor, newIdentifiers: currentRowIdentifiers)
+        }
+
+        // Notify layout that metrics changed
+        layout?.invalidateLayout()
+    }
+
+    /// Calculates the range of rows currently visible in the viewport.
+    private func calculateVisibleRowRange() -> Range<Int> {
+        let viewportTop = collectionView.contentOffset.y + collectionView.adjustedContentInset.top
+        let viewportBottom = viewportTop + collectionView.bounds.height
+
+        guard viewportBottom > viewportTop else { return 0..<0 }
+
+        // Use binary search to find first and last visible rows
+        let firstRow = metricsStore.rowForYOffset(viewportTop)
+        let lastRow = metricsStore.rowForYOffset(viewportBottom)
+
+        let clampedFirst = max(0, firstRow)
+        let clampedLast = min(metricsStore.rowCount, lastRow + 1)
+
+        return clampedFirst..<clampedLast
     }
 
     public func reloadEverything(){
@@ -1323,6 +1427,9 @@ extension SwiftDataTable: UIScrollViewDelegate {
                 self.collectionView.contentOffset.y = maxY-1
             }
         }
+
+        // Phase 5: Lazy measurement for large-scale mode
+        measureVisibleRowsIfNeeded()
     }
 }
 
@@ -1430,7 +1537,9 @@ extension SwiftDataTable {
         switch options.rowHeightMode {
         case .fixed(let height):
             return height
-        case .automatic (let estimated):
+        case .automatic(let estimated):
+            return estimated
+        case .largeScale(let estimated, _):
             return estimated
         }
     }

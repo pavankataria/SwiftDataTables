@@ -73,6 +73,12 @@ public enum DataTableTextLayout: Equatable {
 public enum DataTableRowHeightMode: Equatable {
     case fixed(CGFloat)
     case automatic(estimated: CGFloat = 44)
+    /// Large-scale mode: uses estimated heights initially, measures rows lazily as they become visible.
+    /// Optimized for 100k+ rows. Rows are measured within a prefetch window around the viewport.
+    /// - Parameters:
+    ///   - estimatedHeight: The estimated height used for unmeasured rows.
+    ///   - prefetchWindow: Number of rows above/below viewport to pre-measure. Default is 10.
+    case largeScale(estimatedHeight: CGFloat = 44, prefetchWindow: Int = 10)
 }
 
 public struct DataTableCustomCellProvider {
@@ -217,7 +223,23 @@ extension DataTableRowHeightMode {
             return height
         case .automatic(let estimated):
             return estimated
+        case .largeScale(let estimatedHeight, _):
+            return estimatedHeight
         }
+    }
+
+    var prefetchWindow: Int {
+        switch self {
+        case .largeScale(_, let window):
+            return window
+        default:
+            return 0
+        }
+    }
+
+    var isLargeScaleMode: Bool {
+        if case .largeScale = self { return true }
+        return false
     }
 }
 

@@ -28,6 +28,25 @@ final class RowMetricsStore {
     /// Returns the earliest (lowest index) dirty row, or nil if none
     var earliestDirtyRow: Int? { dirtyRows.min() }
 
+    // MARK: - Estimated Height Tracking (Phase 5 - Large-Scale Mode)
+
+    /// Tracks which rows have been measured vs using estimated heights.
+    /// In large-scale mode, rows start as estimated and are measured lazily.
+    private var measuredRows: IndexSet = []
+
+    /// Returns true if the given row has been measured (vs using estimated height).
+    func isRowMeasured(_ row: Int) -> Bool {
+        measuredRows.contains(row)
+    }
+
+    /// Returns the set of rows that are still using estimated heights.
+    var estimatedRows: IndexSet {
+        IndexSet(0..<rowHeights.count).subtracting(measuredRows)
+    }
+
+    /// Returns the number of measured rows.
+    var measuredRowCount: Int { measuredRows.count }
+
     // MARK: - Configuration
 
     var headerHeight: CGFloat = 0
@@ -51,9 +70,15 @@ final class RowMetricsStore {
     // MARK: - Mutations
 
     /// Sets the row count, initializing heights to a default value.
-    func setRowCount(_ count: Int, defaultHeight: CGFloat) {
+    /// In large-scale mode, rows start as estimated (unmeasured).
+    func setRowCount(_ count: Int, defaultHeight: CGFloat, allMeasured: Bool = true) {
         rowHeights = Array(repeating: defaultHeight, count: count)
         yOffsets = Array(repeating: 0, count: count)
+        if allMeasured {
+            measuredRows = IndexSet(integersIn: 0..<count)
+        } else {
+            measuredRows.removeAll()
+        }
     }
 
     /// Sets a specific row height directly (used for fixed heights or delegate-provided heights).
@@ -75,6 +100,8 @@ final class RowMetricsStore {
         yOffsets.removeLast(yOffsets.count - count)
         // Remove any dirty flags for rows that no longer exist
         dirtyRows = dirtyRows.filteredIndexSet { $0 < count }
+        // Remove measured flags for rows that no longer exist
+        measuredRows = measuredRows.filteredIndexSet { $0 < count }
     }
 
     /// Rebuilds all row heights using the provided measurer and recalculates Y offsets.
@@ -107,6 +134,7 @@ final class RowMetricsStore {
         yOffsets.removeAll()
         contentHeight = 0
         dirtyRows.removeAll()
+        measuredRows.removeAll()
     }
 
     // MARK: - Dirty Tracking API (Phase 3)
@@ -124,6 +152,56 @@ final class RowMetricsStore {
     /// Clears all dirty flags after recomputation.
     func clearDirtyFlags() {
         dirtyRows.removeAll()
+    }
+
+    // MARK: - Lazy Measurement API (Phase 5 - Large-Scale Mode)
+
+    /// Marks a row as measured and updates its height.
+    /// Used in large-scale mode when a row is measured lazily.
+    func markRowMeasured(_ row: Int, height: CGFloat) {
+        guard row >= 0 && row < rowHeights.count else { return }
+        rowHeights[row] = height
+        measuredRows.insert(row)
+    }
+
+    /// Returns unmeasured rows within the given range (for prefetch window).
+    func unmeasuredRowsInRange(_ range: Range<Int>) -> IndexSet {
+        let validRange = max(0, range.lowerBound)..<min(rowHeights.count, range.upperBound)
+        return IndexSet(validRange).subtracting(measuredRows)
+    }
+
+    /// Measures rows in the given range and updates offsets.
+    /// Returns true if any rows were measured, false if all were already measured.
+    @discardableResult
+    func measureRowsInRange(_ range: Range<Int>, measurer: (Int) -> CGFloat) -> Bool {
+        let unmeasured = unmeasuredRowsInRange(range)
+        guard !unmeasured.isEmpty else { return false }
+
+        var earliestMeasured: Int?
+        for row in unmeasured {
+            rowHeights[row] = measurer(row)
+            measuredRows.insert(row)
+            if earliestMeasured == nil || row < earliestMeasured! {
+                earliestMeasured = row
+            }
+        }
+
+        // Rebuild offsets from the earliest newly measured row
+        if let earliest = earliestMeasured {
+            rebuildOffsets(fromRow: earliest)
+        }
+
+        return true
+    }
+
+    /// Resets all rows to estimated (unmeasured) state with the given estimated height.
+    /// Used when switching to large-scale mode or when data changes.
+    func resetToEstimated(estimatedHeight: CGFloat) {
+        for i in 0..<rowHeights.count {
+            rowHeights[i] = estimatedHeight
+        }
+        measuredRows.removeAll()
+        rebuildOffsets()
     }
 
     // MARK: - Incremental Recompute (Phase 3)
