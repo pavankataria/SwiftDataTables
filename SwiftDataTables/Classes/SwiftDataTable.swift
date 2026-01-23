@@ -140,6 +140,19 @@ public class SwiftDataTable: UIView {
     /// Provides read access to row metrics for the layout.
     var rowMetricsStore: RowMetricsStore { metricsStore }
 
+    // MARK: - Scroll Anchoring (Phase 4)
+
+    /// Captures scroll position state for anchor restoration after updates.
+    private struct ScrollAnchor {
+        /// The row index that was visible at the top of the viewport before the update.
+        let rowIndex: Int
+        /// The identifier of the anchor row (used to track the row across index shifts).
+        let rowIdentifier: String?
+        /// The offset from the top of the anchor row to the viewport top.
+        /// Positive means the row starts above the viewport; negative means below.
+        let offsetWithinRow: CGFloat
+    }
+
     internal func seedRowIdentifiers(_ identifiers: [String]) {
         currentRowIdentifiers = identifiers
     }
@@ -254,13 +267,17 @@ public class SwiftDataTable: UIView {
             headerTitles: headerTitles,
             useEstimatedColumnWidths: resolvedOptions.columnWidthMode.prefersEstimatedTextWidths
         )
+        // Initialize row identifiers for scroll anchoring support
+        self.currentRowIdentifiers = data.map { row in
+            row.map { $0.stringRepresentation }.joined(separator: "\u{001F}")
+        }
         self.createDataCellViewModels(with: self.dataStructure)
         if(shouldReplaceLayout){
             self.layout = SwiftDataTableLayout(dataTable: self)
         }
         self.applyOptions(resolvedOptions)
         invalidateRowHeights()
-        
+
     }
     
     func applyOptions(_ options: DataTableConfiguration?){
@@ -691,6 +708,91 @@ public class SwiftDataTable: UIView {
         return usesAutomaticRowHeights || usesDelegateRowHeights()
     }
 
+    // MARK: - Scroll Anchoring Methods (Phase 4)
+
+    /// Captures the current scroll anchor (first visible row + offset within that row).
+    /// Returns nil if anchoring should be skipped (user is scrolling, no rows, etc.)
+    private func captureScrollAnchor() -> ScrollAnchor? {
+        // Skip anchoring during active user interaction
+        guard !collectionView.isDragging && !collectionView.isDecelerating else {
+            return nil
+        }
+
+        // Skip if no rows
+        guard metricsStore.rowCount > 0 else {
+            return nil
+        }
+
+        // Try to get the first visible row from visible items
+        let visibleIndexPaths = collectionView.indexPathsForVisibleItems
+            .filter { $0.section >= 0 && $0.section < metricsStore.rowCount }
+            .sorted { $0.section < $1.section }
+
+        let anchorRow: Int
+        if let firstVisible = visibleIndexPaths.first {
+            anchorRow = firstVisible.section
+        } else {
+            // Fallback: derive anchor row from content offset using binary search
+            let viewportTop = collectionView.contentOffset.y + collectionView.adjustedContentInset.top
+            anchorRow = metricsStore.rowForYOffset(viewportTop)
+        }
+
+        guard anchorRow < metricsStore.rowCount else {
+            return nil
+        }
+
+        // Capture the row identifier if available (used to track the row across index shifts)
+        let rowIdentifier: String? = anchorRow < currentRowIdentifiers.count
+            ? currentRowIdentifiers[anchorRow]
+            : nil
+
+        // Calculate offset from viewport top to the anchor row's top
+        let rowY = metricsStore.yOffsetForRow(anchorRow)
+        let viewportTop = collectionView.contentOffset.y + collectionView.adjustedContentInset.top
+        let offsetWithinRow = viewportTop - rowY
+
+        return ScrollAnchor(rowIndex: anchorRow, rowIdentifier: rowIdentifier, offsetWithinRow: offsetWithinRow)
+    }
+
+    /// Restores the scroll position to keep the anchor row visually stationary.
+    /// - Parameters:
+    ///   - anchor: The captured scroll anchor from before the update
+    ///   - newIdentifiers: The new row identifiers (used to find the anchor row's new index)
+    private func restoreScrollAnchor(_ anchor: ScrollAnchor?, newIdentifiers: [String]) {
+        guard let anchor = anchor else { return }
+
+        // Skip if still in active scroll
+        guard !collectionView.isDragging && !collectionView.isDecelerating else {
+            return
+        }
+
+        let newRowCount = metricsStore.rowCount
+        guard newRowCount > 0 else { return }
+
+        // Find the anchor row's new index
+        let targetRow: Int
+        if let identifier = anchor.rowIdentifier,
+           let newIndex = newIdentifiers.firstIndex(of: identifier) {
+            // Row still exists - use its new index
+            targetRow = newIndex
+        } else {
+            // Row was deleted or no identifier - fall back to nearest surviving row
+            targetRow = min(anchor.rowIndex, newRowCount - 1)
+        }
+
+        // Calculate the new Y position to maintain visual continuity
+        let newRowY = metricsStore.yOffsetForRow(targetRow)
+        let newViewportTop = newRowY + anchor.offsetWithinRow
+
+        // Clamp to valid content offset bounds
+        let minY = -collectionView.adjustedContentInset.top
+        let maxY = max(minY, collectionView.contentSize.height - collectionView.bounds.height + collectionView.adjustedContentInset.bottom)
+        let clampedY = max(minY, min(newViewportTop - collectionView.adjustedContentInset.top, maxY))
+
+        // Apply the offset adjustment without animation (immediate)
+        collectionView.contentOffset.y = clampedY
+    }
+
     public func reloadEverything(){
         self.layout?.clearLayoutCache()
         self.collectionView.reloadData()
@@ -933,6 +1035,9 @@ public extension SwiftDataTable {
             // No need to clear entire cache or invalidate all row heights
         }
 
+        // Phase 4: Capture scroll anchor before updates to preserve visual position
+        let scrollAnchor = captureScrollAnchor()
+
         // If there are many changes, just reload (performance optimization)
         let totalChanges = deletions.count + insertions.count + changedRows.count
         let totalRows = max(oldIdentifiers.count, newIdentifiers.count)
@@ -943,6 +1048,9 @@ public extension SwiftDataTable {
             layout?.clearLayoutCache()
             calculateColumnWidths()  // This also rebuilds metricsStore
             self.collectionView.reloadData()
+            // Phase 4: Restore scroll anchor after layout updates
+            self.collectionView.layoutIfNeeded()
+            self.restoreScrollAnchor(scrollAnchor, newIdentifiers: newIdentifiers)
             completion?(true)
             return
         }
@@ -1007,7 +1115,9 @@ public extension SwiftDataTable {
             if !sortedReloadIndexPaths.isEmpty {
                 self.collectionView.reloadItems(at: sortedReloadIndexPaths)
             }
-        }, completion: { finished in
+        }, completion: { [weak self] finished in
+            // Phase 4: Restore scroll anchor after batch updates complete
+            self?.restoreScrollAnchor(scrollAnchor, newIdentifiers: newIdentifiers)
             completion?(finished)
         })
     }
