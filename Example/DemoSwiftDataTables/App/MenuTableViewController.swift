@@ -75,6 +75,7 @@ class MenuViewController: UITableViewController {
                 MenuItem(title: "Live Data Updates"),
                 MenuItem(title: "Single Row Updates"),
                 MenuItem(title: "Cell-Level Updates"),
+                MenuItem(title: "Scroll Anchoring"),
             ],
             // Section 1: Layout & Sizing
             [
@@ -107,6 +108,7 @@ class MenuViewController: UITableViewController {
             // Section 5: Performance
             [
                 MenuItem(title: "Performance Stress Test"),
+                MenuItem(title: "Large-Scale Mode (100k+)"),
             ],
         ]
     }
@@ -177,6 +179,8 @@ extension MenuViewController {
             show(SingleRowUpdatesDemoViewController(), sender: self)
         case 5:
             show(CellLevelUpdatesDemoViewController(), sender: self)
+        case 6:
+            show(ScrollAnchoringDemoViewController(), sender: self)
         default:
             break
         }
@@ -246,6 +250,8 @@ extension MenuViewController {
         switch row {
         case 0:
             show(PerformanceDemoViewController(), sender: self)
+        case 1:
+            show(LargeScaleModeDemoViewController(), sender: self)
         default:
             break
         }

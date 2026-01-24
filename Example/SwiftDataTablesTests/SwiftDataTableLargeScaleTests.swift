@@ -274,8 +274,10 @@ final class SwiftDataTableLargeScaleTests: XCTestCase {
     // MARK: - Performance Tests
 
     /// Large-scale mode should handle large row counts efficiently.
+    /// Note: Uses 10k rows as proxy for 100k to keep test times reasonable.
+    /// Large-scale mode scales linearly, so 10k validates the lazy measurement approach.
     func test_table_largeScaleMode_handlesLargeRowCount() {
-        // Create 10,000 rows (scaled down from 100k for test speed)
+        // Create 10,000 rows (proxy for 100k - keeps test times reasonable)
         let data: DataTableContent = (0..<10000).map { [.string("Row \($0)")] }
         var config = DataTableConfiguration()
         config.rowHeightMode = .largeScale(estimatedHeight: 44, prefetchWindow: 10)
@@ -303,5 +305,84 @@ final class SwiftDataTableLargeScaleTests: XCTestCase {
         let metricsStore = table.rowMetricsStore
         XCTAssertLessThan(metricsStore.measuredRowCount, 100,
                          "Only visible + prefetch rows should be measured")
+    }
+
+    // MARK: - markRowsUnmeasured Tests
+
+    /// markRowsUnmeasured should reset rows to estimated height.
+    func test_metricsStore_markRowsUnmeasured_resetsToEstimated() {
+        let store = RowMetricsStore()
+        store.setRowCount(20, defaultHeight: 44, allMeasured: false)
+
+        // Measure some rows
+        store.markRowMeasured(5, height: 100)
+        store.markRowMeasured(10, height: 120)
+        store.rebuildOffsets()
+
+        XCTAssertTrue(store.isRowMeasured(5), "Row 5 should be measured")
+        XCTAssertEqual(store.heightForRow(5), 100, "Row 5 should have height 100")
+
+        // Unmeasure them
+        store.markRowsUnmeasured(IndexSet([5, 10]), estimatedHeight: 44)
+
+        XCTAssertFalse(store.isRowMeasured(5), "Row 5 should be unmeasured after markRowsUnmeasured")
+        XCTAssertFalse(store.isRowMeasured(10), "Row 10 should be unmeasured after markRowsUnmeasured")
+        XCTAssertEqual(store.heightForRow(5), 44, "Row 5 should have estimated height")
+        XCTAssertEqual(store.heightForRow(10), 44, "Row 10 should have estimated height")
+    }
+
+    /// currentDirtyRows should expose the dirty rows set.
+    func test_metricsStore_currentDirtyRows_exposesSet() {
+        let store = RowMetricsStore()
+        store.setRowCount(20, defaultHeight: 44, allMeasured: true)
+
+        XCTAssertTrue(store.currentDirtyRows.isEmpty, "Should have no dirty rows initially")
+
+        store.invalidateRows(IndexSet([3, 7, 12]))
+
+        let dirty = store.currentDirtyRows
+        XCTAssertEqual(dirty.count, 3, "Should have 3 dirty rows")
+        XCTAssertTrue(dirty.contains(3), "Should contain row 3")
+        XCTAssertTrue(dirty.contains(7), "Should contain row 7")
+        XCTAssertTrue(dirty.contains(12), "Should contain row 12")
+    }
+
+    // MARK: - Anchoring Stability Tests
+
+    /// Lazy measurement should preserve scroll position (anchor stability).
+    /// When estimate→measured transitions occur, contentOffset should remain stable.
+    func test_largeScaleMode_anchoringStability_afterLazyMeasurement() {
+        // Create table with many rows
+        let data: DataTableContent = (0..<500).map { [.string("Row \($0) content")] }
+        var config = DataTableConfiguration()
+        config.rowHeightMode = .largeScale(estimatedHeight: 44, prefetchWindow: 5)
+        config.shouldShowSearchSection = false
+
+        let table = SwiftDataTable(data: data, headerTitles: ["H"], options: config)
+        table.frame = CGRect(x: 0, y: 0, width: 320, height: 480)
+
+        let window = UIWindow(frame: CGRect(x: 0, y: 0, width: 320, height: 480))
+        window.addSubview(table)
+        window.makeKeyAndVisible()
+        table.layoutIfNeeded()
+
+        // Scroll to middle
+        let targetOffset: CGFloat = 5000 // Scroll down significantly
+        table.collectionView.contentOffset.y = targetOffset
+        table.layoutIfNeeded()
+
+        // Capture offset before triggering measurement
+        let offsetBefore = table.collectionView.contentOffset.y
+
+        // Force layout which may trigger lazy measurement
+        table.collectionView.setNeedsLayout()
+        table.collectionView.layoutIfNeeded()
+
+        // Offset should remain stable (within tolerance for rounding)
+        let offsetAfter = table.collectionView.contentOffset.y
+        let tolerance: CGFloat = 1.0
+
+        XCTAssertEqual(offsetBefore, offsetAfter, accuracy: tolerance,
+                      "Scroll position should remain stable after lazy measurement")
     }
 }

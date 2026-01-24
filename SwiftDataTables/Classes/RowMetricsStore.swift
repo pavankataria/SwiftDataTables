@@ -28,6 +28,9 @@ final class RowMetricsStore {
     /// Returns the earliest (lowest index) dirty row, or nil if none
     var earliestDirtyRow: Int? { dirtyRows.min() }
 
+    /// Returns a copy of the current dirty rows set.
+    var currentDirtyRows: IndexSet { dirtyRows }
+
     // MARK: - Estimated Height Tracking (Phase 5 - Large-Scale Mode)
 
     /// Tracks which rows have been measured vs using estimated heights.
@@ -202,6 +205,31 @@ final class RowMetricsStore {
         }
         measuredRows.removeAll()
         rebuildOffsets()
+    }
+
+    /// Marks specific rows as unmeasured and resets their height to estimated.
+    /// Used in large-scale mode when content changes require re-measurement.
+    /// Returns the earliest unmeasured row for offset rebuilding.
+    @discardableResult
+    func markRowsUnmeasured(_ rows: IndexSet, estimatedHeight: CGFloat) -> Int? {
+        guard !rows.isEmpty else { return nil }
+
+        var earliestUnmeasured: Int?
+        for row in rows {
+            guard row >= 0 && row < rowHeights.count else { continue }
+            rowHeights[row] = estimatedHeight
+            measuredRows.remove(row)
+            if earliestUnmeasured == nil || row < earliestUnmeasured! {
+                earliestUnmeasured = row
+            }
+        }
+
+        // Rebuild offsets from earliest unmeasured row
+        if let earliest = earliestUnmeasured {
+            rebuildOffsets(fromRow: earliest)
+        }
+
+        return earliestUnmeasured
     }
 
     // MARK: - Incremental Recompute (Phase 3)

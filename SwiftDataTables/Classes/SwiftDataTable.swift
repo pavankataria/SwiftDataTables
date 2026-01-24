@@ -434,9 +434,16 @@ public class SwiftDataTable: UIView {
         }
 
         // Large-scale mode: skip immediate measurement, let lazy measurement handle it
-        // Dirty rows in large-scale mode will be measured on scroll
+        // Dirty rows (changed content) must be unmarked as measured so they get re-measured on scroll
         if usesLargeScaleMode {
+            // Unmeasure dirty rows so they will be re-measured when they scroll into view
+            let dirtyRows = metricsStore.currentDirtyRows
+            if !dirtyRows.isEmpty {
+                metricsStore.markRowsUnmeasured(dirtyRows, estimatedHeight: options.rowHeightMode.estimatedHeight)
+            }
             metricsStore.clearDirtyFlags()
+            // Reset throttle state so visible rows get measured
+            lastMeasuredRowRange = nil
             rowHeights = (0..<metricsStore.rowCount).map { metricsStore.heightForRow($0) }
             // Trigger lazy measurement for currently visible rows
             measureVisibleRowsIfNeeded()
@@ -837,9 +844,13 @@ public class SwiftDataTable: UIView {
 
     // MARK: - Large-Scale Lazy Measurement (Phase 5)
 
+    /// Tracks the last measured row range for throttling.
+    private var lastMeasuredRowRange: Range<Int>?
+
     /// Measures rows in the visible area plus prefetch window.
     /// Called on scroll in large-scale mode to lazily measure rows as they become visible.
     /// Uses scroll anchoring to prevent visual jumps when measurements change layout.
+    /// Throttled: only triggers when visible range changes meaningfully or has unmeasured rows.
     private func measureVisibleRowsIfNeeded() {
         // Only active in large-scale mode
         guard usesLargeScaleMode else { return }
@@ -855,9 +866,19 @@ public class SwiftDataTable: UIView {
         let expandedEnd = min(metricsStore.rowCount, visibleRange.upperBound + prefetchWindow)
         let measureRange = expandedStart..<expandedEnd
 
+        // Throttle: skip if the expanded range hasn't changed (no new rows to potentially measure)
+        if let lastRange = lastMeasuredRowRange,
+           measureRange == lastRange {
+            return
+        }
+
         // Check if there are unmeasured rows in the range
         let unmeasured = metricsStore.unmeasuredRowsInRange(measureRange)
-        guard !unmeasured.isEmpty else { return }
+        guard !unmeasured.isEmpty else {
+            // Update last range even if no measurement needed (range is fully measured)
+            lastMeasuredRowRange = measureRange
+            return
+        }
 
         // Capture anchor before measurement (estimate→measured transitions can shift layout)
         let anchor = captureScrollAnchor()
@@ -867,6 +888,9 @@ public class SwiftDataTable: UIView {
             guard let self = self else { return self?.options.rowHeightMode.estimatedHeight ?? 44 }
             return self.measureHeightForRow(row)
         }
+
+        // Update throttle state after successful measurement
+        lastMeasuredRowRange = measureRange
 
         // Sync to legacy rowHeights array
         rowHeights = (0..<metricsStore.rowCount).map { metricsStore.heightForRow($0) }
