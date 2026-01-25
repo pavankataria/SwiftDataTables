@@ -237,12 +237,18 @@ final class SwiftDataTableAutoHeightMetricsTests: XCTestCase {
 
         let data: DataTableContent = [[.string(shortText)], [.string(longText)]]
         let table = SwiftDataTable(data: data, headerTitles: ["H"], options: options)
-        table.calculateColumnWidths()
+
+        // Embed in window to trigger lazy measurement
+        let window = UIWindow(frame: CGRect(x: 0, y: 0, width: 320, height: 480))
+        window.addSubview(table)
+        table.frame = CGRect(x: 0, y: 0, width: 320, height: 400)
+        window.makeKeyAndVisible()
+        table.layoutIfNeeded()
 
         let shortHeight = table.rowMetricsStore.heightForRow(0)
         let longHeight = table.rowMetricsStore.heightForRow(1)
 
-        // Long text should result in taller row
+        // Long text should result in taller row after measurement
         XCTAssertGreaterThan(longHeight, shortHeight)
     }
 

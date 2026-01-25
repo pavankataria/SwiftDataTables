@@ -1,15 +1,15 @@
 //
-//  LargeScaleModeDemoViewController+Explanation.swift
+//  AutomaticRowHeightsDemoViewController+Explanation.swift
 //  DemoSwiftDataTables
 //
 
 import UIKit
 
-extension LargeScaleModeDemoViewController {
+extension AutomaticRowHeightsDemoViewController {
 
     struct ExplanationControls {
         let view: DemoExplanationView
-        let largeScaleModeSwitch: UISwitch
+        let automaticHeightsSwitch: UISwitch
         let rowCountLabel: UILabel
         let timingLabel: UILabel
         let logLabel: UILabel
@@ -30,9 +30,9 @@ extension LargeScaleModeDemoViewController {
         rowCountRow.spacing = 12
         rowCountRow.alignment = .center
 
-        // Large-scale mode toggle
-        let (largeScaleModeSwitch, modeRow) = DemoExplanationView.toggleRow(
-            label: "Large-Scale Mode (lazy measurement)",
+        // Automatic mode toggle (lazy measurement vs fixed)
+        let (automaticHeightsSwitch, modeRow) = DemoExplanationView.toggleRow(
+            label: "Automatic Heights (lazy measurement)",
             isOn: true,
             target: self, action: #selector(modeToggleChanged(_:))
         )
@@ -69,13 +69,13 @@ extension LargeScaleModeDemoViewController {
         infoRow.spacing = 12
 
         let explanationView = DemoExplanationView(
-            description: "Large-scale mode uses estimated heights and measures rows lazily as you scroll. Compare init times: toggle off to see standard mode (measures all rows upfront).",
+            description: "Automatic: Variable row heights that adapt to content. Rows are measured lazily as you scroll—efficient even with 100k+ rows. Fixed: Uniform heights, faster init but no content adaptation.",
             controls: [rowCountRow, modeRow, scrollButtons, infoRow]
         )
 
         return ExplanationControls(
             view: explanationView,
-            largeScaleModeSwitch: largeScaleModeSwitch,
+            automaticHeightsSwitch: automaticHeightsSwitch,
             rowCountLabel: rowCountLabel,
             timingLabel: timingLabel,
             logLabel: logLabel

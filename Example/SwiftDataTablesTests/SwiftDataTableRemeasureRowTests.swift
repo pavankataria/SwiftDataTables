@@ -139,16 +139,15 @@ final class SwiftDataTableRemeasureRowTests: XCTestCase {
         XCTAssertEqual(row2OffsetAfter - row2OffsetBefore, 30, accuracy: 0.1)
     }
 
-    func test_remeasureRow_worksWithLargeScaleMode() {
+    func test_remeasureRow_worksWithCustomPrefetchWindow() {
         var options = DataTableConfiguration()
-        options.rowHeightMode = .largeScale(estimatedHeight: 44, prefetchWindow: 5)
+        options.rowHeightMode = .automatic(estimated: 44, prefetchWindow: 5)
 
         let data: DataTableContent = [[.string("A")], [.string("B")]]
         let table = SwiftDataTable(data: data, headerTitles: ["H"], options: options)
         table.calculateColumnWidths()
 
-        // Large-scale mode should also support remeasureRow
-        // (it's still automatic height, just with lazy measurement)
+        // Automatic mode with custom prefetch window should support remeasureRow
         let result = table.remeasureRow(0)
         // Should not crash; result depends on visibility
         _ = result

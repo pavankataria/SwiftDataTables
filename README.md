@@ -48,12 +48,11 @@ https://img.shields.io/cocoapods/p/SwiftDataTables.svg
 
 ## Major Features
 
-- **Large-Scale Mode** - Handle 100k+ rows efficiently with lazy measurement
+- **Self-Sizing Cells** - Automatic row heights with lazy measurement, efficient for 100k+ rows
 - **Type-Safe Columns** - Declarative API with key paths and custom transforms
 - **Animated Diffing** - Smooth updates with `setData(_:animatingDifferences:)`
 - **Live Cell Editing** - Edit cells in place with automatic height updates
 - **Scroll Anchoring** - Preserve visual position during data changes
-- **Self-Sizing Cells** - Automatic row heights with text wrapping support
 - **Custom Cells** - Full Auto Layout support via custom cell providers
 - **Flexible Column Widths** - Multiple strategies from fast estimation to precise measurement
 - **Fixed Columns** - Freeze columns on left or right sides

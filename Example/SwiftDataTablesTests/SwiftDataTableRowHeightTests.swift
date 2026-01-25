@@ -21,7 +21,7 @@ final class SwiftDataTableRowHeightTests: XCTestCase {
         XCTAssertEqual(height, 80)
     }
 
-    func test_heightForRow_automatic_singleLine_matchesDefaultLineHeight() {
+    func test_heightForRow_automatic_unmeasured_returnsEstimatedHeight() {
         var options = DataTableConfiguration()
         options.rowHeightMode = .automatic(estimated: 44)
         options.textLayout = .singleLine()
@@ -30,6 +30,26 @@ final class SwiftDataTableRowHeightTests: XCTestCase {
         let table = SwiftDataTable(data: [["A"]], headerTitles: ["H"], options: options)
         table.calculateColumnWidths()
 
+        // Automatic mode uses lazy measurement - unmeasured rows return estimated height
+        XCTAssertEqual(table.heightForRow(index: 0), 44, accuracy: 0.5)
+    }
+
+    func test_heightForRow_automatic_measured_matchesActualHeight() {
+        var options = DataTableConfiguration()
+        options.rowHeightMode = .automatic(estimated: 44)
+        options.textLayout = .singleLine()
+        options.minColumnWidth = 0
+
+        let table = SwiftDataTable(data: [["A"]], headerTitles: ["H"], options: options)
+
+        // Embed in window to trigger measurement
+        let window = UIWindow(frame: CGRect(x: 0, y: 0, width: 320, height: 480))
+        window.addSubview(table)
+        table.frame = CGRect(x: 0, y: 0, width: 320, height: 400)
+        window.makeKeyAndVisible()
+        table.layoutIfNeeded()
+
+        // Row should now be measured
         let font = DataCell.Properties.defaultFont
         let verticalPadding = DataCell.Properties.verticalMargin * 2
         let expected = ceil(font.lineHeight + verticalPadding)
@@ -47,7 +67,13 @@ final class SwiftDataTableRowHeightTests: XCTestCase {
 
         let longText = String(repeating: "Wrap ", count: 40)
         let table = SwiftDataTable(data: [[longText]], headerTitles: [""], options: options)
-        table.calculateColumnWidths()
+
+        // Embed in window to trigger measurement
+        let window = UIWindow(frame: CGRect(x: 0, y: 0, width: 320, height: 480))
+        window.addSubview(table)
+        table.frame = CGRect(x: 0, y: 0, width: 320, height: 400)
+        window.makeKeyAndVisible()
+        table.layoutIfNeeded()
 
         let font = DataCell.Properties.defaultFont
         let verticalPadding = DataCell.Properties.verticalMargin * 2

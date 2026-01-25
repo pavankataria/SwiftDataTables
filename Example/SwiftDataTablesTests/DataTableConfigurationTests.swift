@@ -73,9 +73,9 @@ class DataTableConfigurationTests: XCTestCase {
         XCTAssertFalse(config.shouldShowHorizontalScrollBars)
     }
 
-    func test_default_sortArrowTintColor_isBlue() {
+    func test_default_sortArrowTintColor_isTintColor() {
         let config = DataTableConfiguration()
-        XCTAssertEqual(config.sortArrowTintColor, UIColor.blue)
+        XCTAssertEqual(config.sortArrowTintColor, UIColor.tintColor)
     }
 
     func test_default_shouldSupportRightToLeftInterfaceDirection_isTrue() {
