@@ -1,8 +1,8 @@
-# SwiftDataTables v0.9.x Release Announcement
+# SwiftDataTables v0.9.0 Release Announcement
 
 ## Overview
 
-This release represents the most significant update to SwiftDataTables since its inception. We've modernised the entire architecture while maintaining full backwards compatibility with existing code. The highlights include:
+This release represents the most significant update to SwiftDataTables since its inception. I've modernised the entire architecture while maintaining full backwards compatibility with existing code. The highlights include:
 
 - **Type-Safe API** - Work directly with your Swift models using generics and KeyPaths
 - **Automatic Diffing** - Animated row insertions, deletions, and updates with a single method call
@@ -12,6 +12,9 @@ This release represents the most significant update to SwiftDataTables since its
 - **Text Wrapping** - Multi-line cell content with automatic height calculation
 - **Navigation Bar Search** - Integrate search with UISearchController
 - **Performance Optimisations** - Layout calculations improved from O(n²) to O(n)
+- **Large-Scale Mode** - Handle 100k+ rows with lazy measurement and prefetching
+- **Scroll Anchoring** - Preserves visual position during data updates (no jumps!)
+- **Live Cell Editing** - `remeasureRow()` API for real-time height updates without cell reloads
 - **Swift 6 Ready** - Full strict concurrency support
 
 ---
@@ -408,6 +411,84 @@ let table = SwiftDataTable(data: users, columns: [
 users.append(newUser)
 table.setData(users, animatingDifferences: true)
 ```
+
+---
+
+## Large-Scale Mode (100k+ Rows)
+
+For tables with massive datasets, enable large-scale mode for lazy measurement and optimal scroll performance:
+
+```swift
+var config = DataTableConfiguration()
+config.rowHeightMode = .largeScale(estimatedHeight: 44, prefetchWindow: 10)
+
+let table = SwiftDataTable(data: massiveDataset, columns: columns, options: config)
+```
+
+### How It Works
+
+- **Lazy Measurement**: Rows start with estimated heights and are measured on-demand as they scroll into view
+- **Prefetch Window**: Rows within the prefetch window are measured ahead of time for smooth scrolling
+- **O(viewport) Performance**: Only visible rows are measured, not the entire dataset
+- **Automatic Anchoring**: When estimated heights are replaced with measured heights, scroll position is preserved
+
+### When to Use
+
+- Datasets with 10,000+ rows
+- When row heights vary significantly
+- When initial load time is critical
+
+---
+
+## Scroll Anchoring
+
+Data updates no longer cause visual jumps. The table automatically preserves the user's scroll position:
+
+```swift
+// User is viewing row 500
+table.setData(newData, animatingDifferences: true)
+// After update, user is still viewing row 500 (or its replacement)
+```
+
+### Anchoring Behaviour
+
+- **Insertions above viewport**: Content offset adjusts to keep current content in place
+- **Deletions above viewport**: Content offset adjusts to prevent jumping
+- **Height changes**: Visual position preserved even when row heights change
+- **Anchor fallback**: If the anchor row is deleted, the nearest surviving row becomes the anchor
+
+### Automatic During Updates
+
+Anchoring is automatic for all `setData()` calls with `animatingDifferences: true`. No configuration required.
+
+---
+
+## Live Cell Editing with remeasureRow()
+
+For cells with editable content (like text views), use `remeasureRow()` to update heights in real-time without cell reloads:
+
+```swift
+func textViewDidChange(_ textView: UITextView) {
+    // Update your model
+    notes[rowIndex].content = textView.text
+
+    // Remeasure the row - no cell reload, keyboard stays up
+    dataTable.remeasureRow(rowIndex)
+}
+```
+
+### Benefits
+
+- **Preserves First Responder**: Keyboard stays up during text editing
+- **No Cell Flicker**: Cell content isn't reloaded, just repositioned
+- **Efficient**: Only measures and updates the single row
+- **Safe**: Handles partial column visibility by using max(measured, old) to prevent shrinking
+
+### When to Use
+
+- Editable text fields/views in cells
+- Real-time content changes that affect row height
+- Any scenario where you need height updates without cell reloads
 
 ---
 
