@@ -73,6 +73,12 @@ public enum DataTableTextLayout: Equatable {
 public enum DataTableRowHeightMode: Equatable {
     case fixed(CGFloat)
     case automatic(estimated: CGFloat = 44)
+    /// Large-scale mode: uses estimated heights initially, measures rows lazily as they become visible.
+    /// Optimized for 100k+ rows. Rows are measured within a prefetch window around the viewport.
+    /// - Parameters:
+    ///   - estimatedHeight: The estimated height used for unmeasured rows.
+    ///   - prefetchWindow: Number of rows above/below viewport to pre-measure. Default is 10.
+    case largeScale(estimatedHeight: CGFloat = 44, prefetchWindow: Int = 10)
 }
 
 public struct DataTableCustomCellProvider {
@@ -162,6 +168,14 @@ public struct DataTableConfiguration: Equatable {
     public var maxColumnWidth: CGFloat? = nil
     public var columnWidthModeProvider: ((Int) -> DataTableColumnWidthMode?)? = nil
 
+    /// Version number for columnWidthModeProvider. Increment this when you change the provider closure
+    /// to force width recalculation even when lockColumnWidthsAfterFirstLayout is enabled.
+    public var columnWidthModeProviderVersion: Int = 0
+
+    /// When true, column widths are computed once and locked. Prevents width drift across data updates.
+    /// Default is false (widths recalculate on each data update).
+    public var lockColumnWidthsAfterFirstLayout: Bool = false
+
     public var textLayout: DataTableTextLayout = .singleLine()
     public var rowHeightMode: DataTableRowHeightMode = .fixed(44)
     public var cellSizingMode: DataTableCellSizingMode = .defaultCell
@@ -194,6 +208,8 @@ extension DataTableConfiguration {
         lhs.columnWidthMode == rhs.columnWidthMode &&
         lhs.minColumnWidth == rhs.minColumnWidth &&
         lhs.maxColumnWidth == rhs.maxColumnWidth &&
+        lhs.columnWidthModeProviderVersion == rhs.columnWidthModeProviderVersion &&
+        lhs.lockColumnWidthsAfterFirstLayout == rhs.lockColumnWidthsAfterFirstLayout &&
         lhs.textLayout == rhs.textLayout &&
         lhs.rowHeightMode == rhs.rowHeightMode &&
         lhs.cellSizingMode == rhs.cellSizingMode
@@ -207,7 +223,23 @@ extension DataTableRowHeightMode {
             return height
         case .automatic(let estimated):
             return estimated
+        case .largeScale(let estimatedHeight, _):
+            return estimatedHeight
         }
+    }
+
+    var prefetchWindow: Int {
+        switch self {
+        case .largeScale(_, let window):
+            return window
+        default:
+            return 0
+        }
+    }
+
+    var isLargeScaleMode: Bool {
+        if case .largeScale = self { return true }
+        return false
     }
 }
 

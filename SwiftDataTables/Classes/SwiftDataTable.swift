@@ -125,7 +125,33 @@ public class SwiftDataTable: UIView {
     fileprivate var menuLengthViewModel: MenuLengthHeaderViewModel!
     fileprivate var columnWidths = [CGFloat]()
     fileprivate var rowHeights = [CGFloat]()
+
+    /// Tracks whether column widths have been computed at least once (for lockColumnWidthsAfterFirstLayout)
+    private var hasComputedColumnWidthsOnce = false
+    /// Tracks the columnWidthMode used in the last width computation (for config-change detection)
+    private var lastColumnWidthMode: DataTableColumnWidthMode?
+    /// Tracks the columnWidthModeProviderVersion used in the last width computation (for provider-change detection)
+    private var lastColumnWidthModeProviderVersion: Int?
     private var sizingCellCacheByReuseId: [String: UICollectionViewCell] = [:]
+
+    // MARK: - Row Metrics Store (Single Source of Truth)
+    private let metricsStore = RowMetricsStore()
+
+    /// Provides read access to row metrics for the layout.
+    var rowMetricsStore: RowMetricsStore { metricsStore }
+
+    // MARK: - Scroll Anchoring (Phase 4)
+
+    /// Captures scroll position state for anchor restoration after updates.
+    private struct ScrollAnchor {
+        /// The row index that was visible at the top of the viewport before the update.
+        let rowIndex: Int
+        /// The identifier of the anchor row (used to track the row across index shifts).
+        let rowIdentifier: String?
+        /// The offset from the top of the anchor row to the viewport top.
+        /// Positive means the row starts above the viewport; negative means below.
+        let offsetWithinRow: CGFloat
+    }
 
     internal func seedRowIdentifiers(_ identifiers: [String]) {
         currentRowIdentifiers = identifiers
@@ -241,13 +267,17 @@ public class SwiftDataTable: UIView {
             headerTitles: headerTitles,
             useEstimatedColumnWidths: resolvedOptions.columnWidthMode.prefersEstimatedTextWidths
         )
+        // Initialize row identifiers for scroll anchoring support
+        self.currentRowIdentifiers = data.map { row in
+            row.map { $0.stringRepresentation }.joined(separator: "\u{001F}")
+        }
         self.createDataCellViewModels(with: self.dataStructure)
         if(shouldReplaceLayout){
             self.layout = SwiftDataTableLayout(dataTable: self)
         }
         self.applyOptions(resolvedOptions)
         invalidateRowHeights()
-        
+
     }
     
     func applyOptions(_ options: DataTableConfiguration?){
@@ -267,43 +297,257 @@ public class SwiftDataTable: UIView {
         provider.register(collectionView)
     }
     
-    func calculateColumnWidths(){
-        //calculate the automatic widths for each column
-        self.columnWidths.removeAll()
-        for columnIndex in Array(0..<self.numberOfHeaderColumns()) {
-            self.columnWidths.append(self.automaticWidthForColumn(index: columnIndex))
-        }
-        self.scaleColumnWidthsIfRequired()
-        self.calculateRowHeights()
-    }
-    func scaleColumnWidthsIfRequired(){
-        guard self.shouldContentWidthScaleToFillFrame() else {
+    // MARK: - Column Width Calculation (Phase 2: Decoupled Width/Height)
+
+    /// Orchestrator: computes widths, detects changes, applies widths, and rebuilds heights if needed.
+    func calculateColumnWidths() {
+        let expectedColumnCount = numberOfHeaderColumns()
+        let schemaChanged = columnWidths.count != expectedColumnCount
+        let modeChanged = lastColumnWidthMode != options.columnWidthMode
+        let providerChanged = lastColumnWidthModeProviderVersion != options.columnWidthModeProviderVersion
+        let configChanged = modeChanged || providerChanged
+
+        // If locked and already computed, skip recalculation (unless schema or config changed)
+        if options.lockColumnWidthsAfterFirstLayout && hasComputedColumnWidthsOnce && !schemaChanged && !configChanged {
+            // Still need to rebuild heights in case data changed
+            calculateRowHeights()
             return
         }
-        self.scaleToFillColumnWidths()
+
+        let oldWidths = columnWidths
+        let newWidths = computeColumnWidths()
+        // TODO: Phase 3 - widthsChanged will be used to enable incremental height updates
+        // when widths are unchanged (skip full height rebuild)
+        let widthsChanged = !widthsAreEqual(oldWidths, newWidths, epsilon: 0.5)
+
+        applyColumnWidths(newWidths)
+        hasComputedColumnWidthsOnce = true
+        lastColumnWidthMode = options.columnWidthMode
+        lastColumnWidthModeProviderVersion = options.columnWidthModeProviderVersion
+
+        // If widths changed, we must rebuild all heights (wrapping depends on width)
+        if widthsChanged || metricsStore.rowCount == 0 {
+            calculateRowHeights()
+        }
+        // Phase 3: When widths unchanged, skip height rebuild here.
+        // Dirty rows will be processed incrementally after applyNewData() in applyDiff().
+        // This ensures measurements use the NEW data, not stale data.
     }
-    func scaleToFillColumnWidths(){
-        //if content width is smaller than ipad width
-        let totalColumnWidth = self.columnWidths.reduce(0, +)
-        let totalWidth = self.frame.width
+
+    /// Pure calculation: returns column widths without side effects.
+    private func computeColumnWidths() -> [CGFloat] {
+        var widths = [CGFloat]()
+        for columnIndex in 0..<numberOfHeaderColumns() {
+            widths.append(automaticWidthForColumn(index: columnIndex))
+        }
+        return widths
+    }
+
+    /// Applies the computed widths and performs scaling if required.
+    private func applyColumnWidths(_ widths: [CGFloat]) {
+        columnWidths = widths
+        scaleColumnWidthsIfRequired()
+    }
+
+    /// Compares two width arrays with epsilon tolerance.
+    private func widthsAreEqual(_ lhs: [CGFloat], _ rhs: [CGFloat], epsilon: CGFloat) -> Bool {
+        guard lhs.count == rhs.count else { return false }
+        for i in 0..<lhs.count {
+            if abs(lhs[i] - rhs[i]) > epsilon {
+                return false
+            }
+        }
+        return true
+    }
+
+    private func scaleColumnWidthsIfRequired() {
+        guard shouldContentWidthScaleToFillFrame() else {
+            return
+        }
+        scaleToFillColumnWidths()
+    }
+
+    private func scaleToFillColumnWidths() {
+        // If content width is smaller than frame width, scale up proportionally
+        let totalColumnWidth = columnWidths.reduce(0, +)
+        let totalWidth = frame.width
         let gap: CGFloat = totalWidth - totalColumnWidth
         guard totalColumnWidth < totalWidth else {
             return
         }
-        //calculate the percentage width presence of each column in relation to the frame width of the collection view
-        for columnIndex in Array(0..<self.columnWidths.count) {
-            let columnWidth = self.columnWidths[columnIndex]
+        // Calculate the percentage width presence of each column in relation to the frame width
+        for columnIndex in 0..<columnWidths.count {
+            let columnWidth = columnWidths[columnIndex]
             let columnWidthPercentagePresence = columnWidth / totalColumnWidth
-            //add result of gap size divided by percentage column width to each column automatic width.
+            // Add result of gap size divided by percentage column width to each column automatic width
             let gapPortionToDistributeToCurrentColumn = gap * columnWidthPercentagePresence
-            //apply final result of each column width to the column width array.
-            self.columnWidths[columnIndex] = columnWidth + gapPortionToDistributeToCurrentColumn
+            // Apply final result of each column width to the column width array
+            columnWidths[columnIndex] = columnWidth + gapPortionToDistributeToCurrentColumn
         }
     }
 
     private func invalidateRowHeights() {
         rowHeights.removeAll()
         sizingCellCacheByReuseId.removeAll()
+        metricsStore.clear()
+    }
+
+    // MARK: - Incremental Height Updates (Phase 3)
+
+    /// Phase 3: Performs incremental height update after data is applied.
+    /// Called from inside performBatchUpdates after applyNewData().
+    private func performIncrementalHeightUpdate(deletions: IndexSet, insertions: IndexSet) {
+        let newRowCount = numberOfRows()
+        let oldRowCount = metricsStore.rowCount
+
+        // Handle row count changes FIRST - applies to ALL height modes including fixed
+        if newRowCount != oldRowCount {
+            if newRowCount < oldRowCount {
+                // Deletions: truncate metricsStore
+                metricsStore.truncateToCount(newRowCount)
+                // Invalidate from first deleted index onward (tail invalidation)
+                if let firstDeletion = deletions.min(), firstDeletion < newRowCount {
+                    let tailRows = IndexSet(integersIn: firstDeletion..<newRowCount)
+                    metricsStore.invalidateRows(tailRows)
+                }
+            } else {
+                // Insertions: append default-height rows
+                let defaultHeight = options.rowHeightMode.estimatedHeight
+                for _ in oldRowCount..<newRowCount {
+                    metricsStore.appendRow(height: defaultHeight)
+                }
+                // Invalidate from first insertion onward (shifted rows need re-measure)
+                if let firstInsertion = insertions.min(), firstInsertion < newRowCount {
+                    let tailRows = IndexSet(integersIn: firstInsertion..<newRowCount)
+                    metricsStore.invalidateRows(tailRows)
+                }
+            }
+            // Rebuild offsets after row count change
+            metricsStore.rebuildOffsets()
+        }
+
+        // For fixed heights without delegate, just sync and return
+        guard requiresLayoutMetadataRebuildOnContentChange else {
+            metricsStore.clearDirtyFlags()
+            rowHeights = (0..<metricsStore.rowCount).map { metricsStore.heightForRow($0) }
+            return
+        }
+
+        // Large-scale mode: skip immediate measurement, let lazy measurement handle it
+        // Dirty rows (changed content) must be unmarked as measured so they get re-measured on scroll
+        if usesLargeScaleMode {
+            // Unmeasure dirty rows so they will be re-measured when they scroll into view
+            let dirtyRows = metricsStore.currentDirtyRows
+            if !dirtyRows.isEmpty {
+                metricsStore.markRowsUnmeasured(dirtyRows, estimatedHeight: options.rowHeightMode.estimatedHeight)
+            }
+            metricsStore.clearDirtyFlags()
+            // Reset throttle state so visible rows get measured
+            lastMeasuredRowRange = nil
+            rowHeights = (0..<metricsStore.rowCount).map { metricsStore.heightForRow($0) }
+            // Trigger lazy measurement for currently visible rows
+            measureVisibleRowsIfNeeded()
+            return
+        }
+
+        // Skip height recomputation if no dirty rows
+        guard metricsStore.hasDirtyRows else {
+            rowHeights = (0..<metricsStore.rowCount).map { metricsStore.heightForRow($0) }
+            return
+        }
+
+        // Now recompute dirty heights with the new data (standard automatic mode)
+        if usesDelegateRowHeights() {
+            metricsStore.recomputeDirtyHeights { [weak self] row in
+                guard let self = self else { return 44 }
+                return self.delegate?.dataTable?(self, heightForRowAt: row) ?? 44
+            }
+        } else if usesAutomaticRowHeights {
+            metricsStore.recomputeDirtyHeights { [weak self] row in
+                guard let self = self else { return 0 }
+                return self.measureHeightForRow(row)
+            }
+        } else {
+            metricsStore.clearDirtyFlags()
+        }
+
+        // Sync to legacy rowHeights array for compatibility
+        rowHeights = (0..<metricsStore.rowCount).map { metricsStore.heightForRow($0) }
+    }
+
+    /// Measures height for a single row (used by incremental updates).
+    private func measureHeightForRow(_ row: Int) -> CGFloat {
+        switch options.cellSizingMode {
+        case .autoLayout(let provider):
+            return measureAutoLayoutHeightForRow(row, provider: provider)
+        case .defaultCell:
+            return measureDefaultHeightForRow(row)
+        }
+    }
+
+    /// Measures height for a row using AutoLayout sizing.
+    private func measureAutoLayoutHeightForRow(_ row: Int, provider: DataTableCustomCellProvider) -> CGFloat {
+        guard row < currentRowViewModels.count else { return options.rowHeightMode.estimatedHeight }
+
+        let estimatedHeight = options.rowHeightMode.estimatedHeight
+        let targetHeight = max(estimatedHeight, 1)
+        var maxHeight: CGFloat = 0
+        let rowData = currentRowViewModels[row]
+        let columnCount = numberOfColumns()
+
+        for columnIndex in 0..<columnCount {
+            guard columnIndex < rowData.count else { continue }
+            let value = rowData[columnIndex].data
+            let indexPath = IndexPath(item: columnIndex, section: row)
+            let reuseId = provider.reuseIdentifierFor(indexPath)
+            let sizingCell = self.sizingCell(for: reuseId, provider: provider)
+            provider.configure(sizingCell, value, indexPath)
+            let columnWidth = columnWidths[safe: columnIndex] ?? 0
+            sizingCell.bounds = CGRect(x: 0, y: 0, width: columnWidth, height: targetHeight)
+            sizingCell.setNeedsLayout()
+            sizingCell.layoutIfNeeded()
+            let targetSize = CGSize(width: columnWidth, height: UIView.layoutFittingCompressedSize.height)
+            let size = sizingCell.contentView.systemLayoutSizeFitting(
+                targetSize,
+                withHorizontalFittingPriority: .required,
+                verticalFittingPriority: .fittingSizeLevel
+            )
+            maxHeight = max(maxHeight, ceil(size.height))
+        }
+
+        return max(maxHeight, estimatedHeight)
+    }
+
+    /// Measures height for a row using default text-based sizing.
+    private func measureDefaultHeightForRow(_ row: Int) -> CGFloat {
+        guard row < currentRowViewModels.count else { return options.rowHeightMode.estimatedHeight }
+
+        let font = DataCell.Properties.defaultFont
+        let verticalPadding = DataCell.Properties.verticalMargin * 2
+        let singleLineHeight = ceil(font.lineHeight + verticalPadding)
+
+        if case .singleLine = options.textLayout {
+            return singleLineHeight
+        }
+
+        // Wrap mode: calculate based on text content
+        var maxHeight: CGFloat = singleLineHeight
+        let rowData = currentRowViewModels[row]
+        let columnCount = numberOfColumns()
+
+        for columnIndex in 0..<columnCount {
+            guard columnIndex < rowData.count else { continue }
+            let columnWidth = columnWidths[safe: columnIndex] ?? 0
+            let textWidth = max(columnWidth - (DataCell.Properties.horizontalMargin * 2), 0)
+            let textHeight = measuredTextHeight(
+                for: rowData[columnIndex].data,
+                font: font,
+                width: textWidth
+            )
+            maxHeight = max(maxHeight, textHeight + verticalPadding)
+        }
+
+        return maxHeight
     }
 
     private var usesAutomaticRowHeights: Bool {
@@ -311,28 +555,82 @@ public class SwiftDataTable: UIView {
             return true
         }
         switch options.rowHeightMode {
-        case .automatic:
+        case .automatic, .largeScale:
             return true
         case .fixed:
             return false
         }
     }
 
+    /// Returns true if large-scale mode is enabled for lazy row measurement.
+    private var usesLargeScaleMode: Bool {
+        return options.rowHeightMode.isLargeScaleMode
+    }
+
     private func calculateRowHeights() {
         rowHeights.removeAll()
-        guard usesAutomaticRowHeights else {
-            return
-        }
-        guard !usesDelegateRowHeights() else {
+
+        // Configure metricsStore with layout parameters
+        metricsStore.headerHeight = heightForSectionHeader()
+        metricsStore.interRowSpacing = heightOfInterRowSpacing()
+        // Footer contributes to content height only when floating (matches heightOfFooter() in layout)
+        metricsStore.footerHeight = shouldShowFooterSection() && shouldSectionFootersFloat() ? heightForSectionFooter() + heightForPaginationView() : 0
+
+        let rowCount = numberOfRows()
+        let defaultHeight = options.rowHeightMode.estimatedHeight
+
+        // Delegate heights take precedence over all other height modes
+        if usesDelegateRowHeights() {
+            metricsStore.setRowCount(rowCount, defaultHeight: defaultHeight, allMeasured: true)
+            for row in 0..<rowCount {
+                if let height = delegate?.dataTable?(self, heightForRowAt: row) {
+                    metricsStore.setHeight(height, forRow: row)
+                }
+            }
+            metricsStore.rebuildOffsets()
+            rowHeights = (0..<rowCount).map { metricsStore.heightForRow($0) }
             return
         }
 
+        // Fixed heights mode - use the configured fixed value
+        guard usesAutomaticRowHeights else {
+            metricsStore.setRowCount(rowCount, defaultHeight: defaultHeight, allMeasured: true)
+            if case .fixed(let height) = options.rowHeightMode {
+                for row in 0..<rowCount {
+                    metricsStore.setHeight(height, forRow: row)
+                }
+            }
+            metricsStore.rebuildOffsets()
+            rowHeights = (0..<rowCount).map { metricsStore.heightForRow($0) }
+            return
+        }
+
+        // Large-scale mode: use estimated heights, measure lazily on scroll
+        if usesLargeScaleMode {
+            metricsStore.setRowCount(rowCount, defaultHeight: defaultHeight, allMeasured: false)
+            metricsStore.rebuildOffsets()
+            // Measure initial visible rows if we have a valid bounds
+            measureVisibleRowsIfNeeded()
+            rowHeights = (0..<rowCount).map { metricsStore.heightForRow($0) }
+            return
+        }
+
+        // Standard automatic mode: measure all rows upfront
+        metricsStore.setRowCount(rowCount, defaultHeight: defaultHeight, allMeasured: true)
+
+        // Calculate automatic heights
         switch options.cellSizingMode {
         case .autoLayout(let provider):
             rowHeights = calculateAutoLayoutRowHeights(provider: provider)
         case .defaultCell:
             rowHeights = calculateDefaultRowHeights()
         }
+
+        // Sync rowHeights to metricsStore
+        for (row, height) in rowHeights.enumerated() {
+            metricsStore.setHeight(height, forRow: row)
+        }
+        metricsStore.rebuildOffsets()
     }
 
     private func calculateDefaultRowHeights() -> [CGFloat] {
@@ -440,7 +738,189 @@ public class SwiftDataTable: UIView {
         }
         return delegate.responds(to: #selector(SwiftDataTableDelegate.dataTable(_:heightForRowAt:)))
     }
-    
+
+    /// Returns true if content changes require layout metadata rebuild (auto-height or delegate heights)
+    private var requiresLayoutMetadataRebuildOnContentChange: Bool {
+        return usesAutomaticRowHeights || usesDelegateRowHeights()
+    }
+
+    // MARK: - Scroll Anchoring Methods (Phase 4)
+
+    /// Test seam: allows tests to override the scroll state check for anchoring.
+    /// When non-nil, this value is used instead of checking isDragging/isDecelerating.
+    /// Set to `true` to simulate active scrolling (skip anchoring), `false` to allow anchoring.
+    internal var _testScrollStateOverride: Bool?
+
+    /// Returns true if anchoring should be skipped due to active user scrolling.
+    private var isActivelyScrolling: Bool {
+        if let override = _testScrollStateOverride {
+            return override
+        }
+        return collectionView.isDragging || collectionView.isDecelerating
+    }
+
+    /// Captures the current scroll anchor (first visible row + offset within that row).
+    /// Returns nil if anchoring should be skipped (user is scrolling, no rows, etc.)
+    private func captureScrollAnchor() -> ScrollAnchor? {
+        // Skip anchoring during active user interaction
+        guard !isActivelyScrolling else {
+            return nil
+        }
+
+        // Skip if no rows
+        guard metricsStore.rowCount > 0 else {
+            return nil
+        }
+
+        // Try to get the first visible row from visible items
+        let visibleIndexPaths = collectionView.indexPathsForVisibleItems
+            .filter { $0.section >= 0 && $0.section < metricsStore.rowCount }
+            .sorted { $0.section < $1.section }
+
+        let anchorRow: Int
+        if let firstVisible = visibleIndexPaths.first {
+            anchorRow = firstVisible.section
+        } else {
+            // Fallback: derive anchor row from content offset using binary search
+            let viewportTop = collectionView.contentOffset.y + collectionView.adjustedContentInset.top
+            anchorRow = metricsStore.rowForYOffset(viewportTop)
+        }
+
+        guard anchorRow < metricsStore.rowCount else {
+            return nil
+        }
+
+        // Capture the row identifier if available (used to track the row across index shifts)
+        let rowIdentifier: String? = anchorRow < currentRowIdentifiers.count
+            ? currentRowIdentifiers[anchorRow]
+            : nil
+
+        // Calculate offset from viewport top to the anchor row's top
+        let rowY = metricsStore.yOffsetForRow(anchorRow)
+        let viewportTop = collectionView.contentOffset.y + collectionView.adjustedContentInset.top
+        let offsetWithinRow = viewportTop - rowY
+
+        return ScrollAnchor(rowIndex: anchorRow, rowIdentifier: rowIdentifier, offsetWithinRow: offsetWithinRow)
+    }
+
+    /// Restores the scroll position to keep the anchor row visually stationary.
+    /// - Parameters:
+    ///   - anchor: The captured scroll anchor from before the update
+    ///   - newIdentifiers: The new row identifiers (used to find the anchor row's new index)
+    private func restoreScrollAnchor(_ anchor: ScrollAnchor?, newIdentifiers: [String]) {
+        guard let anchor = anchor else { return }
+
+        // Skip if still in active scroll
+        guard !isActivelyScrolling else {
+            return
+        }
+
+        let newRowCount = metricsStore.rowCount
+        guard newRowCount > 0 else { return }
+
+        // Find the anchor row's new index
+        let targetRow: Int
+        if let identifier = anchor.rowIdentifier,
+           let newIndex = newIdentifiers.firstIndex(of: identifier) {
+            // Row still exists - use its new index
+            targetRow = newIndex
+        } else {
+            // Row was deleted or no identifier - fall back to nearest surviving row
+            targetRow = min(anchor.rowIndex, newRowCount - 1)
+        }
+
+        // Calculate the new Y position to maintain visual continuity
+        let newRowY = metricsStore.yOffsetForRow(targetRow)
+        let newViewportTop = newRowY + anchor.offsetWithinRow
+
+        // Clamp to valid content offset bounds
+        let minY = -collectionView.adjustedContentInset.top
+        let maxY = max(minY, collectionView.contentSize.height - collectionView.bounds.height + collectionView.adjustedContentInset.bottom)
+        let clampedY = max(minY, min(newViewportTop - collectionView.adjustedContentInset.top, maxY))
+
+        // Apply the offset adjustment without animation (immediate)
+        collectionView.contentOffset.y = clampedY
+    }
+
+    // MARK: - Large-Scale Lazy Measurement (Phase 5)
+
+    /// Tracks the last measured row range for throttling.
+    private var lastMeasuredRowRange: Range<Int>?
+
+    /// Measures rows in the visible area plus prefetch window.
+    /// Called on scroll in large-scale mode to lazily measure rows as they become visible.
+    /// Uses scroll anchoring to prevent visual jumps when measurements change layout.
+    /// Throttled: only triggers when visible range changes meaningfully or has unmeasured rows.
+    private func measureVisibleRowsIfNeeded() {
+        // Only active in large-scale mode
+        guard usesLargeScaleMode else { return }
+        guard metricsStore.rowCount > 0 else { return }
+
+        // Calculate visible row range
+        let visibleRange = calculateVisibleRowRange()
+        guard !visibleRange.isEmpty else { return }
+
+        // Expand by prefetch window
+        let prefetchWindow = options.rowHeightMode.prefetchWindow
+        let expandedStart = max(0, visibleRange.lowerBound - prefetchWindow)
+        let expandedEnd = min(metricsStore.rowCount, visibleRange.upperBound + prefetchWindow)
+        let measureRange = expandedStart..<expandedEnd
+
+        // Throttle: skip if the expanded range hasn't changed (no new rows to potentially measure)
+        if let lastRange = lastMeasuredRowRange,
+           measureRange == lastRange {
+            return
+        }
+
+        // Check if there are unmeasured rows in the range
+        let unmeasured = metricsStore.unmeasuredRowsInRange(measureRange)
+        guard !unmeasured.isEmpty else {
+            // Update last range even if no measurement needed (range is fully measured)
+            lastMeasuredRowRange = measureRange
+            return
+        }
+
+        // Capture anchor before measurement (estimate→measured transitions can shift layout)
+        let anchor = captureScrollAnchor()
+
+        // Measure the rows
+        metricsStore.measureRowsInRange(measureRange) { [weak self] row in
+            guard let self = self else { return self?.options.rowHeightMode.estimatedHeight ?? 44 }
+            return self.measureHeightForRow(row)
+        }
+
+        // Update throttle state after successful measurement
+        lastMeasuredRowRange = measureRange
+
+        // Sync to legacy rowHeights array
+        rowHeights = (0..<metricsStore.rowCount).map { metricsStore.heightForRow($0) }
+
+        // Restore anchor to prevent visual jump
+        if anchor != nil {
+            restoreScrollAnchor(anchor, newIdentifiers: currentRowIdentifiers)
+        }
+
+        // Notify layout that metrics changed
+        layout?.invalidateLayout()
+    }
+
+    /// Calculates the range of rows currently visible in the viewport.
+    private func calculateVisibleRowRange() -> Range<Int> {
+        let viewportTop = collectionView.contentOffset.y + collectionView.adjustedContentInset.top
+        let viewportBottom = viewportTop + collectionView.bounds.height
+
+        guard viewportBottom > viewportTop else { return 0..<0 }
+
+        // Use binary search to find first and last visible rows
+        let firstRow = metricsStore.rowForYOffset(viewportTop)
+        let lastRow = metricsStore.rowForYOffset(viewportBottom)
+
+        let clampedFirst = max(0, firstRow)
+        let clampedLast = min(metricsStore.rowCount, lastRow + 1)
+
+        return clampedFirst..<clampedLast
+    }
+
     public func reloadEverything(){
         self.layout?.clearLayoutCache()
         self.collectionView.reloadData()
@@ -472,11 +952,128 @@ public class SwiftDataTable: UIView {
         self.layout?.clearLayoutCache()
         self.collectionView.resetScrollPositionToTop()
         self.set(data: data, headerTitles: headerTitles, options: self.options)
+        calculateColumnWidths()  // Rebuild metricsStore before reloadData
         self.collectionView.reloadData()
     }
     
     public func data(for indexPath: IndexPath) -> DataTableValueType {
         return rows[indexPath.section][indexPath.row].data
+    }
+
+    // MARK: - Row Remeasurement (Live Editing Support)
+
+    /// Remeasures the height of a specific row without reloading the cell.
+    ///
+    /// Use this method when a cell's content changes (e.g., during live text editing)
+    /// and you need to update the row height without triggering a full reload.
+    /// This preserves keyboard focus and cell state.
+    ///
+    /// - Parameter row: The row index to remeasure.
+    /// - Returns: `true` if the height changed and layout was invalidated, `false` otherwise.
+    ///
+    /// Example:
+    /// ```swift
+    /// func textViewDidChange(_ textView: UITextView) {
+    ///     // Update your model
+    ///     notes[rowIndex].content = textView.text
+    ///
+    ///     // Remeasure the row without cell reload
+    ///     dataTable.remeasureRow(rowIndex)
+    /// }
+    /// ```
+    @discardableResult
+    public func remeasureRow(_ row: Int) -> Bool {
+        guard row >= 0 && row < metricsStore.rowCount else { return false }
+        guard usesAutomaticRowHeights else { return false }
+
+        let oldHeight = metricsStore.heightForRow(row)
+
+        // Measure visible cells directly - they have the current content
+        // If not all columns visible, use max(visible, old) to allow growing without shrinking
+        // (sizing cells have old data, so we can't rely on them for live edits)
+        let newHeight: CGFloat
+        if let visibleHeight = measureVisibleRowHeight(row, allowPartial: true) {
+            let allColumnsVisible = visibleColumnCountForRow(row) >= numberOfColumns()
+            if allColumnsVisible {
+                // All columns visible - use measured height directly
+                newHeight = visibleHeight
+            } else {
+                // Partial visibility - allow growing but don't shrink
+                // (a non-visible column might be taller)
+                newHeight = max(visibleHeight, oldHeight)
+            }
+        } else {
+            // Row not visible at all - fall back to sizing cells
+            newHeight = measureHeightForRow(row)
+        }
+
+        guard abs(newHeight - oldHeight) > 0.5 else { return false }
+
+        // Update metrics store with new height
+        metricsStore.setHeight(newHeight, forRow: row)
+        metricsStore.rebuildOffsets(fromRow: row)
+
+        // Sync to legacy rowHeights array
+        if row < rowHeights.count {
+            rowHeights[row] = newHeight
+        }
+
+        // Invalidate layout without reloading cells
+        layout?.invalidateLayout()
+
+        return true
+    }
+
+    /// Returns the number of visible columns for a given row.
+    private func visibleColumnCountForRow(_ row: Int) -> Int {
+        let visibleIndexPaths = collectionView.indexPathsForVisibleItems
+        return visibleIndexPaths.filter { $0.section == row }.count
+    }
+
+    /// Measures the height of visible cells directly from the collection view.
+    /// - Parameters:
+    ///   - row: The row index to measure.
+    ///   - allowPartial: If true, returns height even if not all columns visible.
+    /// - Returns: The measured height, or nil if the row has no visible cells.
+    private func measureVisibleRowHeight(_ row: Int, allowPartial: Bool = false) -> CGFloat? {
+        let visibleIndexPaths = collectionView.indexPathsForVisibleItems
+        let visibleForRow = visibleIndexPaths.filter { $0.section == row }
+
+        // If row not visible at all, return nil
+        guard !visibleForRow.isEmpty else { return nil }
+
+        // If not allowing partial and not all columns visible, return nil
+        if !allowPartial {
+            let columnCount = numberOfColumns()
+            guard visibleForRow.count >= columnCount else { return nil }
+        }
+
+        // Trigger layout on all visible cells for this row
+        for ip in visibleForRow {
+            if let cell = collectionView.cellForItem(at: ip) {
+                cell.setNeedsLayout()
+                cell.layoutIfNeeded()
+            }
+        }
+
+        // Measure all visible cells in this row to find max height
+        var maxHeight: CGFloat = 0
+        for ip in visibleForRow {
+            if let rowCell = collectionView.cellForItem(at: ip) {
+                let targetSize = CGSize(
+                    width: rowCell.bounds.width,
+                    height: UIView.layoutFittingCompressedSize.height
+                )
+                let size = rowCell.contentView.systemLayoutSizeFitting(
+                    targetSize,
+                    withHorizontalFittingPriority: .required,
+                    verticalFittingPriority: .fittingSizeLevel
+                )
+                maxHeight = max(maxHeight, ceil(size.height))
+            }
+        }
+
+        return maxHeight > 0 ? max(maxHeight, options.rowHeightMode.estimatedHeight) : nil
     }
 }
 
@@ -580,6 +1177,7 @@ public extension SwiftDataTable {
             self.rowViewModels = newViewModels
             invalidateRowHeights()
             layout?.clearLayoutCache()
+            calculateColumnWidths()  // Rebuild metricsStore before reloadData
             self.collectionView.reloadData()
             completion?(true)
         }
@@ -681,13 +1279,22 @@ public extension SwiftDataTable {
             // No need to clear entire cache or invalidate all row heights
         }
 
+        // Phase 4: Capture scroll anchor before updates to preserve visual position
+        let scrollAnchor = captureScrollAnchor()
+
         // If there are many changes, just reload (performance optimization)
         let totalChanges = deletions.count + insertions.count + changedRows.count
         let totalRows = max(oldIdentifiers.count, newIdentifiers.count)
         if totalRows > 0 && Double(totalChanges) / Double(totalRows) > 0.5 {
-            // More than 50% changed - apply data and reload
+            // More than 50% changed - apply data, rebuild metrics, and reload
             applyNewData()
+            invalidateRowHeights()
+            layout?.clearLayoutCache()
+            calculateColumnWidths()  // This also rebuilds metricsStore
             self.collectionView.reloadData()
+            // Phase 4: Restore scroll anchor after layout updates
+            self.collectionView.layoutIfNeeded()
+            self.restoreScrollAnchor(scrollAnchor, newIdentifiers: newIdentifiers)
             completion?(true)
             return
         }
@@ -701,12 +1308,30 @@ public extension SwiftDataTable {
         // UICollectionView's performBatchUpdates handles this automatically
         // if we provide the correct indices and update data at the right time.
 
+        // Phase 2 fix: In auto-height or delegate-height modes, cell-level reloads don't trigger
+        // layout metadata rebuild. Convert them to section reloads so prepare(forCollectionViewUpdates:)
+        // sees section-level changes and triggers calculateColumnWidths() + prepareMetadata().
+        if requiresLayoutMetadataRebuildOnContentChange && !reloadIndexPaths.isEmpty {
+            for indexPath in reloadIndexPaths {
+                reloadSections.insert(indexPath.section)
+            }
+            reloadIndexPaths.removeAll()
+        }
+
         // Apply batch updates
         let sortedReloadIndexPaths = reloadIndexPaths.sorted {
             if $0.section == $1.section {
                 return $0.item < $1.item
             }
             return $0.section < $1.section
+        }
+
+        // Phase 3: Mark dirty rows for incremental height updates
+        // Changed rows (content changed) + insertions (new rows) need height measurement
+        var dirtyRowIndices = IndexSet(changedRows)
+        dirtyRowIndices.formUnion(insertions)
+        if !dirtyRowIndices.isEmpty {
+            metricsStore.invalidateRows(dirtyRowIndices)
         }
 
         self.collectionView.performBatchUpdates({
@@ -718,6 +1343,9 @@ public extension SwiftDataTable {
             // Now apply the new data - this must happen during the batch update
             // so the collection view sees the correct number of sections for insertions
             applyNewData()
+
+            // Phase 3: Incremental height updates - now that data is applied, we can measure with new data
+            self.performIncrementalHeightUpdate(deletions: deletions, insertions: insertions)
 
             // Insert sections (indices relative to new data)
             if !insertions.isEmpty {
@@ -731,7 +1359,9 @@ public extension SwiftDataTable {
             if !sortedReloadIndexPaths.isEmpty {
                 self.collectionView.reloadItems(at: sortedReloadIndexPaths)
             }
-        }, completion: { finished in
+        }, completion: { [weak self] finished in
+            // Phase 4: Restore scroll anchor after batch updates complete
+            self?.restoreScrollAnchor(scrollAnchor, newIdentifiers: newIdentifiers)
             completion?(finished)
         })
     }
@@ -937,6 +1567,9 @@ extension SwiftDataTable: UIScrollViewDelegate {
                 self.collectionView.contentOffset.y = maxY-1
             }
         }
+
+        // Phase 5: Lazy measurement for large-scale mode
+        measureVisibleRowsIfNeeded()
     }
 }
 
@@ -1044,7 +1677,9 @@ extension SwiftDataTable {
         switch options.rowHeightMode {
         case .fixed(let height):
             return height
-        case .automatic (let estimated):
+        case .automatic(let estimated):
+            return estimated
+        case .largeScale(let estimated, _):
             return estimated
         }
     }

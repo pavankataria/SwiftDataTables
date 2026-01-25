@@ -26,6 +26,7 @@ class MenuViewController: UITableViewController {
     private enum Section: Int, CaseIterable {
         case dataInitialization = 0
         case layoutSizing
+        case autoLayout
         case visibilityFloating
         case sortingSelection
         case visualStyling
@@ -35,6 +36,7 @@ class MenuViewController: UITableViewController {
             switch self {
             case .dataInitialization: return "Data Initialization"
             case .layoutSizing: return "Layout & Sizing"
+            case .autoLayout: return "AutoLayout Stress Tests"
             case .visibilityFloating: return "Visibility & Floating"
             case .sortingSelection: return "Sorting & Selection"
             case .visualStyling: return "Visual Styling"
@@ -75,6 +77,7 @@ class MenuViewController: UITableViewController {
                 MenuItem(title: "Live Data Updates"),
                 MenuItem(title: "Single Row Updates"),
                 MenuItem(title: "Cell-Level Updates"),
+                MenuItem(title: "Scroll Anchoring"),
             ],
             // Section 1: Layout & Sizing
             [
@@ -84,18 +87,24 @@ class MenuViewController: UITableViewController {
                 MenuItem(title: "Custom Cells + Auto Height"),
                 MenuItem(title: "Heights Customization"),
             ],
-            // Section 2: Visibility & Floating
+            // Section 2: AutoLayout Stress Tests
+            [
+                MenuItem(title: "Dynamic Content Stress Test"),
+                MenuItem(title: "Live Text Editing"),
+                MenuItem(title: "Rapid-Fire Updates"),
+            ],
+            // Section 3: Visibility & Floating
             [
                 MenuItem(title: "Show/Hide Elements"),
                 MenuItem(title: "Floating Elements"),
                 MenuItem(title: "Search Bar Position"),
             ],
-            // Section 3: Sorting & Selection
+            // Section 4: Sorting & Selection
             [
                 MenuItem(title: "Default Sorting"),
                 MenuItem(title: "Row Selection"),
             ],
-            // Section 4: Visual Styling
+            // Section 5: Visual Styling
             [
                 MenuItem(title: "Sort Arrow Styling"),
                 MenuItem(
@@ -104,9 +113,10 @@ class MenuViewController: UITableViewController {
                     description: "Custom rainbow alternating row colours. Set highlightedAlternatingRowColors and unhighlightedAlternatingRowColors."
                 ),
             ],
-            // Section 5: Performance
+            // Section 6: Performance
             [
                 MenuItem(title: "Performance Stress Test"),
+                MenuItem(title: "Large-Scale Mode (100k+)"),
             ],
         ]
     }
@@ -146,6 +156,8 @@ extension MenuViewController {
             handleDataInitialization(row: indexPath.row)
         case .layoutSizing:
             handleLayoutSizing(row: indexPath.row)
+        case .autoLayout:
+            handleAutoLayout(row: indexPath.row)
         case .visibilityFloating:
             handleVisibilityFloating(row: indexPath.row)
         case .sortingSelection:
@@ -177,6 +189,8 @@ extension MenuViewController {
             show(SingleRowUpdatesDemoViewController(), sender: self)
         case 5:
             show(CellLevelUpdatesDemoViewController(), sender: self)
+        case 6:
+            show(ScrollAnchoringDemoViewController(), sender: self)
         default:
             break
         }
@@ -194,6 +208,19 @@ extension MenuViewController {
             show(CustomCellsAutoHeightDemoViewController(), sender: self)
         case 4:
             show(HeightsCustomisationDemoViewController(), sender: self)
+        default:
+            break
+        }
+    }
+
+    private func handleAutoLayout(row: Int) {
+        switch row {
+        case 0:
+            show(AutoLayoutStressTestDemoViewController(), sender: self)
+        case 1:
+            show(LiveTextEditingDemoViewController(), sender: self)
+        case 2:
+            show(RapidFireUpdatesDemoViewController(), sender: self)
         default:
             break
         }
@@ -246,6 +273,8 @@ extension MenuViewController {
         switch row {
         case 0:
             show(PerformanceDemoViewController(), sender: self)
+        case 1:
+            show(LargeScaleModeDemoViewController(), sender: self)
         default:
             break
         }
