@@ -959,6 +959,122 @@ public class SwiftDataTable: UIView {
     public func data(for indexPath: IndexPath) -> DataTableValueType {
         return rows[indexPath.section][indexPath.row].data
     }
+
+    // MARK: - Row Remeasurement (Live Editing Support)
+
+    /// Remeasures the height of a specific row without reloading the cell.
+    ///
+    /// Use this method when a cell's content changes (e.g., during live text editing)
+    /// and you need to update the row height without triggering a full reload.
+    /// This preserves keyboard focus and cell state.
+    ///
+    /// - Parameter row: The row index to remeasure.
+    /// - Returns: `true` if the height changed and layout was invalidated, `false` otherwise.
+    ///
+    /// Example:
+    /// ```swift
+    /// func textViewDidChange(_ textView: UITextView) {
+    ///     // Update your model
+    ///     notes[rowIndex].content = textView.text
+    ///
+    ///     // Remeasure the row without cell reload
+    ///     dataTable.remeasureRow(rowIndex)
+    /// }
+    /// ```
+    @discardableResult
+    public func remeasureRow(_ row: Int) -> Bool {
+        guard row >= 0 && row < metricsStore.rowCount else { return false }
+        guard usesAutomaticRowHeights else { return false }
+
+        let oldHeight = metricsStore.heightForRow(row)
+
+        // Measure visible cells directly - they have the current content
+        // If not all columns visible, use max(visible, old) to allow growing without shrinking
+        // (sizing cells have old data, so we can't rely on them for live edits)
+        let newHeight: CGFloat
+        if let visibleHeight = measureVisibleRowHeight(row, allowPartial: true) {
+            let allColumnsVisible = visibleColumnCountForRow(row) >= numberOfColumns()
+            if allColumnsVisible {
+                // All columns visible - use measured height directly
+                newHeight = visibleHeight
+            } else {
+                // Partial visibility - allow growing but don't shrink
+                // (a non-visible column might be taller)
+                newHeight = max(visibleHeight, oldHeight)
+            }
+        } else {
+            // Row not visible at all - fall back to sizing cells
+            newHeight = measureHeightForRow(row)
+        }
+
+        guard abs(newHeight - oldHeight) > 0.5 else { return false }
+
+        // Update metrics store with new height
+        metricsStore.setHeight(newHeight, forRow: row)
+        metricsStore.rebuildOffsets(fromRow: row)
+
+        // Sync to legacy rowHeights array
+        if row < rowHeights.count {
+            rowHeights[row] = newHeight
+        }
+
+        // Invalidate layout without reloading cells
+        layout?.invalidateLayout()
+
+        return true
+    }
+
+    /// Returns the number of visible columns for a given row.
+    private func visibleColumnCountForRow(_ row: Int) -> Int {
+        let visibleIndexPaths = collectionView.indexPathsForVisibleItems
+        return visibleIndexPaths.filter { $0.section == row }.count
+    }
+
+    /// Measures the height of visible cells directly from the collection view.
+    /// - Parameters:
+    ///   - row: The row index to measure.
+    ///   - allowPartial: If true, returns height even if not all columns visible.
+    /// - Returns: The measured height, or nil if the row has no visible cells.
+    private func measureVisibleRowHeight(_ row: Int, allowPartial: Bool = false) -> CGFloat? {
+        let visibleIndexPaths = collectionView.indexPathsForVisibleItems
+        let visibleForRow = visibleIndexPaths.filter { $0.section == row }
+
+        // If row not visible at all, return nil
+        guard !visibleForRow.isEmpty else { return nil }
+
+        // If not allowing partial and not all columns visible, return nil
+        if !allowPartial {
+            let columnCount = numberOfColumns()
+            guard visibleForRow.count >= columnCount else { return nil }
+        }
+
+        // Trigger layout on all visible cells for this row
+        for ip in visibleForRow {
+            if let cell = collectionView.cellForItem(at: ip) {
+                cell.setNeedsLayout()
+                cell.layoutIfNeeded()
+            }
+        }
+
+        // Measure all visible cells in this row to find max height
+        var maxHeight: CGFloat = 0
+        for ip in visibleForRow {
+            if let rowCell = collectionView.cellForItem(at: ip) {
+                let targetSize = CGSize(
+                    width: rowCell.bounds.width,
+                    height: UIView.layoutFittingCompressedSize.height
+                )
+                let size = rowCell.contentView.systemLayoutSizeFitting(
+                    targetSize,
+                    withHorizontalFittingPriority: .required,
+                    verticalFittingPriority: .fittingSizeLevel
+                )
+                maxHeight = max(maxHeight, ceil(size.height))
+            }
+        }
+
+        return maxHeight > 0 ? max(maxHeight, options.rowHeightMode.estimatedHeight) : nil
+    }
 }
 
 // MARK: - Snapshot-Based Incremental Updates
