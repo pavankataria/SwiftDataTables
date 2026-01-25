@@ -433,9 +433,9 @@ public class SwiftDataTable: UIView {
             return
         }
 
-        // Large-scale mode: skip immediate measurement, let lazy measurement handle it
+        // Lazy measurement mode: skip immediate measurement, let scroll-triggered measurement handle it
         // Dirty rows (changed content) must be unmarked as measured so they get re-measured on scroll
-        if usesLargeScaleMode {
+        if usesLazyMeasurement {
             // Unmeasure dirty rows so they will be re-measured when they scroll into view
             let dirtyRows = metricsStore.currentDirtyRows
             if !dirtyRows.isEmpty {
@@ -555,16 +555,16 @@ public class SwiftDataTable: UIView {
             return true
         }
         switch options.rowHeightMode {
-        case .automatic, .largeScale:
+        case .automatic:
             return true
         case .fixed:
             return false
         }
     }
 
-    /// Returns true if large-scale mode is enabled for lazy row measurement.
-    private var usesLargeScaleMode: Bool {
-        return options.rowHeightMode.isLargeScaleMode
+    /// Returns true if lazy row measurement is enabled (automatic mode).
+    private var usesLazyMeasurement: Bool {
+        return options.rowHeightMode.usesLazyMeasurement
     }
 
     private func calculateRowHeights() {
@@ -605,32 +605,13 @@ public class SwiftDataTable: UIView {
             return
         }
 
-        // Large-scale mode: use estimated heights, measure lazily on scroll
-        if usesLargeScaleMode {
-            metricsStore.setRowCount(rowCount, defaultHeight: defaultHeight, allMeasured: false)
-            metricsStore.rebuildOffsets()
-            // Measure initial visible rows if we have a valid bounds
-            measureVisibleRowsIfNeeded()
-            rowHeights = (0..<rowCount).map { metricsStore.heightForRow($0) }
-            return
-        }
-
-        // Standard automatic mode: measure all rows upfront
-        metricsStore.setRowCount(rowCount, defaultHeight: defaultHeight, allMeasured: true)
-
-        // Calculate automatic heights
-        switch options.cellSizingMode {
-        case .autoLayout(let provider):
-            rowHeights = calculateAutoLayoutRowHeights(provider: provider)
-        case .defaultCell:
-            rowHeights = calculateDefaultRowHeights()
-        }
-
-        // Sync rowHeights to metricsStore
-        for (row, height) in rowHeights.enumerated() {
-            metricsStore.setHeight(height, forRow: row)
-        }
+        // Automatic mode: use estimated heights, measure lazily on scroll
+        // This works efficiently for any dataset size - small or 100k+ rows
+        metricsStore.setRowCount(rowCount, defaultHeight: defaultHeight, allMeasured: false)
         metricsStore.rebuildOffsets()
+        // Measure initial visible rows if we have a valid bounds
+        measureVisibleRowsIfNeeded()
+        rowHeights = (0..<rowCount).map { metricsStore.heightForRow($0) }
     }
 
     private func calculateDefaultRowHeights() -> [CGFloat] {
@@ -848,12 +829,12 @@ public class SwiftDataTable: UIView {
     private var lastMeasuredRowRange: Range<Int>?
 
     /// Measures rows in the visible area plus prefetch window.
-    /// Called on scroll in large-scale mode to lazily measure rows as they become visible.
+    /// Called on scroll in automatic mode to lazily measure rows as they become visible.
     /// Uses scroll anchoring to prevent visual jumps when measurements change layout.
     /// Throttled: only triggers when visible range changes meaningfully or has unmeasured rows.
     private func measureVisibleRowsIfNeeded() {
-        // Only active in large-scale mode
-        guard usesLargeScaleMode else { return }
+        // Only active in automatic (lazy measurement) mode
+        guard usesLazyMeasurement else { return }
         guard metricsStore.rowCount > 0 else { return }
 
         // Calculate visible row range
@@ -1677,9 +1658,7 @@ extension SwiftDataTable {
         switch options.rowHeightMode {
         case .fixed(let height):
             return height
-        case .automatic(let estimated):
-            return estimated
-        case .largeScale(let estimated, _):
+        case .automatic(let estimated, _):
             return estimated
         }
     }

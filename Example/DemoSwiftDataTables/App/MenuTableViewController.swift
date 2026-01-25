@@ -24,9 +24,10 @@ struct MenuItem {
 
 class MenuViewController: UITableViewController {
     private enum Section: Int, CaseIterable {
-        case dataInitialization = 0
+        case gettingStarted = 0
+        case dataUpdates
         case layoutSizing
-        case autoLayout
+        case dynamicContent
         case visibilityFloating
         case sortingSelection
         case visualStyling
@@ -34,9 +35,10 @@ class MenuViewController: UITableViewController {
 
         var title: String {
             switch self {
-            case .dataInitialization: return "Data Initialization"
+            case .gettingStarted: return "Getting Started"
+            case .dataUpdates: return "Data Updates"
             case .layoutSizing: return "Layout & Sizing"
-            case .autoLayout: return "AutoLayout Stress Tests"
+            case .dynamicContent: return "Dynamic Content"
             case .visibilityFloating: return "Visibility & Floating"
             case .sortingSelection: return "Sorting & Selection"
             case .visualStyling: return "Visual Styling"
@@ -69,42 +71,45 @@ class MenuViewController: UITableViewController {
 
     private func createMenuItems() -> [[MenuItem]] {
         return [
-            // Section 0: Data Initialization
+            // Section 0: Getting Started
             [
                 MenuItem(title: "Static Data Set"),
                 MenuItem(title: "Dynamic Data Source"),
                 MenuItem(title: "Empty Data Source"),
-                MenuItem(title: "Live Data Updates"),
+            ],
+            // Section 1: Data Updates
+            [
+                MenuItem(title: "Animated Diffing"),
                 MenuItem(title: "Single Row Updates"),
                 MenuItem(title: "Cell-Level Updates"),
                 MenuItem(title: "Scroll Anchoring"),
             ],
-            // Section 1: Layout & Sizing
+            // Section 2: Layout & Sizing
             [
                 MenuItem(title: "Fixed/Frozen Columns"),
                 MenuItem(title: "Column Width Strategies"),
                 MenuItem(title: "Row Height + Text Wrap"),
-                MenuItem(title: "Custom Cells + Auto Height"),
+                MenuItem(title: "Auto Layout Custom Cells"),
                 MenuItem(title: "Heights Customization"),
             ],
-            // Section 2: AutoLayout Stress Tests
+            // Section 3: Dynamic Content
             [
                 MenuItem(title: "Dynamic Content Stress Test"),
                 MenuItem(title: "Live Text Editing"),
                 MenuItem(title: "Rapid-Fire Updates"),
             ],
-            // Section 3: Visibility & Floating
+            // Section 4: Visibility & Floating
             [
                 MenuItem(title: "Show/Hide Elements"),
                 MenuItem(title: "Floating Elements"),
                 MenuItem(title: "Search Bar Position"),
             ],
-            // Section 4: Sorting & Selection
+            // Section 5: Sorting & Selection
             [
                 MenuItem(title: "Default Sorting"),
                 MenuItem(title: "Row Selection"),
             ],
-            // Section 5: Visual Styling
+            // Section 6: Visual Styling
             [
                 MenuItem(title: "Sort Arrow Styling"),
                 MenuItem(
@@ -113,10 +118,10 @@ class MenuViewController: UITableViewController {
                     description: "Custom rainbow alternating row colours. Set highlightedAlternatingRowColors and unhighlightedAlternatingRowColors."
                 ),
             ],
-            // Section 6: Performance
+            // Section 7: Performance
             [
-                MenuItem(title: "Performance Stress Test"),
-                MenuItem(title: "Large-Scale Mode (100k+)"),
+                MenuItem(title: "Fixed Heights Performance"),
+                MenuItem(title: "Automatic Row Heights"),
             ],
         ]
     }
@@ -152,12 +157,14 @@ extension MenuViewController {
         guard let section = Section(rawValue: indexPath.section) else { return }
 
         switch section {
-        case .dataInitialization:
-            handleDataInitialization(row: indexPath.row)
+        case .gettingStarted:
+            handleGettingStarted(row: indexPath.row)
+        case .dataUpdates:
+            handleDataUpdates(row: indexPath.row)
         case .layoutSizing:
             handleLayoutSizing(row: indexPath.row)
-        case .autoLayout:
-            handleAutoLayout(row: indexPath.row)
+        case .dynamicContent:
+            handleDynamicContent(row: indexPath.row)
         case .visibilityFloating:
             handleVisibilityFloating(row: indexPath.row)
         case .sortingSelection:
@@ -173,7 +180,7 @@ extension MenuViewController {
 // MARK: - Section Handlers
 
 extension MenuViewController {
-    private func handleDataInitialization(row: Int) {
+    private func handleGettingStarted(row: Int) {
         switch row {
         case 0:
             show(DataTableWithDataSetViewController(), sender: self)
@@ -183,13 +190,20 @@ extension MenuViewController {
             instance.addDataSourceAfter()
         case 2:
             show(DataTableWithDataSourceViewController(), sender: self)
-        case 3:
+        default:
+            break
+        }
+    }
+
+    private func handleDataUpdates(row: Int) {
+        switch row {
+        case 0:
             show(IncrementalUpdatesDemoViewController(), sender: self)
-        case 4:
+        case 1:
             show(SingleRowUpdatesDemoViewController(), sender: self)
-        case 5:
+        case 2:
             show(CellLevelUpdatesDemoViewController(), sender: self)
-        case 6:
+        case 3:
             show(ScrollAnchoringDemoViewController(), sender: self)
         default:
             break
@@ -213,7 +227,7 @@ extension MenuViewController {
         }
     }
 
-    private func handleAutoLayout(row: Int) {
+    private func handleDynamicContent(row: Int) {
         switch row {
         case 0:
             show(AutoLayoutStressTestDemoViewController(), sender: self)
@@ -274,7 +288,7 @@ extension MenuViewController {
         case 0:
             show(PerformanceDemoViewController(), sender: self)
         case 1:
-            show(LargeScaleModeDemoViewController(), sender: self)
+            show(AutomaticRowHeightsDemoViewController(), sender: self)
         default:
             break
         }

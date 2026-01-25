@@ -36,12 +36,16 @@ enum CustomCellsRowCountOption: Int, CaseIterable {
     case small
     case medium
     case large
+    case veryLarge
+    case massive
 
     var title: String {
         switch self {
         case .small: return "50"
         case .medium: return "200"
         case .large: return "1k"
+        case .veryLarge: return "10k"
+        case .massive: return "100k"
         }
     }
 
@@ -50,6 +54,8 @@ enum CustomCellsRowCountOption: Int, CaseIterable {
         case .small: return 50
         case .medium: return 200
         case .large: return 1000
+        case .veryLarge: return 10000
+        case .massive: return 100000
         }
     }
 }

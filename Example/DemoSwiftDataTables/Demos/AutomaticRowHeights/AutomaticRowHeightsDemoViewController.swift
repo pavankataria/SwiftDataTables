@@ -1,17 +1,17 @@
 //
-//  LargeScaleModeDemoViewController.swift
+//  AutomaticRowHeightsDemoViewController.swift
 //  DemoSwiftDataTables
 //
-//  Demonstrates large-scale mode with lazy measurement for 100k+ rows.
+//  Demonstrates automatic row heights with lazy measurement for 100k+ rows.
 //  Uses estimated heights and measures rows on-demand as they scroll into view.
 //
 
 import UIKit
 import SwiftDataTables
 
-/// Demo showcasing large-scale mode with lazy height measurement.
+/// Demo showcasing automatic row heights with lazy measurement.
 /// Load 100k rows instantly using estimated heights, then measure on scroll.
-final class LargeScaleModeDemoViewController: UIViewController {
+final class AutomaticRowHeightsDemoViewController: UIViewController {
 
     // MARK: - State
 
@@ -30,7 +30,7 @@ final class LargeScaleModeDemoViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Large-Scale Mode"
+        title = "Automatic Row Heights"
         view.backgroundColor = .systemBackground
 
         controls = makeExplanationControls()
@@ -49,16 +49,20 @@ final class LargeScaleModeDemoViewController: UIViewController {
         tableData = generateData(count: currentRowCount)
         let genTime = CFAbsoluteTimeGetCurrent() - startGen
 
-        // Create table with large-scale mode
+        // Create table
         var config = DataTableConfiguration()
         config.shouldShowSearchSection = false
 
-        // Use large-scale mode: estimated height with lazy measurement
-        if controls.largeScaleModeSwitch.isOn {
-            config.rowHeightMode = .largeScale(estimatedHeight: 44, prefetchWindow: 20)
+        // Toggle between fixed heights (fast but uniform) and automatic (lazy measurement)
+        if controls.automaticHeightsSwitch.isOn {
+            // Automatic mode: lazy measurement with scroll anchoring
+            // Efficient for any dataset size - measures only visible rows
+            config.rowHeightMode = .automatic(estimated: 44, prefetchWindow: 20)
+            config.textLayout = .wrap  // Enable wrapping so heights actually vary
+            config.maxColumnWidth = 150  // Narrow columns to force wrapping
         } else {
-            // Standard automatic mode - measures all rows upfront
-            config.rowHeightMode = .automatic(estimated: 44)
+            // Fixed mode: uniform height, no measurement needed
+            config.rowHeightMode = .fixed(44)
         }
 
         let startInit = CFAbsoluteTimeGetCurrent()
@@ -77,7 +81,7 @@ final class LargeScaleModeDemoViewController: UIViewController {
 
         dataTable = table
 
-        let mode = controls.largeScaleModeSwitch.isOn ? "Large-Scale" : "Automatic"
+        let mode = controls.automaticHeightsSwitch.isOn ? "Automatic" : "Fixed"
         log("[\(mode)] Gen: \(String(format: "%.0f", genTime * 1000))ms, Init: \(String(format: "%.0f", initTime * 1000))ms")
         updateTimingLabel()
     }
@@ -127,11 +131,12 @@ final class LargeScaleModeDemoViewController: UIViewController {
     private func generateData(count: Int) -> DataTableContent {
         let names = ["Alpha", "Beta", "Gamma", "Delta", "Epsilon", "Zeta", "Eta", "Theta", "Iota", "Kappa"]
         let descriptions = [
-            "Short",
-            "Medium length text",
-            "A longer description that may wrap to multiple lines",
-            "Brief",
-            "Standard item description here",
+            "OK",
+            "Short text",
+            "A medium description that spans a couple of lines when wrapped properly",
+            "This is a longer description that will definitely wrap to multiple lines and create taller row heights to demonstrate the variable height measurement system working correctly",
+            "Brief note",
+            "Another longer piece of text that should wrap nicely and show how automatic height measurement calculates different heights for different content lengths in the data table",
         ]
 
         return (0..<count).map { i in

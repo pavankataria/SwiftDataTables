@@ -64,7 +64,7 @@ final class CustomCellsAutoHeightDemoViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Custom Cells + Auto Height"
+        title = "Auto Layout Custom Cells"
         view.backgroundColor = .systemBackground
         setupViews()
         rebuildTable()

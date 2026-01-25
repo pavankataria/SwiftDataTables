@@ -72,13 +72,18 @@ public enum DataTableTextLayout: Equatable {
 
 public enum DataTableRowHeightMode: Equatable {
     case fixed(CGFloat)
-    case automatic(estimated: CGFloat = 44)
-    /// Large-scale mode: uses estimated heights initially, measures rows lazily as they become visible.
-    /// Optimized for 100k+ rows. Rows are measured within a prefetch window around the viewport.
+    /// Automatic row heights: measures rows lazily as they become visible.
+    /// Uses estimated heights for unmeasured rows, with scroll anchoring to keep the scroll bar accurate.
     /// - Parameters:
-    ///   - estimatedHeight: The estimated height used for unmeasured rows.
-    ///   - prefetchWindow: Number of rows above/below viewport to pre-measure. Default is 10.
-    case largeScale(estimatedHeight: CGFloat = 44, prefetchWindow: Int = 10)
+    ///   - estimated: The estimated height used for unmeasured rows (default: 44).
+    ///   - prefetchWindow: Number of rows above/below viewport to pre-measure (default: 10).
+    case automatic(estimated: CGFloat = 44, prefetchWindow: Int = 10)
+
+    /// Legacy alias for automatic mode. Deprecated - use `.automatic` instead.
+    @available(*, deprecated, renamed: "automatic")
+    public static func largeScale(estimatedHeight: CGFloat = 44, prefetchWindow: Int = 10) -> DataTableRowHeightMode {
+        return .automatic(estimated: estimatedHeight, prefetchWindow: prefetchWindow)
+    }
 }
 
 public struct DataTableCustomCellProvider {
@@ -148,7 +153,7 @@ public struct DataTableConfiguration: Equatable {
     public var shouldShowVerticalScrollBars: Bool = true
     public var shouldShowHorizontalScrollBars: Bool = false
 
-    public var sortArrowTintColor: UIColor = UIColor.blue
+    public var sortArrowTintColor: UIColor = .tintColor
     
     public var shouldSupportRightToLeftInterfaceDirection: Bool = true
     
@@ -221,25 +226,27 @@ extension DataTableRowHeightMode {
         switch self {
         case .fixed(let height):
             return height
-        case .automatic(let estimated):
+        case .automatic(let estimated, _):
             return estimated
-        case .largeScale(let estimatedHeight, _):
-            return estimatedHeight
         }
     }
 
     var prefetchWindow: Int {
         switch self {
-        case .largeScale(_, let window):
+        case .automatic(_, let window):
             return window
-        default:
+        case .fixed:
             return 0
         }
     }
 
-    var isLargeScaleMode: Bool {
-        if case .largeScale = self { return true }
-        return false
+    var usesLazyMeasurement: Bool {
+        switch self {
+        case .automatic:
+            return true
+        case .fixed:
+            return false
+        }
     }
 }
 

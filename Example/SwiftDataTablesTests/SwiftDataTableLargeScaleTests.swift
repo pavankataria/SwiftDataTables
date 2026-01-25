@@ -2,47 +2,49 @@
 //  SwiftDataTableLargeScaleTests.swift
 //  SwiftDataTablesTests
 //
-//  Phase 5: Large-Scale Mode Tests
-//  Created for SwiftDataTables.
+//  Tests for automatic row height mode with lazy measurement.
+//  Validates estimated heights, lazy measurement, prefetch window, and scroll anchoring.
 //
 
 import XCTest
 @testable import SwiftDataTables
 
-/// Tests for Phase 5 large-scale mode (lazy measurement for 100k+ rows).
+/// Tests for automatic row height mode (lazy measurement for efficient handling of large datasets).
 /// Validates estimated heights, lazy measurement, and prefetch window behavior.
 @MainActor
 final class SwiftDataTableLargeScaleTests: XCTestCase {
 
     // MARK: - Configuration Tests
 
-    /// Large-scale mode should be detectable from configuration.
-    func test_largeScaleMode_isDetectable() {
-        var config = DataTableConfiguration()
-
-        config.rowHeightMode = .fixed(44)
-        XCTAssertFalse(config.rowHeightMode.isLargeScaleMode, "Fixed mode is not large-scale")
-
-        config.rowHeightMode = .automatic(estimated: 44)
-        XCTAssertFalse(config.rowHeightMode.isLargeScaleMode, "Automatic mode is not large-scale")
-
-        config.rowHeightMode = .largeScale(estimatedHeight: 50, prefetchWindow: 20)
-        XCTAssertTrue(config.rowHeightMode.isLargeScaleMode, "Large-scale mode should be detectable")
-    }
-
-    /// Large-scale mode should expose estimated height and prefetch window.
-    func test_largeScaleMode_exposesParameters() {
-        let config = DataTableConfiguration()
-        let mode: DataTableRowHeightMode = .largeScale(estimatedHeight: 60, prefetchWindow: 15)
+    /// Automatic mode should expose estimated height and prefetch window.
+    func test_automaticMode_exposesParameters() {
+        let mode: DataTableRowHeightMode = .automatic(estimated: 60, prefetchWindow: 15)
 
         XCTAssertEqual(mode.estimatedHeight, 60, "Should expose estimated height")
         XCTAssertEqual(mode.prefetchWindow, 15, "Should expose prefetch window")
     }
 
     /// Default prefetch window should be 10.
-    func test_largeScaleMode_defaultPrefetchWindow() {
-        let mode: DataTableRowHeightMode = .largeScale(estimatedHeight: 44)
+    func test_automaticMode_defaultPrefetchWindow() {
+        let mode: DataTableRowHeightMode = .automatic(estimated: 44)
         XCTAssertEqual(mode.prefetchWindow, 10, "Default prefetch window should be 10")
+    }
+
+    /// Fixed mode should have no prefetch window.
+    func test_fixedMode_noPrefetchWindow() {
+        let mode: DataTableRowHeightMode = .fixed(44)
+        XCTAssertEqual(mode.prefetchWindow, 0, "Fixed mode should have no prefetch window")
+    }
+
+    /// usesLazyMeasurement should correctly identify mode.
+    func test_usesLazyMeasurement() {
+        var config = DataTableConfiguration()
+
+        config.rowHeightMode = .fixed(44)
+        XCTAssertFalse(config.rowHeightMode.usesLazyMeasurement, "Fixed mode should not use lazy measurement")
+
+        config.rowHeightMode = .automatic(estimated: 44)
+        XCTAssertTrue(config.rowHeightMode.usesLazyMeasurement, "Automatic mode should use lazy measurement")
     }
 
     // MARK: - Row Metrics Store Tests
@@ -145,11 +147,11 @@ final class SwiftDataTableLargeScaleTests: XCTestCase {
 
     // MARK: - Table Integration Tests
 
-    /// Large-scale mode table should start with estimated heights.
-    func test_table_largeScaleMode_startsWithEstimatedHeights() {
+    /// Automatic mode should start with estimated heights and measure lazily.
+    func test_table_automaticMode_startsWithEstimatedHeights() {
         let data: DataTableContent = (0..<100).map { [.string("Row \($0)")] }
         var config = DataTableConfiguration()
-        config.rowHeightMode = .largeScale(estimatedHeight: 60, prefetchWindow: 5)
+        config.rowHeightMode = .automatic(estimated: 60, prefetchWindow: 5)
         config.shouldShowSearchSection = false
 
         let table = SwiftDataTable(data: data, headerTitles: ["H"], options: config)
@@ -163,17 +165,16 @@ final class SwiftDataTableLargeScaleTests: XCTestCase {
         // Verify row count
         XCTAssertEqual(table.numberOfRows(), 100, "Should have 100 rows")
 
-        // In large-scale mode, most rows should use estimated height
-        // Only visible rows + prefetch window should be measured
+        // In automatic mode, only visible + prefetch rows should be measured
         let metricsStore = table.rowMetricsStore
         XCTAssertLessThan(metricsStore.measuredRowCount, 100, "Not all rows should be measured")
     }
 
-    /// Large-scale mode should measure rows as they scroll into view.
-    func test_table_largeScaleMode_measuresOnScroll() {
+    /// Automatic mode should measure rows as they scroll into view.
+    func test_table_automaticMode_measuresOnScroll() {
         let data: DataTableContent = (0..<200).map { [.string("Row \($0)")] }
         var config = DataTableConfiguration()
-        config.rowHeightMode = .largeScale(estimatedHeight: 44, prefetchWindow: 5)
+        config.rowHeightMode = .automatic(estimated: 44, prefetchWindow: 5)
         config.shouldShowSearchSection = false
 
         let table = SwiftDataTable(data: data, headerTitles: ["H"], options: config)
@@ -202,11 +203,11 @@ final class SwiftDataTableLargeScaleTests: XCTestCase {
                      "Current visible row should be measured")
     }
 
-    /// Large-scale mode data updates should work correctly.
-    func test_table_largeScaleMode_handlesDataUpdates() {
+    /// Automatic mode data updates should work correctly.
+    func test_table_automaticMode_handlesDataUpdates() {
         var data: DataTableContent = (0..<50).map { [.string("Row \($0)")] }
         var config = DataTableConfiguration()
-        config.rowHeightMode = .largeScale(estimatedHeight: 44, prefetchWindow: 5)
+        config.rowHeightMode = .automatic(estimated: 44, prefetchWindow: 5)
         config.shouldShowSearchSection = false
 
         let table = SwiftDataTable(data: data, headerTitles: ["H"], options: config)
@@ -231,7 +232,7 @@ final class SwiftDataTableLargeScaleTests: XCTestCase {
                       "Newly added row at end should be unmeasured")
     }
 
-    /// Fixed mode should not use lazy measurement.
+    /// Fixed mode should measure all rows upfront (using fixed height).
     func test_table_fixedMode_measuresAllUpfront() {
         let data: DataTableContent = (0..<50).map { [.string("Row \($0)")] }
         var config = DataTableConfiguration()
@@ -251,36 +252,16 @@ final class SwiftDataTableLargeScaleTests: XCTestCase {
         XCTAssertEqual(metricsStore.measuredRowCount, 50, "All rows should be measured in fixed mode")
     }
 
-    /// Automatic mode should measure all rows upfront.
-    func test_table_automaticMode_measuresAllUpfront() {
-        let data: DataTableContent = (0..<30).map { [.string("Row \($0)")] }
-        var config = DataTableConfiguration()
-        config.rowHeightMode = .automatic(estimated: 44)
-        config.shouldShowSearchSection = false
-
-        let table = SwiftDataTable(data: data, headerTitles: ["H"], options: config)
-        table.frame = CGRect(x: 0, y: 0, width: 320, height: 480)
-
-        let window = UIWindow(frame: CGRect(x: 0, y: 0, width: 320, height: 480))
-        window.addSubview(table)
-        window.makeKeyAndVisible()
-        table.layoutIfNeeded()
-
-        // In automatic mode, all rows should be measured upfront
-        let metricsStore = table.rowMetricsStore
-        XCTAssertEqual(metricsStore.measuredRowCount, 30, "All rows should be measured in automatic mode")
-    }
-
     // MARK: - Performance Tests
 
-    /// Large-scale mode should handle large row counts efficiently.
+    /// Automatic mode should handle large row counts efficiently.
     /// Note: Uses 10k rows as proxy for 100k to keep test times reasonable.
-    /// Large-scale mode scales linearly, so 10k validates the lazy measurement approach.
-    func test_table_largeScaleMode_handlesLargeRowCount() {
+    /// Automatic mode scales linearly, so 10k validates the lazy measurement approach.
+    func test_table_automaticMode_handlesLargeRowCount() {
         // Create 10,000 rows (proxy for 100k - keeps test times reasonable)
         let data: DataTableContent = (0..<10000).map { [.string("Row \($0)")] }
         var config = DataTableConfiguration()
-        config.rowHeightMode = .largeScale(estimatedHeight: 44, prefetchWindow: 10)
+        config.rowHeightMode = .automatic(estimated: 44, prefetchWindow: 10)
         config.shouldShowSearchSection = false
 
         let startTime = CFAbsoluteTimeGetCurrent()
@@ -299,7 +280,7 @@ final class SwiftDataTableLargeScaleTests: XCTestCase {
         XCTAssertEqual(table.numberOfRows(), 10000, "Should have 10,000 rows")
 
         // Should be reasonably fast (not measuring all rows)
-        XCTAssertLessThan(elapsed, 2.0, "Large-scale mode should initialize quickly")
+        XCTAssertLessThan(elapsed, 2.0, "Automatic mode should initialize quickly")
 
         // Only a small fraction should be measured
         let metricsStore = table.rowMetricsStore
@@ -352,7 +333,7 @@ final class SwiftDataTableLargeScaleTests: XCTestCase {
     /// End-to-end test: Lazy measurement should preserve scroll position (anchor stability).
     /// When estimate→measured transitions occur, contentOffset should remain stable.
     /// This validates the full flow: scroll → trigger lazy measurement → anchor restore.
-    func test_largeScaleMode_anchoringStability_duringLazyMeasurement() {
+    func test_automaticMode_anchoringStability_duringLazyMeasurement() {
         // Create table with many rows - use variable content to ensure measured heights differ from estimates
         let data: DataTableContent = (0..<500).map { row in
             // Rows with longer content will have different measured heights than the 44pt estimate
@@ -360,7 +341,7 @@ final class SwiftDataTableLargeScaleTests: XCTestCase {
             return [.string(content)]
         }
         var config = DataTableConfiguration()
-        config.rowHeightMode = .largeScale(estimatedHeight: 44, prefetchWindow: 5)
+        config.rowHeightMode = .automatic(estimated: 44, prefetchWindow: 5)
         config.shouldShowSearchSection = false
         config.textLayout = .wrap // Enable wrapping so heights vary
 
@@ -406,14 +387,14 @@ final class SwiftDataTableLargeScaleTests: XCTestCase {
     }
 
     /// Test that 10k rows is a valid proxy for 100k performance validation.
-    /// Rationale: Large-scale mode uses O(1) lazy measurement - only visible + prefetch rows
+    /// Rationale: Automatic mode uses O(1) lazy measurement - only visible + prefetch rows
     /// are measured regardless of total count. The 10k test validates this behavior.
     /// Scaling to 100k would only add test time, not coverage, since the algorithm is identical.
-    func test_largeScaleMode_10kProxyRationale() {
+    func test_automaticMode_10kProxyRationale() {
         // Create 10k rows
         let data: DataTableContent = (0..<10000).map { [.string("Row \($0)")] }
         var config = DataTableConfiguration()
-        config.rowHeightMode = .largeScale(estimatedHeight: 44, prefetchWindow: 10)
+        config.rowHeightMode = .automatic(estimated: 44, prefetchWindow: 10)
         config.shouldShowSearchSection = false
 
         let table = SwiftDataTable(data: data, headerTitles: ["H"], options: config)
@@ -439,5 +420,16 @@ final class SwiftDataTableLargeScaleTests: XCTestCase {
         let measuredRatio = Double(measuredCount) / Double(totalRows)
         XCTAssertLessThan(measuredRatio, 0.01,
                          "Should measure <1% of rows, proving O(viewport) not O(n)")
+    }
+
+    // MARK: - Deprecated largeScale Compatibility
+
+    /// Test that deprecated largeScale static function still works.
+    func test_deprecatedLargeScale_stillWorks() {
+        let mode: DataTableRowHeightMode = .largeScale(estimatedHeight: 60, prefetchWindow: 15)
+
+        XCTAssertEqual(mode.estimatedHeight, 60, "Should expose estimated height")
+        XCTAssertEqual(mode.prefetchWindow, 15, "Should expose prefetch window")
+        XCTAssertTrue(mode.usesLazyMeasurement, "Should use lazy measurement")
     }
 }

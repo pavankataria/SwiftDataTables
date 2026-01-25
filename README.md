@@ -46,14 +46,18 @@ https://img.shields.io/cocoapods/p/SwiftDataTables.svg
 
 **You can now contribute to this project over at https://opencollective.com/swiftdatatables!**
 
-## Major Features include:
-- **Sorting** - Tap column headers to sort by any column
-- **Searching** - Built-in search bar or native navigation bar search via UISearchController
-- **Fixed Columns** - Freeze columns on left or right sides
-- **Self-Sizing Cells** - Automatic row heights with text wrapping support
+## Major Features
+
+- **Self-Sizing Cells** - Automatic row heights with lazy measurement, efficient for 100k+ rows
+- **Type-Safe Columns** - Declarative API with key paths and custom transforms
+- **Animated Diffing** - Smooth updates with `setData(_:animatingDifferences:)`
+- **Live Cell Editing** - Edit cells in place with automatic height updates
+- **Scroll Anchoring** - Preserve visual position during data changes
+- **Custom Cells** - Full Auto Layout support via custom cell providers
 - **Flexible Column Widths** - Multiple strategies from fast estimation to precise measurement
-- **Customisable** - Configure headers, footers, colours, and more via delegate or configuration object
-- **DataSource Pattern** - Static data or dynamic content via protocol
+- **Fixed Columns** - Freeze columns on left or right sides
+- **Sorting** - Tap column headers to sort by any column
+- **Searching** - Built-in search bar or native navigation bar search
 
 <!-- <img src="http://g.recordit.co/Mh9PYXB9T4.gif" width="50%"> -->
 <img src="/Example/SwiftDataTables-Preview.gif" width="50%">
