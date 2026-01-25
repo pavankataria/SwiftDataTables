@@ -33,5 +33,5 @@ jobs:
         xcodebuild test \
           -project Example/SwiftDataTables.xcodeproj \
           -scheme SwiftDataTables-Example \
-          -destination 'platform=iOS Simulator,name=iPhone 16' \
+          -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.5' \
           CODE_SIGNING_ALLOWED=NO
