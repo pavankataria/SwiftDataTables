@@ -18,9 +18,6 @@ https://img.shields.io/cocoapods/p/SwiftDataTables.svg
 <a href="https://swift.org/package-manager">
         <img src="https://img.shields.io/badge/SPM-compatible-brightgreen.svg?style=flat" alt="SPM Compatible" />
     </a>
-   <a href="https://cocoapods.org/pods/SwiftDataTables">
-        <img src="https://img.shields.io/badge/Cocoapods-compatible-4BC51D.svg?style=flat" />
-    </a>
    <a href="https://en.wikipedia.org/wiki/MIT_License">
         <img src="https://img.shields.io/badge/License-MIT-brightgreen.svg?style=flat" />
    </a>
@@ -49,42 +46,100 @@ https://img.shields.io/cocoapods/p/SwiftDataTables.svg
 
 **You can now contribute to this project over at https://opencollective.com/swiftdatatables!**
 
-## Major Features include:
-- **Sorting** - Tap column headers to sort by any column
-- **Searching** - Built-in search bar or native navigation bar search via UISearchController
-- **Fixed Columns** - Freeze columns on left or right sides
+## Major Features
+
+- **Large-Scale Mode** - Handle 100k+ rows efficiently with lazy measurement
+- **Type-Safe Columns** - Declarative API with key paths and custom transforms
+- **Animated Diffing** - Smooth updates with `setData(_:animatingDifferences:)`
+- **Live Cell Editing** - Edit cells in place with automatic height updates
+- **Scroll Anchoring** - Preserve visual position during data changes
 - **Self-Sizing Cells** - Automatic row heights with text wrapping support
+- **Custom Cells** - Full Auto Layout support via custom cell providers
 - **Flexible Column Widths** - Multiple strategies from fast estimation to precise measurement
-- **Customisable** - Configure headers, footers, colours, and more via delegate or configuration object
-- **DataSource Pattern** - Static data or dynamic content via protocol
+- **Fixed Columns** - Freeze columns on left or right sides
+- **Sorting** - Tap column headers to sort by any column
+- **Searching** - Built-in search bar or native navigation bar search
 
 <!-- <img src="http://g.recordit.co/Mh9PYXB9T4.gif" width="50%"> -->
 <img src="/Example/SwiftDataTables-Preview.gif" width="50%">
 
+## Quick Start
+
+```swift
+import SwiftDataTables
+
+// Simple array-based table
+let data = [
+    ["Alice", "Engineer", "London"],
+    ["Bob", "Designer", "Paris"],
+    ["Carol", "Manager", "Berlin"]
+]
+let dataTable = SwiftDataTable(
+    data: data,
+    headerTitles: ["Name", "Role", "City"]
+)
+view.addSubview(dataTable)
+```
+
+Or with type-safe columns:
+
+```swift
+struct Employee: Identifiable {
+    let id: String
+    let name: String
+    let role: String
+    let salary: Int
+}
+
+let columns: [DataTableColumn<Employee>] = [
+    .init("Name", \.name),
+    .init("Role", \.role),
+    .init("Salary") { .string("£\($0.salary)") }
+]
+
+let dataTable = SwiftDataTable(data: employees, columns: columns)
+```
+
+Update data with animated diffing:
+
+```swift
+// Load initial data
+var employees: [Employee] = []
+dataTable.setData(employees)
+
+// Fetch and update
+employees = await api.fetchEmployees()
+dataTable.setData(employees, animatingDifferences: true)
+
+// Append new items
+employees.append(newEmployee)
+dataTable.setData(employees, animatingDifferences: true)
+```
+
 ## Install
 
-### [Carthage](https://github.com/Carthage/Carthage)
+### Swift Package Manager
 
-- Add the following to your Cartfile: `github "pavankataria/SwiftDataTables"`
-- Then run `carthage update`
-- Follow the current instructions in [Carthage's README][carthage-installation]
-for up to date installation instructions.
+Add SwiftDataTables to your project via Xcode:
+1. File → Add Package Dependencies...
+2. Enter the repository URL: `https://github.com/pavankataria/SwiftDataTables`
+3. Select your version rules and add to your target
 
-[carthage-installation]: https://github.com/Carthage/Carthage#adding-frameworks-to-an-application
+Or add it to your `Package.swift`:
 
-### [CocoaPods](http://cocoapods.org)
-
-- Add the following to your [Podfile](http://guides.cocoapods.org/using/the-podfile.html): `pod 'SwiftDataTables'`
-- You will also need to make sure you're opting into using frameworks: `use_frameworks!`
-- Then run `pod install`.
+```swift
+dependencies: [
+    .package(url: "https://github.com/pavankataria/SwiftDataTables", from: "0.9.0")
+]
+```
 
 ## Demo Project Included
 
 To run the example project do the following:
 1. Download or clone the repo (`git clone https://github.com/pavankataria/SwiftDataTables`)
-2. Change directory into the `DemoSwiftDataTables/Example` folder (`cd SwiftDataTables/Example`)
-4. With Xcode 9 installed, as normal, open the `SwiftDataTables.xcodeproj` project
-5. Build and Run.
+2. Open the `SwiftDataTables.xcodeproj` project in Xcode
+3. Select the `DemoSwiftDataTables` scheme
+4. Build and Run
 
 If you have any questions or wish to make any suggestions, please open an issue with the appropriate label, and I'll get back to you right away. Thank you
 
