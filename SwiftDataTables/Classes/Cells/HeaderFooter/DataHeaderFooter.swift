@@ -27,6 +27,11 @@ class DataHeaderFooter: UICollectionReusableView {
     let titleLabel = UILabel()
     let sortingImageView = UIImageView()
 
+    // Constraints for dynamic layout based on sorting indicator visibility
+    private var labelTrailingToImageConstraint: NSLayoutConstraint?
+    private var labelTrailingToSuperviewConstraint: NSLayoutConstraint?
+    private var sortingImageConstraints: [NSLayoutConstraint] = []
+
 
     //MARK: - Events
     var didTapEvent: (() -> Void)? = nil
@@ -59,17 +64,46 @@ class DataHeaderFooter: UICollectionReusableView {
     func setupConstraints() {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         sortingImageView.translatesAutoresizingMaskIntoConstraints = false
+
+        // Base label constraints (always active)
         NSLayoutConstraint.activate([
             titleLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: Properties.labelWidthConstant),
             titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: Properties.labelVerticalMargin),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Properties.labelHorizontalMargin),
             titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Properties.labelVerticalMargin),
+        ])
+
+        // Sorting image constraints (activated only when indicator is visible)
+        sortingImageConstraints = [
             sortingImageView.widthAnchor.constraint(equalToConstant: Properties.imageViewWidthConstant),
             sortingImageView.widthAnchor.constraint(equalTo: sortingImageView.heightAnchor, multiplier: Properties.imageViewAspectRatio),
             sortingImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
             sortingImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Properties.imageViewHorizontalMargin),
-            sortingImageView.leadingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: Properties.separator),
-        ])
+        ]
+
+        // Label trailing constraint when sorting indicator is visible
+        labelTrailingToImageConstraint = sortingImageView.leadingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: Properties.separator)
+
+        // Label trailing constraint when sorting indicator is hidden (full width)
+        labelTrailingToSuperviewConstraint = titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Properties.labelHorizontalMargin)
+
+        // Default: show sorting indicator
+        NSLayoutConstraint.activate(sortingImageConstraints)
+        labelTrailingToImageConstraint?.isActive = true
+    }
+
+    private func updateLayoutForSortingIndicator(visible: Bool) {
+        if visible {
+            sortingImageView.isHidden = false
+            labelTrailingToSuperviewConstraint?.isActive = false
+            NSLayoutConstraint.activate(sortingImageConstraints)
+            labelTrailingToImageConstraint?.isActive = true
+        } else {
+            sortingImageView.isHidden = true
+            labelTrailingToImageConstraint?.isActive = false
+            NSLayoutConstraint.deactivate(sortingImageConstraints)
+            labelTrailingToSuperviewConstraint?.isActive = true
+        }
     }
     
     func configure(viewModel: DataHeaderFooterViewModel) {
@@ -77,6 +111,7 @@ class DataHeaderFooter: UICollectionReusableView {
         self.sortingImageView.image = viewModel.imageForSortingElement
         self.sortingImageView.tintColor = viewModel.tintColorForSortingElement
         self.backgroundColor = .systemBackground
+        updateLayoutForSortingIndicator(visible: viewModel.shouldShowSortingIndicator)
     }
     @objc func didTapView(){
         self.didTapEvent?()

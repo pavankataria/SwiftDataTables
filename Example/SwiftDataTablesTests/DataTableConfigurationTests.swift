@@ -78,6 +78,21 @@ class DataTableConfigurationTests: XCTestCase {
         XCTAssertEqual(config.sortArrowTintColor, UIColor.tintColor)
     }
 
+    func test_default_shouldShowHeaderSortingIndicator_isTrue() {
+        let config = DataTableConfiguration()
+        XCTAssertTrue(config.shouldShowHeaderSortingIndicator)
+    }
+
+    func test_default_shouldShowFooterSortingIndicator_isFalse() {
+        let config = DataTableConfiguration()
+        XCTAssertFalse(config.shouldShowFooterSortingIndicator)
+    }
+
+    func test_default_shouldFooterTriggerSorting_isFalse() {
+        let config = DataTableConfiguration()
+        XCTAssertFalse(config.shouldFooterTriggerSorting)
+    }
+
     func test_default_shouldSupportRightToLeftInterfaceDirection_isTrue() {
         let config = DataTableConfiguration()
         XCTAssertTrue(config.shouldSupportRightToLeftInterfaceDirection)
@@ -184,6 +199,24 @@ class DataTableConfigurationTests: XCTestCase {
         XCTAssertEqual(config.sortArrowTintColor, UIColor.red)
     }
 
+    func test_canHide_headerSortingIndicator() {
+        var config = DataTableConfiguration()
+        config.shouldShowHeaderSortingIndicator = false
+        XCTAssertFalse(config.shouldShowHeaderSortingIndicator)
+    }
+
+    func test_canShow_footerSortingIndicator() {
+        var config = DataTableConfiguration()
+        config.shouldShowFooterSortingIndicator = true
+        XCTAssertTrue(config.shouldShowFooterSortingIndicator)
+    }
+
+    func test_canEnable_footerSorting() {
+        var config = DataTableConfiguration()
+        config.shouldFooterTriggerSorting = true
+        XCTAssertTrue(config.shouldFooterTriggerSorting)
+    }
+
     func test_canSet_fixedColumns() {
         var config = DataTableConfiguration()
         config.fixedColumns = DataTableFixedColumnType(leftColumns: 2)
@@ -205,27 +238,49 @@ class DataTableConfigurationTests: XCTestCase {
         XCTAssertEqual(config.highlightedAlternatingRowColors.count, 3)
     }
 
-    // MARK: - Equatable Tests
+    // MARK: - isColumnSortable Tests
 
-    func test_defaultConfigurations_areEqual() {
-        let config1 = DataTableConfiguration()
-        let config2 = DataTableConfiguration()
-        XCTAssertEqual(config1, config2)
+    func test_default_isColumnSortable_isNil() {
+        let config = DataTableConfiguration()
+        XCTAssertNil(config.isColumnSortable)
     }
 
-    func test_configurationsWithDifferentFooterVisibility_areNotEqual() {
-        var config1 = DataTableConfiguration()
-        var config2 = DataTableConfiguration()
-        config2.shouldShowFooter = false
-        XCTAssertNotEqual(config1, config2)
+    func test_isColumnSortable_canBeSet() {
+        var config = DataTableConfiguration()
+        config.isColumnSortable = { $0 != 2 }
+        XCTAssertNotNil(config.isColumnSortable)
     }
 
-    func test_configurationsWithDifferentHeights_areNotEqual() {
-        var config1 = DataTableConfiguration()
-        var config2 = DataTableConfiguration()
-        config2.heightForSectionHeader = 100
-        XCTAssertNotEqual(config1, config2)
+    func test_isColumnSortable_returnsCorrectValue() {
+        var config = DataTableConfiguration()
+        config.isColumnSortable = { $0 != 2 }
+
+        XCTAssertTrue(config.isColumnSortable?(0) ?? false)
+        XCTAssertTrue(config.isColumnSortable?(1) ?? false)
+        XCTAssertFalse(config.isColumnSortable?(2) ?? true)
+        XCTAssertTrue(config.isColumnSortable?(3) ?? false)
     }
+
+    func test_isColumnSortable_allowsOnlySpecificColumns() {
+        var config = DataTableConfiguration()
+        config.isColumnSortable = { [0, 2, 4].contains($0) }
+
+        XCTAssertTrue(config.isColumnSortable?(0) ?? false)
+        XCTAssertFalse(config.isColumnSortable?(1) ?? true)
+        XCTAssertTrue(config.isColumnSortable?(2) ?? false)
+        XCTAssertFalse(config.isColumnSortable?(3) ?? true)
+        XCTAssertTrue(config.isColumnSortable?(4) ?? false)
+    }
+
+    func test_isColumnSortable_disableAllSorting() {
+        var config = DataTableConfiguration()
+        config.isColumnSortable = { _ in false }
+
+        XCTAssertFalse(config.isColumnSortable?(0) ?? true)
+        XCTAssertFalse(config.isColumnSortable?(1) ?? true)
+        XCTAssertFalse(config.isColumnSortable?(2) ?? true)
+    }
+
 }
 
 // MARK: - DataTableColumnOrder Tests

@@ -115,7 +115,7 @@ final class SingleRowUpdatesDemoViewController: UIViewController {
         ]
 
         let table = SwiftDataTable(data: rows, columns: columns, options: config)
-        installDataTable(table, below: controls.view)
+        addDataTable(table, below: controls.view)
         dataTable = table
     }
 

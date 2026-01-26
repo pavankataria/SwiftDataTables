@@ -10,6 +10,12 @@ import Foundation
 import UIKit
 
 
+/// Indicates whether this view model is for a header or footer
+public enum HeaderFooterType {
+    case header
+    case footer
+}
+
 @MainActor
 public class DataHeaderFooterViewModel: DataTableSortable {
 
@@ -17,10 +23,23 @@ public class DataHeaderFooterViewModel: DataTableSortable {
     let data: String
     var indexPath: IndexPath! // Questionable
     var dataTable: SwiftDataTable!
-    
+    var headerFooterType: HeaderFooterType = .header
+
     public var sortType: DataTableSortType
-    
+
+    /// Whether the sorting indicator should be visible based on global config and header/footer type
+    var shouldShowSortingIndicator: Bool {
+        guard let options = dataTable?.options else { return true }
+        switch headerFooterType {
+        case .header:
+            return options.shouldShowHeaderSortingIndicator
+        case .footer:
+            return options.shouldShowFooterSortingIndicator
+        }
+    }
+
     var imageStringForSortingElement: String? {
+        guard shouldShowSortingIndicator else { return nil }
         switch self.sortType {
         case .hidden:
             return nil
@@ -59,9 +78,10 @@ public class DataHeaderFooterViewModel: DataTableSortable {
         self.sortType = sortType
     }
     
-    public func configure(dataTable: SwiftDataTable, columnIndex: Int){
+    public func configure(dataTable: SwiftDataTable, columnIndex: Int, type: HeaderFooterType = .header){
         self.dataTable = dataTable
         self.indexPath = IndexPath(index: columnIndex)
+        self.headerFooterType = type
     }
 }
 
@@ -88,7 +108,9 @@ extension DataHeaderFooterViewModel: CollectionViewSupplementaryElementRepresent
                 self?.headerViewDidTap()
             }
         case SwiftDataTable.SupplementaryViewType.footerHeader.rawValue:
-            break
+            headerView.didTapEvent = { [weak self] in
+                self?.footerViewDidTap()
+            }
         default:
             break
         }
@@ -97,6 +119,11 @@ extension DataHeaderFooterViewModel: CollectionViewSupplementaryElementRepresent
     
     //MARK: - Events
     func headerViewDidTap(){
+        self.dataTable.didTapColumn(index: self.indexPath)
+    }
+
+    func footerViewDidTap(){
+        guard dataTable.options.shouldFooterTriggerSorting else { return }
         self.dataTable.didTapColumn(index: self.indexPath)
     }
 }

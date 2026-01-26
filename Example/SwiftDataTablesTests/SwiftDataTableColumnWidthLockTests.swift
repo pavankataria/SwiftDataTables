@@ -98,20 +98,6 @@ final class SwiftDataTableColumnWidthLockTests: XCTestCase {
         XCTAssertEqual(initialWidth, width3, "Width should stay locked (update 3)")
     }
 
-    // MARK: - Equatable Tests
-
-    func test_configuration_equatable_includeslockColumnWidthsAfterFirstLayout() {
-        var config1 = DataTableConfiguration()
-        var config2 = DataTableConfiguration()
-
-        config1.lockColumnWidthsAfterFirstLayout = false
-        config2.lockColumnWidthsAfterFirstLayout = false
-        XCTAssertEqual(config1, config2)
-
-        config2.lockColumnWidthsAfterFirstLayout = true
-        XCTAssertNotEqual(config1, config2, "Configurations should differ when lockColumnWidthsAfterFirstLayout differs")
-    }
-
     // MARK: - Config Change Bypass Tests
 
     func test_columnWidths_recalculated_whenColumnWidthModeChanges_despiteLock() {

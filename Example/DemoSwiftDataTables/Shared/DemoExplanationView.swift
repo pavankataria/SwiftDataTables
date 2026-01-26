@@ -198,7 +198,7 @@ extension UIViewController {
     }
 
     /// Installs data table below explanation view
-    func installDataTable(_ table: UIView, below explanationView: DemoExplanationView) {
+    func addDataTable(_ table: UIView, below explanationView: DemoExplanationView) {
         table.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(table)
         NSLayoutConstraint.activate([

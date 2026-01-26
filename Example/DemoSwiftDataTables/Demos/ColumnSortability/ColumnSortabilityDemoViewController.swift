@@ -1,14 +1,14 @@
 //
-//  DefaultSortingDemoViewController.swift
+//  ColumnSortabilityDemoViewController.swift
 //  SwiftDataTables
 //
-//  Interactive demo for default column sorting.
+//  Interactive demo for per-column sortability control.
 //
 
 import UIKit
 import SwiftDataTables
 
-final class DefaultSortingDemoViewController: UIViewController {
+final class ColumnSortabilityDemoViewController: UIViewController {
 
     // MARK: - Data
 
@@ -29,8 +29,8 @@ final class DefaultSortingDemoViewController: UIViewController {
 
     // MARK: - State
 
-    private var selectedColumnIndex: Int = 1
-    private var sortOrder: DataTableSortType = .ascending
+    /// Tracks which columns are sortable (all true by default)
+    private var sortableColumns: [Bool] = []
 
     // MARK: - UI
 
@@ -41,8 +41,11 @@ final class DefaultSortingDemoViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Default Sorting"
+        title = "Column Sortability"
         view.backgroundColor = .systemBackground
+
+        // Initialize all columns as sortable
+        sortableColumns = Array(repeating: true, count: columns.count)
 
         controls = makeExplanationControls(columnHeaders: headers)
         installExplanation(controls.view)
@@ -53,14 +56,9 @@ final class DefaultSortingDemoViewController: UIViewController {
 
     // MARK: - Actions
 
-    @objc func columnChanged(_ sender: UISegmentedControl) {
-        selectedColumnIndex = sender.selectedSegmentIndex
-        updateSummary()
-        rebuildTable()
-    }
-
-    @objc func orderChanged(_ sender: UISegmentedControl) {
-        sortOrder = sender.selectedSegmentIndex == 0 ? .ascending : .descending
+    @objc func toggleChanged(_ sender: UISwitch) {
+        let columnIndex = sender.tag
+        sortableColumns[columnIndex] = sender.isOn
         updateSummary()
         rebuildTable()
     }
@@ -68,16 +66,28 @@ final class DefaultSortingDemoViewController: UIViewController {
     // MARK: - UI Updates
 
     private func updateSummary() {
-        let columnName = headers[selectedColumnIndex]
-        let orderName = sortOrder == .ascending ? "ascending" : "descending"
-        controls.view.updateSummary("Default sort: \(columnName) (\(orderName))")
+        let sortableNames = headers.enumerated()
+            .filter { sortableColumns[$0.offset] }
+            .map { $0.element }
+
+        if sortableNames.isEmpty {
+            controls.view.updateSummary("No columns are sortable")
+        } else if sortableNames.count == headers.count {
+            controls.view.updateSummary("All columns are sortable")
+        } else {
+            controls.view.updateSummary("Sortable: \(sortableNames.joined(separator: ", "))")
+        }
     }
 
     private func rebuildTable() {
         dataTable?.removeFromSuperview()
 
         var config = DataTableConfiguration()
-        config.defaultOrdering = DataTableColumnOrder(index: selectedColumnIndex, order: sortOrder)
+        config.isColumnSortable = { [weak self] columnIndex in
+            guard let self = self else { return true }
+            return self.sortableColumns[columnIndex]
+        }
+        config.columnWidthMode = .fitContentText(strategy: .maxMeasured)
 
         let table = SwiftDataTable(data: sampleData, columns: columns, options: config)
         table.backgroundColor = UIColor(red: 235/255, green: 235/255, blue: 235/255, alpha: 1)

@@ -107,6 +107,8 @@ class MenuViewController: UITableViewController {
             // Section 5: Sorting & Selection
             [
                 MenuItem(title: "Default Sorting"),
+                MenuItem(title: "Column Sortability"),
+                MenuItem(title: "Sorting Indicator Visibility"),
                 MenuItem(title: "Row Selection"),
             ],
             // Section 6: Visual Styling
@@ -258,6 +260,10 @@ extension MenuViewController {
         case 0:
             show(DefaultSortingDemoViewController(), sender: self)
         case 1:
+            show(ColumnSortabilityDemoViewController(), sender: self)
+        case 2:
+            show(SortingIndicatorVisibilityDemoViewController(), sender: self)
+        case 3:
             show(RowSelectionDemoViewController(), sender: self)
         default:
             break

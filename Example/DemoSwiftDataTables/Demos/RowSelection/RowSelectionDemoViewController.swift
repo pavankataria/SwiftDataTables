@@ -76,7 +76,7 @@ final class RowSelectionDemoViewController: UIViewController {
         table.backgroundColor = UIColor(red: 235/255, green: 235/255, blue: 235/255, alpha: 1)
         table.delegate = self
 
-        installDataTable(table, below: controls.view)
+        addDataTable(table, below: controls.view)
         dataTable = table
     }
 }

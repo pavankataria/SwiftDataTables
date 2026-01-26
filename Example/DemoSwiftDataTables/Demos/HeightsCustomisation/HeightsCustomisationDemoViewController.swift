@@ -89,7 +89,7 @@ final class HeightsCustomisationDemoViewController: UIViewController {
         let table = SwiftDataTable(data: sampleData, columns: columns, options: config)
         table.backgroundColor = UIColor(red: 235/255, green: 235/255, blue: 235/255, alpha: 1)
 
-        installDataTable(table, below: controls.view)
+        addDataTable(table, below: controls.view)
         dataTable = table
     }
 }

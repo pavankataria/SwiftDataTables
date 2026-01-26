@@ -131,7 +131,7 @@ public enum SearchBarPosition: Equatable {
     /// No search bar is displayed
     case hidden
 }
-public struct DataTableConfiguration: Equatable {
+public struct DataTableConfiguration {
     public static let defaultAverageCharacterWidth: CGFloat = 7.0
     public static let defaultColumnWidthMode: DataTableColumnWidthMode = .fitContentText(
         strategy: .estimatedAverage(averageCharWidth: DataTableConfiguration.defaultAverageCharacterWidth)
@@ -154,7 +154,23 @@ public struct DataTableConfiguration: Equatable {
     public var shouldShowHorizontalScrollBars: Bool = false
 
     public var sortArrowTintColor: UIColor = .tintColor
-    
+
+    /// Controls whether sorting indicators are shown in column headers.
+    /// When `false`, the sort indicator is hidden and header text takes the full width.
+    /// Sorting functionality still works when tapping headers.
+    /// Default is `true`.
+    public var shouldShowHeaderSortingIndicator: Bool = true
+
+    /// Controls whether sorting indicators are shown in column footers.
+    /// When `false`, the sort indicator is hidden and footer text takes the full width.
+    /// Default is `false`.
+    public var shouldShowFooterSortingIndicator: Bool = false
+
+    /// Controls whether tapping a footer triggers sorting.
+    /// When `true`, tapping a footer column will sort by that column (same as headers).
+    /// Default is `false`.
+    public var shouldFooterTriggerSorting: Bool = false
+
     public var shouldSupportRightToLeftInterfaceDirection: Bool = true
     
     public var highlightedAlternatingRowColors = [
@@ -181,6 +197,21 @@ public struct DataTableConfiguration: Equatable {
     /// Default is false (widths recalculate on each data update).
     public var lockColumnWidthsAfterFirstLayout: Bool = false
 
+    /// Controls whether a column is sortable. When a column is not sortable:
+    /// - The sort indicator is hidden
+    /// - Tapping the header does nothing
+    /// If nil, all columns are sortable (default behavior).
+    ///
+    /// Example usage:
+    /// ```swift
+    /// // Disable sorting on the "Actions" column (index 5)
+    /// config.isColumnSortable = { $0 != 5 }
+    ///
+    /// // Only allow sorting on columns 0 and 2
+    /// config.isColumnSortable = { [0, 2].contains($0) }
+    /// ```
+    public var isColumnSortable: ((Int) -> Bool)? = nil
+
     public var textLayout: DataTableTextLayout = .singleLine()
     public var rowHeightMode: DataTableRowHeightMode = .fixed(44)
     public var cellSizingMode: DataTableCellSizingMode = .defaultCell
@@ -190,36 +221,6 @@ public struct DataTableConfiguration: Equatable {
     }
 }
 
-extension DataTableConfiguration {
-    public static func == (lhs: DataTableConfiguration, rhs: DataTableConfiguration) -> Bool {
-        return lhs.defaultOrdering == rhs.defaultOrdering &&
-        lhs.heightForSectionFooter == rhs.heightForSectionFooter &&
-        lhs.heightForSectionHeader == rhs.heightForSectionHeader &&
-        lhs.heightForSearchView == rhs.heightForSearchView &&
-        lhs.heightOfInterRowSpacing == rhs.heightOfInterRowSpacing &&
-        lhs.shouldShowFooter == rhs.shouldShowFooter &&
-        lhs.shouldShowSearchSection == rhs.shouldShowSearchSection &&
-        lhs.shouldSearchHeaderFloat == rhs.shouldSearchHeaderFloat &&
-        lhs.shouldSectionFootersFloat == rhs.shouldSectionFootersFloat &&
-        lhs.shouldSectionHeadersFloat == rhs.shouldSectionHeadersFloat &&
-        lhs.shouldContentWidthScaleToFillFrame == rhs.shouldContentWidthScaleToFillFrame &&
-        lhs.shouldShowVerticalScrollBars == rhs.shouldShowVerticalScrollBars &&
-        lhs.shouldShowHorizontalScrollBars == rhs.shouldShowHorizontalScrollBars &&
-        lhs.sortArrowTintColor == rhs.sortArrowTintColor &&
-        lhs.shouldSupportRightToLeftInterfaceDirection == rhs.shouldSupportRightToLeftInterfaceDirection &&
-        lhs.highlightedAlternatingRowColors == rhs.highlightedAlternatingRowColors &&
-        lhs.unhighlightedAlternatingRowColors == rhs.unhighlightedAlternatingRowColors &&
-        lhs.fixedColumns == rhs.fixedColumns &&
-        lhs.columnWidthMode == rhs.columnWidthMode &&
-        lhs.minColumnWidth == rhs.minColumnWidth &&
-        lhs.maxColumnWidth == rhs.maxColumnWidth &&
-        lhs.columnWidthModeProviderVersion == rhs.columnWidthModeProviderVersion &&
-        lhs.lockColumnWidthsAfterFirstLayout == rhs.lockColumnWidthsAfterFirstLayout &&
-        lhs.textLayout == rhs.textLayout &&
-        lhs.rowHeightMode == rhs.rowHeightMode &&
-        lhs.cellSizingMode == rhs.cellSizingMode
-    }
-}
 
 extension DataTableRowHeightMode {
     var estimatedHeight: CGFloat {

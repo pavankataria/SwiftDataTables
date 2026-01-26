@@ -1367,22 +1367,27 @@ public extension SwiftDataTable {
     
     func createDataCellViewModels(with dataStructure: DataStructureModel){// -> DataTableViewModelContent {
         //1. Create the headers
-        self.headerViewModels = Array(0..<(dataStructure.headerTitles.count)).map {
+        self.headerViewModels = Array(0..<(dataStructure.headerTitles.count)).map { columnIndex in
+            // Check if column is sortable (default: true if isColumnSortable is nil)
+            let isSortable = self.options.isColumnSortable?(columnIndex) ?? true
+            let sortType: DataTableSortType = isSortable ? dataStructure.columnHeaderSortType(for: columnIndex) : .hidden
+
             let headerViewModel = DataHeaderFooterViewModel(
-                data: dataStructure.headerTitles[$0],
-                sortType: dataStructure.columnHeaderSortType(for: $0)
+                data: dataStructure.headerTitles[columnIndex],
+                sortType: sortType
             )
-            headerViewModel.configure(dataTable: self, columnIndex: $0)
+            headerViewModel.configure(dataTable: self, columnIndex: columnIndex)
             return headerViewModel
         }
         
-        self.footerViewModels = Array(0..<(dataStructure.footerTitles.count)).map {
-            let sortTypeForFooter = dataStructure.columnFooterSortType(for: $0)
-            let headerViewModel = DataHeaderFooterViewModel(
-                data: dataStructure.footerTitles[$0],
+        self.footerViewModels = Array(0..<(dataStructure.footerTitles.count)).map { columnIndex in
+            let sortTypeForFooter = dataStructure.columnFooterSortType(for: columnIndex)
+            let footerViewModel = DataHeaderFooterViewModel(
+                data: dataStructure.footerTitles[columnIndex],
                 sortType: sortTypeForFooter
             )
-            return headerViewModel
+            footerViewModel.configure(dataTable: self, columnIndex: columnIndex, type: .footer)
+            return footerViewModel
         }
         
         //2. Create the view models
@@ -1577,20 +1582,29 @@ extension SwiftDataTable {
     }
     
     fileprivate func applyDefaultColumnOrder(_ columnOrder: DataTableColumnOrder){
+        // Check if column is sortable (default: true if isColumnSortable is nil)
+        let isSortable = self.options.isColumnSortable?(columnOrder.index) ?? true
+        guard isSortable else { return }
+
         self.highlight(column: columnOrder.index)
         self.applyColumnOrder(columnOrder)
         self.sort(column: columnOrder.index, sort: self.headerViewModels[columnOrder.index].sortType)
     }
     
     func didTapColumn(index: IndexPath) {
+        let columnIndex = index.index
+
+        // Check if column is sortable (default: true if isColumnSortable is nil)
+        let isSortable = self.options.isColumnSortable?(columnIndex) ?? true
+        guard isSortable else { return }
+
         defer {
             self.update()
         }
-        let index = index.index
-        self.toggleSortArrows(column: index)
-        self.highlight(column: index)
-        let sortType = self.headerViewModels[index].sortType
-        self.sort(column: index, sort: sortType)
+        self.toggleSortArrows(column: columnIndex)
+        self.highlight(column: columnIndex)
+        let sortType = self.headerViewModels[columnIndex].sortType
+        self.sort(column: columnIndex, sort: sortType)
     }
     
     func sort(column index: Int, sort by: DataTableSortType){
@@ -1627,6 +1641,8 @@ extension SwiftDataTable {
                 self.headerViewModels[$0].sortType.toggleToDefault()
             }
         }
+        // Sync footer sort state to match headers
+        syncFooterSortState()
     }
     
     func toggleSortArrows(column: Int){
@@ -1638,7 +1654,15 @@ extension SwiftDataTable {
                 self.headerViewModels[$0].sortType.toggleToDefault()
             }
         }
-        //        self.headerViewModels.forEach { print($0.sortType) }
+        // Sync footer sort state to match headers
+        syncFooterSortState()
+    }
+
+    /// Syncs footer view models' sortType to match their corresponding header view models
+    private func syncFooterSortState() {
+        for index in 0..<min(footerViewModels.count, headerViewModels.count) {
+            footerViewModels[index].sortType = headerViewModels[index].sortType
+        }
     }
     
     //This is actually mapped to sections

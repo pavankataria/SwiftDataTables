@@ -36,6 +36,8 @@ class SwiftDataTablesTests: XCTestCase {
 
         let dataTable = SwiftDataTable(data: [[String]](), headerTitles: [], options: configuration, frame: .zero)
 
-        XCTAssertEqual(dataTable.options, configuration)
+        // Verify configuration was passed by checking specific properties
+        XCTAssertEqual(dataTable.options.highlightedAlternatingRowColors.count, 7)
+        XCTAssertEqual(dataTable.options.unhighlightedAlternatingRowColors.count, 7)
     }
 }

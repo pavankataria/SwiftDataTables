@@ -122,7 +122,7 @@ public struct DataStructureModel {
             return .hidden
         }
         //Check the configuration object to see what it wants us to display otherwise return default
-        return .hidden
+        return .unspecified
     }
 
     func columnWidth(
