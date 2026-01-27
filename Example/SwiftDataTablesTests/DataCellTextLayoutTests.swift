@@ -1,14 +1,22 @@
 //
 //  DataCellTextLayoutTests.swift
-//  SwiftDataTablesTests
+//  SwiftDataTables
 //
-//  Created for SwiftDataTables.
+//  Created by Pavan Kataria on 22/02/2017.
+//  Copyright © 2016-2026 Pavan Kataria. All rights reserved.
 //
 
 import XCTest
 import UIKit
 @testable import SwiftDataTables
 
+/// Tests for `DataTableTextLayout` application to data cells.
+///
+/// These tests verify:
+/// - Single line mode with head truncation
+/// - Single line mode with middle truncation
+/// - Single line mode with tail truncation
+/// - Wrap mode allowing multiple lines
 @MainActor
 final class DataCellTextLayoutTests: XCTestCase {
     func test_applyTextLayout_singleLine_truncatesHead() {

@@ -1,14 +1,27 @@
 //
 //  SwiftDataTableRemeasureRowTests.swift
-//  SwiftDataTablesTests
+//  SwiftDataTables
 //
-//  Tests for the remeasureRow API for live cell editing support.
+//  Created by Pavan Kataria on 22/02/2017.
+//  Copyright © 2016-2026 Pavan Kataria. All rights reserved.
 //
 
 import XCTest
 import UIKit
 @testable import SwiftDataTables
 
+/// Tests for the `remeasureRow(_:)` API that supports live cell editing.
+///
+/// These tests verify the row remeasurement functionality used when cell content
+/// changes dynamically (e.g., during text editing):
+/// - Basic API behavior: invalid indices, fixed vs automatic height modes
+/// - Metrics store updates: height changes propagate correctly
+/// - Partial visibility fallback: non-visible rows use sizing cells
+/// - Y-offset preservation: subsequent rows shift when heights change
+/// - Edge cases: empty tables, unchanged heights, custom prefetch windows
+///
+/// The `remeasureRow` API enables smooth row height updates without full table
+/// reloads, preserving keyboard focus during live text editing.
 @MainActor
 final class SwiftDataTableRemeasureRowTests: XCTestCase {
 

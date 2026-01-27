@@ -1,14 +1,21 @@
 //
 //  SwiftDataTableCustomCellProviderTests.swift
-//  SwiftDataTablesTests
+//  SwiftDataTables
 //
-//  Created for SwiftDataTables.
+//  Created by Pavan Kataria on 22/02/2017.
+//  Copyright © 2016-2026 Pavan Kataria. All rights reserved.
 //
 
 import XCTest
 import UIKit
 @testable import SwiftDataTables
 
+/// Tests for `DataTableCustomCellProvider` custom cell integration.
+///
+/// These tests verify:
+/// - Custom cell registration is called during table initialization
+/// - Reuse identifier closure is called when dequeuing cells
+/// - Configure closure is called with correct parameters
 @MainActor
 final class SwiftDataTableCustomCellProviderTests: XCTestCase {
     func test_customCellProvider_registerIsCalledOnInit() {

@@ -1,17 +1,36 @@
 //
 //  DataTableSortTypeTests.swift
-//  SwiftDataTablesTests
+//  SwiftDataTables
 //
-//  Created for SwiftDataTables.
+//  Created by Pavan Kataria on 22/02/2017.
+//  Copyright © 2016-2026 Pavan Kataria. All rights reserved.
 //
 
 import XCTest
 @testable import SwiftDataTables
 
+/// Tests for the `DataTableSortType` enum that represents column sort states.
+///
+/// These tests verify:
+/// - Raw value string representations
+/// - Sort state toggle behavior for column header taps
+/// - Toggle to default (reset) behavior when switching columns
+/// - Equality comparisons
+/// - Complete column sorting cycle simulation
 class DataTableSortTypeTests: XCTestCase {
 
     // MARK: - Raw Value Tests
 
+    /// Verifies the hidden state has the correct raw value.
+    ///
+    /// ## Given
+    /// - The `DataTableSortType.hidden` case
+    ///
+    /// ## When
+    /// - Accessing its raw value
+    ///
+    /// ## Then
+    /// - Should return "hidden" string
     func test_rawValue_hidden() {
         XCTAssertEqual(DataTableSortType.hidden.rawValue, "hidden")
     }

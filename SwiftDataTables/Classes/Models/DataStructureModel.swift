@@ -3,15 +3,32 @@
 //  SwiftDataTables
 //
 //  Created by Pavan Kataria on 22/02/2017.
-//  Copyright © 2017 Pavan Kataria. All rights reserved.
+//  Copyright © 2016-2026 Pavan Kataria. All rights reserved.
 //
 
 import UIKit
 
-
-//struct DataTableColumnModel {
-//    
-//}
+/// Internal model representing the data table's content structure.
+///
+/// `DataStructureModel` manages the raw data content, header and footer titles,
+/// and provides column width calculations based on content. It's used internally
+/// by `SwiftDataTable` to organize and measure data.
+///
+/// ## Responsibilities
+///
+/// - Store and sanitize row data to match column count
+/// - Calculate average content widths for column sizing
+/// - Provide column width calculations using various strategies
+/// - Manage header and footer title storage
+///
+/// ## Column Width Calculation
+///
+/// The model supports multiple width calculation strategies:
+/// - Estimated: Fast character-count based estimation
+/// - Measured: Precise font-based measurement
+/// - Hybrid: Combination of both approaches
+///
+/// - Note: This is an internal type. Use `SwiftDataTable` for public API.
 public struct DataStructureModel {
 
     //MARK: - Private Properties

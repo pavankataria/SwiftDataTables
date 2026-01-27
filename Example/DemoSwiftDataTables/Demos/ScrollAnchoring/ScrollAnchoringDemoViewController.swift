@@ -1,9 +1,9 @@
 //
 //  ScrollAnchoringDemoViewController.swift
-//  DemoSwiftDataTables
+//  SwiftDataTables
 //
-//  Demonstrates scroll anchoring: data updates above the viewport
-//  do not cause scroll jumps.
+//  Created by Pavan Kataria on 22/02/2017.
+//  Copyright © 2016-2026 Pavan Kataria. All rights reserved.
 //
 
 import UIKit

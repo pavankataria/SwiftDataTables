@@ -1,14 +1,22 @@
 //
 //  DataHeaderFooterViewModelTests.swift
-//  SwiftDataTablesTests
+//  SwiftDataTables
 //
-//  Created for SwiftDataTables.
+//  Created by Pavan Kataria on 22/02/2017.
+//  Copyright © 2016-2026 Pavan Kataria. All rights reserved.
 //
 
 import XCTest
 import UIKit
 @testable import SwiftDataTables
 
+/// Tests for `DataHeaderFooterViewModel` that manages header/footer cell state.
+///
+/// These tests verify:
+/// - Initialization with data and sort type
+/// - Image string generation for sort indicators
+/// - Sort type mutation and corresponding image updates
+/// - Tint color logic for sorting elements
 @MainActor
 class DataHeaderFooterViewModelTests: XCTestCase {
 

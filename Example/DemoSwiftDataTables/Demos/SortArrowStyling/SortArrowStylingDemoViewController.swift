@@ -2,7 +2,8 @@
 //  SortArrowStylingDemoViewController.swift
 //  SwiftDataTables
 //
-//  Interactive demo for customizing sort arrow appearance.
+//  Created by Pavan Kataria on 22/02/2017.
+//  Copyright © 2016-2026 Pavan Kataria. All rights reserved.
 //
 
 import UIKit

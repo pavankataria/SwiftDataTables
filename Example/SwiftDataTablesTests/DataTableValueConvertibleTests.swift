@@ -1,13 +1,20 @@
 //
 //  DataTableValueConvertibleTests.swift
-//  SwiftDataTablesTests
+//  SwiftDataTables
 //
-//  Tests for DataTableValueConvertible protocol and conformances.
+//  Created by Pavan Kataria on 22/02/2017.
+//  Copyright © 2016-2026 Pavan Kataria. All rights reserved.
 //
 
 import XCTest
 @testable import SwiftDataTables
 
+/// Tests for `DataTableValueConvertible` protocol and its conformances.
+///
+/// These tests verify:
+/// - String, Int, Float, Double conversions to DataTableValueType
+/// - Optional type handling (Some and None cases)
+/// - DataTableValueType self-conformance (returns self)
 final class DataTableValueConvertibleTests: XCTestCase {
 
     // MARK: - String Conversion

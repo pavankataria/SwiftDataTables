@@ -1,16 +1,28 @@
 //
 //  SwiftDataTableLargeScaleTests.swift
-//  SwiftDataTablesTests
+//  SwiftDataTables
 //
-//  Tests for automatic row height mode with lazy measurement.
-//  Validates estimated heights, lazy measurement, prefetch window, and scroll anchoring.
+//  Created by Pavan Kataria on 22/02/2017.
+//  Copyright © 2016-2026 Pavan Kataria. All rights reserved.
 //
 
 import XCTest
 @testable import SwiftDataTables
 
-/// Tests for automatic row height mode (lazy measurement for efficient handling of large datasets).
-/// Validates estimated heights, lazy measurement, and prefetch window behavior.
+/// Tests for automatic row height mode with lazy measurement for large datasets.
+///
+/// These tests verify the performance and behavior of `DataTableRowHeightMode.automatic`
+/// when handling large numbers of rows:
+/// - Configuration: estimated height, prefetch window, lazy measurement detection
+/// - `RowMetricsStore` tracking: measured vs unmeasured rows, range queries
+/// - Row measurement: `measureRowsInRange`, `markRowMeasured`, `resetToEstimated`
+/// - Table integration: initial state, scroll-triggered measurement, data updates
+/// - Performance: 10k row proxy tests validate O(viewport) complexity
+/// - Anchoring stability: scroll position preservation during lazy measurement
+/// - Backward compatibility: deprecated `largeScale` static function
+///
+/// The 10k row tests serve as a proxy for 100k+ row scenarios since the lazy
+/// measurement algorithm is O(viewport), not O(n).
 @MainActor
 final class SwiftDataTableLargeScaleTests: XCTestCase {
 

@@ -1,8 +1,9 @@
 //
 //  AutoLayoutStressTestDemoViewController.swift
-//  DemoSwiftDataTables
+//  SwiftDataTables
 //
-//  Demonstrates smooth row height transitions with dynamic AutoLayout content.
+//  Created by Pavan Kataria on 22/02/2017.
+//  Copyright © 2016-2026 Pavan Kataria. All rights reserved.
 //
 
 import UIKit

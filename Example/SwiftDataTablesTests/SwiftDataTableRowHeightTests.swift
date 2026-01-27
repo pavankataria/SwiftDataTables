@@ -1,14 +1,25 @@
 //
 //  SwiftDataTableRowHeightTests.swift
-//  SwiftDataTablesTests
+//  SwiftDataTables
 //
-//  Created for SwiftDataTables.
+//  Created by Pavan Kataria on 22/02/2017.
+//  Copyright © 2016-2026 Pavan Kataria. All rights reserved.
 //
 
 import XCTest
 import UIKit
 @testable import SwiftDataTables
 
+/// Tests for row height calculation across different height modes.
+///
+/// These tests verify the `heightForRow(index:)` method behavior:
+/// - Fixed mode: returns the configured fixed height
+/// - Automatic mode (unmeasured): returns the estimated height for lazy measurement
+/// - Automatic mode (measured): returns the actual calculated height
+/// - Automatic mode with wrap: verifies multi-line content exceeds single-line height
+///
+/// Row height calculation is fundamental to the table's layout system and
+/// affects scroll position, content size, and visual appearance.
 @MainActor
 final class SwiftDataTableRowHeightTests: XCTestCase {
     func test_heightForRow_fixedMode_returnsFixedHeight() {

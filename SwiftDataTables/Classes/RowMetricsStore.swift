@@ -2,13 +2,34 @@
 //  RowMetricsStore.swift
 //  SwiftDataTables
 //
-//  Created as part of Golden Standard Layout System
+//  Created by Pavan Kataria on 22/02/2017.
+//  Copyright © 2016-2026 Pavan Kataria. All rights reserved.
 //
 
 import UIKit
 
 /// Single source of truth for row metrics (heights, Y offsets, content height).
-/// Owned by SwiftDataTable; layout reads from it.
+///
+/// `RowMetricsStore` manages all row-related layout measurements, providing:
+/// - Row height storage and lookup
+/// - Y offset calculation and caching
+/// - Content height computation
+/// - Dirty tracking for incremental updates
+/// - Lazy measurement support for large-scale mode
+///
+/// ## Architecture
+///
+/// This store is owned by `SwiftDataTable` and read by `SwiftDataTableLayout`.
+/// It centralizes row metrics to avoid duplicated state and ensure consistency.
+///
+/// ## Performance Features
+///
+/// - Binary search for O(log n) visible row lookup
+/// - Incremental offset rebuilding from dirty rows
+/// - Lazy measurement for large datasets
+/// - Efficient dirty row tracking with `IndexSet`
+///
+/// - Note: This is an internal type used by the layout system.
 final class RowMetricsStore {
 
     // MARK: - State

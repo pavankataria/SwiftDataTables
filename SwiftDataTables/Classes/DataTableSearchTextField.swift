@@ -1,14 +1,22 @@
 //
 //  DataTableSearchTextField.swift
-//  Pods
+//  SwiftDataTables
 //
 //  Created by Pavan Kataria on 15/03/2017.
-//
+//  Copyright © 2016-2026 Pavan Kataria. All rights reserved.
 //
 
 import UIKit
 
-
+/// Custom text field with rounded corners and inset padding.
+///
+/// `DataTableSearchTextField` provides a styled search text field with:
+/// - Rounded corners based on height
+/// - Consistent inset padding for text, placeholder, and editing
+/// - Clear button always visible
+///
+/// - Note: This is used internally for the legacy embedded search functionality.
+///   The modern search implementation uses `UISearchBar` via `MenuLengthHeader`.
 class DataTableSearchTextField: UITextField {
     
     //MARK: - Properties

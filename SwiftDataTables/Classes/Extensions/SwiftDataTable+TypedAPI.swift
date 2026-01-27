@@ -2,7 +2,8 @@
 //  SwiftDataTable+TypedAPI.swift
 //  SwiftDataTables
 //
-//  Created for SwiftDataTables.
+//  Created by Pavan Kataria on 22/01/2026.
+//  Copyright © 2017 Pavan Kataria. All rights reserved.
 //
 
 import UIKit

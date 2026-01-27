@@ -1,14 +1,24 @@
 //
 //  DataStructureModelColumnWidthTests.swift
-//  SwiftDataTablesTests
+//  SwiftDataTables
 //
-//  Created for SwiftDataTables.
+//  Created by Pavan Kataria on 22/02/2017.
+//  Copyright © 2016-2026 Pavan Kataria. All rights reserved.
 //
 
 import XCTest
 import UIKit
 @testable import SwiftDataTables
 
+/// Tests for `DataStructureModel` column width calculation strategies.
+///
+/// These tests verify:
+/// - Estimated average width calculation using character count
+/// - Max measured width using font-based measurement
+/// - Sampled max width for large datasets
+/// - Percentile measured width calculations
+/// - Hybrid strategy combining estimation and sampling
+/// - Header minimum width enforcement
 final class DataStructureModelColumnWidthTests: XCTestCase {
     func test_columnWidth_estimatedAverage_usesAverageCharWidth() {
         let values = ["aa", "bbbb"]

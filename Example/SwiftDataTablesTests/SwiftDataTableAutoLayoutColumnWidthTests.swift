@@ -1,14 +1,25 @@
 //
 //  SwiftDataTableAutoLayoutColumnWidthTests.swift
-//  SwiftDataTablesTests
+//  SwiftDataTables
 //
-//  Created for SwiftDataTables.
+//  Created by Pavan Kataria on 22/02/2017.
+//  Copyright © 2016-2026 Pavan Kataria. All rights reserved.
 //
 
 import XCTest
 import UIKit
 @testable import SwiftDataTables
 
+/// Tests for AutoLayout-based column width calculation modes.
+///
+/// These tests verify the `DataTableAutoLayoutWidthSample` strategies for
+/// determining column widths when using custom AutoLayout cells:
+/// - `.all`: Measures all rows to find the maximum content width
+/// - `.sampledMax(sampleSize:)`: Measures a deterministic sample and uses the max
+/// - `.percentile(_:sampleSize:)`: Measures a sample and uses a percentile value
+///
+/// The tests use a monospaced font cell (`AutoLayoutTestCell`) to ensure
+/// consistent width measurements across different content lengths.
 @MainActor
 final class SwiftDataTableAutoLayoutColumnWidthTests: XCTestCase {
     func test_autoLayoutColumnWidth_all_usesMaxMeasuredWidth() {

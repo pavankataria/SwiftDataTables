@@ -1,13 +1,21 @@
 //
 //  DataTableValueTypeTests.swift
-//  SwiftDataTablesTests
+//  SwiftDataTables
 //
-//  Created for SwiftDataTables.
+//  Created by Pavan Kataria on 22/02/2017.
+//  Copyright © 2016-2026 Pavan Kataria. All rights reserved.
 //
 
 import XCTest
 @testable import SwiftDataTables
 
+/// Tests for the `DataTableValueType` enum that represents cell values.
+///
+/// These tests verify:
+/// - Initialization from various Swift types (Int, Float, Double, String)
+/// - String representation for display
+/// - Comparison and equality for sorting
+/// - Array sorting behavior (ascending and descending)
 class DataTableValueTypeTests: XCTestCase {
 
     // MARK: - Initialization Tests

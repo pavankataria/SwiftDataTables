@@ -2,7 +2,8 @@
 //  ColumnWidthStrategyDemoViewController.swift
 //  SwiftDataTables
 //
-//  Shows how different column width strategies behave on the same dataset.
+//  Created by Pavan Kataria on 22/02/2017.
+//  Copyright © 2016-2026 Pavan Kataria. All rights reserved.
 //
 
 import UIKit

@@ -1,13 +1,22 @@
 //
 //  DataTableColumnTests.swift
-//  SwiftDataTablesTests
+//  SwiftDataTables
 //
-//  Tests for DataTableColumn type-safe column definitions.
+//  Created by Pavan Kataria on 22/02/2017.
+//  Copyright © 2016-2026 Pavan Kataria. All rights reserved.
 //
 
 import XCTest
 @testable import SwiftDataTables
 
+/// Tests for `DataTableColumn<T>` type-safe column definitions.
+///
+/// These tests verify:
+/// - Header storage and extraction
+/// - KeyPath-based value extraction for various types
+/// - Custom closure-based value extraction
+/// - Header-only columns with nil extract
+/// - Multiple column setups and header mapping
 final class DataTableColumnTests: XCTestCase {
 
     // MARK: - Test Model

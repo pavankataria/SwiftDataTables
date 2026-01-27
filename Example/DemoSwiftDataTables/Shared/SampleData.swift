@@ -3,7 +3,7 @@
 //  SwiftDataTables
 //
 //  Created by Pavan Kataria on 27/02/2017.
-//  Copyright © 2017 Pavan Kataria. All rights reserved.
+//  Copyright © 2016-2026 Pavan Kataria. All rights reserved.
 //
 
 import Foundation

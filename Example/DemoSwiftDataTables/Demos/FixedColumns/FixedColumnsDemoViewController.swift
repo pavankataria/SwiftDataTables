@@ -2,7 +2,8 @@
 //  FixedColumnsDemoViewController.swift
 //  SwiftDataTables
 //
-//  Interactive demo for fixed (frozen) columns.
+//  Created by Pavan Kataria on 22/02/2017.
+//  Copyright © 2016-2026 Pavan Kataria. All rights reserved.
 //
 
 import UIKit

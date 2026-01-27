@@ -1,14 +1,23 @@
 //
 //  SwiftDataTableColumnSortabilityTests.swift
-//  SwiftDataTablesTests
+//  SwiftDataTables
 //
-//  Tests for the isColumnSortable feature.
+//  Created by Pavan Kataria on 22/02/2017.
+//  Copyright © 2016-2026 Pavan Kataria. All rights reserved.
 //
 
 import XCTest
 import UIKit
 @testable import SwiftDataTables
 
+/// Tests for the `isColumnSortable` configuration feature.
+///
+/// These tests verify:
+/// - Default behavior where all columns are sortable
+/// - Disabling sorting for specific columns via closure
+/// - Sort indicator visibility for sortable vs non-sortable columns
+/// - Default ordering interaction with non-sortable columns
+/// - Edge cases like empty tables and single columns
 @MainActor
 class SwiftDataTableColumnSortabilityTests: XCTestCase {
 

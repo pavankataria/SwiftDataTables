@@ -1,9 +1,9 @@
 //
 //  DemoExplanationView.swift
-//  DemoSwiftDataTables
+//  SwiftDataTables
 //
-//  Reusable explanation panel for demo view controllers.
-//  Abstracts away UI component generation for consistent demo layouts.
+//  Created by Pavan Kataria on 22/02/2017.
+//  Copyright © 2016-2026 Pavan Kataria. All rights reserved.
 //
 
 import UIKit

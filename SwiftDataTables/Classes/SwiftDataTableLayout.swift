@@ -3,11 +3,31 @@
 //  SwiftDataTables
 //
 //  Created by Pavan Kataria on 21/02/2017.
-//  Copyright © 2017 Pavan Kataria. All rights reserved.
+//  Copyright © 2016-2026 Pavan Kataria. All rights reserved.
 //
 
 import UIKit
 
+/// Custom collection view layout for the data table.
+///
+/// `SwiftDataTableLayout` manages the complex layout requirements of the data table,
+/// including:
+/// - Variable column widths based on content
+/// - Fixed (frozen) columns
+/// - Floating headers and footers
+/// - Lazy row height measurement for automatic heights
+/// - Scroll anchoring for stable scrolling
+///
+/// ## Layout Structure
+///
+/// The layout organizes content into sections where each section represents a column.
+/// Items within a section represent cells in that column across all rows.
+///
+/// ## Performance
+///
+/// For large datasets, the layout supports lazy measurement where row heights
+/// are calculated as rows become visible, using estimated heights for
+/// unmeasured rows.
 class SwiftDataTableLayout: UICollectionViewFlowLayout {
 
     //MARK: - Properties

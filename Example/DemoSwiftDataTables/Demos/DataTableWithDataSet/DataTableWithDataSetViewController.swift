@@ -2,8 +2,8 @@
 //  DataTableWithDataSetViewController.swift
 //  SwiftDataTables
 //
-//  Created by pavankataria on 03/09/2017.
-//  Copyright (c) 2017 pavankataria. All rights reserved.
+//  Created by Pavan Kataria on 03/09/2017.
+//  Copyright © 2016-2026 Pavan Kataria. All rights reserved.
 //
 
 import UIKit

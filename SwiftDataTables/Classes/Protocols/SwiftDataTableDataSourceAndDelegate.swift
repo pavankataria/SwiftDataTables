@@ -1,16 +1,77 @@
 //
 //  SwiftDataTableDataSourceAndDelegate.swift
-//  Pods-SwiftDataTables_Example
+//  SwiftDataTables
 //
 //  Created by Pavan Kataria on 24/06/2018.
+//  Copyright © 2016-2026 Pavan Kataria. All rights reserved.
 //
 
 import Foundation
 import UIKit
 
-//public let SwiftDataTableAutomaticColumnWidth: CGFloat = CGFloat.greatestFiniteMagnitude
-
-/// This is an optional data source, you can also set static data in the initialiser of the `SwiftDataTable` class so you can avoid conforming to the data source. But for those with more dynamic content, use this protocol.
+/// Data source protocol for providing dynamic content to a SwiftDataTable.
+///
+/// - Important: This protocol is deprecated in favor of the direct data pattern.
+///   Use ``SwiftDataTable/init(data:headerTitles:options:frame:)`` and
+///   ``SwiftDataTable/setData(_:animatingDifferences:completion:)`` instead.
+///
+/// ## Migration Guide
+///
+/// **Before (DataSource pattern):**
+/// ```swift
+/// class MyViewController: SwiftDataTableDataSource {
+///     var items: [Item] = []
+///
+///     func numberOfRows(in: SwiftDataTable) -> Int { items.count }
+///     func dataTable(_ dataTable: SwiftDataTable, dataForRowAt index: Int) -> DataTableRow {
+///         [.string(items[index].name), .int(items[index].age)]
+///     }
+///     // ... more protocol methods
+///
+///     func refresh() {
+///         dataTable.reload()  // No animation, resets scroll
+///     }
+/// }
+/// ```
+///
+/// **After (Direct data pattern):**
+/// ```swift
+/// class MyViewController {
+///     var items: [Item] = []
+///
+///     func setupTable() {
+///         let data = items.map { [DataTableValueType.string($0.name), .int($0.age)] }
+///         dataTable = SwiftDataTable(data: data, headerTitles: ["Name", "Age"])
+///     }
+///
+///     func refresh() {
+///         let data = items.map { [DataTableValueType.string($0.name), .int($0.age)] }
+///         dataTable.setData(data, animatingDifferences: true)  // Animated diffing!
+///     }
+/// }
+/// ```
+///
+/// **Or use the type-safe Typed API:**
+/// ```swift
+/// let columns = [
+///     DataTableColumn<Item>("Name", \.name),
+///     DataTableColumn<Item>("Age", \.age)
+/// ]
+/// dataTable = SwiftDataTable(data: items, columns: columns)
+///
+/// // Update with automatic diffing:
+/// dataTable.setData(items, columns: columns, animatingDifferences: true)
+/// ```
+///
+/// ## Benefits of Migration
+///
+/// - **Animated updates**: Automatic row insertion/deletion animations
+/// - **Simpler code**: No protocol conformance required
+/// - **Type safety**: Optional typed API with `DataTableColumn`
+/// - **Scroll preservation**: Updates preserve scroll position
+///
+/// - SeeAlso: ``SwiftDataTable/setData(_:animatingDifferences:completion:)``
+@available(*, deprecated, message: "Use direct data pattern with init(data:headerTitles:) and setData(_:animatingDifferences:) instead. See documentation for migration guide.")
 @MainActor
 public protocol SwiftDataTableDataSource: AnyObject {
     

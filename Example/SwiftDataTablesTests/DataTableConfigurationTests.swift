@@ -1,18 +1,36 @@
 //
 //  DataTableConfigurationTests.swift
-//  SwiftDataTablesTests
+//  SwiftDataTables
 //
-//  Created for SwiftDataTables.
+//  Created by Pavan Kataria on 22/02/2017.
+//  Copyright © 2016-2026 Pavan Kataria. All rights reserved.
 //
 
 import XCTest
 import UIKit
 @testable import SwiftDataTables
 
+/// Tests for `DataTableConfiguration` struct that controls table appearance and behavior.
+///
+/// These tests verify:
+/// - Default configuration values match documented defaults
+/// - Configuration properties can be customized
+/// - Column sortability closure works correctly
+/// - Fixed columns and default ordering setup
 class DataTableConfigurationTests: XCTestCase {
 
     // MARK: - Default Values Tests
 
+    /// Verifies default footer height is 44 points.
+    ///
+    /// ## Given
+    /// - A default DataTableConfiguration instance
+    ///
+    /// ## When
+    /// - Accessing heightForSectionFooter
+    ///
+    /// ## Then
+    /// - Should return 44
     func test_default_footerHeight_is44() {
         let config = DataTableConfiguration()
         XCTAssertEqual(config.heightForSectionFooter, 44)

@@ -1,19 +1,45 @@
 //
 //  SwiftDataTablesTests.swift
-//  SwiftDataTablesTests
+//  SwiftDataTables
 //
 //  Created by Pavan Kataria on 18/06/2019.
-//  Copyright © 2017 Pavan Kataria. All rights reserved.
+//  Copyright © 2016-2026 Pavan Kataria. All rights reserved.
 //
 
 import XCTest
 import UIKit
 @testable import SwiftDataTables
 
+/// Tests for core SwiftDataTable initialization and configuration.
+///
+/// This test class validates the fundamental behavior of `SwiftDataTable`,
+/// ensuring that initialization with various configurations works correctly.
+///
+/// ## Test Coverage
+///
+/// - Table initialization with custom configurations
+/// - Configuration property application
+/// - Row color customization
 @MainActor
 class SwiftDataTablesTests: XCTestCase {
 
+    // MARK: - Initialization Tests
+
+    /// Verifies that a SwiftDataTable correctly initializes with custom configuration options.
+    ///
+    /// ## Given
+    /// - A `DataTableConfiguration` with custom highlighted and unhighlighted alternating row colors
+    /// - Seven custom colors defined for each color array (rainbow pattern)
+    ///
+    /// ## When
+    /// - A `SwiftDataTable` is initialized with empty data but the custom configuration
+    ///
+    /// ## Then
+    /// - The table's `options` should contain the custom highlighted colors
+    /// - The table's `options` should contain the custom unhighlighted colors
+    /// - Both color arrays should have exactly 7 colors
     func test_swiftDataTable_withConfigurationOptions_initialises() {
+        // Given
         var configuration = DataTableConfiguration()
         configuration.highlightedAlternatingRowColors = [
             UIColor(red: 1, green: 0.7, blue: 0.7, alpha: 1),
@@ -34,10 +60,13 @@ class SwiftDataTablesTests: XCTestCase {
             UIColor(red: 1, green: 0.7, blue: 0.7, alpha: 1)
         ]
 
+        // When
         let dataTable = SwiftDataTable(data: [[String]](), headerTitles: [], options: configuration, frame: .zero)
 
-        // Verify configuration was passed by checking specific properties
-        XCTAssertEqual(dataTable.options.highlightedAlternatingRowColors.count, 7)
-        XCTAssertEqual(dataTable.options.unhighlightedAlternatingRowColors.count, 7)
+        // Then
+        XCTAssertEqual(dataTable.options.highlightedAlternatingRowColors.count, 7,
+                       "Highlighted colors should contain all 7 custom colors")
+        XCTAssertEqual(dataTable.options.unhighlightedAlternatingRowColors.count, 7,
+                       "Unhighlighted colors should contain all 7 custom colors")
     }
 }

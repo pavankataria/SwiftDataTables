@@ -1,14 +1,21 @@
 //
 //  SwiftDataTableColumnWidthProviderTests.swift
-//  SwiftDataTablesTests
+//  SwiftDataTables
 //
-//  Created for SwiftDataTables.
+//  Created by Pavan Kataria on 22/02/2017.
+//  Copyright © 2016-2026 Pavan Kataria. All rights reserved.
 //
 
 import XCTest
 import UIKit
 @testable import SwiftDataTables
 
+/// Tests for `columnWidthModeProvider` configuration feature.
+///
+/// These tests verify:
+/// - Per-column width mode override using provider closure
+/// - Provider returning nil falls back to global columnWidthMode
+/// - Proper width calculation with provider-specified modes
 @MainActor
 final class SwiftDataTableColumnWidthProviderTests: XCTestCase {
     func test_columnWidthModeProvider_overridesPerColumn() {

@@ -1,13 +1,22 @@
 //
 //  DataTableFixedColumnTypeTests.swift
-//  SwiftDataTablesTests
+//  SwiftDataTables
 //
-//  Created for SwiftDataTables.
+//  Created by Pavan Kataria on 22/02/2017.
+//  Copyright © 2016-2026 Pavan Kataria. All rights reserved.
 //
 
 import XCTest
 @testable import SwiftDataTables
 
+/// Tests for `DataTableFixedColumnType` that configures frozen columns.
+///
+/// These tests verify:
+/// - Initialization with left and/or right fixed columns
+/// - Hit test detection for left fixed columns
+/// - Hit test detection for right fixed columns
+/// - Hit test detection with both left and right columns
+/// - Edge cases (no fixed columns, all fixed, overlapping)
 class DataTableFixedColumnTypeTests: XCTestCase {
 
     // MARK: - Initialization Tests

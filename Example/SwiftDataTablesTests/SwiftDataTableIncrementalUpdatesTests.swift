@@ -1,13 +1,24 @@
 //
 //  SwiftDataTableIncrementalUpdatesTests.swift
-//  SwiftDataTablesTests
+//  SwiftDataTables
 //
-//  Created for SwiftDataTables.
+//  Created by Pavan Kataria on 22/02/2017.
+//  Copyright © 2016-2026 Pavan Kataria. All rights reserved.
 //
 
 import XCTest
 @testable import SwiftDataTables
 
+/// Tests for incremental data updates using the diffing system.
+///
+/// These tests verify the `setData(_:animatingDifferences:)` method and its
+/// ability to perform efficient incremental updates:
+/// - Row appending, insertion, deletion, and content updates
+/// - Mixed operations in a single update
+/// - Explicit row identifier tracking
+///
+/// The tests confirm that the diffing algorithm correctly identifies changes
+/// and applies them without full table reloads.
 @MainActor
 final class SwiftDataTableIncrementalUpdatesTests: XCTestCase {
 

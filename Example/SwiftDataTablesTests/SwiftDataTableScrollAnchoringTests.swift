@@ -1,16 +1,26 @@
 //
 //  SwiftDataTableScrollAnchoringTests.swift
-//  SwiftDataTablesTests
+//  SwiftDataTables
 //
-//  Phase 4: Scroll Anchoring Tests
-//  Created for SwiftDataTables.
+//  Created by Pavan Kataria on 22/02/2017.
+//  Copyright © 2016-2026 Pavan Kataria. All rights reserved.
 //
 
 import XCTest
 @testable import SwiftDataTables
 
-/// Tests for Phase 4 scroll anchoring behavior.
-/// Ensures that updates preserve the user's visual scroll position.
+/// Tests for scroll anchoring behavior during data updates.
+///
+/// These tests verify that the table preserves the user's visual scroll position
+/// when data changes occur:
+/// - Insertions above the viewport adjust contentOffset to keep anchor row stationary
+/// - Insertions below the viewport do not alter contentOffset
+/// - Deletion of anchor row falls back to nearest surviving row
+/// - Large batch updates (>50% changes) also preserve approximate scroll position
+/// - Test seam for `_testScrollStateOverride` allows controlling scroll state behavior
+///
+/// Scroll anchoring prevents jarring visual jumps when rows are added or removed
+/// outside the user's current view, providing a smooth user experience.
 @MainActor
 final class SwiftDataTableScrollAnchoringTests: XCTestCase {
 

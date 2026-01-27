@@ -1,14 +1,21 @@
 //
 //  SwiftDataTableSearchControllerTests.swift
-//  SwiftDataTablesTests
+//  SwiftDataTables
 //
-//  Created for SwiftDataTables.
+//  Created by Pavan Kataria on 22/02/2017.
+//  Copyright © 2016-2026 Pavan Kataria. All rights reserved.
 //
 
 import XCTest
 import UIKit
 @testable import SwiftDataTables
 
+/// Tests for search controller integration with SwiftDataTable.
+///
+/// These tests verify:
+/// - Search controller creation with proper updater and placeholder
+/// - Search controller installation on view controller navigation item
+/// - Embedded search bar visibility control
 @MainActor
 final class SwiftDataTableSearchControllerTests: XCTestCase {
     func test_makeSearchController_setsUpdaterAndPlaceholder() {

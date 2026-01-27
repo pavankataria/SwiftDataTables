@@ -1,14 +1,29 @@
 //
 //  SwiftDataTableAutoHeightMetricsTests.swift
-//  SwiftDataTablesTests
+//  SwiftDataTables
 //
-//  Regression tests for auto-height layout with RowMetricsStore.
+//  Created by Pavan Kataria on 22/02/2017.
+//  Copyright © 2016-2026 Pavan Kataria. All rights reserved.
 //
 
 import XCTest
 import UIKit
 @testable import SwiftDataTables
 
+/// Tests for the `RowMetricsStore` and automatic row height calculations.
+///
+/// These tests verify the row metrics infrastructure that powers variable-height
+/// layouts:
+/// - Basic `RowMetricsStore` operations: row count, height storage, Y-offset calculations
+/// - Cumulative Y-offset computation including header and inter-row spacing
+/// - Content height calculation with footer contributions
+/// - Metrics updates after `setData` and `recalculate` operations
+/// - Automatic height measurement for text wrapping
+/// - Binary search for `rowForYOffset` lookups
+/// - Footer height edge cases (floating vs non-floating)
+/// - Delegate height precedence over configuration modes
+/// - Dirty tracking infrastructure for incremental height updates
+/// - Integration tests for incremental updates affecting tail row offsets
 @MainActor
 final class SwiftDataTableAutoHeightMetricsTests: XCTestCase {
 

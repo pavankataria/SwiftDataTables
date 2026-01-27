@@ -1,9 +1,9 @@
 //
 //  MenuTableViewController.swift
-//  SwiftDataTables_Example
+//  SwiftDataTables
 //
 //  Created by Pavan Kataria on 13/06/2018.
-//  Copyright © 2017 Pavan Kataria. All rights reserved.
+//  Copyright © 2016-2026 Pavan Kataria. All rights reserved.
 //
 
 import Foundation

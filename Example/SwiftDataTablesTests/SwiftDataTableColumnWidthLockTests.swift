@@ -1,14 +1,22 @@
 //
 //  SwiftDataTableColumnWidthLockTests.swift
-//  SwiftDataTablesTests
+//  SwiftDataTables
 //
-//  Phase 2 tests: Column width decoupling and lock functionality.
+//  Created by Pavan Kataria on 22/02/2017.
+//  Copyright © 2016-2026 Pavan Kataria. All rights reserved.
 //
 
 import XCTest
 import UIKit
 @testable import SwiftDataTables
 
+/// Tests for the `lockColumnWidthsAfterFirstLayout` configuration feature.
+///
+/// These tests verify:
+/// - Default unlock behavior allows width recalculation on data changes
+/// - Lock behavior prevents width drift across multiple data updates
+/// - Config changes (columnWidthMode, providerVersion) bypass the lock
+/// - Row metrics still rebuild even when column widths are locked
 @MainActor
 final class SwiftDataTableColumnWidthLockTests: XCTestCase {
 

@@ -3,15 +3,70 @@
 //  SwiftDataTables
 //
 //  Created by Pavan Kataria on 21/02/2017.
-//  Copyright © 2017 Pavan Kataria. All rights reserved.
+//  Copyright © 2016-2026 Pavan Kataria. All rights reserved.
 //
 
 import UIKit
 
+/// A single row of data containing cell values.
 public typealias DataTableRow = [DataTableValueType]
+
+/// The complete table content as a 2D array of rows.
 public typealias DataTableContent = [DataTableRow]
+
+/// The view model representation of table content.
 public typealias DataTableViewModelContent = [[DataCellViewModel]]
 
+/// A powerful, customizable data table component for iOS.
+///
+/// `SwiftDataTable` displays tabular data with features including:
+/// - Sortable columns with visual indicators
+/// - Searchable content with filtering
+/// - Fixed/frozen columns
+/// - Customizable row heights (fixed or automatic)
+/// - Alternating row colors
+/// - Custom cell support
+/// - Type-safe API with model tracking
+///
+/// ## Basic Usage
+///
+/// ```swift
+/// // Create with raw data
+/// let data: [[String]] = [
+///     ["Alice", "25", "Engineer"],
+///     ["Bob", "30", "Designer"]
+/// ]
+/// let table = SwiftDataTable(
+///     data: data,
+///     headerTitles: ["Name", "Age", "Role"]
+/// )
+/// view.addSubview(table)
+/// ```
+///
+/// ## Typed API
+///
+/// ```swift
+/// struct User: Identifiable {
+///     let id: Int
+///     let name: String
+///     let age: Int
+/// }
+///
+/// let users: [User] = [...]
+/// let table = SwiftDataTable(data: users, columns: [
+///     .init("Name", \.name),
+///     .init("Age", \.age)
+/// ])
+/// ```
+///
+/// ## Configuration
+///
+/// ```swift
+/// var config = DataTableConfiguration()
+/// config.shouldShowSearchSection = true
+/// config.defaultOrdering = DataTableColumnOrder(index: 0, order: .ascending)
+/// let table = SwiftDataTable(data: data, headerTitles: headers, options: config)
+/// ```
 public class SwiftDataTable: UIView {
     public enum SupplementaryViewType: String {
         /// Single header positioned at the top above the column section
@@ -902,28 +957,76 @@ public class SwiftDataTable: UIView {
         return clampedFirst..<clampedLast
     }
 
-    public func reloadEverything(){
+    /// Clears the layout cache and reloads all collection view data.
+    ///
+    /// This is a low-level method that performs a complete refresh of the table display.
+    /// It clears cached layout information and triggers a full reload of the collection view.
+    ///
+    /// - Note: For most use cases, prefer ``setData(_:animatingDifferences:completion:)``
+    ///   which provides animated updates with automatic diffing, or ``reload()`` when using
+    ///   the data source pattern.
+    ///
+    /// ## When to Use
+    ///
+    /// Use this method when you need to force a complete visual refresh, such as:
+    /// - After programmatically changing configuration options
+    /// - When the layout cache may be stale due to external changes
+    /// - After sorting operations (called internally)
+    ///
+    /// ## Example
+    ///
+    /// ```swift
+    /// // Force a complete refresh after configuration changes
+    /// dataTable.options.shouldShowFooter = true
+    /// dataTable.reloadEverything()
+    /// ```
+    public func reloadEverything() {
         self.layout?.clearLayoutCache()
         self.collectionView.reloadData()
     }
-    public func reloadRowsOnly(){
-        
-    }
-    
-    public func reload(){
+
+    /// Reloads the table by fetching fresh data from the data source.
+    ///
+    /// - Important: This method is deprecated along with ``SwiftDataTableDataSource``.
+    ///   Use ``setData(_:animatingDifferences:completion:)`` with the direct data pattern instead.
+    ///
+    /// ## Migration
+    ///
+    /// **Before:**
+    /// ```swift
+    /// dataTable.dataSource = self
+    /// // ... implement protocol methods ...
+    /// dataTable.reload()
+    /// ```
+    ///
+    /// **After:**
+    /// ```swift
+    /// let newData = items.map { [DataTableValueType.string($0.name)] }
+    /// dataTable.setData(newData, animatingDifferences: true)
+    /// ```
+    ///
+    /// ## Limitations of This Method
+    ///
+    /// - Resets scroll position to top (no preservation)
+    /// - No animation support
+    /// - Requires protocol conformance boilerplate
+    ///
+    /// - SeeAlso: ``setData(_:animatingDifferences:completion:)``
+    @available(*, deprecated, message: "Use setData(_:animatingDifferences:) instead for animated updates with scroll preservation")
+    public func reload() {
         var data = DataTableContent()
         var headerTitles = [String]()
-        
+
         let numberOfColumns = dataSource?.numberOfColumns(in: self) ?? 0
         let numberOfRows = dataSource?.numberOfRows(in: self) ?? 0
-        
+
         for columnIndex in 0..<numberOfColumns {
             guard let headerTitle = dataSource?.dataTable(self, headerTitleForColumnAt: columnIndex) else {
                 return
             }
             headerTitles.append(headerTitle)
         }
-        
+
         for index in 0..<numberOfRows {
             guard let rowData = self.dataSource?.dataTable(self, dataForRowAt: index) else {
                 return
@@ -936,7 +1039,27 @@ public class SwiftDataTable: UIView {
         calculateColumnWidths()  // Rebuild metricsStore before reloadData
         self.collectionView.reloadData()
     }
-    
+
+    /// Returns the data value for a cell at the specified index path.
+    ///
+    /// Use this method to retrieve the underlying data for a specific cell, typically
+    /// in response to user interactions like cell selection.
+    ///
+    /// - Parameter indexPath: The index path of the cell. The `section` corresponds to
+    ///   the row index, and the `row` (or `item`) corresponds to the column index.
+    ///
+    /// - Returns: The ``DataTableValueType`` stored at the specified position.
+    ///
+    /// ## Example
+    ///
+    /// ```swift
+    /// func dataTable(_ dataTable: SwiftDataTable, didSelectRowAt indexPath: IndexPath) {
+    ///     let value = dataTable.data(for: indexPath)
+    ///     print("Selected cell contains: \(value.stringRepresentation)")
+    /// }
+    /// ```
+    ///
+    /// - SeeAlso: ``DataTableValueType``
     public func data(for indexPath: IndexPath) -> DataTableValueType {
         return rows[indexPath.section][indexPath.row].data
     }
@@ -1488,7 +1611,7 @@ extension SwiftDataTable: UICollectionViewDataSource, UICollectionViewDelegate {
     
     public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let elementKind = SupplementaryViewType(kind: kind)
-        let viewModel: CollectionViewSupplementaryElementRepresentable
+        let viewModel: DataTableSupplementaryElementRepresentable
         switch elementKind {
         case .searchHeader: viewModel = self.menuLengthViewModel
         case .columnHeader: viewModel = self.headerViewModels[indexPath.index]

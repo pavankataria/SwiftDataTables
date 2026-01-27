@@ -347,6 +347,174 @@ config.rowHeightMode = .automatic(estimated: 60)
 
 ---
 
+## API Comparison: 0.8.2 vs 0.9.0
+
+### Deprecated APIs
+
+The following APIs are deprecated in 0.9.0 and will be removed in a future version:
+
+| Deprecated | Replacement | Reason |
+|------------|-------------|--------|
+| `SwiftDataTableDataSource` protocol | Direct data pattern | No animated diffing, boilerplate-heavy |
+| `reload()` method | `setData(_:animatingDifferences:)` | Resets scroll, no animations |
+| `largeScale(estimatedHeight:prefetchWindow:)` | `automatic(estimated:prefetchWindow:)` | Renamed for clarity |
+
+### Data Flow Comparison
+
+**0.8.2 DataSource Pattern (Deprecated):**
+```
+┌─────────────────────┐     ┌─────────────────────┐     ┌─────────────────────┐
+│    Your Data        │────▶│  DataSource Methods │────▶│    SwiftDataTable   │
+│   [Item] array      │     │  (4 protocol funcs) │     │      reload()       │
+└─────────────────────┘     └─────────────────────┘     └─────────────────────┘
+                                     │
+                            • No diffing
+                            • No animations
+                            • Scroll resets to top
+```
+
+**0.9.0 Direct Data Pattern:**
+```
+┌─────────────────────┐     ┌─────────────────────┐
+│    Your Data        │────▶│    SwiftDataTable   │
+│   [Item] array      │     │ setData() + diffing │
+└─────────────────────┘     └─────────────────────┘
+                                     │
+                            • Automatic diffing
+                            • Animated ins/del/move
+                            • Scroll position preserved
+                            • Cell-level updates only
+```
+
+### Feature Comparison
+
+| Feature | 0.8.2 (DataSource) | 0.9.0 (Direct Data) |
+|---------|-------------------|---------------------|
+| **Setup Complexity** | Implement 4 protocol methods | Pass data to initializer |
+| **Type Safety** | Manual `DataTableValueType` arrays | Generic `DataTableColumn<T>` |
+| **Animated Updates** | ❌ No | ✅ Yes |
+| **Scroll Preservation** | ❌ Resets to top | ✅ Maintains position |
+| **Cell-Level Diffing** | ❌ Full row reload | ✅ Only changed cells |
+| **Identity Tracking** | Manual | Automatic via `Identifiable` |
+| **Code Lines** | ~30+ lines | ~5 lines |
+
+### Side-by-Side Code Comparison
+
+<table>
+<tr>
+<th>0.8.2 DataSource Pattern (Deprecated)</th>
+<th>0.9.0 Direct Data Pattern</th>
+</tr>
+<tr>
+<td>
+
+```swift
+class MyVC: UIViewController,
+            SwiftDataTableDataSource {
+    var items: [Item] = []
+    let dataTable = SwiftDataTable()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        dataTable.dataSource = self
+    }
+
+    func numberOfColumns(in: SwiftDataTable) -> Int {
+        return 3
+    }
+
+    func numberOfRows(in: SwiftDataTable) -> Int {
+        return items.count
+    }
+
+    func dataTable(_ dt: SwiftDataTable,
+                   dataForRowAt index: Int) -> DataTableRow {
+        let item = items[index]
+        return [
+            .string(item.name),
+            .int(item.age),
+            .string(item.status)
+        ]
+    }
+
+    func dataTable(_ dt: SwiftDataTable,
+                   headerTitleForColumnAt col: Int) -> String {
+        ["Name", "Age", "Status"][col]
+    }
+
+    func updateData() {
+        items = fetchNewItems()
+        dataTable.reload() // No animation, scroll resets
+    }
+}
+```
+
+</td>
+<td>
+
+```swift
+class MyVC: UIViewController {
+    var items: [Item] = []
+    var dataTable: SwiftDataTable!
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        dataTable = SwiftDataTable(
+            data: items,
+            columns: [
+                .init("Name", \.name),
+                .init("Age", \.age),
+                .init("Status", \.status)
+            ]
+        )
+    }
+
+    func updateData() {
+        items = fetchNewItems()
+        dataTable.setData(
+            items,
+            animatingDifferences: true
+        )
+        // ✅ Automatic diffing
+        // ✅ Smooth animations
+        // ✅ Scroll preserved
+        // ✅ Only changed cells update
+    }
+}
+
+// Just add Identifiable conformance
+struct Item: Identifiable {
+    let id: Int
+    let name: String
+    let age: Int
+    let status: String
+}
+```
+
+</td>
+</tr>
+</table>
+
+### Migration Checklist
+
+- [ ] Remove `SwiftDataTableDataSource` conformance from your view controllers
+- [ ] Add `Identifiable` conformance to your model types
+- [ ] Replace protocol methods with `DataTableColumn` definitions
+- [ ] Replace `dataTable.reload()` with `dataTable.setData(_:animatingDifferences:)`
+- [ ] (Optional) Use typed API: `SwiftDataTable(data: items, columns: [...])`
+- [ ] (Optional) Enable text wrapping: `config.textLayout = .wrap`
+- [ ] (Optional) Enable auto heights: `config.rowHeightMode = .automatic(estimated: 44)`
+
+### Benefits of Migration
+
+1. **Less Code**: ~80% reduction in boilerplate
+2. **Better UX**: Animated row changes instead of jarring reloads
+3. **Performance**: Cell-level diffing means less work for UIKit
+4. **Type Safety**: Compiler catches column/model mismatches
+5. **Scroll Stability**: Users don't lose their place during updates
+
+---
+
 ## Superseded Patterns
 
 The following patterns still work but have better alternatives:
@@ -372,7 +540,7 @@ This release also addresses deprecated iOS APIs internally:
 
 ## Migration Guide
 
-### From 0.8.x
+### From 0.8.2
 
 **No breaking changes** - your existing code continues to work. The new APIs are additive.
 
@@ -422,14 +590,17 @@ table.setData(users, animatingDifferences: true)
 
 ## Large-Scale Mode (100k+ Rows)
 
-For tables with massive datasets, enable large-scale mode for lazy measurement and optimal scroll performance:
+For tables with massive datasets, enable automatic mode with lazy measurement for optimal scroll performance:
 
 ```swift
 var config = DataTableConfiguration()
-config.rowHeightMode = .largeScale(estimatedHeight: 44, prefetchWindow: 10)
+config.rowHeightMode = .automatic(estimated: 44, prefetchWindow: 10)
 
 let table = SwiftDataTable(data: massiveDataset, columns: columns, options: config)
 ```
+
+> **Note**: The `.largeScale()` function is deprecated. Use `.automatic(estimated:prefetchWindow:)` instead.
+> The functionality is identical - only the name changed for API consistency.
 
 ### How It Works
 
