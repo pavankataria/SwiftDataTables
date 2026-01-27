@@ -36,6 +36,21 @@ jobs:
       run: |
         mkdir -p docs
         cp -R ./DerivedData/Build/Products/Debug-iphonesimulator/SwiftDataTables.doccarchive/. ./docs
+        # Create redirect from root to documentation
+        cat > ./docs/index.html << 'EOF'
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="utf-8">
+          <title>SwiftDataTables Documentation</title>
+          <meta http-equiv="refresh" content="0; url=documentation/swiftdatatables/">
+          <link rel="canonical" href="documentation/swiftdatatables/">
+        </head>
+        <body>
+          <p>Redirecting to <a href="documentation/swiftdatatables/">SwiftDataTables Documentation</a>...</p>
+        </body>
+        </html>
+        EOF
 
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
