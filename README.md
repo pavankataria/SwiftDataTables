@@ -42,13 +42,22 @@ https://img.shields.io/cocoapods/p/SwiftDataTables.svg
 <!--[![Version](https://img.shields.io/cocoapods/v/SwiftDataTables.svg?style=flat)](http://cocoapods.org/pods/SwiftDataTables)-->
 <!--[![CocoaPodsDL](https://img.shields.io/cocoapods/dt/SwiftDataTables.svg)](https://cocoapods.org/pods/SwiftDataTables)-->
 
-`SwiftDataTables` allows you to display grid-like data sets in a nicely formatted table for iOS. The main goal for the end-user is to be able to obtain useful information from the table as quickly as possible with the following features: ordering, searching, and paging; and to provide an easy implementation with extensible options for the developer.
+**The powerful, flexible data table component that iOS deserves.**
 
-> **v0.9.0 Released** - Type-safe columns, animated diffing, self-sizing cells, and more. See [ANNOUNCEMENT.md](ANNOUNCEMENT.md) for details.
+Display grid-like data with sorting, searching, and smooth animations - all in just a few lines of code. Whether you're building a dashboard, admin panel, or data-heavy app, SwiftDataTables handles the complexity so you can focus on your app.
 
-**You can now contribute to this project over at https://opencollective.com/swiftdatatables!**
+> **New in v0.9.0**: Type-safe columns, animated diffing, self-sizing cells for 100k+ rows, and more. See [ANNOUNCEMENT.md](ANNOUNCEMENT.md) for the full changelog.
 
-## Major Features
+## Why SwiftDataTables?
+
+- **Drop-in ready** - Add a full-featured data table in 5 lines of code
+- **Scales effortlessly** - Handles 100,000+ rows with smooth 60fps scrolling
+- **Modern Swift** - Type-safe API with `Identifiable`, key paths, and async/await friendly
+- **Production tested** - Used in apps serving thousands of users
+
+**Support the project: https://opencollective.com/swiftdatatables**
+
+## Features
 
 - **Self-Sizing Cells** - Automatic row heights with lazy measurement, efficient for 100k+ rows
 - **Type-Safe Columns** - Declarative API with key paths and custom transforms
