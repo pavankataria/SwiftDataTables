@@ -42,7 +42,9 @@ https://img.shields.io/cocoapods/p/SwiftDataTables.svg
 <!--[![Version](https://img.shields.io/cocoapods/v/SwiftDataTables.svg?style=flat)](http://cocoapods.org/pods/SwiftDataTables)-->
 <!--[![CocoaPodsDL](https://img.shields.io/cocoapods/dt/SwiftDataTables.svg)](https://cocoapods.org/pods/SwiftDataTables)-->
 
-`SwiftDataTables` allows you to display grid-like data sets in a nicely formatted table for iOS. The main goal for the end-user is to be able to obtain useful information from the table as quickly as possible with the following features: ordering, searching, and paging; and to provide an easy implementation with extensible options for the developer. 
+`SwiftDataTables` allows you to display grid-like data sets in a nicely formatted table for iOS. The main goal for the end-user is to be able to obtain useful information from the table as quickly as possible with the following features: ordering, searching, and paging; and to provide an easy implementation with extensible options for the developer.
+
+> **v0.9.0 Released** - Type-safe columns, animated diffing, self-sizing cells, and more. See [ANNOUNCEMENT.md](ANNOUNCEMENT.md) for details.
 
 **You can now contribute to this project over at https://opencollective.com/swiftdatatables!**
 
@@ -314,26 +316,23 @@ navigationItem.searchController = searchController
 
 ---
 
-## Data Source methods. 
-This is an optional data source implementation, you can also initialiase your `SwiftDataTable` with a static data set as shown in the Demo project so you can avoid conforming to the data source. But for those who want to show more dynamic content, use the following `SwiftDataTableDataSource` protocol.
+## Data Source methods (Deprecated)
+
+> **Note**: The `SwiftDataTableDataSource` protocol is deprecated in v0.9.0. Use the direct data pattern with `init(data:headerTitles:)` or the typed API with `init(data:columns:)` instead. See the [Quick Start](#quick-start) section above and [ANNOUNCEMENT.md](ANNOUNCEMENT.md) for the migration guide.
+
+The deprecated protocol is shown below for reference:
 
 ```Swift
-
+@available(*, deprecated)
 public protocol SwiftDataTableDataSource: class {
-    
-    /// The number of columns to display
     func numberOfColumns(in: SwiftDataTable) -> Int
-    
-    /// Return the total number of rows that will be displayed in the table
     func numberOfRows(in: SwiftDataTable) -> Int
-    
-    /// Return the data for the given row
     func dataTable(_ dataTable: SwiftDataTable, dataForRowAt index: NSInteger) -> [DataTableValueType]
-    
-    /// The header title for the column position to be displayed
     func dataTable(_ dataTable: SwiftDataTable, headerTitleForColumnAt columnIndex: NSInteger) -> String
 }
 ```
+
+**Migration**: Replace `dataSource` + `reload()` with `setData(_:animatingDifferences:)` for animated updates with scroll preservation.
 
 ## Delegate for maximum customisation
 An optional delegate for further customisation. Default values will be used retrieved from the SwiftDataTableConfiguration file. This will can be overridden and passed into the SwiftDataTable constructor incase you wish not to use the delegate. 
