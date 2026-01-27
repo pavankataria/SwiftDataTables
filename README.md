@@ -46,7 +46,7 @@ https://img.shields.io/cocoapods/p/SwiftDataTables.svg
 
 Display grid-like data with sorting, searching, and smooth animations - all in just a few lines of code. Whether you're building a dashboard, admin panel, or data-heavy app, SwiftDataTables handles the complexity so you can focus on your app.
 
-> **New in v0.9.0**: Type-safe columns, animated diffing, self-sizing cells for 100k+ rows, and more. See [ANNOUNCEMENT.md](ANNOUNCEMENT.md) for the full changelog.
+> **New in v0.9.0**: Type-safe columns, animated diffing, self-sizing cells for 100k+ rows, and more.
 
 ## Why SwiftDataTables?
 
@@ -327,7 +327,7 @@ navigationItem.searchController = searchController
 
 ## Data Source methods (Deprecated)
 
-> **Note**: The `SwiftDataTableDataSource` protocol is deprecated in v0.9.0. Use the direct data pattern with `init(data:headerTitles:)` or the typed API with `init(data:columns:)` instead. See the [Quick Start](#quick-start) section above and [ANNOUNCEMENT.md](ANNOUNCEMENT.md) for the migration guide.
+> **Note**: The `SwiftDataTableDataSource` protocol is deprecated in v0.9.0. Use the direct data pattern with `init(data:headerTitles:)` or the typed API with `init(data:columns:)` instead. See the [Quick Start](#quick-start) section above for examples.
 
 The deprecated protocol is shown below for reference:
 
