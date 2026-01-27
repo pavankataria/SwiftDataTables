@@ -28,10 +28,26 @@ jobs:
           -configuration Debug \
           CODE_SIGNING_ALLOWED=NO
 
+    - name: List available simulators
+      run: xcrun simctl list devices available | head -50
+
     - name: Run tests
       run: |
+        # Find the first available iPhone simulator
+        DEVICE_ID=$(xcrun simctl list devices available -j | python3 -c "
+        import json, sys
+        data = json.load(sys.stdin)
+        for runtime, devices in data['devices'].items():
+            if 'iOS' in runtime:
+                for d in devices:
+                    if 'iPhone' in d['name'] and d['isAvailable']:
+                        print(d['udid'])
+                        sys.exit(0)
+        sys.exit(1)
+        ")
+        echo "Using simulator: $DEVICE_ID"
         xcodebuild test \
           -project Example/SwiftDataTables.xcodeproj \
           -scheme SwiftDataTables-Example \
-          -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.5' \
+          -destination "platform=iOS Simulator,id=$DEVICE_ID" \
           CODE_SIGNING_ALLOWED=NO
