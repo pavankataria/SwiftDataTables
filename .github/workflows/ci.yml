@@ -8,16 +8,19 @@ on:
 
 jobs:
   build:
-    runs-on: macos-15
+    runs-on: macos-14
 
     steps:
     - uses: actions/checkout@v4
 
-    - name: Select Xcode 16
+    - name: Select Xcode 16.2
       run: sudo xcode-select -s /Applications/Xcode_16.2.app/Contents/Developer
 
     - name: Show Xcode version
       run: xcodebuild -version
+
+    - name: List available simulators
+      run: xcrun simctl list devices available | grep -E "iPhone|iOS" | head -20
 
     - name: Build framework
       run: |
@@ -28,26 +31,10 @@ jobs:
           -configuration Debug \
           CODE_SIGNING_ALLOWED=NO
 
-    - name: List available simulators
-      run: xcrun simctl list devices available | head -50
-
     - name: Run tests
       run: |
-        # Find the first available iPhone simulator
-        DEVICE_ID=$(xcrun simctl list devices available -j | python3 -c "
-        import json, sys
-        data = json.load(sys.stdin)
-        for runtime, devices in data['devices'].items():
-            if 'iOS' in runtime:
-                for d in devices:
-                    if 'iPhone' in d['name'] and d['isAvailable']:
-                        print(d['udid'])
-                        sys.exit(0)
-        sys.exit(1)
-        ")
-        echo "Using simulator: $DEVICE_ID"
         xcodebuild test \
           -project Example/SwiftDataTables.xcodeproj \
           -scheme SwiftDataTables-Example \
-          -destination "platform=iOS Simulator,id=$DEVICE_ID" \
+          -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.2' \
           CODE_SIGNING_ALLOWED=NO
