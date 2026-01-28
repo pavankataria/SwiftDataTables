@@ -112,8 +112,8 @@ Use closures in column definitions:
 ```swift
 let columns: [DataTableColumn<Product>] = [
     .init("Product", \.name),
-    .init("Price") { .string("$\(String(format: "%.2f", $0.price))") },
-    .init("In Stock") { .string($0.inStock ? "Yes" : "No") }
+    .init("Price") { "$\(String(format: "%.2f", $0.price))" },
+    .init("In Stock") { $0.inStock ? "Yes" : "No" }
 ]
 ```
 
@@ -129,9 +129,9 @@ struct Order: Identifiable {
 }
 
 let columns: [DataTableColumn<Order>] = [
-    .init("Qty") { .int($0.quantity) },
-    .init("Unit Price") { .string("$\($0.unitPrice)") },
-    .init("Total") { .string("$\(Double($0.quantity) * $0.unitPrice)") }
+    .init("Qty") { $0.quantity },
+    .init("Unit Price") { "$\($0.unitPrice)" },
+    .init("Total") { "$\(Double($0.quantity) * $0.unitPrice)" }
 ]
 ```
 
@@ -152,7 +152,7 @@ let dateFormatter: DateFormatter = {
 
 let columns: [DataTableColumn<Event>] = [
     .init("Event", \.name),
-    .init("Date") { .string(dateFormatter.string(from: $0.date)) }
+    .init("Date") { dateFormatter.string(from: $0.date) }
 ]
 ```
 

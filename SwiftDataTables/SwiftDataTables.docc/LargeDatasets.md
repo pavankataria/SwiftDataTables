@@ -178,9 +178,9 @@ class LargeDatasetVC: UIViewController {
     var dataTable: SwiftDataTable!
 
     let columns: [DataTableColumn<DataPoint>] = [
-        .init("ID") { .int($0.id) },
-        .init("Time") { .string($0.timestamp.formatted()) },
-        .init("Value") { .string(String(format: "%.2f", $0.value)) },
+        .init("ID") { $0.id },
+        .init("Time") { $0.timestamp.formatted() },
+        .init("Value") { String(format: "%.2f", $0.value) },
         .init("Category", \.category)
     ]
 

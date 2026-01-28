@@ -118,6 +118,13 @@ config.columnWidthMode = .fitContentText(strategy: .maxMeasured) // Use font mea
   - Explicitly selects text measurement or Auto Layout measurement for column widths
   - Supports per-column overrides via `columnWidthModeProvider`
 
+- **Simplified closure API for `DataTableColumn`**
+  - Closures can now return any `DataTableValueConvertible` type directly
+  - No need to wrap values in `.string()`, `.int()`, etc.
+  - Before: `.init("Salary") { .string("£\($0.salary)") }`
+  - After: `.init("Salary") { "£\($0.salary)" }`
+  - Explicit `DataTableValueType` still supported for cases requiring specific sorting behaviour
+
 ---
 
 ### Fixed

@@ -65,15 +65,24 @@ Sorting behavior depends on ``DataTableValueType``:
 
 ### Ensuring Correct Sort Order
 
-```swift
-// Numeric sorting
-.init("Age") { .int($0.age) }
+Use keypaths for simple properties - they preserve the correct type automatically:
 
-// Alphabetic sorting
-.init("Name") { .string($0.name) }
+```swift
+// Numeric sorting (via keypath)
+.init("Age", \.age)
+
+// Alphabetic sorting (via keypath)
+.init("Name", \.name)
 
 // Be careful: "10" < "2" < "9" with strings!
-.init("ID") { .int($0.id) }  // Use .int for numeric IDs
+.init("ID", \.id)  // Keypath preserves Int type for numeric sorting
+```
+
+For computed values where you need explicit numeric sorting:
+
+```swift
+// Computed numeric with explicit type
+.init("Total Score") { .int($0.points + $0.bonus) }
 ```
 
 ## See Also

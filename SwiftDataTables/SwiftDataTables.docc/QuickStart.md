@@ -64,7 +64,7 @@ class TypedTableViewController: UIViewController {
             columns: [
                 .init("Name", \.name),
                 .init("Department", \.department),
-                .init("Salary") { .string("$\($0.salary.formatted())") }
+                .init("Salary") { "$\($0.salary.formatted())" }
             ]
         )
 
@@ -87,7 +87,7 @@ class DynamicTableViewController: UIViewController {
     let columns: [DataTableColumn<Employee>] = [
         .init("Name", \.name),
         .init("Department", \.department),
-        .init("Salary") { .string("$\($0.salary.formatted())") }
+        .init("Salary") { "$\($0.salary.formatted())" }
     ]
 
     override func viewDidLoad() {

@@ -33,13 +33,13 @@ let columns: [DataTableColumn<Person>] = [
 
 ### Custom Value Extraction
 
-For computed or formatted values, provide a closure:
+For computed or formatted values, provide a closure that returns any `DataTableValueConvertible` type:
 
 ```swift
 let columns: [DataTableColumn<Person>] = [
     .init("Name", \.name),
-    .init("Age") { .int($0.age) },  // Explicit type
-    .init("Location") { .string("\($0.city), \($0.country)") }  // Computed
+    .init("Age") { $0.age },                          // Returns Int directly
+    .init("Location") { "\($0.city), \($0.country)" } // Returns String directly
 ]
 ```
 
@@ -57,11 +57,11 @@ struct Product: Identifiable {
 
 let columns: [DataTableColumn<Product>] = [
     .init("Product", \.name),
-    .init("Price") { .string("$\(String(format: "%.2f", $0.price))") },
-    .init("Discount") { .string("\(Int($0.discount * 100))%") },
+    .init("Price") { "$\(String(format: "%.2f", $0.price))" },
+    .init("Discount") { "\(Int($0.discount * 100))%" },
     .init("Final") {
         let final = $0.price * (1 - $0.discount)
-        return .string("$\(String(format: "%.2f", final))")
+        return "$\(String(format: "%.2f", final))"
     }
 ]
 ```
@@ -161,15 +161,17 @@ The type affects **sorting behavior**:
 
 ### Explicit Type Control
 
-When your closure returns a value, wrap it in the appropriate type:
+For computed values where you need specific sorting behavior, you can explicitly specify the type:
 
 ```swift
-// String sorting (alphabetical): "10" < "2" < "9"
-.init("ID") { .string(String($0.id)) }
+// Computed numeric with numeric sorting: 2 < 9 < 10
+.init("Total Score") { .int($0.points + $0.bonus) }
 
-// Integer sorting (numeric): 2 < 9 < 10
-.init("ID") { .int($0.id) }
+// Formatted string with alphabetical sorting: "10" < "2" < "9"
+.init("ID") { String($0.id) }
 ```
+
+> Note: For simple properties, use keypaths instead - they preserve the correct type automatically.
 
 ## Best Practices
 
@@ -209,12 +211,12 @@ Column headers should be concise but descriptive:
 Make numbers easy to scan:
 
 ```swift
-// Good - formatted
-.init("Revenue") { .string("$\($0.revenue.formatted())") }
-.init("Growth") { .string("\(String(format: "%.1f", $0.growth))%") }
+// Good - formatted strings
+.init("Revenue") { "$\($0.revenue.formatted())" }
+.init("Growth") { "\(String(format: "%.1f", $0.growth))%" }
 
 // Avoid - raw numbers
-.init("Revenue") { .double($0.revenue) }  // Shows "1234567.89"
+.init("Revenue", \.revenue)  // Shows "1234567.89"
 ```
 
 ## See Also

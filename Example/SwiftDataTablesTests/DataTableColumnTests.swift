@@ -92,10 +92,8 @@ final class DataTableColumnTests: XCTestCase {
 
     // MARK: - Custom Extraction Tests
 
-    func test_column_withCustomExtract_usesProvidedClosure() {
-        let column = DataTableColumn<TestPerson>("Full Info") { person in
-            .string("\(person.name) (\(person.age))")
-        }
+    func test_column_withCustomExtract_returningString() {
+        let column = DataTableColumn<TestPerson>("Full Info") { "\($0.name) (\($0.age))" }
         let person = TestPerson(id: 1, name: "Frank", age: 40, score: 80.0, nickname: nil)
 
         let result = column.extract?(person)
@@ -103,15 +101,41 @@ final class DataTableColumnTests: XCTestCase {
         XCTAssertEqual(result, .string("Frank (40)"))
     }
 
-    func test_column_withCustomExtract_canReturnDifferentTypes() {
-        let doubleAgeColumn = DataTableColumn<TestPerson>("Double Age") { person in
-            .int(person.age * 2)
-        }
+    func test_column_withCustomExtract_returningFormattedCurrency() {
+        let column = DataTableColumn<TestPerson>("Salary") { "£\($0.age * 1000)" }
+        let person = TestPerson(id: 1, name: "Grace", age: 50, score: 75.0, nickname: nil)
+
+        let result = column.extract?(person)
+
+        XCTAssertEqual(result, .string("£50000"))
+    }
+
+    func test_column_withCustomExtract_returningInt() {
+        let column = DataTableColumn<TestPerson>("Double Age") { $0.age * 2 }
         let person = TestPerson(id: 1, name: "Grace", age: 20, score: 75.0, nickname: nil)
 
-        let result = doubleAgeColumn.extract?(person)
+        let result = column.extract?(person)
 
         XCTAssertEqual(result, .int(40))
+    }
+
+    func test_column_withCustomExtract_returningDouble() {
+        let column = DataTableColumn<TestPerson>("Bonus") { $0.score * 1.5 }
+        let person = TestPerson(id: 1, name: "Henry", age: 30, score: 100.0, nickname: nil)
+
+        let result = column.extract?(person)
+
+        XCTAssertEqual(result, .double(150.0))
+    }
+
+    func test_column_withCustomExtract_explicitDataTableValueType() {
+        // For cases where explicit type control is needed (e.g., numeric sorting)
+        let column = DataTableColumn<TestPerson>("Score") { .int(Int($0.score)) }
+        let person = TestPerson(id: 1, name: "Iris", age: 25, score: 95.7, nickname: nil)
+
+        let result = column.extract?(person)
+
+        XCTAssertEqual(result, .int(95))
     }
 
     // MARK: - Header-Only Column Tests

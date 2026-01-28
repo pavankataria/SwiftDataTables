@@ -10,7 +10,7 @@ The powerful, flexible data table component that iOS deserves.
 
 ## Overview
 
-SwiftDataTables lets you display grid-like data with sorting, searching, and smooth animations — all in just a few lines of code. Whether you're building a dashboard, admin panel, or data-heavy app, SwiftDataTables handles the complexity so you can focus on your app.
+SwiftDataTables lets you display beautiful, interactive data tables in just a few lines of code. Whether you're building a dashboard, admin panel, or data-heavy app, SwiftDataTables handles the complexity so you can focus on your app.
 
 ```swift
 let dataTable = SwiftDataTable(
@@ -18,74 +18,96 @@ let dataTable = SwiftDataTable(
     columns: [
         .init("Name", \.name),
         .init("Role", \.role),
-        .init("Salary") { .string("$\($0.salary)") }
+        .init("Salary") { "$\($0.salary)" }
     ]
 )
 ```
 
-### Why SwiftDataTables?
+That's it. You now have a fully functional data table with sorting, searching, and smooth 60fps scrolling.
 
-- **5 lines of code** to add a full-featured data table
-- **100,000+ rows** with smooth 60fps scrolling
-- **Type-safe API** with `Identifiable`, key paths, and modern Swift
+## Why SwiftDataTables?
+
+### Get Started in Minutes
+
+No complex setup. No boilerplate. Just create a table, add your data, and you're done. The <doc:GettingStarted> guide will have you displaying data in under 5 minutes.
+
+### Built for Real Apps
+
+- **100,000+ rows** with lazy measurement and smooth scrolling
+- **Type-safe API** using `Identifiable`, key paths, and modern Swift
 - **Animated updates** that preserve scroll position
+- **Fixed columns** for keeping identifiers visible
+- **Built-in search** with native or embedded styles
+
+### Production Ready
+
+SwiftDataTables is battle-tested and actively maintained. It supports iOS 12+ and works seamlessly with both UIKit and SwiftUI (via `UIViewRepresentable`).
+
+## What's in This Documentation
+
+Find what you need based on what you're trying to do:
+
+- **Getting Started** – Setup and first table
+- **Data** – Columns, updates, and animated diffing
+- **Layout** – Column widths, row heights, text wrapping
+- **Cells** – Custom cells with Auto Layout
+- **Interaction** – Selection, sorting, search
+
+Every feature is designed to be easy to use. Custom cells and automatic heights aren't "advanced" – they're just different tools for different needs.
 
 ## Topics
 
-### Essentials
-
-Start here to get up and running quickly.
+### Getting Started
 
 - <doc:GettingStarted>
 - <doc:QuickStart>
-- ``SwiftDataTable``
 
-### Displaying Data
-
-Learn the different ways to populate your table.
+### Data
 
 - <doc:WorkingWithData>
 - <doc:TypeSafeColumns>
-- ``DataTableColumn``
-- ``DataTableValueType``
-
-### Updating Data
-
-Handle dynamic data with smooth animations.
-
 - <doc:AnimatedUpdates>
 - <doc:IncrementalUpdates>
 
-### Layout and Sizing
-
-Control how your table looks and fits content.
+### Layout
 
 - <doc:ColumnWidths>
 - <doc:RowHeights>
 - <doc:TextWrapping>
-- ``DataTableConfiguration``
+- <doc:FixedColumns>
 
-### Advanced Features
-
-Unlock the full power of SwiftDataTables.
+### Cells
 
 - <doc:CustomCells>
 - <doc:LargeDatasets>
-- <doc:FixedColumns>
-- <doc:SearchIntegration>
+
+### Interaction
+
+- <doc:RowSelection>
 - <doc:ColumnSorting>
+- <doc:SearchIntegration>
 
-### Configuration
+### Styling
 
-Fine-tune every aspect of your table.
+- <doc:Styling>
 
+### Patterns
+
+- <doc:AdvancedPatterns>
+
+### Reference
+
+- <doc:ConfigurationReference>
+- ``SwiftDataTable``
+- ``DataTableColumn``
+- ``DataTableValueType``
 - ``DataTableConfiguration``
 - ``DataTableRowHeightMode``
 - ``DataTableColumnWidthMode``
 - ``DataTableTextLayout``
+- ``DataTableFixedColumnType``
+- ``SwiftDataTableDelegate``
 
 ### Migration
-
-Upgrading from an earlier version? Start here.
 
 - <doc:MigratingTo09>

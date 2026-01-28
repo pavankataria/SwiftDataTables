@@ -71,10 +71,10 @@ Define columns using KeyPaths or custom closures:
 DataTableColumn("Name", \.name)
 DataTableColumn("Age", \.age)
 
-// Custom extraction for computed values
-DataTableColumn("Full Name") { user in
-    .string("\(user.firstName) \(user.lastName)")
-}
+// Custom extraction - return any DataTableValueConvertible type directly
+DataTableColumn("Full Name") { "\($0.firstName) \($0.lastName)" }
+DataTableColumn("Salary") { "£\($0.salary)" }
+DataTableColumn("Total") { $0.price * $0.quantity }
 
 // Header-only for custom cell columns
 DataTableColumn<User>("Actions")
@@ -713,12 +713,6 @@ The layout engine has been completely refactored for optimal scrolling performan
 dependencies: [
     .package(url: "https://github.com/pavankataria/SwiftDataTables.git", from: "0.9.0")
 ]
-```
-
-### CocoaPods
-
-```ruby
-pod 'SwiftDataTables', '~> 0.9'
 ```
 
 ---

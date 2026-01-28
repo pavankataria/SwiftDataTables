@@ -56,11 +56,30 @@ public struct DataTableColumn<T> {
 
     /// Creates a column with a custom extraction closure.
     ///
-    /// Use this for computed or transformed values:
+    /// Use this for computed or transformed values. The closure can return
+    /// any type conforming to `DataTableValueConvertible`:
+    ///
     /// ```swift
-    /// DataTableColumn("Full Name") { user in
-    ///     .string("\(user.firstName) \(user.lastName)")
-    /// }
+    /// // Return String directly - no wrapping needed
+    /// DataTableColumn("Full Name") { "\($0.firstName) \($0.lastName)" }
+    ///
+    /// // Return formatted values
+    /// DataTableColumn("Salary") { "£\($0.salary)" }
+    ///
+    /// // Computed numeric values work too
+    /// DataTableColumn("Total") { $0.price * $0.quantity }
+    /// ```
+    public init<V: DataTableValueConvertible>(_ header: String, extract: @escaping (T) -> V) {
+        self.header = header
+        self.extract = { extract($0).asDataTableValue() }
+    }
+
+    /// Creates a column with explicit `DataTableValueType` extraction.
+    ///
+    /// Use this when you need explicit control over the value type for sorting:
+    /// ```swift
+    /// // Numeric sorting on computed value
+    /// DataTableColumn("Score") { .int($0.points + $0.bonus) }
     /// ```
     public init(_ header: String, extract: @escaping (T) -> DataTableValueType) {
         self.header = header

@@ -76,7 +76,7 @@ config.maxColumnWidth = 300  // Prevent super-wide columns
 let columns: [DataTableColumn<Note>] = [
     .init("Title", \.title),
     .init("Content", \.content),
-    .init("Date") { .string($0.date.formatted()) }
+    .init("Date") { $0.date.formatted() }
 ]
 
 let dataTable = SwiftDataTable(data: notes, columns: columns, options: config)

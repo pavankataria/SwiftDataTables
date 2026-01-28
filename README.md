@@ -48,6 +48,10 @@ Display grid-like data with sorting, searching, and smooth animations - all in j
 
 > **New in v0.9.0**: Type-safe columns, animated diffing, self-sizing cells for 100k+ rows, and more.
 
+## Documentation
+
+**[View Full Documentation](https://pavankataria.github.io/SwiftDataTables/)** - Comprehensive guides, complete API reference, and real-world examples.
+
 ## Why SwiftDataTables?
 
 - **Drop-in ready** - Add a full-featured data table in 5 lines of code
@@ -104,7 +108,7 @@ struct Employee: Identifiable {
 let columns: [DataTableColumn<Employee>] = [
     .init("Name", \.name),
     .init("Role", \.role),
-    .init("Salary") { .string("£\($0.salary)") }
+    .init("Salary") { "£\($0.salary)" }
 ]
 
 let dataTable = SwiftDataTable(data: employees, columns: columns)

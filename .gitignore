@@ -40,7 +40,9 @@ Carthage
 .claude
 
 # Documentation (local only)
-docs/
+my-docs/
 
 # Local Xcode config (development team, etc)
 Example/Local.xcconfig
+.vscode/
+INSTRUCTIONS.md
