@@ -140,7 +140,7 @@ Instead of reloading all data, use `setData` with diffing:
 
 ```swift
 // Good - only changed rows update
-dataTable.setData(newItems, columns: columns, animatingDifferences: false)
+dataTable.setData(newItems, animatingDifferences: false)
 
 // Avoid - reloads everything
 dataTable.reload()  // Deprecated
@@ -196,7 +196,7 @@ class LargeDatasetVC: UIViewController {
         // Fixed heights are even faster if content is uniform
         // config.rowHeightMode = .fixed(44)
 
-        dataTable = SwiftDataTable(data: data, columns: columns, options: config)
+        dataTable = SwiftDataTable(data: data, options: config)
         view.addSubview(dataTable)
         dataTable.frame = view.bounds
     }
@@ -212,7 +212,7 @@ class LargeDatasetVC: UIViewController {
             )
         }
 
-        dataTable.setData(data, columns: columns)
+        dataTable.setData(data)
     }
 }
 ```

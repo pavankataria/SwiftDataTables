@@ -82,22 +82,7 @@ Display grid-like data with sorting, searching, and smooth animations - all in j
 ```swift
 import SwiftDataTables
 
-// Simple array-based table
-let data = [
-    ["Alice", "Engineer", "London"],
-    ["Bob", "Designer", "Paris"],
-    ["Carol", "Manager", "Berlin"]
-]
-let dataTable = SwiftDataTable(
-    data: data,
-    headerTitles: ["Name", "Role", "City"]
-)
-view.addSubview(dataTable)
-```
-
-Or with type-safe columns:
-
-```swift
+// Identifiable enables row tracking for animated updates
 struct Employee: Identifiable {
     let id: String
     let name: String
@@ -105,30 +90,33 @@ struct Employee: Identifiable {
     let salary: Int
 }
 
+// Key paths provide compile-time safety - typos caught at build time
 let columns: [DataTableColumn<Employee>] = [
     .init("Name", \.name),
     .init("Role", \.role),
-    .init("Salary") { "£\($0.salary)" }
+    .init("Salary") { "£\($0.salary)" }  // Closures for formatted values
 ]
 
-let dataTable = SwiftDataTable(data: employees, columns: columns)
+let dataTable = SwiftDataTable(columns: columns)
+view.addSubview(dataTable)
+
+// Rows animate in - scroll position preserved
+dataTable.setData(employees, animatingDifferences: true)
 ```
 
-Update data with animated diffing:
+Update data with animated diffing - SwiftDataTables calculates exactly what changed:
 
 ```swift
-// Load initial data
-var employees: [Employee] = []
-dataTable.setData(employees)
-
-// Fetch and update
+// Only changed rows animate - others stay in place
 employees = await api.fetchEmployees()
 dataTable.setData(employees, animatingDifferences: true)
 
-// Append new items
+// New row slides in at the end
 employees.append(newEmployee)
 dataTable.setData(employees, animatingDifferences: true)
 ```
+
+For dynamic data (CSV, JSON, queries), see [Working with Data](https://pavankataria.github.io/SwiftDataTables/documentation/swiftdatatables/workingwithdata).
 
 ## Install
 
@@ -305,7 +293,7 @@ SwiftDataTables supports native iOS navigation bar search via UISearchController
 override func viewDidLoad() {
     super.viewDidLoad()
 
-    let dataTable = SwiftDataTable(data: myData, headerTitles: headers)
+    let dataTable = SwiftDataTable(columns: columns)
     view.addSubview(dataTable)
 
     // One line to enable navigation bar search
@@ -331,7 +319,7 @@ navigationItem.searchController = searchController
 
 ## Data Source methods (Deprecated)
 
-> **Note**: The `SwiftDataTableDataSource` protocol is deprecated in v0.9.0. Use the direct data pattern with `init(data:headerTitles:)` or the typed API with `init(data:columns:)` instead. See the [Quick Start](#quick-start) section above for examples.
+> **Note**: The `SwiftDataTableDataSource` protocol is deprecated in v0.9.0. Use the typed API with `init(columns:)` and `setData(_:animatingDifferences:)` instead. See the [Quick Start](#quick-start) section above for examples.
 
 The deprecated protocol is shown below for reference:
 

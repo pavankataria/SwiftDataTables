@@ -26,13 +26,13 @@ let columns: [DataTableColumn<Item>] = [
 
 override func viewDidLoad() {
     super.viewDidLoad()
-    dataTable = SwiftDataTable(data: items, columns: columns)
+    dataTable = SwiftDataTable(data: items)
     view.addSubview(dataTable)
 }
 
 func refresh() {
     items = fetchNewItems()
-    dataTable.setData(items, columns: columns, animatingDifferences: true)
+    dataTable.setData(items, animatingDifferences: true)
 }
 ```
 
@@ -47,7 +47,7 @@ New items slide in smoothly:
 // After:  [A, B, X, C]  // X is new
 
 items.insert(newItem, at: 2)
-dataTable.setData(items, columns: columns, animatingDifferences: true)
+dataTable.setData(items, animatingDifferences: true)
 // X slides in between B and C
 ```
 
@@ -60,7 +60,7 @@ Removed items slide out:
 // After:  [A, C]  // B removed
 
 items.remove(at: 1)
-dataTable.setData(items, columns: columns, animatingDifferences: true)
+dataTable.setData(items, animatingDifferences: true)
 // B slides out, C moves up
 ```
 
@@ -73,7 +73,7 @@ Reordered items animate to new positions:
 // After:  [C, A, B]  // C moved to front
 
 items = [itemC, itemA, itemB]
-dataTable.setData(items, columns: columns, animatingDifferences: true)
+dataTable.setData(items, animatingDifferences: true)
 // C animates to top, A and B shift down
 ```
 
@@ -83,7 +83,7 @@ Changed values update in place without row animation:
 
 ```swift
 // Same items, but itemA.status changed from "Active" to "Inactive"
-dataTable.setData(items, columns: columns, animatingDifferences: true)
+dataTable.setData(items, animatingDifferences: true)
 // Only the status cell in row A updates
 ```
 
@@ -93,13 +93,13 @@ For bulk updates where animation would be distracting:
 
 ```swift
 // No animation - instant update
-dataTable.setData(items, columns: columns, animatingDifferences: false)
+dataTable.setData(items, animatingDifferences: false)
 ```
 
 Or use the shorter form:
 
 ```swift
-dataTable.setData(items, columns: columns)  // Defaults to false
+dataTable.setData(items)  // Defaults to false
 ```
 
 ## Scroll Position Preservation
@@ -117,7 +117,7 @@ Unlike the deprecated `reload()` method, `setData` preserves scroll position:
 Execute code after the animation completes:
 
 ```swift
-dataTable.setData(items, columns: columns, animatingDifferences: true) {
+dataTable.setData(items, animatingDifferences: true) {
     // Animation complete
     self.updateLoadingState()
 }
@@ -133,7 +133,7 @@ dataTable.setData(items, columns: columns, animatingDifferences: true) {
         let newItems = await api.fetchItems()
         await MainActor.run {
             items = newItems
-            dataTable.setData(items, columns: columns, animatingDifferences: true) {
+            dataTable.setData(items, animatingDifferences: true) {
                 refreshControl.endRefreshing()
             }
         }
@@ -148,7 +148,7 @@ func observeChanges() {
     database.observe { [weak self] snapshot in
         guard let self else { return }
         self.items = snapshot.items
-        self.dataTable.setData(self.items, columns: self.columns, animatingDifferences: true)
+        self.dataTable.setData(self.items, animatingDifferences: true)
     }
 }
 ```
@@ -159,7 +159,7 @@ func observeChanges() {
 func deleteItem(_ item: Item) {
     // Immediately remove from UI
     items.removeAll { $0.id == item.id }
-    dataTable.setData(items, columns: columns, animatingDifferences: true)
+    dataTable.setData(items, animatingDifferences: true)
 
     // Then sync with server
     Task {
@@ -168,7 +168,7 @@ func deleteItem(_ item: Item) {
         } catch {
             // Rollback on failure
             items.append(item)
-            dataTable.setData(items, columns: columns, animatingDifferences: true)
+            dataTable.setData(items, animatingDifferences: true)
             showError(error)
         }
     }
@@ -184,9 +184,9 @@ For very large changes (1000+ rows), consider:
 ```swift
 if changes.count > 500 {
     // Skip animation for massive updates
-    dataTable.setData(items, columns: columns, animatingDifferences: false)
+    dataTable.setData(items, animatingDifferences: false)
 } else {
-    dataTable.setData(items, columns: columns, animatingDifferences: true)
+    dataTable.setData(items, animatingDifferences: true)
 }
 ```
 
@@ -207,7 +207,7 @@ func queueUpdate(_ items: [Item]) {
 }
 
 func applyPendingUpdate() {
-    dataTable.setData(pendingItems, columns: columns, animatingDifferences: true)
+    dataTable.setData(pendingItems, animatingDifferences: true)
 }
 ```
 
@@ -239,4 +239,4 @@ If scroll position isn't preserved, ensure you're not calling `reload()` (deprec
 
 - <doc:TypeSafeColumns>
 - <doc:IncrementalUpdates>
-- ``SwiftDataTable/setData(_:columns:animatingDifferences:completion:)-7kg3f``
+- ``SwiftDataTable/setData(_:animatingDifferences:completion:)-7kg3f``

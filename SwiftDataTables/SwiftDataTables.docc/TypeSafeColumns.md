@@ -77,7 +77,7 @@ let people = [
     Person(id: 3, name: "Carol", age: 25, city: "Berlin")
 ]
 
-let dataTable = SwiftDataTable(data: people, columns: columns)
+let dataTable = SwiftDataTable(data: people)
 ```
 
 ## The Identifiable Requirement
@@ -115,17 +115,18 @@ struct User: Identifiable {
 
 ## Updating Data
 
-Use `setData(_:columns:animatingDifferences:)` to update:
+Use `setData(_:animatingDifferences:)` to update:
 
 ```swift
-// Initial load
-var employees: [Employee] = []
-dataTable.setData(employees, columns: columns)
+// Create table with columns (data optional)
+let dataTable = SwiftDataTable(columns: columns)
 
-// Later, update with animation
-employees = await api.fetchEmployees()
-dataTable.setData(employees, columns: columns, animatingDifferences: true)
+// Later, load data with animation
+let employees = await api.fetchEmployees()
+dataTable.setData(employees, animatingDifferences: true)
 ```
+
+Columns are stored at init time, so you only pass data when updating.
 
 ### What Gets Animated
 
@@ -187,7 +188,7 @@ class EmployeeListVC: UIViewController {
     ]
 
     func updateData(_ employees: [Employee]) {
-        dataTable.setData(employees, columns: columns, animatingDifferences: true)
+        dataTable.setData(employees, animatingDifferences: true)
     }
 }
 ```

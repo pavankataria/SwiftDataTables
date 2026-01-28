@@ -9,7 +9,7 @@ Sorting is enabled by default. Users tap a column header to sort ascending, tap 
 ## Default Behavior
 
 ```swift
-let dataTable = SwiftDataTable(data: myData, headerTitles: headers)
+let dataTable = SwiftDataTable(columns: columns)
 // Sorting is enabled automatically
 ```
 

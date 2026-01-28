@@ -6,27 +6,37 @@ Jump straight into code with these ready-to-use examples.
 
 This page provides copy-paste examples for common scenarios. Each example is self-contained and ready to use.
 
-## Basic Table with String Arrays
+## Basic Table
 
-The simplest way to display data:
+The simplest way to display data. Models conform to `Identifiable` so SwiftDataTables can track rows for animated updates:
 
 ```swift
 import SwiftDataTables
 
+struct Product: Identifiable {
+    let id: Int
+    let name: String
+    let price: Int
+    let status: String
+}
+
 class BasicTableViewController: UIViewController {
+    let products = [
+        Product(id: 1, name: "iPhone 15", price: 999, status: "In Stock"),
+        Product(id: 2, name: "MacBook Pro", price: 1999, status: "Limited"),
+        Product(id: 3, name: "iPad Air", price: 599, status: "In Stock")
+    ]
+
+    let columns: [DataTableColumn<Product>] = [
+        .init("Product", \.name),
+        .init("Price") { "$\($0.price)" },
+        .init("Status", \.status)
+    ]
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let data = [
-            ["iPhone 15", "999", "In Stock"],
-            ["MacBook Pro", "1999", "Limited"],
-            ["iPad Air", "599", "In Stock"]
-        ]
-
-        let dataTable = SwiftDataTable(
-            data: data,
-            headerTitles: ["Product", "Price", "Status"]
-        )
+        let dataTable = SwiftDataTable(data: products, columns: columns)
 
         view.addSubview(dataTable)
         dataTable.frame = view.bounds
@@ -37,7 +47,7 @@ class BasicTableViewController: UIViewController {
 
 ## Type-Safe Table with Models
 
-Use your own model types for compile-time safety:
+Key paths like `\.name` give you compile-time safety - if you rename a property, Xcode catches it immediately instead of failing silently at runtime:
 
 ```swift
 import SwiftDataTables
@@ -77,7 +87,7 @@ class TypedTableViewController: UIViewController {
 
 ## Dynamic Updates with Animation
 
-Update data smoothly without losing scroll position:
+Because your model is `Identifiable`, SwiftDataTables calculates exactly what changed and animates only those rows. Scroll position is preserved - your users won't lose their place:
 
 ```swift
 class DynamicTableViewController: UIViewController {
@@ -93,7 +103,7 @@ class DynamicTableViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        dataTable = SwiftDataTable(data: employees, columns: columns)
+        dataTable = SwiftDataTable(data: employees)
         view.addSubview(dataTable)
         dataTable.frame = view.bounds
 
@@ -111,7 +121,7 @@ class DynamicTableViewController: UIViewController {
         employees = fetchEmployeesFromAPI()
 
         // Update with animation - scroll position preserved!
-        dataTable.setData(employees, columns: columns, animatingDifferences: true)
+        dataTable.setData(employees, animatingDifferences: true)
     }
 }
 ```
@@ -155,11 +165,7 @@ class CustomTableViewController: UIViewController {
             UIColor.systemGray6
         ]
 
-        let dataTable = SwiftDataTable(
-            data: myData,
-            headerTitles: headers,
-            options: config
-        )
+        let dataTable = SwiftDataTable(data: items, columns: columns, options: config)
 
         view.addSubview(dataTable)
     }
@@ -177,7 +183,7 @@ class SearchTableViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        dataTable = SwiftDataTable(data: myData, headerTitles: headers)
+        dataTable = SwiftDataTable(columns: columns)
         view.addSubview(dataTable)
         dataTable.frame = view.bounds
 
@@ -204,7 +210,7 @@ config.fixedColumns = .both(left: 1, right: 1)
 
 ## Large Datasets (100k+ Rows)
 
-Optimize for massive datasets:
+For massive datasets, use lazy measurement. Only visible rows are measured; others use the estimated height until they scroll into view. The `prefetchWindow` controls how many rows ahead to pre-measure:
 
 ```swift
 var config = DataTableConfiguration()

@@ -11,7 +11,7 @@ Complete reference of all configuration options in DataTableConfiguration.
 ```swift
 var config = DataTableConfiguration()
 // Modify properties...
-let dataTable = SwiftDataTable(data: myData, headerTitles: headers, options: config)
+let dataTable = SwiftDataTable(columns: columns, options: config)
 ```
 
 ## Sorting Options

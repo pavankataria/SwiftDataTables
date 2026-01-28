@@ -13,7 +13,7 @@ var config = DataTableConfiguration()
 config.textLayout = .wrap
 config.rowHeightMode = .automatic(estimated: 60)
 
-let dataTable = SwiftDataTable(data: myData, headerTitles: headers, options: config)
+let dataTable = SwiftDataTable(columns: columns, options: config)
 ```
 
 ## Text Layout Options

@@ -66,7 +66,7 @@ class DashboardVC: UIViewController, SwiftDataTableDelegate {
             UIColor.systemGreen.withAlphaComponent(0.15)
         ]
 
-        dataTable = SwiftDataTable(data: metrics, columns: columns, options: config)
+        dataTable = SwiftDataTable(data: metrics, options: config)
         dataTable.delegate = self
         setupLayout()
     }
@@ -101,7 +101,7 @@ class LiveDataVC: UIViewController {
         config.shouldSearchHeaderFloat = true
         config.rowHeightMode = .fixed(36)  // Compact rows
 
-        dataTable = SwiftDataTable(data: items, columns: columns, options: config)
+        dataTable = SwiftDataTable(data: items, options: config)
         setupLayout()
 
         // Start polling
@@ -120,7 +120,7 @@ class LiveDataVC: UIViewController {
             await MainActor.run {
                 items = newItems
                 // Animated update preserves scroll position
-                dataTable.setData(items, columns: columns, animatingDifferences: true)
+                dataTable.setData(items, animatingDifferences: true)
             }
         }
     }
@@ -200,7 +200,7 @@ class MasterVC: UIViewController, SwiftDataTableDelegate {
         var config = DataTableConfiguration()
         config.shouldShowFooter = false
 
-        dataTable = SwiftDataTable(data: items, columns: columns, options: config)
+        dataTable = SwiftDataTable(data: items, options: config)
         dataTable.delegate = self
         setupLayout()
     }
@@ -251,7 +251,7 @@ class FilteredTableVC: UIViewController {
         super.viewDidLoad()
         navigationItem.titleView = segmentedControl
 
-        dataTable = SwiftDataTable(data: allItems, columns: columns)
+        dataTable = SwiftDataTable(data: allItems)
         setupLayout()
     }
 
@@ -270,7 +270,7 @@ class FilteredTableVC: UIViewController {
             filtered = allItems.filter { $0.isCompleted }
         }
 
-        dataTable.setData(filtered, columns: columns, animatingDifferences: true)
+        dataTable.setData(filtered, animatingDifferences: true)
     }
 }
 ```
@@ -302,7 +302,7 @@ class LargeDatasetVC: UIViewController {
         )
         config.lockColumnWidthsAfterFirstLayout = true
 
-        dataTable = SwiftDataTable(data: [], columns: columns, options: config)
+        dataTable = SwiftDataTable(data: [], options: config)
         setupLayout()
 
         // Show loading state
@@ -314,7 +314,7 @@ class LargeDatasetVC: UIViewController {
             await MainActor.run {
                 self.hideLoadingIndicator()
                 self.items = loaded
-                self.dataTable.setData(loaded, columns: self.columns, animatingDifferences: false)
+                self.dataTable.setData(loaded, animatingDifferences: false)
             }
         }
     }
@@ -366,7 +366,7 @@ class EmployeeListVC: UIViewController, SwiftDataTableDelegate {
             index == 2 ? .fixed(width: 120) : nil
         }
 
-        dataTable = SwiftDataTable(data: employees, columns: columns, options: config)
+        dataTable = SwiftDataTable(data: employees, options: config)
         dataTable.delegate = self
         setupLayout()
     }
@@ -400,7 +400,7 @@ class EmployeeListVC: UIViewController, SwiftDataTableDelegate {
 
     func deleteEmployee(at index: Int) {
         employees.remove(at: index)
-        dataTable.setData(employees, columns: columns, animatingDifferences: true)
+        dataTable.setData(employees, animatingDifferences: true)
     }
 }
 ```
@@ -429,7 +429,7 @@ class AccessibleTableVC: UIViewController {
             UIColor.label.withAlphaComponent(0.05)
         ]
 
-        dataTable = SwiftDataTable(data: myData, headerTitles: headers, options: config)
+        dataTable = SwiftDataTable(columns: columns, options: config)
 
         // VoiceOver support
         dataTable.isAccessibilityElement = false

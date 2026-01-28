@@ -49,7 +49,7 @@ items.remove(at: 5)
 items.append(newItem)
 
 // One call handles all changes efficiently
-dataTable.setData(items, columns: columns, animatingDifferences: true)
+dataTable.setData(items, animatingDifferences: true)
 ```
 
 ## When to Use Each Approach

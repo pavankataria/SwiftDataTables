@@ -254,6 +254,25 @@ public class SwiftDataTable: UIView {
         self.registerObservers()
     }
     
+    /// Creates a data table with raw array data and header titles.
+    ///
+    /// - Important: This initializer is deprecated. Use the type-safe column API instead:
+    ///   ```swift
+    ///   let columns: [DataTableColumn<YourModel>] = [
+    ///       .init("Name", \.name),
+    ///       .init("Age", \.age)
+    ///   ]
+    ///   let table = SwiftDataTable(columns: columns)
+    ///   table.setData(yourModels, animatingDifferences: true)
+    ///   ```
+    ///
+    /// The type-safe API provides:
+    /// - Automatic diffing with animated updates
+    /// - Type safety via generics and KeyPaths
+    /// - No manual array conversion
+    ///
+    /// For dynamic data (CSV, JSON, database queries), see <doc:WorkingWithData>.
+    @available(*, deprecated, message: "Use init(columns:) with DataTableColumn<T> for type-safe diffing. See documentation for migrating dynamic data.")
     public init(data: DataTableContent,
                 headerTitles: [String],
                 options: DataTableConfiguration = DataTableConfiguration(),
@@ -266,6 +285,11 @@ public class SwiftDataTable: UIView {
         
         
     }
+    /// Creates a data table with string array data and header titles.
+    ///
+    /// - Important: This initializer is deprecated. Use the type-safe column API instead.
+    ///   See ``init(data:headerTitles:options:frame:)-7kg3f`` for migration guidance.
+    @available(*, deprecated, message: "Use init(columns:) with DataTableColumn<T> for type-safe diffing.")
     public convenience init(data: [[String]],
                             headerTitles: [String],
                             options: DataTableConfiguration = DataTableConfiguration(),

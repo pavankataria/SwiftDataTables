@@ -16,7 +16,7 @@ class MyViewController: UIViewController, SwiftDataTableDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        dataTable = SwiftDataTable(data: myData, headerTitles: headers)
+        dataTable = SwiftDataTable(columns: columns)
         dataTable.delegate = self
     }
 }

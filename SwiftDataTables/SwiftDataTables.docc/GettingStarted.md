@@ -33,26 +33,37 @@ dependencies: [
 import SwiftDataTables
 ```
 
-### Step 2: Create Sample Data
+### Step 2: Define Your Model
 
-SwiftDataTables works with simple 2D arrays:
+Your model must conform to `Identifiable`. This enables SwiftDataTables to track individual rows - when you update data, rows animate smoothly (insertions slide in, deletions slide out) instead of the whole table reloading.
 
 ```swift
-let data = [
-    ["Alice", "Engineer", "London"],
-    ["Bob", "Designer", "Paris"],
-    ["Carol", "Manager", "Berlin"]
+struct Employee: Identifiable {
+    let id: Int  // Any Hashable type works: Int, String, UUID, etc.
+    let name: String
+    let role: String
+    let city: String
+}
+
+let employees = [
+    Employee(id: 1, name: "Alice", role: "Engineer", city: "London"),
+    Employee(id: 2, name: "Bob", role: "Designer", city: "Paris"),
+    Employee(id: 3, name: "Carol", role: "Manager", city: "Berlin")
 ]
-let headers = ["Name", "Role", "City"]
 ```
 
-### Step 3: Create the Table
+### Step 3: Define Columns and Create the Table
+
+Each `DataTableColumn` defines a column header and how to extract the value from your model. Using key paths (`\.name`) gives you compile-time safety - typos are caught at build time, not runtime.
 
 ```swift
-let dataTable = SwiftDataTable(
-    data: data,
-    headerTitles: headers
-)
+let columns: [DataTableColumn<Employee>] = [
+    .init("Name", \.name),      // Header: "Name", Value: employee.name
+    .init("Role", \.role),
+    .init("City", \.city)
+]
+
+let dataTable = SwiftDataTable(data: employees, columns: columns)
 ```
 
 ### Step 4: Add to Your View

@@ -18,7 +18,7 @@ var config = DataTableConfiguration()
 config.shouldShowSearchSection = true  // Default
 config.shouldSearchHeaderFloat = true  // Stays visible while scrolling
 
-let dataTable = SwiftDataTable(data: myData, headerTitles: headers, options: config)
+let dataTable = SwiftDataTable(columns: columns, options: config)
 ```
 
 ### Hiding the Search Bar
@@ -38,7 +38,7 @@ class MyViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        dataTable = SwiftDataTable(data: myData, headerTitles: headers)
+        dataTable = SwiftDataTable(columns: columns)
         view.addSubview(dataTable)
 
         // One line to enable navigation bar search

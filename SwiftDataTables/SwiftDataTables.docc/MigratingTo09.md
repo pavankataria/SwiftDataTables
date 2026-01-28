@@ -24,9 +24,39 @@ The following are deprecated and will be removed in a future version:
 
 | Deprecated | Replacement | Reason |
 |------------|-------------|--------|
+| `init(data:headerTitles:)` | `init(columns:)` | No diffing support, manual array conversion |
 | `SwiftDataTableDataSource` protocol | Direct data pattern | Boilerplate-heavy, no diffing |
 | `reload()` method | `setData(_:animatingDifferences:)` | Resets scroll, no animations |
 | `.largeScale()` | `.automatic(estimated:prefetchWindow:)` | Renamed for clarity |
+
+### Array-Based Initializer
+
+The array-based initializer is deprecated because:
+- No automatic diffing (can't track which rows changed)
+- Manual conversion required (model → array)
+- No type safety (easy to mix up column order)
+
+**Before (deprecated):**
+
+```swift
+let data: [[DataTableValueType]] = items.map { item in
+    [.string(item.name), .int(item.age)]
+}
+let table = SwiftDataTable(data: data, headerTitles: ["Name", "Age"])
+```
+
+**After (recommended):**
+
+```swift
+let columns: [DataTableColumn<Item>] = [
+    .init("Name", \.name),
+    .init("Age", \.age)
+]
+let table = SwiftDataTable(columns: columns)
+table.setData(items, animatingDifferences: true)
+```
+
+For dynamic data (CSV, JSON, database queries), see <doc:WorkingWithData>.
 
 ## Migration Path
 
@@ -73,7 +103,7 @@ class MyVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        dataTable = SwiftDataTable(data: items, columns: columns)
+        dataTable = SwiftDataTable(data: items)
     }
 }
 ```
@@ -115,7 +145,7 @@ func refresh() {
 ```swift
 func refresh() {
     items = fetchNewItems()
-    dataTable.setData(items, columns: columns, animatingDifferences: true)
+    dataTable.setData(items, animatingDifferences: true)
     // ✅ Smooth animation
     // ✅ Scroll position preserved
     // ✅ Only changed cells update
@@ -168,7 +198,7 @@ let oldTable = SwiftDataTable()
 oldTable.dataSource = self
 
 // New tables use direct data
-let newTable = SwiftDataTable(data: items, columns: columns)
+let newTable = SwiftDataTable(data: items)
 ```
 
 Migrate screen by screen as you update features.

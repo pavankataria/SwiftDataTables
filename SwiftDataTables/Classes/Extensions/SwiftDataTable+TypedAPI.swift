@@ -62,7 +62,7 @@ public extension SwiftDataTable {
     ///   - options: Configuration options for the table.
     ///   - frame: Initial frame for the view.
     convenience init<T: Identifiable>(
-        data: [T],
+        data: [T] = [],
         columns: [DataTableColumn<T>],
         options: DataTableConfiguration = DataTableConfiguration(),
         frame: CGRect = .zero
@@ -100,7 +100,6 @@ public extension SwiftDataTable {
     ///
     /// - Parameters:
     ///   - data: The new complete data set.
-    ///   - columns: Column definitions (uses stored columns if nil).
     ///   - animatingDifferences: Whether to animate the changes.
     ///   - completion: Called when the update completes.
     ///
@@ -115,18 +114,12 @@ public extension SwiftDataTable {
     /// ```
     func setData<T: Identifiable>(
         _ data: [T],
-        columns: [DataTableColumn<T>]? = nil,
         animatingDifferences: Bool = true,
         completion: ((Bool) -> Void)? = nil
     ) {
-        // Get column extractors
-        let columnDefs: [DataTableColumn<T>]
-        if let cols = columns {
-            columnDefs = cols
-        } else if let stored = getStoredColumns() as? [DataTableColumn<T>] {
-            columnDefs = stored
-        } else {
-            assertionFailure("No columns provided and no stored columns found. Provide columns parameter.")
+        // Get column extractors from stored context
+        guard let columnDefs = getStoredColumns() as? [DataTableColumn<T>] else {
+            assertionFailure("No stored columns found. Use init(columns:) to create the table first.")
             completion?(false)
             return
         }
@@ -185,23 +178,16 @@ public extension SwiftDataTable {
     ///
     /// - Parameters:
     ///   - data: The new complete data set.
-    ///   - columns: Column definitions (uses stored columns if nil).
     ///   - animatingDifferences: Whether to animate the changes.
     ///   - completion: Called when the update completes.
     func setData<T: DataTableDifferentiable>(
         _ data: [T],
-        columns: [DataTableColumn<T>]? = nil,
         animatingDifferences: Bool = true,
         completion: ((Bool) -> Void)? = nil
     ) {
-        // Get column extractors
-        let columnDefs: [DataTableColumn<T>]
-        if let cols = columns {
-            columnDefs = cols
-        } else if let stored = getStoredColumns() as? [DataTableColumn<T>] {
-            columnDefs = stored
-        } else {
-            assertionFailure("No columns provided and no stored columns found. Provide columns parameter.")
+        // Get column extractors from stored context
+        guard let columnDefs = getStoredColumns() as? [DataTableColumn<T>] else {
+            assertionFailure("No stored columns found. Use init(columns:) to create the table first.")
             completion?(false)
             return
         }
@@ -266,12 +252,45 @@ public extension SwiftDataTable {
     func allModels<T>() -> [T]? {
         return getStoredData() as? [T]
     }
+
+    // MARK: - Column Updates
+
+    /// Updates the column definitions and reloads the table.
+    ///
+    /// Use this when you need to change which columns are displayed or how
+    /// values are extracted. The table reloads completely with the new columns.
+    ///
+    /// - Parameters:
+    ///   - columns: New column definitions.
+    ///   - data: Optional new data. If nil, uses existing stored data.
+    func setColumns<T: Identifiable>(_ columns: [DataTableColumn<T>], data: [T]? = nil) {
+        let dataToUse = data ?? (getStoredData() as? [T]) ?? []
+
+        // Extract headers from columns
+        let headerTitles = columns.map { $0.header }
+
+        // Convert typed data to DataTableContent
+        let content: DataTableContent = dataToUse.map { item in
+            columns.map { column in
+                column.extract?(item) ?? .string("")
+            }
+        }
+
+        // Store new context
+        storeTypedContext(data: dataToUse, columns: columns)
+
+        // Update data with new headers
+        set(data: content, headerTitles: headerTitles)
+        reload()
+    }
 }
 
-// MARK: - Private Storage
+// MARK: - Internal Storage (visible to tests via @testable import)
 
-private extension SwiftDataTable {
+extension SwiftDataTable {
 
+    /// Stores typed data and column definitions for later retrieval.
+    /// - Note: Internal access for testing. Not part of public API.
     func storeTypedContext<T>(data: [T], columns: [DataTableColumn<T>]) {
         typedData = data
         typedColumns = columns

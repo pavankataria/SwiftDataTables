@@ -27,7 +27,7 @@ config.highlightedAlternatingRowColors = [
     UIColor.systemBlue.withAlphaComponent(0.12)
 ]
 
-let dataTable = SwiftDataTable(data: myData, headerTitles: headers, options: config)
+let dataTable = SwiftDataTable(columns: columns, options: config)
 ```
 
 ### More Than Two Colors
@@ -194,7 +194,7 @@ config.heightOfInterRowSpacing = 1
 config.heightForSectionHeader = 48
 config.heightForSectionFooter = 48
 
-let dataTable = SwiftDataTable(data: myData, headerTitles: headers, options: config)
+let dataTable = SwiftDataTable(columns: columns, options: config)
 ```
 
 ## Example: Minimal Style
@@ -215,7 +215,7 @@ config.shouldShowHorizontalScrollBars = false
 // No inter-row spacing
 config.heightOfInterRowSpacing = 0
 
-let dataTable = SwiftDataTable(data: myData, headerTitles: headers, options: config)
+let dataTable = SwiftDataTable(columns: columns, options: config)
 ```
 
 ## Example: High-Density Data
@@ -237,7 +237,7 @@ config.minColumnWidth = 50
 // Hide search to maximize data area
 config.shouldShowSearchSection = false
 
-let dataTable = SwiftDataTable(data: myData, headerTitles: headers, options: config)
+let dataTable = SwiftDataTable(columns: columns, options: config)
 ```
 
 ## See Also

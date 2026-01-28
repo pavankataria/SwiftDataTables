@@ -479,20 +479,14 @@ final class SwiftDataTableContentChangeTests: XCTestCase {
             .init("Price") { .double($0.price) }
         ]
 
-        let initialContent: DataTableContent = stocks.map {
-            [.string($0.symbol), .double($0.price)]
-        }
-        let table = makeSpyTableInWindow(data: initialContent, headerTitles: ["Symbol", "Price"])
-
-        // Seed identifiers + typed context
-        table.setData(stocks, columns: columns, animatingDifferences: false)
+        let table = makeSpyTableInWindow(data: stocks, columns: columns)
         table.spyCollectionView.resetTracking()
 
         // When: Update only one row
         stocks[1].price = 250
 
         let expectation = XCTestExpectation(description: "Diff completes")
-        table.setData(stocks, columns: columns, animatingDifferences: true) { _ in
+        table.setData(stocks, animatingDifferences: true) { _ in
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 1.0)
@@ -513,24 +507,40 @@ final class SwiftDataTableContentChangeTests: XCTestCase {
             .init("Price") { .double($0.price) }
         ]
 
-        let initialContent: DataTableContent = stocks.map {
-            [.string($0.symbol), .double($0.price)]
-        }
-        let table = makeSpyTableInWindow(data: initialContent, headerTitles: ["Symbol", "Price"])
-
-        table.setData(stocks, columns: columns, animatingDifferences: false)
+        let table = makeSpyTableInWindow(data: stocks, columns: columns)
         table.spyCollectionView.resetTracking()
 
         stocks[0].price = 105
 
         let expectation = XCTestExpectation(description: "Diff completes")
-        table.setData(stocks, columns: columns, animatingDifferences: true) { _ in
+        table.setData(stocks, animatingDifferences: true) { _ in
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 1.0)
 
         XCTAssertEqual(table.spyCollectionView.reloadedItems, [IndexPath(item: 1, section: 0)])
         XCTAssertTrue(table.spyCollectionView.reloadedSections.isEmpty)
+    }
+
+    func test_columnsOnlyInit_thenSetData_works() {
+        // Given: Columns defined, no initial data
+        let columns: [DataTableColumn<Stock>] = [
+            .init("Symbol", \.symbol),
+            .init("Price") { .double($0.price) }
+        ]
+
+        // When: Create table with columns only (no data)
+        let table = makeSpyTableInWindow(data: [] as [Stock], columns: columns)
+        XCTAssertEqual(table.numberOfRows(), 0)
+
+        // Then: setData populates the table
+        let stocks = [
+            Stock(id: "1", symbol: "AAPL", price: 100),
+            Stock(id: "2", symbol: "GOOGL", price: 200)
+        ]
+        table.setData(stocks, animatingDifferences: false)
+
+        XCTAssertEqual(table.numberOfRows(), 2)
     }
 
     func test_rowContentEqual_returnsTrue_forIdenticalRows() {
@@ -748,6 +758,22 @@ final class SwiftDataTableContentChangeTests: XCTestCase {
 
         return table
     }
+
+    private func makeSpyTableInWindow<T: Identifiable>(data: [T], columns: [DataTableColumn<T>]) -> SwiftDataTableCollectionViewSpy {
+        var config = DataTableConfiguration()
+        config.shouldShowSearchSection = false
+        config.rowHeightMode = .fixed(44)
+
+        let table = SwiftDataTableCollectionViewSpy(data: data, columns: columns, options: config)
+        table.frame = CGRect(x: 0, y: 0, width: 320, height: 480)
+
+        let window = UIWindow(frame: table.frame)
+        window.addSubview(table)
+        window.makeKeyAndVisible()
+        table.layoutIfNeeded()
+
+        return table
+    }
 }
 
 // MARK: - Spy Classes
@@ -794,7 +820,22 @@ private final class SwiftDataTableCollectionViewSpy: SwiftDataTable {
             collectionViewLayout: UICollectionViewFlowLayout()
         )
         super.init(data: data, headerTitles: headerTitles, options: options)
+        setupSpyCollectionView()
+    }
 
+    convenience init<T: Identifiable>(data: [T], columns: [DataTableColumn<T>], options: DataTableConfiguration) {
+        let headerTitles = columns.map { $0.header }
+        let content: DataTableContent = data.map { item in
+            columns.map { column in
+                column.extract?(item) ?? .string("")
+            }
+        }
+        self.init(data: content, headerTitles: headerTitles, options: options)
+        storeTypedContext(data: data, columns: columns)
+        seedRowIdentifiers(data.map { "\($0.id)" })
+    }
+
+    private func setupSpyCollectionView() {
         spyCollectionView.dataSource = self
         spyCollectionView.delegate = self
         spyCollectionView.backgroundColor = .clear

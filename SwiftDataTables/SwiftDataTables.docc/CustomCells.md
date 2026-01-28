@@ -104,7 +104,7 @@ var config = DataTableConfiguration()
 config.cellSizingMode = .autoLayout(provider: provider)
 config.rowHeightMode = .automatic(estimated: 60)
 
-let dataTable = SwiftDataTable(data: myData, headerTitles: headers, options: config)
+let dataTable = SwiftDataTable(columns: columns, options: config)
 ```
 
 ## How Auto Layout Sizing Works

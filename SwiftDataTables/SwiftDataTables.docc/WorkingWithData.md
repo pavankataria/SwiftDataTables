@@ -1,52 +1,14 @@
 # Working with Data
 
-Learn the different ways to provide data to your table.
+Learn how to provide data to your table using the type-safe API.
 
 ## Overview
 
-SwiftDataTables supports multiple data formats, from simple string arrays to type-safe model objects. Choose the approach that best fits your needs.
+SwiftDataTables uses a type-safe API with `DataTableColumn<T>` to define your table structure. This approach provides automatic diffing, animated updates, and compile-time safety.
 
-## Data Formats
+## Basic Usage
 
-### String Arrays (Simplest)
-
-For quick prototypes or simple data:
-
-```swift
-let data = [
-    ["Alice", "28", "London"],
-    ["Bob", "34", "Paris"],
-    ["Carol", "25", "Berlin"]
-]
-
-let dataTable = SwiftDataTable(
-    data: data,
-    headerTitles: ["Name", "Age", "City"]
-)
-```
-
-### DataTableValueType Arrays (Typed Values)
-
-For explicit control over sorting behavior:
-
-```swift
-let data: [[DataTableValueType]] = [
-    [.string("Alice"), .int(28), .string("London")],
-    [.string("Bob"), .int(34), .string("Paris")],
-    [.string("Carol"), .int(25), .string("Berlin")]
-]
-
-let dataTable = SwiftDataTable(
-    data: data,
-    headerTitles: ["Name", "Age", "City"]
-)
-```
-
-Using `.int()` instead of `.string("28")` ensures numeric sorting (2, 10, 25) instead of alphabetic ("10", "2", "25").
-
-### Model Objects (Recommended)
-
-For production apps, use your own model types:
+Define columns using KeyPaths, then pass your model array:
 
 ```swift
 struct Person: Identifiable {
@@ -56,58 +18,151 @@ struct Person: Identifiable {
     let city: String
 }
 
-let people = [
-    Person(id: 1, name: "Alice", age: 28, city: "London"),
-    Person(id: 2, name: "Bob", age: 34, city: "Paris"),
-    Person(id: 3, name: "Carol", age: 25, city: "Berlin")
-]
-
 let columns: [DataTableColumn<Person>] = [
     .init("Name", \.name),
     .init("Age", \.age),
     .init("City", \.city)
 ]
 
-let dataTable = SwiftDataTable(data: people, columns: columns)
+let dataTable = SwiftDataTable(columns: columns)
+
+// Load data later
+dataTable.setData(people, animatingDifferences: true)
 ```
+
+## Dynamic Data Sources
+
+For data without a predefined model (CSV files, JSON responses, database queries), create a wrapper struct:
+
+### CSV Import
+
+```swift
+/// Wrapper for CSV row data
+struct CSVRow: Identifiable {
+    let id: Int          // Row index as ID
+    let values: [String] // Column values
+}
+
+func loadCSV(from url: URL) {
+    let csvData = parseCSV(url)  // Your CSV parser
+    let headers = csvData.headers
+
+    // Create columns dynamically
+    let columns: [DataTableColumn<CSVRow>] = headers.enumerated().map { index, header in
+        .init(header) { row in
+            .string(row.values[index])
+        }
+    }
+
+    // Create rows with index as ID
+    let rows = csvData.rows.enumerated().map { index, values in
+        CSVRow(id: index, values: values)
+    }
+
+    dataTable = SwiftDataTable(columns: columns)
+    dataTable.setData(rows, animatingDifferences: false)
+}
+```
+
+### JSON Response
+
+```swift
+/// Wrapper for dynamic JSON objects
+struct JSONRow: Identifiable {
+    let id: String
+    let data: [String: Any]
+
+    func value(for key: String) -> DataTableValueType {
+        switch data[key] {
+        case let string as String: return .string(string)
+        case let int as Int: return .int(int)
+        case let double as Double: return .double(double)
+        default: return .string("")
+        }
+    }
+}
+
+func loadJSON(_ json: [[String: Any]], keys: [String]) {
+    let columns: [DataTableColumn<JSONRow>] = keys.map { key in
+        .init(key.capitalized) { row in
+            row.value(for: key)
+        }
+    }
+
+    let rows = json.enumerated().map { index, dict in
+        let id = (dict["id"] as? String) ?? "\(index)"
+        return JSONRow(id: id, data: dict)
+    }
+
+    dataTable = SwiftDataTable(columns: columns)
+    dataTable.setData(rows, animatingDifferences: false)
+}
+```
+
+### Database Query
+
+```swift
+/// Wrapper for database result rows
+struct QueryRow: Identifiable {
+    let id: Int64         // Primary key or row number
+    let columns: [String: DataTableValueType]
+}
+
+func executeQuery(_ sql: String, columnNames: [String]) async {
+    let results = await database.query(sql)
+
+    let columns: [DataTableColumn<QueryRow>] = columnNames.map { name in
+        .init(name) { row in
+            row.columns[name] ?? .string("")
+        }
+    }
+
+    let rows = results.enumerated().map { index, record in
+        QueryRow(
+            id: record.primaryKey ?? Int64(index),
+            columns: record.toDictionary()
+        )
+    }
+
+    dataTable = SwiftDataTable(columns: columns)
+    dataTable.setData(rows, animatingDifferences: false)
+}
+```
+
+## Why Use a Wrapper?
+
+The typed API requires `Identifiable` conformance for diffing. Wrapping dynamic data provides:
+
+| Benefit | Description |
+|---------|-------------|
+| **Diffing** | Rows can be tracked by ID for animated updates |
+| **Type Safety** | Compiler ensures column extractors match the row type |
+| **Performance** | Only changed rows update, not the entire table |
+| **Consistency** | Same API whether data is static or dynamic |
 
 ## Accessing Data
 
-### Get All Data
+### Get All Models
 
 ```swift
-// For typed tables
-let allPeople: [Person] = dataTable.allModels()
-
-// For array-based tables
-let rowCount = dataTable.currentRowCount
+if let allPeople: [Person] = dataTable.allModels() {
+    print("Total: \(allPeople.count)")
+}
 ```
 
 ### Get Specific Row
 
 ```swift
-// For typed tables
 if let person: Person = dataTable.model(at: 5) {
-    print("Row 5 is \(person.name)")
+    print("Row 5: \(person.name)")
 }
-
-// For array-based tables
-let rowData = dataTable.data(for: 5)  // Returns [DataTableValueType]
-```
-
-### Get Filtered Data
-
-After search/filter, access visible rows:
-
-```swift
-let visibleCount = dataTable.currentRowCount  // After filtering
 ```
 
 ## Data Transformations
 
 ### Formatting Values
 
-Use closures in column definitions:
+Use closures for formatted display:
 
 ```swift
 let columns: [DataTableColumn<Product>] = [
@@ -138,12 +193,6 @@ let columns: [DataTableColumn<Order>] = [
 ### Date Formatting
 
 ```swift
-struct Event: Identifiable {
-    let id: Int
-    let name: String
-    let date: Date
-}
-
 let dateFormatter: DateFormatter = {
     let f = DateFormatter()
     f.dateStyle = .medium
@@ -161,14 +210,12 @@ let columns: [DataTableColumn<Event>] = [
 Handle empty data gracefully:
 
 ```swift
-var items: [Item] = []
+// Create table with columns (no data yet)
+let dataTable = SwiftDataTable(columns: columns)
 
-// Table displays with headers but no rows
-dataTable.setData(items, columns: columns)
-
-// Later, populate
-items = fetchItems()
-dataTable.setData(items, columns: columns, animatingDifferences: true)
+// Later, populate with animation
+let items = await fetchItems()
+dataTable.setData(items, animatingDifferences: true)
 ```
 
 ## Data Validation
@@ -183,7 +230,7 @@ func setTableData(_ rawItems: [RawItem]) {
     // Transform to display model
     let displayItems = validItems.map { DisplayItem(from: $0) }
 
-    dataTable.setData(displayItems, columns: columns, animatingDifferences: true)
+    dataTable.setData(displayItems, animatingDifferences: true)
 }
 ```
 
@@ -191,4 +238,4 @@ func setTableData(_ rawItems: [RawItem]) {
 
 - <doc:TypeSafeColumns>
 - <doc:AnimatedUpdates>
-- ``DataTableValueType``
+- ``DataTableColumn``
