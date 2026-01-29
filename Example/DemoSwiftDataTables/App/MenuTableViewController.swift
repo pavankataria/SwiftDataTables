@@ -113,11 +113,12 @@ class MenuViewController: UITableViewController {
             ],
             // Section 6: Visual Styling
             [
+                MenuItem(title: "Cell Styling"),
                 MenuItem(title: "Sort Arrow Styling"),
                 MenuItem(
-                    title: "Alternating Row Colours",
+                    title: "Alternating Row Colours (Simple)",
                     config: configurationAlternatingColours(),
-                    description: "Custom rainbow alternating row colours. Set highlightedAlternatingRowColors and unhighlightedAlternatingRowColors."
+                    description: "Simple alternating row colours using highlightedAlternatingRowColors and unhighlightedAlternatingRowColors arrays. For more control (fonts, conditional styling), use defaultCellConfiguration instead - see Cell Styling demo."
                 ),
             ],
             // Section 7: Performance
@@ -273,8 +274,10 @@ extension MenuViewController {
     private func handleVisualStyling(row: Int) {
         switch row {
         case 0:
-            show(SortArrowStylingDemoViewController(), sender: self)
+            show(CellStylingDemoViewController(), sender: self)
         case 1:
+            show(SortArrowStylingDemoViewController(), sender: self)
+        case 2:
             let menuItem = menuItems[Section.visualStyling.rawValue][row]
             if let config = menuItem.config {
                 let instance = GenericDataTableViewController(

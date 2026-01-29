@@ -7,12 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [Unreleased] - v0.9.0: Self-Sizing Cells & Auto Layout
+## [0.9.0] - 2026-01-28: Self-Sizing Cells, Auto Layout & Default Cell Configuration
 
 ### Summary
 This release adds first-class support for **Auto Layout-driven cells** with automatic row heights and text wrapping. Use custom `UICollectionViewCell` subclasses with full constraint-based sizing to build rich, dynamic table layouts.
 
-Also includes: new column width strategy API, major performance optimizations for large datasets, and bug fixes.
+Also includes: **default cell configuration** for easy styling without custom cells, new column width strategy API, major performance optimizations for large datasets, and bug fixes.
 
 ### Column Width Mode API
 - Added `DataTableColumnWidthMode` with explicit text-based and Auto Layout-based sizing.
@@ -114,6 +114,19 @@ config.columnWidthMode = .fitContentText(strategy: .maxMeasured) // Use font mea
 
 ### Added
 
+- **`DataTableConfiguration.defaultCellConfiguration`** (`DefaultCellConfiguration`)
+  - Customise the default `DataCell` appearance without creating custom cell classes
+  - Set font, text colour, background colour, alignment, and more per-cell
+  - Callback receives `(cell, value, indexPath, isHighlighted)` for conditional styling
+  - Perfect for alternating row colours, highlighting negative values, per-column fonts
+  - See `DefaultCellConfiguration.md` documentation for examples
+
+- **`DataCell.dataLabel` now public**
+  - Access the label directly in `defaultCellConfiguration` to customise font, colour, alignment
+
+- **`DataCell.prepareForReuse()`**
+  - Resets label styling on cell reuse to prevent stale styles from persisting
+
 - **`DataTableConfiguration.columnWidthMode`** (`DataTableColumnWidthMode`)
   - Explicitly selects text measurement or Auto Layout measurement for column widths
   - Supports per-column overrides via `columnWidthModeProvider`
@@ -124,6 +137,16 @@ config.columnWidthMode = .fitContentText(strategy: .maxMeasured) // Use font mea
   - Before: `.init("Salary") { .string("£\($0.salary)") }`
   - After: `.init("Salary") { "£\($0.salary)" }`
   - Explicit `DataTableValueType` still supported for cases requiring specific sorting behaviour
+
+---
+
+### Deprecated
+
+- **`SwiftDataTableDelegate.dataTable(_:highlightedColorForRowIndex:)`**
+  - Use `DataTableConfiguration.defaultCellConfiguration` instead
+
+- **`SwiftDataTableDelegate.dataTable(_:unhighlightedColorForRowIndex:)`**
+  - Use `DataTableConfiguration.defaultCellConfiguration` instead
 
 ---
 

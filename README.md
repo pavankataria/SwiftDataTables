@@ -46,7 +46,7 @@ https://img.shields.io/cocoapods/p/SwiftDataTables.svg
 
 Display grid-like data with sorting, searching, and smooth animations - all in just a few lines of code. Whether you're building a dashboard, admin panel, or data-heavy app, SwiftDataTables handles the complexity so you can focus on your app.
 
-> **New in v0.9.0**: Type-safe columns, animated diffing, self-sizing cells for 100k+ rows, and more.
+> **New in v0.9.0**: Type-safe columns, animated diffing, self-sizing cells for 100k+ rows, default cell configuration for easy styling, and more.
 
 ## Documentation
 
@@ -243,6 +243,40 @@ config.rowHeightMode = .automatic(estimated: 60)
 **Row Height Modes:**
 - `.fixed(CGFloat)` - Fixed height for all rows (default: 44)
 - `.automatic(estimated:)` - Height varies per row based on content
+
+### Cell Styling
+
+Customise fonts, colours, and other cell properties without creating custom cell classes using `defaultCellConfiguration`:
+
+```swift
+var config = DataTableConfiguration()
+config.defaultCellConfiguration = { cell, value, indexPath, isHighlighted in
+    // Custom font
+    cell.dataLabel.font = UIFont(name: "Avenir-Medium", size: 14)
+
+    // Conditional text colour (e.g., red for negative values)
+    if let number = value.doubleValue, number < 0 {
+        cell.dataLabel.textColor = .systemRed
+    } else {
+        cell.dataLabel.textColor = .label
+    }
+
+    // Alternating row colours with highlight support
+    cell.backgroundColor = isHighlighted
+        ? .systemYellow.withAlphaComponent(0.15)
+        : (indexPath.item % 2 == 0 ? .systemGray6 : .systemBackground)
+}
+
+let dataTable = SwiftDataTable(columns: columns, options: config)
+```
+
+The callback receives:
+- `cell` - The `DataCell` instance (access `cell.dataLabel` for the label)
+- `value` - The `DataTableValueType` being displayed
+- `indexPath` - Position where `section` = column index, `item` = row index
+- `isHighlighted` - `true` if the cell is in a sorted column
+
+For most styling needs, `defaultCellConfiguration` is the recommended approach. If you need more advanced customisation like custom subviews, images, or buttons, see Custom Cells below.
 
 ### Custom Cells with Auto Layout
 

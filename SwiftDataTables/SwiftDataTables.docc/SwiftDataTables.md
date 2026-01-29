@@ -50,7 +50,7 @@ Find what you need based on what you're trying to do:
 - **Getting Started** – Setup and first table
 - **Data** – Columns, updates, and animated diffing
 - **Layout** – Column widths, row heights, text wrapping
-- **Cells** – Custom cells with Auto Layout
+- **Cells** – Cell configuration and custom layouts
 - **Interaction** – Selection, sorting, search
 
 Every feature is designed to be easy to use. Custom cells and automatic heights aren't "advanced" – they're just different tools for different needs.
@@ -78,6 +78,7 @@ Every feature is designed to be easy to use. Custom cells and automatic heights 
 
 ### Cells
 
+- <doc:DefaultCellConfiguration>
 - <doc:CustomCells>
 - <doc:LargeDatasets>
 

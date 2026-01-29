@@ -1624,12 +1624,21 @@ extension SwiftDataTable: UICollectionViewDataSource, UICollectionViewDelegate {
     }
     public func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         let cellViewModel = self.rowModel(at: indexPath)
-        
-        if cellViewModel.highlighted {
-            cell.contentView.backgroundColor = delegate?.dataTable?(self, highlightedColorForRowIndex: indexPath.item) ?? self.options.highlightedAlternatingRowColors[indexPath.section % self.options.highlightedAlternatingRowColors.count]
-        }
-        else {
-            cell.contentView.backgroundColor = delegate?.dataTable?(self, unhighlightedColorForRowIndex: indexPath.item) ?? self.options.unhighlightedAlternatingRowColors[indexPath.section % self.options.unhighlightedAlternatingRowColors.count]
+
+        // Use defaultCellConfiguration if set and using default cells
+        if case .defaultCell = options.cellSizingMode,
+           let dataCell = cell as? DataCell,
+           let configure = options.defaultCellConfiguration {
+            configure(dataCell, cellViewModel.data, indexPath, cellViewModel.highlighted)
+        } else {
+            // Fall back to deprecated colour arrays/delegates for backward compatibility
+            if cellViewModel.highlighted {
+                cell.contentView.backgroundColor = delegate?.dataTable?(self, highlightedColorForRowIndex: indexPath.item)
+                    ?? self.options.highlightedAlternatingRowColors[indexPath.section % self.options.highlightedAlternatingRowColors.count]
+            } else {
+                cell.contentView.backgroundColor = delegate?.dataTable?(self, unhighlightedColorForRowIndex: indexPath.item)
+                    ?? self.options.unhighlightedAlternatingRowColors[indexPath.section % self.options.unhighlightedAlternatingRowColors.count]
+            }
         }
     }
     

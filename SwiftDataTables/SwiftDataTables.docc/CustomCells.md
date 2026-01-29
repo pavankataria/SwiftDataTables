@@ -8,8 +8,9 @@ While SwiftDataTables' default cells handle most cases, you may need custom layo
 
 - Complex multi-element cells
 - Images or icons alongside text
-- Custom fonts and styling
-- Interactive elements
+- Interactive elements (buttons, switches)
+
+> Tip: **Just need custom fonts or colours?** Use ``DataTableConfiguration/defaultCellConfiguration`` instead - it lets you customise the default cell's appearance without creating a custom cell class. See <doc:DefaultCellConfiguration>.
 
 ## Setting Up Custom Cells
 
@@ -255,6 +256,7 @@ class StatusCell: UICollectionViewCell {
 
 ## See Also
 
+- <doc:DefaultCellConfiguration>
 - <doc:RowHeights>
 - <doc:ColumnWidths>
 - ``DataTableCustomCellProvider``

@@ -9,6 +9,45 @@
 import Foundation
 import UIKit
 
+// MARK: - Type Aliases
+
+/// Callback for customising the default DataCell appearance.
+///
+/// Use this callback to modify font, text colour, background colour, or other properties
+/// of the default cell without implementing a full custom cell provider.
+///
+/// - Parameters:
+///   - cell: The `DataCell` instance to configure. Access `cell.dataLabel` to modify
+///     font, text color, alignment, and other label properties.
+///   - value: The `DataTableValueType` being displayed in this cell.
+///   - indexPath: The cell's position where `section` is the column index and `item` is the row index.
+///   - isHighlighted: `true` if the cell is in a highlighted (sorted) column, `false` otherwise.
+///
+/// ## Example
+///
+/// ```swift
+/// config.defaultCellConfiguration = { cell, value, indexPath, isHighlighted in
+///     // Custom font
+///     cell.dataLabel.font = UIFont(name: "Avenir-Medium", size: 14)
+///
+///     // Conditional text colour based on value
+///     if let number = value.doubleValue, number < 0 {
+///         cell.dataLabel.textColor = .systemRed
+///     } else {
+///         cell.dataLabel.textColor = .label
+///     }
+///
+///     // Alternating row colors
+///     cell.backgroundColor = indexPath.item % 2 == 0 ? .systemGray6 : .systemBackground
+/// }
+/// ```
+public typealias DefaultCellConfiguration = @MainActor (
+    _ cell: DataCell,
+    _ value: DataTableValueType,
+    _ indexPath: IndexPath,
+    _ isHighlighted: Bool
+) -> Void
+
 /// Central configuration object for customizing SwiftDataTable appearance and behavior.
 ///
 /// `DataTableConfiguration` provides comprehensive control over every aspect of the
@@ -282,25 +321,33 @@ public struct DataTableConfiguration {
     /// Default: `false`
     public var lockColumnWidthsAfterFirstLayout: Bool = false
 
-    // MARK: - Colors
+    // MARK: - Colours
 
-    /// Background colors for rows in highlighted (sorted) columns.
+    /// Background colours for rows in highlighted (sorted) columns.
     ///
-    /// Colors cycle through the array for alternating row striping.
-    /// The sorted column uses these colors while other columns use
+    /// Colours cycle through the array for alternating row striping.
+    /// The sorted column uses these colours while other columns use
     /// `unhighlightedAlternatingRowColors`.
     ///
-    /// Default: Two-color array from `DataStyles.Colors`
+    /// Default: Two-colour array from `DataStyles.Colors`
+    ///
+    /// - Note: When ``defaultCellConfiguration`` is set, you are responsible for
+    ///   setting the cell's background colour in that callback. These colours are
+    ///   only used as fallback when no callback is provided.
     public var highlightedAlternatingRowColors = [
         DataStyles.Colors.highlightedFirstColor,
         DataStyles.Colors.highlightedSecondColor
     ]
 
-    /// Background colors for rows in unhighlighted (non-sorted) columns.
+    /// Background colours for rows in unhighlighted (non-sorted) columns.
     ///
-    /// Colors cycle through the array for alternating row striping.
+    /// Colours cycle through the array for alternating row striping.
     ///
-    /// Default: Two-color array from `DataStyles.Colors`
+    /// Default: Two-colour array from `DataStyles.Colors`
+    ///
+    /// - Note: When ``defaultCellConfiguration`` is set, you are responsible for
+    ///   setting the cell's background colour in that callback. These colours are
+    ///   only used as fallback when no callback is provided.
     public var unhighlightedAlternatingRowColors = [
         DataStyles.Colors.unhighlightedFirstColor,
         DataStyles.Colors.unhighlightedSecondColor
@@ -344,6 +391,31 @@ public struct DataTableConfiguration {
     ///
     /// Default: `.defaultCell`
     public var cellSizingMode: DataTableCellSizingMode = .defaultCell
+
+    // MARK: - Cell Configuration
+
+    /// Optional callback to customise the default DataCell appearance.
+    ///
+    /// Use this to modify font, text colour, background colour, or other properties
+    /// without implementing a full custom cell provider. This callback is invoked
+    /// for each cell when it is about to be displayed.
+    ///
+    /// ```swift
+    /// var config = DataTableConfiguration()
+    /// config.defaultCellConfiguration = { cell, value, indexPath, isHighlighted in
+    ///     cell.dataLabel.font = UIFont(name: "Avenir", size: 14)
+    ///     cell.dataLabel.textColor = .darkGray
+    ///     cell.backgroundColor = indexPath.item % 2 == 0 ? .systemGray6 : .systemBackground
+    /// }
+    /// ```
+    ///
+    /// - Note: This callback is only used when `cellSizingMode` is `.defaultCell`.
+    ///   For custom cells, use ``DataTableCustomCellProvider``'s `configure` closure instead.
+    ///
+    /// - Important: When this callback is set, the default `highlightedAlternatingRowColors`
+    ///   and `unhighlightedAlternatingRowColors` properties are not applied automatically.
+    ///   You are responsible for setting the cell's background colour in the callback.
+    public var defaultCellConfiguration: DefaultCellConfiguration? = nil
 
     // MARK: - Internationalization
 

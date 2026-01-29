@@ -1,16 +1,94 @@
 # Styling
 
-Customize colors, spacing, and visual appearance of your data table.
+Customise colours, fonts, spacing, and visual appearance of your data table.
 
 ## Overview
 
-SwiftDataTables provides extensive styling options through `DataTableConfiguration`. Customize row colors, sort indicators, spacing, and more to match your app's design.
+SwiftDataTables provides extensive styling options through `DataTableConfiguration`. Customise row colours, fonts, sort indicators, spacing, and more to match your app's design.
 
-## Row Colors
+## Per-Cell Styling
 
-### Alternating Row Colors
+The most flexible way to style cells is via ``DataTableConfiguration/defaultCellConfiguration``. This callback is invoked for every cell, giving you full control over appearance:
 
-Create visual separation with alternating background colors:
+```swift
+var config = DataTableConfiguration()
+config.defaultCellConfiguration = { cell, value, indexPath, isHighlighted in
+    // Custom font
+    cell.dataLabel.font = UIFont(name: "Avenir-Medium", size: 14)
+
+    // Conditional text colour
+    if let number = value.doubleValue, number < 0 {
+        cell.dataLabel.textColor = .systemRed
+    } else {
+        cell.dataLabel.textColor = .label
+    }
+
+    // Alternating row colours
+    cell.backgroundColor = indexPath.item % 2 == 0 ? .systemGray6 : .systemBackground
+}
+```
+
+### Parameters
+
+| Parameter | Description |
+|-----------|-------------|
+| `cell` | The `DataCell` instance - access `cell.dataLabel` for font, text colour, alignment |
+| `value` | The `DataTableValueType` being displayed |
+| `indexPath` | Position where `section` = column index, `item` = row index |
+| `isHighlighted` | `true` if the cell is in a sorted column |
+
+### Common Patterns
+
+**Highlight negative values:**
+
+```swift
+config.defaultCellConfiguration = { cell, value, _, _ in
+    if let number = value.doubleValue, number < 0 {
+        cell.dataLabel.textColor = .systemRed
+    } else {
+        cell.dataLabel.textColor = .label
+    }
+}
+```
+
+**Style specific columns:**
+
+```swift
+config.defaultCellConfiguration = { cell, _, indexPath, _ in
+    switch indexPath.section {
+    case 0:  // ID column
+        cell.dataLabel.font = .monospacedDigitSystemFont(ofSize: 12, weight: .regular)
+    case 3:  // Status column
+        cell.dataLabel.textAlignment = .center
+    default:
+        break
+    }
+}
+```
+
+**Highlight sorted columns:**
+
+```swift
+config.defaultCellConfiguration = { cell, _, indexPath, isHighlighted in
+    cell.backgroundColor = isHighlighted
+        ? .systemYellow.withAlphaComponent(0.15)
+        : (indexPath.item % 2 == 0 ? .systemGray6 : .systemBackground)
+}
+```
+
+> Note: When `defaultCellConfiguration` is set, you are responsible for setting the cell's background colour. The default `highlightedAlternatingRowColors` and `unhighlightedAlternatingRowColors` are not applied automatically.
+
+For more details, see <doc:DefaultCellConfiguration>.
+
+> Tip: If you need more than styling—such as custom subviews, images, buttons, or complex layouts—create custom cells using ``DataTableCustomCellProvider``. See <doc:CustomCells> for the complete guide.
+
+## Row Colours (Simple)
+
+For basic alternating row colours without per-cell logic, use the colour arrays:
+
+### Alternating Row Colours
+
+Create visual separation with alternating background colours:
 
 ```swift
 var config = DataTableConfiguration()
@@ -242,6 +320,7 @@ let dataTable = SwiftDataTable(columns: columns, options: config)
 
 ## See Also
 
+- <doc:DefaultCellConfiguration>
 - ``DataTableConfiguration``
 - <doc:RowHeights>
 - <doc:ColumnWidths>

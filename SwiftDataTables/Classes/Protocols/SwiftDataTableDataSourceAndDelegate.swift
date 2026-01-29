@@ -211,20 +211,28 @@ public protocol SwiftDataTableDataSource: AnyObject {
     /// - Returns: whether or not the horizontal scroll bars should be shown.
     @objc optional func shouldShowHorizontalScrollBars(in dataTable: SwiftDataTable) -> Bool
     
-    /// Control the background color for cells in rows intersecting with a column that's highlighted.
+    /// Control the background colour for cells in rows intersecting with a column that's highlighted.
     ///
     /// - Parameters:
     ///   - dataTable: SwiftDataTable
-    ///   - at: the row index to set the background color
+    ///   - at: the row index to set the background colour
     /// - Returns: the background colour to make the highlighted row
+    ///
+    /// - Important: This method is deprecated. Use ``DataTableConfiguration/defaultCellConfiguration``
+    ///   instead to set `cell.backgroundColor` based on the `isHighlighted` and `indexPath` parameters.
+    @available(*, deprecated, message: "Use DataTableConfiguration.defaultCellConfiguration to set cell.backgroundColor instead.")
     @objc optional func dataTable(_ dataTable: SwiftDataTable, highlightedColorForRowIndex at: Int) -> UIColor
-    
-    /// Control the background color for an unhighlighted row.
+
+    /// Control the background colour for an unhighlighted row.
     ///
     /// - Parameters:
     ///   - dataTable: SwiftDataTable
-    ///   - at: the row index to set the background color
+    ///   - at: the row index to set the background colour
     /// - Returns: the background colour to make the unhighlighted row
+    ///
+    /// - Important: This method is deprecated. Use ``DataTableConfiguration/defaultCellConfiguration``
+    ///   instead to set `cell.backgroundColor` based on the `indexPath` parameter.
+    @available(*, deprecated, message: "Use DataTableConfiguration.defaultCellConfiguration to set cell.backgroundColor instead.")
     @objc optional func dataTable(_ dataTable: SwiftDataTable, unhighlightedColorForRowIndex at: Int) -> UIColor
     
     /// Return the number of fixed columns

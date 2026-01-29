@@ -30,7 +30,20 @@ import UIKit
 ///
 /// For custom cell types, use `DataTableCustomCellProvider` with
 /// `DataTableCellSizingMode.autoLayout` instead of subclassing this cell.
-class DataCell: UICollectionViewCell {
+///
+/// ## Customizing Default Cells
+///
+/// To customize the appearance of default cells without creating a custom cell class,
+/// use ``DataTableConfiguration/defaultCellConfiguration``:
+///
+/// ```swift
+/// var config = DataTableConfiguration()
+/// config.defaultCellConfiguration = { cell, value, indexPath, isHighlighted in
+///     cell.dataLabel.font = UIFont(name: "Avenir", size: 14)
+///     cell.dataLabel.textColor = .darkGray
+/// }
+/// ```
+public class DataCell: UICollectionViewCell {
 
     // MARK: - Properties
 
@@ -38,20 +51,23 @@ class DataCell: UICollectionViewCell {
     public enum Properties {
 
         /// Vertical padding between label and cell edges.
-        static let verticalMargin: CGFloat = 5
+        public static let verticalMargin: CGFloat = 5
 
         /// Horizontal padding between label and cell edges.
-        static let horizontalMargin: CGFloat = 15
+        public static let horizontalMargin: CGFloat = 15
 
         /// Minimum width constraint for the label.
-        static let widthConstant: CGFloat = 20
+        public static let widthConstant: CGFloat = 20
 
         /// Default font used for cell text.
-        static let defaultFont: UIFont = UIFont.systemFont(ofSize: UIFont.labelFontSize)
+        public static let defaultFont: UIFont = UIFont.systemFont(ofSize: UIFont.labelFontSize)
     }
 
     /// The label displaying the cell's text content.
-    let dataLabel = UILabel()
+    ///
+    /// Access this property in ``DataTableConfiguration/defaultCellConfiguration``
+    /// to customize font, text color, alignment, and other label properties.
+    public let dataLabel = UILabel()
 
     // MARK: - Lifecycle
 
@@ -62,6 +78,16 @@ class DataCell: UICollectionViewCell {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    public override func prepareForReuse() {
+        super.prepareForReuse()
+        // Reset label properties to defaults so cell reuse doesn't retain old styling
+        dataLabel.font = Properties.defaultFont
+        dataLabel.textColor = .label
+        dataLabel.textAlignment = .natural
+        backgroundColor = nil
+        contentView.backgroundColor = nil
     }
 
     // MARK: - Setup

@@ -13,6 +13,7 @@ SwiftDataTables 0.9.0 introduces a modern, type-safe API while maintaining backw
 - **Self-sizing cells** with lazy measurement
 - **Scroll anchoring** during updates
 - **Live cell editing** support
+- **Default cell configuration** for fonts, colours, and styling without custom cells
 
 ## Breaking Changes
 
@@ -28,6 +29,8 @@ The following are deprecated and will be removed in a future version:
 | `SwiftDataTableDataSource` protocol | Direct data pattern | Boilerplate-heavy, no diffing |
 | `reload()` method | `setData(_:animatingDifferences:)` | Resets scroll, no animations |
 | `.largeScale()` | `.automatic(estimated:prefetchWindow:)` | Renamed for clarity |
+| `dataTable(_:highlightedColorForRowIndex:)` | `defaultCellConfiguration` | More flexible per-cell styling |
+| `dataTable(_:unhighlightedColorForRowIndex:)` | `defaultCellConfiguration` | More flexible per-cell styling |
 
 ### Array-Based Initializer
 
@@ -168,6 +171,44 @@ config.rowHeightMode = .largeScale(estimatedHeight: 44, prefetchWindow: 10)
 config.rowHeightMode = .automatic(estimated: 44, prefetchWindow: 10)
 ```
 
+### Step 5: Replace Delegate Colour Methods (Optional)
+
+If you were using delegate methods to control row colours:
+
+**Before (deprecated):**
+
+```swift
+class MyVC: UIViewController, SwiftDataTableDelegate {
+    func dataTable(_ dataTable: SwiftDataTable, highlightedColorForRowIndex at: Int) -> UIColor {
+        return at % 2 == 0 ? .systemGray6 : .systemGray5
+    }
+
+    func dataTable(_ dataTable: SwiftDataTable, unhighlightedColorForRowIndex at: Int) -> UIColor {
+        return at % 2 == 0 ? .white : .systemGray6
+    }
+}
+```
+
+**After (recommended):**
+
+```swift
+var config = DataTableConfiguration()
+config.defaultCellConfiguration = { cell, _, indexPath, isHighlighted in
+    let colours: [UIColor] = isHighlighted
+        ? [.systemGray6, .systemGray5]
+        : [.white, .systemGray6]
+    cell.backgroundColor = colours[indexPath.item % colours.count]
+}
+```
+
+The new approach is more powerful:
+- Access the cell directly to change fonts, text colours, alignment
+- Conditional styling based on the actual value
+- Style specific columns differently
+- No delegate conformance required
+
+See <doc:DefaultCellConfiguration> for more examples.
+
 ## Migration Checklist
 
 - [ ] Remove `SwiftDataTableDataSource` conformance
@@ -175,6 +216,7 @@ config.rowHeightMode = .automatic(estimated: 44, prefetchWindow: 10)
 - [ ] Replace protocol methods with `DataTableColumn` definitions
 - [ ] Replace `dataTable.reload()` with `dataTable.setData(_:animatingDifferences:)`
 - [ ] Update `.largeScale()` to `.automatic(estimated:prefetchWindow:)`
+- [ ] (Optional) Replace delegate colour methods with `defaultCellConfiguration`
 - [ ] (Optional) Enable text wrapping: `config.textLayout = .wrap`
 - [ ] (Optional) Enable auto heights: `config.rowHeightMode = .automatic(estimated: 44)`
 
@@ -228,3 +270,4 @@ If you see type errors with columns:
 - <doc:GettingStarted>
 - <doc:TypeSafeColumns>
 - <doc:AnimatedUpdates>
+- <doc:DefaultCellConfiguration>
