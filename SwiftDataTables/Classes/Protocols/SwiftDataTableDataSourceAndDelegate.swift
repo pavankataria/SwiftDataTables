@@ -121,7 +121,17 @@ public protocol SwiftDataTableDataSource: AnyObject {
     ///   - dataTable: SwiftDataTable
     ///   - indexPath: the index path of the row deselected
     @objc optional func didDeselectItem(_ dataTable: SwiftDataTable, indexPath: IndexPath)
-    
+
+    /// Called when a column header is tapped.
+    ///
+    /// This is called regardless of whether sorting occurs. Use `isColumnSortable`
+    /// on `DataTableConfiguration` to control sorting behavior per column.
+    ///
+    /// - Parameters:
+    ///   - dataTable: The data table that was interacted with
+    ///   - columnIndex: The index of the tapped column header
+    @objc optional func dataTable(_ dataTable: SwiftDataTable, didTapHeaderAt columnIndex: Int)
+
     /// Specify custom heights for specific rows. A row height of 0 is valid and will be used.
     ///
     /// - Parameters:

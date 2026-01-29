@@ -1750,6 +1750,9 @@ extension SwiftDataTable {
     func didTapColumn(index: IndexPath) {
         let columnIndex = index.index
 
+        // Notify delegate of header tap (always, regardless of sortability)
+        delegate?.dataTable?(self, didTapHeaderAt: columnIndex)
+
         // Check if column is sortable (default: true if isColumnSortable is nil)
         let isSortable = self.options.isColumnSortable?(columnIndex) ?? true
         guard isSortable else { return }

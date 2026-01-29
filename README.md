@@ -389,6 +389,10 @@ An optional delegate for further customisation. Default values will be used retr
     ///   - indexPath: the index path of the row deselected
     @objc optional func didDeselectItem(_ dataTable: SwiftDataTable, indexPath: IndexPath)
 
+    /// Called when a column header is tapped.
+    /// Called regardless of whether sorting occurs - use isColumnSortable to control sorting.
+    @objc optional func dataTable(_ dataTable: SwiftDataTable, didTapHeaderAt columnIndex: Int)
+
     /// Specify custom heights for specific rows. A row height of 0 is valid and will be used.
     @objc optional func dataTable(_ dataTable: SwiftDataTable, heightForRowAt index: Int) -> CGFloat
 

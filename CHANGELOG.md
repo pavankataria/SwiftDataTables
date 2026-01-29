@@ -138,6 +138,11 @@ config.columnWidthMode = .fitContentText(strategy: .maxMeasured) // Use font mea
   - After: `.init("Salary") { "£\($0.salary)" }`
   - Explicit `DataTableValueType` still supported for cases requiring specific sorting behaviour
 
+- **`SwiftDataTableDelegate.dataTable(_:didTapHeaderAt:)`**
+  - Notifies when a column header is tapped
+  - Called before sorting occurs (if enabled)
+  - Use with `isColumnSortable` for custom header tap handling
+
 ---
 
 ### Deprecated

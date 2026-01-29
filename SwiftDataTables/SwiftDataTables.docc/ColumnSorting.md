@@ -44,6 +44,45 @@ config.isColumnSortable = { columnIndex in
 }
 ```
 
+### Dynamic Sorting Control
+
+Use state in your closure for conditional sorting:
+
+```swift
+class MyViewController: UIViewController {
+    var isEditingMode = false
+
+    func setupTable() {
+        var config = DataTableConfiguration()
+        config.isColumnSortable = { [weak self] columnIndex in
+            guard let self else { return true }
+            // Disable all sorting during edit mode
+            return !self.isEditingMode
+        }
+    }
+
+    func toggleEditMode() {
+        isEditingMode.toggle()
+        // Table automatically respects new state on next header tap
+    }
+}
+```
+
+## Header Tap Events
+
+Respond to header taps for custom behavior:
+
+```swift
+extension MyViewController: SwiftDataTableDelegate {
+    func dataTable(_ dataTable: SwiftDataTable, didTapHeaderAt columnIndex: Int) {
+        print("Tapped column \(columnIndex)")
+        // Show column options, trigger custom sort, analytics, etc.
+    }
+}
+```
+
+This delegate method is called regardless of whether sorting occurs. Use it with `isColumnSortable` to handle taps on non-sortable columns.
+
 ## Default Sort Order
 
 Set an initial sort when the table loads:
