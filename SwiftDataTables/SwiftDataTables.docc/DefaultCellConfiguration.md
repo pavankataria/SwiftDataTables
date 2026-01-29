@@ -12,6 +12,38 @@ This is ideal when you need to:
 - Customise alternating row colours
 - Style cells based on their position or content
 
+## How It Works
+
+Your callback only overrides what you explicitly set. Everything else keeps its default styling:
+
+| Property | Default | Preserved Unless You Change It |
+|----------|---------|-------------------------------|
+| `cell.dataLabel.font` | System font, 17pt | ✓ |
+| `cell.dataLabel.textColor` | `.label` | ✓ |
+| `cell.dataLabel.textAlignment` | `.left` | ✓ |
+| `cell.dataLabel.numberOfLines` | `1` (or `0` if wrapping enabled) | ✓ |
+| `cell.contentView.backgroundColor` | From colour arrays | ✓ |
+
+This means you can change just one property without affecting others:
+
+```swift
+config.defaultCellConfiguration = { cell, _, _, _ in
+    // Only change the font - text colour, alignment, background all keep defaults
+    cell.dataLabel.font = .monospacedSystemFont(ofSize: 13, weight: .regular)
+}
+```
+
+Or conditionally style specific cells while others remain untouched:
+
+```swift
+config.defaultCellConfiguration = { cell, value, _, _ in
+    // Only "Error" cells get red text - all other cells keep default styling
+    if value.stringRepresentation == "Error" {
+        cell.dataLabel.textColor = .systemRed
+    }
+}
+```
+
 ## Basic Usage
 
 ```swift
@@ -147,8 +179,9 @@ The ``DataTableConfiguration/highlightedAlternatingRowColors`` and ``DataTableCo
 
 1. **Colour arrays are applied first** as the baseline background
 2. **Your callback runs after**, allowing you to override or extend the styling
+3. **Properties you don't touch keep their values** - the callback is additive, not destructive
 
-This means you can use colour arrays for row backgrounds while using the callback for fonts, text colours, and conditional styling:
+This means you can use colour arrays for row backgrounds while using the callback for fonts, text colours, and conditional styling—without losing any defaults:
 
 ```swift
 var config = DataTableConfiguration()
