@@ -141,11 +141,50 @@ If you need more advanced customisation, such as:
 
 Then you should create custom cells using ``DataTableCustomCellProvider``. See <doc:CustomCells> for the complete guide on registering and configuring custom cells.
 
+## Composable with Colour Arrays
+
+The ``DataTableConfiguration/highlightedAlternatingRowColors`` and ``DataTableConfiguration/unhighlightedAlternatingRowColors`` arrays work together with `defaultCellConfiguration`:
+
+1. **Colour arrays are applied first** as the baseline background
+2. **Your callback runs after**, allowing you to override or extend the styling
+
+This means you can use colour arrays for row backgrounds while using the callback for fonts, text colours, and conditional styling:
+
+```swift
+var config = DataTableConfiguration()
+
+// Baseline: alternating row colours
+config.unhighlightedAlternatingRowColors = [.white, .systemGray6]
+config.highlightedAlternatingRowColors = [.systemBlue.withAlphaComponent(0.1), .systemBlue.withAlphaComponent(0.15)]
+
+// Extend: custom fonts and conditional text styling
+config.defaultCellConfiguration = { cell, value, _, _ in
+    cell.dataLabel.font = UIFont(name: "Avenir-Medium", size: 14)
+
+    // Red text for negative values (background comes from arrays)
+    if let number = value.doubleValue, number < 0 {
+        cell.dataLabel.textColor = .systemRed
+    }
+}
+```
+
+To override the background for specific cells, set `cell.backgroundColor` in your callback:
+
+```swift
+config.defaultCellConfiguration = { cell, value, _, _ in
+    // Override background only for "Error" status cells
+    if value.stringRepresentation == "Error" {
+        cell.backgroundColor = .systemRed.withAlphaComponent(0.2)
+    }
+    // Other cells keep their colour array background
+}
+```
+
 ## Important Notes
 
 - This callback is only invoked when ``DataTableConfiguration/cellSizingMode`` is `.defaultCell`
 - When using custom cells via ``DataTableCustomCellProvider``, configure them in the provider's `configure` closure instead
-- When this callback is set, you are responsible for setting the cell's background colour. The default ``DataTableConfiguration/highlightedAlternatingRowColors`` and ``DataTableConfiguration/unhighlightedAlternatingRowColors`` are not applied automatically.
+- Colour arrays provide the baseline background; your callback can override it by setting `cell.backgroundColor`
 
 ## See Also
 

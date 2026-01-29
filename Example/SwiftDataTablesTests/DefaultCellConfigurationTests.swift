@@ -115,12 +115,13 @@ final class DefaultCellConfigurationTests: XCTestCase {
         )
 
         // Trigger for both columns
+        // Note: In SwiftDataTables, section=row and item=column
         for col in 0..<2 {
             let cell = DataCell(frame: .zero)
             table.collectionView(
                 table.collectionView,
                 willDisplay: cell,
-                forItemAt: IndexPath(item: 0, section: col)
+                forItemAt: IndexPath(item: col, section: 0)
             )
         }
 
@@ -233,8 +234,10 @@ final class DefaultCellConfigurationTests: XCTestCase {
 
     func test_defaultCellConfiguration_canSetAlternatingRowColours() {
         var config = DataTableConfiguration()
+        // Note: In SwiftDataTables, section=row and item=column
+        // So we use indexPath.section to alternate by row
         config.defaultCellConfiguration = { cell, _, indexPath, _ in
-            cell.backgroundColor = indexPath.item % 2 == 0 ? .red : .blue
+            cell.backgroundColor = indexPath.section % 2 == 0 ? .red : .blue
         }
 
         let table = SwiftDataTable(
@@ -243,19 +246,19 @@ final class DefaultCellConfigurationTests: XCTestCase {
             options: config
         )
 
-        // Test row 0 (even)
+        // Test row 0 (even) - IndexPath(item: column, section: row)
         let cell0 = DataCell(frame: .zero)
         table.collectionView(table.collectionView, willDisplay: cell0, forItemAt: IndexPath(item: 0, section: 0))
         XCTAssertEqual(cell0.backgroundColor, .red, "Even rows should be red")
 
         // Test row 1 (odd)
         let cell1 = DataCell(frame: .zero)
-        table.collectionView(table.collectionView, willDisplay: cell1, forItemAt: IndexPath(item: 1, section: 0))
+        table.collectionView(table.collectionView, willDisplay: cell1, forItemAt: IndexPath(item: 0, section: 1))
         XCTAssertEqual(cell1.backgroundColor, .blue, "Odd rows should be blue")
 
         // Test row 2 (even)
         let cell2 = DataCell(frame: .zero)
-        table.collectionView(table.collectionView, willDisplay: cell2, forItemAt: IndexPath(item: 2, section: 0))
+        table.collectionView(table.collectionView, willDisplay: cell2, forItemAt: IndexPath(item: 0, section: 2))
         XCTAssertEqual(cell2.backgroundColor, .red, "Even rows should be red")
     }
 
@@ -277,14 +280,15 @@ final class DefaultCellConfigurationTests: XCTestCase {
             options: config
         )
 
-        // Test "OK" cell
+        // Test "OK" cell (row 0, col 0)
+        // Note: In SwiftDataTables, section=row and item=column
         let okCell = DataCell(frame: .zero)
         table.collectionView(table.collectionView, willDisplay: okCell, forItemAt: IndexPath(item: 0, section: 0))
         XCTAssertEqual(okCell.dataLabel.textColor, .label, "OK status should have default colour")
 
-        // Test "Error" cell
+        // Test "Error" cell (row 1, col 0)
         let errorCell = DataCell(frame: .zero)
-        table.collectionView(table.collectionView, willDisplay: errorCell, forItemAt: IndexPath(item: 1, section: 0))
+        table.collectionView(table.collectionView, willDisplay: errorCell, forItemAt: IndexPath(item: 0, section: 1))
         XCTAssertEqual(errorCell.dataLabel.textColor, .red, "Error status should be red")
     }
 
@@ -374,5 +378,131 @@ final class DefaultCellConfigurationTests: XCTestCase {
         )
 
         XCTAssertEqual(cell.backgroundColor, expectedColour, "defaultCellConfiguration should take precedence over deprecated colour arrays")
+    }
+
+    // MARK: - Composability Tests
+
+    func test_colourArrays_appliedAsBaseline_whenCallbackDoesNotSetBackground() {
+        // Color arrays should be applied first, then callback runs
+        // If callback doesn't set backgroundColor, the array colour should persist
+        var config = DataTableConfiguration()
+        config.unhighlightedAlternatingRowColors = [.systemPurple, .systemOrange]
+        config.defaultCellConfiguration = { cell, _, _, _ in
+            // Only set font, don't touch background
+            cell.dataLabel.font = .boldSystemFont(ofSize: 20)
+        }
+
+        let table = SwiftDataTable(
+            data: [["A"]],
+            headerTitles: ["Header"],
+            options: config
+        )
+
+        let cell = DataCell(frame: .zero)
+        table.collectionView(
+            table.collectionView,
+            willDisplay: cell,
+            forItemAt: IndexPath(item: 0, section: 0)
+        )
+
+        // Font should be customised
+        XCTAssertEqual(cell.dataLabel.font, .boldSystemFont(ofSize: 20), "Font should be set by callback")
+
+        // Background should come from color arrays (applied to contentView)
+        XCTAssertEqual(cell.contentView.backgroundColor, .systemPurple, "Color array background should persist when callback doesn't override")
+    }
+
+    func test_colourArrays_composableWithFontStyling() {
+        // Common use case: user wants custom fonts but default alternating row colours
+        var config = DataTableConfiguration()
+        config.unhighlightedAlternatingRowColors = [.white, .systemGray6]
+        config.defaultCellConfiguration = { cell, _, _, _ in
+            cell.dataLabel.font = UIFont(name: "Avenir", size: 14) ?? .systemFont(ofSize: 14)
+            cell.dataLabel.textColor = .darkGray
+            // Don't set backgroundColor - let color arrays handle it
+        }
+
+        let table = SwiftDataTable(
+            data: [["Row1"], ["Row2"]],
+            headerTitles: ["Header"],
+            options: config
+        )
+
+        // Test row 0 (should be white from color arrays)
+        let cell0 = DataCell(frame: .zero)
+        table.collectionView(table.collectionView, willDisplay: cell0, forItemAt: IndexPath(item: 0, section: 0))
+        XCTAssertEqual(cell0.contentView.backgroundColor, .white, "First row should have white background from color arrays")
+        XCTAssertEqual(cell0.dataLabel.textColor, .darkGray, "Text color should be set by callback")
+
+        // Test row 1 (should be systemGray6 from color arrays)
+        // Note: In SwiftDataTables, section=row and item=column
+        let cell1 = DataCell(frame: .zero)
+        table.collectionView(table.collectionView, willDisplay: cell1, forItemAt: IndexPath(item: 0, section: 1))
+        XCTAssertEqual(cell1.contentView.backgroundColor, .systemGray6, "Second row should have gray background from color arrays")
+        XCTAssertEqual(cell1.dataLabel.textColor, .darkGray, "Text color should be set by callback")
+    }
+
+    func test_colourArrays_canBeConditionallyOverridden() {
+        // Use case: color arrays for most cells, but override specific cells
+        var config = DataTableConfiguration()
+        config.unhighlightedAlternatingRowColors = [.white, .systemGray6]
+        config.defaultCellConfiguration = { cell, value, _, _ in
+            // Override background only for "Error" cells
+            if value.stringRepresentation == "Error" {
+                cell.backgroundColor = .systemRed.withAlphaComponent(0.2)
+            }
+            // Other cells keep their color array background
+        }
+
+        let table = SwiftDataTable(
+            data: [["OK"], ["Error"], ["OK"]],
+            headerTitles: ["Status"],
+            options: config
+        )
+
+        // Test "OK" cell - should have color array background
+        let okCell = DataCell(frame: .zero)
+        table.collectionView(table.collectionView, willDisplay: okCell, forItemAt: IndexPath(item: 0, section: 0))
+        XCTAssertEqual(okCell.contentView.backgroundColor, .white, "OK cell should have color array background")
+        XCTAssertNil(okCell.backgroundColor, "OK cell's own background should not be set")
+
+        // Test "Error" cell - should have overridden background
+        // Note: In SwiftDataTables, section=row and item=column
+        let errorCell = DataCell(frame: .zero)
+        table.collectionView(table.collectionView, willDisplay: errorCell, forItemAt: IndexPath(item: 0, section: 1))
+        XCTAssertEqual(errorCell.backgroundColor, .systemRed.withAlphaComponent(0.2), "Error cell should have custom background")
+    }
+
+    func test_highlightedColourArrays_appliedForSortedColumn() {
+        var config = DataTableConfiguration()
+        config.highlightedAlternatingRowColors = [.systemBlue, .systemIndigo]
+        config.unhighlightedAlternatingRowColors = [.white, .systemGray6]
+        config.defaultCellConfiguration = { cell, _, _, _ in
+            // Only set font, background comes from arrays based on highlight state
+            cell.dataLabel.font = .boldSystemFont(ofSize: 16)
+        }
+
+        let table = SwiftDataTable(
+            data: [["A", "B"]],
+            headerTitles: ["Col1", "Col2"],
+            options: config
+        )
+
+        // Sort by first column and highlight it
+        // Note: sort() alone doesn't highlight - we need to call highlight() separately
+        // (didTapColumn does both internally when a user taps a header)
+        table.highlight(column: 0)
+        table.sort(column: 0, sort: .ascending)
+
+        // Test highlighted column (col 0)
+        let highlightedCell = DataCell(frame: .zero)
+        table.collectionView(table.collectionView, willDisplay: highlightedCell, forItemAt: IndexPath(item: 0, section: 0))
+        XCTAssertEqual(highlightedCell.contentView.backgroundColor, .systemBlue, "Highlighted column should use highlightedAlternatingRowColors")
+
+        // Test unhighlighted column (col 1)
+        // Note: In SwiftDataTables, section=row and item=column
+        let unhighlightedCell = DataCell(frame: .zero)
+        table.collectionView(table.collectionView, willDisplay: unhighlightedCell, forItemAt: IndexPath(item: 1, section: 0))
+        XCTAssertEqual(unhighlightedCell.contentView.backgroundColor, .white, "Unhighlighted column should use unhighlightedAlternatingRowColors")
     }
 }

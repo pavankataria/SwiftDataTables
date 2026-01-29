@@ -76,7 +76,7 @@ config.defaultCellConfiguration = { cell, _, indexPath, isHighlighted in
 }
 ```
 
-> Note: When `defaultCellConfiguration` is set, you are responsible for setting the cell's background colour. The default `highlightedAlternatingRowColors` and `unhighlightedAlternatingRowColors` are not applied automatically.
+> Tip: Colour arrays and `defaultCellConfiguration` are composable! Colour arrays are applied first as baseline backgrounds, then your callback runs. This lets you use arrays for row colours while using the callback for fonts and conditional styling. See <doc:DefaultCellConfiguration> for examples.
 
 For more details, see <doc:DefaultCellConfiguration>.
 
@@ -84,7 +84,7 @@ For more details, see <doc:DefaultCellConfiguration>.
 
 ## Row Colours (Simple)
 
-For basic alternating row colours without per-cell logic, use the colour arrays:
+For basic alternating row colours without per-cell logic, use the colour arrays. These arrays are also composable with `defaultCellConfiguration`—the arrays provide the baseline background, and your callback can add fonts, text colours, or override specific cells.
 
 ### Alternating Row Colours
 

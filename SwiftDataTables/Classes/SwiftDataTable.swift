@@ -1625,19 +1625,23 @@ extension SwiftDataTable: UICollectionViewDataSource, UICollectionViewDelegate {
     public func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         let cellViewModel = self.rowModel(at: indexPath)
 
-        // Use defaultCellConfiguration if set and using default cells
-        if case .defaultCell = options.cellSizingMode,
-           let dataCell = cell as? DataCell,
-           let configure = options.defaultCellConfiguration {
-            configure(dataCell, cellViewModel.data, indexPath, cellViewModel.highlighted)
-        } else {
-            // Fall back to deprecated colour arrays/delegates for backward compatibility
+        // For default cells, apply styling in layers:
+        // 1. Color arrays provide the base background
+        // 2. defaultCellConfiguration can override anything (including background)
+        if case .defaultCell = options.cellSizingMode {
+            // Layer 1: Apply color arrays (or deprecated delegate methods) as baseline
             if cellViewModel.highlighted {
                 cell.contentView.backgroundColor = delegate?.dataTable?(self, highlightedColorForRowIndex: indexPath.item)
                     ?? self.options.highlightedAlternatingRowColors[indexPath.section % self.options.highlightedAlternatingRowColors.count]
             } else {
                 cell.contentView.backgroundColor = delegate?.dataTable?(self, unhighlightedColorForRowIndex: indexPath.item)
                     ?? self.options.unhighlightedAlternatingRowColors[indexPath.section % self.options.unhighlightedAlternatingRowColors.count]
+            }
+
+            // Layer 2: Apply defaultCellConfiguration (can override background if needed)
+            if let dataCell = cell as? DataCell,
+               let configure = options.defaultCellConfiguration {
+                configure(dataCell, cellViewModel.data, indexPath, cellViewModel.highlighted)
             }
         }
     }
