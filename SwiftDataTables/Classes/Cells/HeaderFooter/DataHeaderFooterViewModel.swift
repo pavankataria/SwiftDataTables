@@ -192,9 +192,8 @@ extension DataHeaderFooterViewModel: DataTableSupplementaryElementRepresentable 
         self.dataTable.didTapColumn(index: self.indexPath)
     }
 
-    /// Handles footer tap, sorting only if enabled in configuration.
+    /// Handles footer tap by notifying delegate and optionally triggering column sort.
     func footerViewDidTap() {
-        guard dataTable.options.shouldFooterTriggerSorting else { return }
-        self.dataTable.didTapColumn(index: self.indexPath)
+        self.dataTable.didTapFooter(index: self.indexPath)
     }
 }

@@ -175,7 +175,14 @@ public class SwiftDataTable: UIView {
     internal var precomputedChangedIdentifiers: Set<String>?
     internal var typedData: Any?
     internal var typedColumns: Any?
-    
+    /// Type-erased comparators for typed sorting. Maps column index to comparator.
+    internal var typedComparators: [Int: (Int, Int) -> ComparisonResult]?
+    /// Sortability flag for each typed column. Maps column index to isSortable.
+    internal var typedColumnSortabilities: [Int: Bool]?
+    /// Maps current row position to original data index in `typedData`.
+    /// This is needed because `typedData` stays in original order while rows get reordered by sorting.
+    internal var currentToOriginalDataIndex: [Int]?
+
     fileprivate var paginationViewModel: PaginationHeaderViewModel!
     fileprivate var menuLengthViewModel: MenuLengthHeaderViewModel!
     fileprivate var columnWidths = [CGFloat]()
@@ -539,7 +546,7 @@ public class SwiftDataTable: UIView {
         if usesDelegateRowHeights() {
             metricsStore.recomputeDirtyHeights { [weak self] row in
                 guard let self = self else { return 44 }
-                return self.delegate?.dataTable?(self, heightForRowAt: row) ?? 44
+                return self.delegate?.dataTable(self, heightForRowAt: row) ?? 44
             }
         } else if usesAutomaticRowHeights {
             metricsStore.recomputeDirtyHeights { [weak self] row in
@@ -662,7 +669,7 @@ public class SwiftDataTable: UIView {
         if usesDelegateRowHeights() {
             metricsStore.setRowCount(rowCount, defaultHeight: defaultHeight, allMeasured: true)
             for row in 0..<rowCount {
-                if let height = delegate?.dataTable?(self, heightForRowAt: row) {
+                if let height = delegate?.dataTable(self, heightForRowAt: row) {
                     metricsStore.setHeight(height, forRow: row)
                 }
             }
@@ -793,10 +800,14 @@ public class SwiftDataTable: UIView {
     }
 
     private func usesDelegateRowHeights() -> Bool {
-        guard let delegate = delegate as AnyObject? else {
+        // Check if the delegate actually provides custom row heights
+        // by sampling the first row. If the delegate's implementation
+        // returns nil (the default), it doesn't provide heights.
+        guard let delegate = delegate else {
             return false
         }
-        return delegate.responds(to: #selector(SwiftDataTableDelegate.dataTable(_:heightForRowAt:)))
+        // Sample row 0 - if delegate returns a value, it provides heights
+        return delegate.dataTable(self, heightForRowAt: 0) != nil
     }
 
     /// Returns true if content changes require layout metadata rebuild (auto-height or delegate heights)
@@ -1515,8 +1526,10 @@ public extension SwiftDataTable {
     func createDataCellViewModels(with dataStructure: DataStructureModel){// -> DataTableViewModelContent {
         //1. Create the headers
         self.headerViewModels = Array(0..<(dataStructure.headerTitles.count)).map { columnIndex in
-            // Check if column is sortable (default: true if isColumnSortable is nil)
-            let isSortable = self.options.isColumnSortable?(columnIndex) ?? true
+            // Determine if column is sortable:
+            // 1. User override via isColumnSortable takes precedence
+            // 2. Otherwise, auto-disable for columns without extract/compare (header-only columns)
+            let isSortable = determineSortability(for: columnIndex)
             let sortType: DataTableSortType = isSortable ? dataStructure.columnHeaderSortType(for: columnIndex) : .hidden
 
             let headerViewModel = DataHeaderFooterViewModel(
@@ -1631,10 +1644,10 @@ extension SwiftDataTable: UICollectionViewDataSource, UICollectionViewDelegate {
         if case .defaultCell = options.cellSizingMode {
             // Layer 1: Apply color arrays (or deprecated delegate methods) as baseline
             if cellViewModel.highlighted {
-                cell.contentView.backgroundColor = delegate?.dataTable?(self, highlightedColorForRowIndex: indexPath.item)
+                cell.contentView.backgroundColor = delegate?.dataTable(self, highlightedColorForRowIndex: indexPath.item)
                     ?? self.options.highlightedAlternatingRowColors[indexPath.section % self.options.highlightedAlternatingRowColors.count]
             } else {
-                cell.contentView.backgroundColor = delegate?.dataTable?(self, unhighlightedColorForRowIndex: indexPath.item)
+                cell.contentView.backgroundColor = delegate?.dataTable(self, unhighlightedColorForRowIndex: indexPath.item)
                     ?? self.options.unhighlightedAlternatingRowColors[indexPath.section % self.options.unhighlightedAlternatingRowColors.count]
             }
 
@@ -1658,11 +1671,11 @@ extension SwiftDataTable: UICollectionViewDataSource, UICollectionViewDelegate {
         return viewModel.dequeueView(collectionView: collectionView, viewForSupplementaryElementOfKind: kind, for: indexPath)
     }
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        delegate?.didSelectItem?(self, indexPath: indexPath)
+        delegate?.didSelectItem(self, indexPath: indexPath)
     }
-    
+
     public func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        delegate?.didDeselectItem?(self, indexPath: indexPath)
+        delegate?.didDeselectItem(self, indexPath: indexPath)
     }
 }
 
@@ -1755,7 +1768,29 @@ extension SwiftDataTable {
         let columnIndex = index.index
 
         // Notify delegate of header tap (always, regardless of sortability)
-        delegate?.dataTable?(self, didTapHeaderAt: columnIndex)
+        delegate?.dataTable(self, didTapHeaderAt: columnIndex)
+
+        // Check if column is sortable (default: true if isColumnSortable is nil)
+        let isSortable = self.options.isColumnSortable?(columnIndex) ?? true
+        guard isSortable else { return }
+
+        defer {
+            self.update()
+        }
+        self.toggleSortArrows(column: columnIndex)
+        self.highlight(column: columnIndex)
+        let sortType = self.headerViewModels[columnIndex].sortType
+        self.sort(column: columnIndex, sort: sortType)
+    }
+
+    func didTapFooter(index: IndexPath) {
+        let columnIndex = index.index
+
+        // Notify delegate of footer tap (always, regardless of sortability)
+        delegate?.dataTable(self, didTapFooterAt: columnIndex)
+
+        // Only trigger sorting if configured to do so
+        guard options.shouldFooterTriggerSorting else { return }
 
         // Check if column is sortable (default: true if isColumnSortable is nil)
         let isSortable = self.options.isColumnSortable?(columnIndex) ?? true
@@ -1771,23 +1806,120 @@ extension SwiftDataTable {
     }
     
     func sort(column index: Int, sort by: DataTableSortType){
-        func ascendingOrder(rowOne: [DataCellViewModel], rowTwo: [DataCellViewModel]) -> Bool {
-            return rowOne[index].data < rowTwo[index].data
+        guard by == .ascending || by == .descending else { return }
+        let ascending = (by == .ascending)
+
+        // Try typed sorting first (uses column's compare closure if available)
+        if sortWithTypedComparator(columnIndex: index, ascending: ascending) {
+            return
         }
-        func descendingOrder(rowOne: [DataCellViewModel], rowTwo: [DataCellViewModel]) -> Bool {
-            return rowOne[index].data > rowTwo[index].data
+
+        // Fallback to DataTableValueType comparison
+        sortByDataTableValue(columnIndex: index, ascending: ascending)
+    }
+
+    /// Attempts to sort using the column's typed comparator.
+    /// - Returns: `true` if typed sorting was applied, `false` if fallback is needed.
+    private func sortWithTypedComparator(columnIndex: Int, ascending: Bool) -> Bool {
+        // Get the type-erased comparator for this column
+        guard let comparator = getTypedComparator(for: columnIndex) else {
+            return false
         }
-        
-        switch by {
-        case .ascending:
-            self.currentRowViewModels = self.currentRowViewModels.sorted(by: ascendingOrder)
-        case .descending:
-            self.currentRowViewModels = self.currentRowViewModels.sorted(by: descendingOrder)
-        default:
-            break
+
+        // Create indexed rows for stable sorting
+        var indexedRows = currentRowViewModels.enumerated().map { ($0.offset, $0.element) }
+
+        // Sort using the typed comparator
+        indexedRows.sort { (lhs, rhs) in
+            let result = comparator(lhs.0, rhs.0)
+            return ascending ? (result == .orderedAscending) : (result == .orderedDescending)
+        }
+
+        // Apply the sorted order
+        currentRowViewModels = indexedRows.map { $0.1 }
+
+        // Keep row identifiers in sync
+        if !currentRowIdentifiers.isEmpty {
+            let oldIdentifiers = currentRowIdentifiers
+            currentRowIdentifiers = indexedRows.map { oldIdentifiers[$0.0] }
+        }
+
+        // Keep currentToOriginalDataIndex in sync so typed comparators work correctly
+        if let oldIndexMap = currentToOriginalDataIndex {
+            currentToOriginalDataIndex = indexedRows.map { oldIndexMap[$0.0] }
+        }
+
+        return true
+    }
+
+    /// Sorts using DataTableValueType comparison (fallback when no typed comparator).
+    private func sortByDataTableValue(columnIndex: Int, ascending: Bool) {
+        // Create indexed rows for stable sorting
+        var indexedRows = currentRowViewModels.enumerated().map { ($0.offset, $0.element) }
+
+        // Sort by DataTableValueType
+        indexedRows.sort { (lhs, rhs) in
+            let lhsData = lhs.1[columnIndex].data
+            let rhsData = rhs.1[columnIndex].data
+            return ascending ? (lhsData < rhsData) : (lhsData > rhsData)
+        }
+
+        // Apply the sorted order
+        currentRowViewModels = indexedRows.map { $0.1 }
+
+        // Keep row identifiers in sync
+        if !currentRowIdentifiers.isEmpty {
+            let oldIdentifiers = currentRowIdentifiers
+            currentRowIdentifiers = indexedRows.map { oldIdentifiers[$0.0] }
+        }
+
+        // Keep currentToOriginalDataIndex in sync so typed comparators work correctly
+        if let oldIndexMap = currentToOriginalDataIndex {
+            currentToOriginalDataIndex = indexedRows.map { oldIndexMap[$0.0] }
         }
     }
-    
+
+    /// Returns a type-erased comparator for the column if available.
+    /// The comparator takes two row indices and returns a ComparisonResult.
+    private func getTypedComparator(for columnIndex: Int) -> ((Int, Int) -> ComparisonResult)? {
+        // This is implemented in SwiftDataTable+TypedAPI.swift
+        return getTypedColumnComparator(for: columnIndex)
+    }
+
+    /// Determines if a column should be sortable.
+    ///
+    /// Priority:
+    /// 1. User override via `isColumnSortable` closure takes precedence
+    /// 2. Otherwise, auto-disable for columns without extract/compare (header-only columns)
+    /// 3. Legacy (non-typed) columns default to sortable
+    private func determineSortability(for columnIndex: Int) -> Bool {
+        // User override takes precedence
+        if let isColumnSortable = options.isColumnSortable {
+            return isColumnSortable(columnIndex)
+        }
+
+        // Check if this is a typed column with isSortable property
+        if let columnIsSortable = getTypedColumnSortability(for: columnIndex) {
+            return columnIsSortable
+        }
+
+        // Legacy columns default to sortable
+        return true
+    }
+
+    /// Refreshes header sort types based on current sortability state.
+    ///
+    /// Called after typed context is stored to update headers that were initially
+    /// created before sortability information was available.
+    func refreshHeaderSortTypes() {
+        for columnIndex in 0..<headerViewModels.count {
+            let isSortable = determineSortability(for: columnIndex)
+            if !isSortable {
+                headerViewModels[columnIndex].sortType = .hidden
+            }
+        }
+    }
+
     func highlight(column: Int){
         self.currentRowViewModels.forEach {
             $0.forEach { $0.highlighted = false }
@@ -1833,7 +1965,7 @@ extension SwiftDataTable {
         return self.currentRowViewModels.count
     }
     func heightForRow(index: Int) -> CGFloat {
-        if let height = self.delegate?.dataTable?(self, heightForRowAt: index) {
+        if let height = self.delegate?.dataTable(self, heightForRowAt: index) {
             return height
         }
         if usesAutomaticRowHeights {
@@ -1866,44 +1998,45 @@ extension SwiftDataTable {
         return self.dataStructure.footerTitles.count
     }
     
-    func shouldContentWidthScaleToFillFrame() -> Bool{
-        return self.delegate?.shouldContentWidthScaleToFillFrame?(in: self) ?? self.options.shouldContentWidthScaleToFillFrame
+    func shouldContentWidthScaleToFillFrame() -> Bool {
+        return self.delegate?.shouldContentWidthScaleToFillFrame(in: self) ?? self.options.shouldContentWidthScaleToFillFrame
     }
-    
+
     func shouldSectionHeadersFloat() -> Bool {
-        return self.delegate?.shouldSectionHeadersFloat?(in: self) ?? self.options.shouldSectionHeadersFloat
+        return self.delegate?.shouldSectionHeadersFloat(in: self) ?? self.options.shouldSectionHeadersFloat
     }
-    
+
     func shouldSectionFootersFloat() -> Bool {
-        return self.delegate?.shouldSectionFootersFloat?(in: self) ?? self.options.shouldSectionFootersFloat
+        return self.delegate?.shouldSectionFootersFloat(in: self) ?? self.options.shouldSectionFootersFloat
     }
-    
+
     func shouldSearchHeaderFloat() -> Bool {
-        return self.delegate?.shouldSearchHeaderFloat?(in: self) ?? self.options.shouldSearchHeaderFloat
+        return self.delegate?.shouldSearchHeaderFloat(in: self) ?? self.options.shouldSearchHeaderFloat
     }
-    
+
     func shouldShowSearchSection() -> Bool {
-        return self.delegate?.shouldShowSearchSection?(in: self) ?? self.options.shouldShowSearchSection
+        return self.delegate?.shouldShowSearchSection(in: self) ?? self.options.shouldShowSearchSection
     }
+
     func shouldShowFooterSection() -> Bool {
-        return self.delegate?.shouldShowSearchSection?(in: self) ?? self.options.shouldShowFooter
+        return self.delegate?.shouldShowSearchSection(in: self) ?? self.options.shouldShowFooter
     }
     func shouldShowPaginationSection() -> Bool {
         return false
     }
     
     func heightForSectionFooter() -> CGFloat {
-        return self.delegate?.heightForSectionFooter?(in: self) ?? self.options.heightForSectionFooter
+        return self.delegate?.heightForSectionFooter(in: self) ?? self.options.heightForSectionFooter
     }
-    
+
     func heightForSectionHeader() -> CGFloat {
-        return self.delegate?.heightForSectionHeader?(in: self) ?? self.options.heightForSectionHeader
+        return self.delegate?.heightForSectionHeader(in: self) ?? self.options.heightForSectionHeader
     }
     
     
     func widthForColumn(index: Int) -> CGFloat {
         //May need to call calculateColumnWidths.. I want to deprecate it..
-        guard let width = self.delegate?.dataTable?(self, widthForColumnAt: index) else {
+        guard let width = self.delegate?.dataTable(self, widthForColumnAt: index) else {
             return self.columnWidths[index]
         }
         //TODO: Implement it so that the preferred column widths are calculated first, and then the scaling happens after to fill the frame.
@@ -1917,19 +2050,19 @@ extension SwiftDataTable {
         guard self.shouldShowSearchSection() else {
             return 0
         }
-        return self.delegate?.heightForSearchView?(in: self) ?? self.options.heightForSearchView
+        return self.delegate?.heightForSearchView(in: self) ?? self.options.heightForSearchView
     }
     
     func showVerticalScrollBars() -> Bool {
-        return self.delegate?.shouldShowVerticalScrollBars?(in: self) ?? self.options.shouldShowVerticalScrollBars
+        return self.delegate?.shouldShowVerticalScrollBars(in: self) ?? self.options.shouldShowVerticalScrollBars
     }
-    
+
     func showHorizontalScrollBars() -> Bool {
-        return self.delegate?.shouldShowHorizontalScrollBars?(in: self) ?? self.options.shouldShowHorizontalScrollBars
+        return self.delegate?.shouldShowHorizontalScrollBars(in: self) ?? self.options.shouldShowHorizontalScrollBars
     }
-    
+
     func heightOfInterRowSpacing() -> CGFloat {
-        return self.delegate?.heightOfInterRowSpacing?(in: self) ?? self.options.heightOfInterRowSpacing
+        return self.delegate?.heightOfInterRowSpacing(in: self) ?? self.options.heightOfInterRowSpacing
     }
     func widthForRowHeader() -> CGFloat {
         return 0
@@ -2060,11 +2193,11 @@ extension SwiftDataTable {
     }
     
     func fixedColumns() -> DataTableFixedColumnType? {
-        return delegate?.fixedColumns?(for: self) ?? self.options.fixedColumns
+        return delegate?.fixedColumns(for: self) ?? self.options.fixedColumns
     }
-    
+
     func shouldSupportRightToLeftInterfaceDirection() -> Bool {
-        return delegate?.shouldSupportRightToLeftInterfaceDirection?(in: self) ?? self.options.shouldSupportRightToLeftInterfaceDirection
+        return delegate?.shouldSupportRightToLeftInterfaceDirection(in: self) ?? self.options.shouldSupportRightToLeftInterfaceDirection
     }
 }
 

@@ -757,16 +757,15 @@ extension SwiftDataTableAutoHeightMetricsTests {
 
 // MARK: - Mock Delegate for Height Testing
 
-private final class MockHeightDelegate: NSObject, SwiftDataTableDelegate {
+private final class MockHeightDelegate: SwiftDataTableDelegate {
     private let heights: [CGFloat]
 
     init(heights: [CGFloat]) {
         self.heights = heights
-        super.init()
     }
 
-    func dataTable(_ dataTable: SwiftDataTable, heightForRowAt index: Int) -> CGFloat {
-        guard index < heights.count else { return 44 }
+    func dataTable(_ dataTable: SwiftDataTable, heightForRowAt index: Int) -> CGFloat? {
+        guard index < heights.count else { return nil }
         return heights[index]
     }
 }

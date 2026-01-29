@@ -105,22 +105,46 @@ public protocol SwiftDataTableDataSource: AnyObject {
     func dataTable(_ dataTable: SwiftDataTable, headerTitleForColumnAt columnIndex: NSInteger) -> String
 }
 
-/// An optional delegate for further customisation. Default values will be used retrieved from the SwiftDataTableConfiguration file. This will can be overridden and passed into the SwiftDataTable constructor incase you wish not to use the delegate.
-@MainActor @objc public protocol SwiftDataTableDelegate: AnyObject {
-    
-    /// Fired when a cell is selected.
-    ///
-    /// - Parameters:
-    ///   - dataTable: SwiftDataTable
-    ///   - indexPath: the index path of the row selected
-    @objc optional func didSelectItem(_ dataTable: SwiftDataTable, indexPath: IndexPath)
+/// Delegate protocol for responding to user interactions and customizing SwiftDataTable behavior.
+///
+/// All methods have default empty implementations via protocol extension, so you only need
+/// to implement the methods you care about.
+///
+/// ## Example
+///
+/// ```swift
+/// class MyViewController: UIViewController, SwiftDataTableDelegate {
+///     func didSelectItem(_ dataTable: SwiftDataTable, indexPath: IndexPath) {
+///         print("Selected row: \(indexPath.item)")
+///     }
+///
+///     func dataTable(_ dataTable: SwiftDataTable, didTapHeaderAt columnIndex: Int) {
+///         print("Tapped header: \(columnIndex)")
+///     }
+/// }
+/// ```
+///
+/// - Note: Most customization is now done via ``DataTableConfiguration`` at initialization time.
+///   The delegate is primarily for responding to user interactions.
+@MainActor public protocol SwiftDataTableDelegate: AnyObject {
 
-    /// Fired when a cell has been deselected
+    // MARK: - Selection Events
+
+    /// Called when a cell is selected.
     ///
     /// - Parameters:
-    ///   - dataTable: SwiftDataTable
-    ///   - indexPath: the index path of the row deselected
-    @objc optional func didDeselectItem(_ dataTable: SwiftDataTable, indexPath: IndexPath)
+    ///   - dataTable: The data table that was interacted with
+    ///   - indexPath: The index path of the selected row
+    func didSelectItem(_ dataTable: SwiftDataTable, indexPath: IndexPath)
+
+    /// Called when a cell has been deselected.
+    ///
+    /// - Parameters:
+    ///   - dataTable: The data table that was interacted with
+    ///   - indexPath: The index path of the deselected row
+    func didDeselectItem(_ dataTable: SwiftDataTable, indexPath: IndexPath)
+
+    // MARK: - Header/Footer Tap Events
 
     /// Called when a column header is tapped.
     ///
@@ -130,145 +154,215 @@ public protocol SwiftDataTableDataSource: AnyObject {
     /// - Parameters:
     ///   - dataTable: The data table that was interacted with
     ///   - columnIndex: The index of the tapped column header
-    @objc optional func dataTable(_ dataTable: SwiftDataTable, didTapHeaderAt columnIndex: Int)
+    func dataTable(_ dataTable: SwiftDataTable, didTapHeaderAt columnIndex: Int)
 
-    /// Specify custom heights for specific rows. A row height of 0 is valid and will be used.
+    /// Called when a column footer is tapped.
     ///
     /// - Parameters:
-    ///   - dataTable: SwiftDataTable
-    ///   - index: the index of the row to specify a custom height for.
-    /// - Returns: the desired height for the given row index
-    @objc optional func dataTable(_ dataTable: SwiftDataTable, heightForRowAt index: Int) -> CGFloat
-    
-    /// Specify custom widths for columns. This method once implemented overrides the automatic width calculation for remaining columns and therefor widths for all columns must be given. This behaviour may change so that custom widths on a single column basis can be given with the automatic width calculation behaviour applied for the remaining columns.
-    /// - Parameters:
-    ///   - dataTable: SwiftDataTable
-    ///   - index: the index of the column to specify the width for
-    /// - Returns: the desired width for the given column index
-    @objc optional func dataTable(_ dataTable: SwiftDataTable, widthForColumnAt index: Int) -> CGFloat
-    
-    /// Column Width scaling. If set to true and the column's total width is smaller than the content size then the width of each column will be scaled proprtionately to fill the frame of the table. Otherwise an automatic calculated width size will be used by processing the data within each column.
-    /// Defaults to true.
-    ///
-    /// - Parameter dataTable: SwiftDataTable
-    /// - Returns: whether you wish to scale to fill the frame of the table
-    @objc optional func shouldContentWidthScaleToFillFrame(in dataTable: SwiftDataTable) -> Bool
-    
-    /// Section Header floating. If set to true headers can float and remain in view during scroll. Otherwise if set to false the header will be fixed at the top and scroll off view along with the content.
-    /// Defaults to true
-    ///
-    /// - Parameter dataTable: SwiftDataTable
-    /// - Returns: whether you wish to float section header views.
-    @objc optional func shouldSectionHeadersFloat(in dataTable: SwiftDataTable) -> Bool
-    
-    /// Section Footer floating. If set to true footers can float and remain in view during scroll. Otherwise if set to false the footer will be fixed at the top and scroll off view along with the content.
-    /// Defaults to true.
-    ///
-    /// - Parameter dataTable: SwiftDataTable
-    /// - Returns: whether you wish to float section footer views.
-    @objc optional func shouldSectionFootersFloat(in dataTable: SwiftDataTable) -> Bool
-    
-    
-    /// Search View floating. If set to true the search view can float and remain in view during scroll. Otherwise if set to false the search view will be fixed at the top and scroll off view along with the content.
-    //  Defaults to true.
-    ///
-    /// - Parameter dataTable: SwiftDataTable
-    /// - Returns: whether you wish to float section footer views.
-    @objc optional func shouldSearchHeaderFloat(in dataTable: SwiftDataTable) -> Bool
-    
-    /// Disable search view. Hide search view. Defaults to true.
-    ///
-    /// - Parameter dataTable: SwiftDataTable
-    /// - Returns: whether or not the search should be hidden
-    @objc optional func shouldShowSearchSection(in dataTable: SwiftDataTable) -> Bool
-    
-    /// The height of the section footer. Defaults to 44.
-    ///
-    /// - Parameter dataTable: SwiftDataTable
-    /// - Returns: the height of the section footer
-    @objc optional func heightForSectionFooter(in dataTable: SwiftDataTable) -> CGFloat
-    
-    /// The height of the section header. Defaults to 44.
-    ///
-    /// - Parameter dataTable: SwiftDataTable
-    /// - Returns: the height of the section header
-    @objc optional func heightForSectionHeader(in dataTable: SwiftDataTable) -> CGFloat
-    
-    
-    /// The height of the search view. Defaults to 44.
-    ///
-    /// - Parameter dataTable: SwiftDataTable
-    /// - Returns: the height of the search view
-    @objc optional func heightForSearchView(in dataTable: SwiftDataTable) -> CGFloat
-    
-    
-    /// Height of the inter row spacing. Defaults to 1.
-    ///
-    /// - Parameter dataTable: SwiftDataTable
-    /// - Returns: the height of the inter row spacing
-    @objc optional func heightOfInterRowSpacing(in dataTable: SwiftDataTable) -> CGFloat
-    
-    
-    /// Control the display of the vertical scroll bar. Defaults to true.
-    ///
-    /// - Parameter dataTable: SwiftDataTable
-    /// - Returns: whether or not the vertical scroll bars should be shown.
-    @objc optional func shouldShowVerticalScrollBars(in dataTable: SwiftDataTable) -> Bool
-    
-    /// Control the display of the horizontal scroll bar. Defaults to true.
-    ///
-    /// - Parameter dataTable: SwiftDataTable
-    /// - Returns: whether or not the horizontal scroll bars should be shown.
-    @objc optional func shouldShowHorizontalScrollBars(in dataTable: SwiftDataTable) -> Bool
-    
-    /// Control the background colour for cells in rows intersecting with a column that's highlighted.
-    ///
-    /// - Parameters:
-    ///   - dataTable: SwiftDataTable
-    ///   - at: the row index to set the background colour
-    /// - Returns: the background colour to make the highlighted row
-    ///
-    /// - Important: This method is deprecated. Use ``DataTableConfiguration/defaultCellConfiguration``
-    ///   instead to set `cell.backgroundColor` based on the `isHighlighted` and `indexPath` parameters.
-    @available(*, deprecated, message: "Use DataTableConfiguration.defaultCellConfiguration to set cell.backgroundColor instead.")
-    @objc optional func dataTable(_ dataTable: SwiftDataTable, highlightedColorForRowIndex at: Int) -> UIColor
+    ///   - dataTable: The data table that was interacted with
+    ///   - columnIndex: The index of the tapped column footer
+    func dataTable(_ dataTable: SwiftDataTable, didTapFooterAt columnIndex: Int)
 
-    /// Control the background colour for an unhighlighted row.
+    // MARK: - Row Heights
+
+    /// Specify custom heights for specific rows.
+    ///
+    /// Return `nil` to use the default row height from configuration.
+    /// A row height of 0 is valid and will be used if returned.
     ///
     /// - Parameters:
-    ///   - dataTable: SwiftDataTable
-    ///   - at: the row index to set the background colour
-    /// - Returns: the background colour to make the unhighlighted row
+    ///   - dataTable: The data table requesting the height
+    ///   - index: The index of the row
+    /// - Returns: The desired height for the row, or `nil` to use the default
+    func dataTable(_ dataTable: SwiftDataTable, heightForRowAt index: Int) -> CGFloat?
+
+    // MARK: - Column Widths
+
+    /// Specify custom widths for columns.
     ///
-    /// - Important: This method is deprecated. Use ``DataTableConfiguration/defaultCellConfiguration``
-    ///   instead to set `cell.backgroundColor` based on the `indexPath` parameter.
+    /// Return `nil` to use automatic width calculation for this column.
+    ///
+    /// - Note: If you return a non-nil value for any column, you should provide widths
+    ///   for all columns. This behavior may change in future versions to support
+    ///   per-column customization with automatic calculation for the rest.
+    ///
+    /// - Parameters:
+    ///   - dataTable: The data table requesting the width
+    ///   - index: The index of the column
+    /// - Returns: The desired width for the column, or `nil` for automatic calculation
+    func dataTable(_ dataTable: SwiftDataTable, widthForColumnAt index: Int) -> CGFloat?
+
+    // MARK: - Layout Behavior
+
+    /// Whether column widths should scale to fill the frame.
+    ///
+    /// If `true` and the columns' total width is smaller than the frame, each column
+    /// width will be scaled proportionately to fill the table. Otherwise, automatic
+    /// calculated widths are used.
+    ///
+    /// - Parameter dataTable: The data table requesting this setting
+    /// - Returns: `true` to scale to fill, `nil` to use configuration default
+    func shouldContentWidthScaleToFillFrame(in dataTable: SwiftDataTable) -> Bool?
+
+    /// Whether section headers should float during scroll.
+    ///
+    /// If `true`, headers remain visible during scroll. If `false`, they scroll
+    /// off with the content.
+    ///
+    /// - Parameter dataTable: The data table requesting this setting
+    /// - Returns: `true` to float headers, `nil` to use configuration default
+    func shouldSectionHeadersFloat(in dataTable: SwiftDataTable) -> Bool?
+
+    /// Whether section footers should float during scroll.
+    ///
+    /// If `true`, footers remain visible during scroll. If `false`, they scroll
+    /// off with the content.
+    ///
+    /// - Parameter dataTable: The data table requesting this setting
+    /// - Returns: `true` to float footers, `nil` to use configuration default
+    func shouldSectionFootersFloat(in dataTable: SwiftDataTable) -> Bool?
+
+    /// Whether the search header should float during scroll.
+    ///
+    /// If `true`, the search view remains visible during scroll. If `false`, it
+    /// scrolls off with the content.
+    ///
+    /// - Parameter dataTable: The data table requesting this setting
+    /// - Returns: `true` to float search header, `nil` to use configuration default
+    func shouldSearchHeaderFloat(in dataTable: SwiftDataTable) -> Bool?
+
+    /// Whether to show the search section.
+    ///
+    /// - Parameter dataTable: The data table requesting this setting
+    /// - Returns: `true` to show search, `nil` to use configuration default
+    func shouldShowSearchSection(in dataTable: SwiftDataTable) -> Bool?
+
+    // MARK: - Section Heights
+
+    /// The height of the section footer.
+    ///
+    /// - Parameter dataTable: The data table requesting the height
+    /// - Returns: The footer height, or `nil` to use configuration default (44)
+    func heightForSectionFooter(in dataTable: SwiftDataTable) -> CGFloat?
+
+    /// The height of the section header.
+    ///
+    /// - Parameter dataTable: The data table requesting the height
+    /// - Returns: The header height, or `nil` to use configuration default (44)
+    func heightForSectionHeader(in dataTable: SwiftDataTable) -> CGFloat?
+
+    /// The height of the search view.
+    ///
+    /// - Parameter dataTable: The data table requesting the height
+    /// - Returns: The search view height, or `nil` to use configuration default (44)
+    func heightForSearchView(in dataTable: SwiftDataTable) -> CGFloat?
+
+    /// The height of spacing between rows.
+    ///
+    /// - Parameter dataTable: The data table requesting the height
+    /// - Returns: The inter-row spacing, or `nil` to use configuration default (1)
+    func heightOfInterRowSpacing(in dataTable: SwiftDataTable) -> CGFloat?
+
+    // MARK: - Scroll Bars
+
+    /// Whether to show vertical scroll bars.
+    ///
+    /// - Parameter dataTable: The data table requesting this setting
+    /// - Returns: `true` to show, `nil` to use configuration default (true)
+    func shouldShowVerticalScrollBars(in dataTable: SwiftDataTable) -> Bool?
+
+    /// Whether to show horizontal scroll bars.
+    ///
+    /// - Parameter dataTable: The data table requesting this setting
+    /// - Returns: `true` to show, `nil` to use configuration default (true)
+    func shouldShowHorizontalScrollBars(in dataTable: SwiftDataTable) -> Bool?
+
+    // MARK: - Row Colors (Deprecated)
+
+    /// The background color for highlighted rows.
+    ///
+    /// - Important: Use ``DataTableConfiguration/defaultCellConfiguration`` instead
+    ///   to set `cell.backgroundColor` based on the `isHighlighted` parameter.
+    ///
+    /// - Parameters:
+    ///   - dataTable: The data table requesting the color
+    ///   - at: The row index
+    /// - Returns: The background color, or `nil` to use default
     @available(*, deprecated, message: "Use DataTableConfiguration.defaultCellConfiguration to set cell.backgroundColor instead.")
-    @objc optional func dataTable(_ dataTable: SwiftDataTable, unhighlightedColorForRowIndex at: Int) -> UIColor
-    
-    /// Return the number of fixed columns
+    func dataTable(_ dataTable: SwiftDataTable, highlightedColorForRowIndex at: Int) -> UIColor?
+
+    /// The background color for unhighlighted rows.
     ///
-    /// - Parameter dataTable: SwiftDataTable
-    /// - Returns: the columns and number of them to be fixed
-    @objc optional func fixedColumns(for dataTable: SwiftDataTable) -> DataTableFixedColumnType
-    
-    
-    /// Return `true` to support RTL layouts by flipping horizontal scroll on `CollectionViewFlowLayout`, if the current interface direction is RTL.
+    /// - Important: Use ``DataTableConfiguration/defaultCellConfiguration`` instead
+    ///   to set `cell.backgroundColor` based on the `indexPath` parameter.
     ///
-    /// Note: This will only effect the horizontal scroll direction if the current `userInterfaceLayoutDirection` is `.rightToLeft`.
+    /// - Parameters:
+    ///   - dataTable: The data table requesting the color
+    ///   - at: The row index
+    /// - Returns: The background color, or `nil` to use default
+    @available(*, deprecated, message: "Use DataTableConfiguration.defaultCellConfiguration to set cell.backgroundColor instead.")
+    func dataTable(_ dataTable: SwiftDataTable, unhighlightedColorForRowIndex at: Int) -> UIColor?
+
+    // MARK: - Fixed Columns
+
+    /// The fixed column configuration.
     ///
-    /// Default value: `true`.
+    /// - Parameter dataTable: The data table requesting this setting
+    /// - Returns: The fixed column type, or `nil` to use configuration default
+    func fixedColumns(for dataTable: SwiftDataTable) -> DataTableFixedColumnType?
+
+    // MARK: - RTL Support
+
+    /// Whether to support right-to-left interface direction.
     ///
-    /// - Parameter dataTable: SwiftDataTable
-    /// - Returns: `true` to flip horizontal scroll in RTL layouts.
-    @objc optional func shouldSupportRightToLeftInterfaceDirection(in dataTable: SwiftDataTable) -> Bool
+    /// When `true` and the current interface direction is RTL, the horizontal
+    /// scroll direction will be flipped on the collection view flow layout.
+    ///
+    /// - Parameter dataTable: The data table requesting this setting
+    /// - Returns: `true` to support RTL, `nil` to use configuration default (true)
+    func shouldSupportRightToLeftInterfaceDirection(in dataTable: SwiftDataTable) -> Bool?
 }
 
-extension SwiftDataTableDelegate {
-    
-    //    func dataTable(_ dataTable: SwiftDataTable, unhighlightedColorForRowIndex at: Int) -> UIColor? {
-    //        return nil
-    //    }
-    //    func dataTable(_ dataTable: SwiftDataTable, highlightedColorForRowIndex at: Int) -> UIColor? {
-    //        return nil
-    //    }
+// MARK: - Default Implementations
+
+public extension SwiftDataTableDelegate {
+
+    // Selection events - no-op by default
+    func didSelectItem(_ dataTable: SwiftDataTable, indexPath: IndexPath) {}
+    func didDeselectItem(_ dataTable: SwiftDataTable, indexPath: IndexPath) {}
+
+    // Header/footer taps - no-op by default
+    func dataTable(_ dataTable: SwiftDataTable, didTapHeaderAt columnIndex: Int) {}
+    func dataTable(_ dataTable: SwiftDataTable, didTapFooterAt columnIndex: Int) {}
+
+    // Row/column sizing - nil means use configuration defaults
+    func dataTable(_ dataTable: SwiftDataTable, heightForRowAt index: Int) -> CGFloat? { nil }
+    func dataTable(_ dataTable: SwiftDataTable, widthForColumnAt index: Int) -> CGFloat? { nil }
+
+    // Layout behavior - nil means use configuration defaults
+    func shouldContentWidthScaleToFillFrame(in dataTable: SwiftDataTable) -> Bool? { nil }
+    func shouldSectionHeadersFloat(in dataTable: SwiftDataTable) -> Bool? { nil }
+    func shouldSectionFootersFloat(in dataTable: SwiftDataTable) -> Bool? { nil }
+    func shouldSearchHeaderFloat(in dataTable: SwiftDataTable) -> Bool? { nil }
+    func shouldShowSearchSection(in dataTable: SwiftDataTable) -> Bool? { nil }
+
+    // Heights - nil means use configuration defaults
+    func heightForSectionFooter(in dataTable: SwiftDataTable) -> CGFloat? { nil }
+    func heightForSectionHeader(in dataTable: SwiftDataTable) -> CGFloat? { nil }
+    func heightForSearchView(in dataTable: SwiftDataTable) -> CGFloat? { nil }
+    func heightOfInterRowSpacing(in dataTable: SwiftDataTable) -> CGFloat? { nil }
+
+    // Scroll bars - nil means use configuration defaults
+    func shouldShowVerticalScrollBars(in dataTable: SwiftDataTable) -> Bool? { nil }
+    func shouldShowHorizontalScrollBars(in dataTable: SwiftDataTable) -> Bool? { nil }
+
+    // Deprecated row colors - nil means use configuration defaults
+    func dataTable(_ dataTable: SwiftDataTable, highlightedColorForRowIndex at: Int) -> UIColor? { nil }
+    func dataTable(_ dataTable: SwiftDataTable, unhighlightedColorForRowIndex at: Int) -> UIColor? { nil }
+
+    // Fixed columns - nil means use configuration defaults
+    func fixedColumns(for dataTable: SwiftDataTable) -> DataTableFixedColumnType? { nil }
+
+    // RTL support - nil means use configuration defaults
+    func shouldSupportRightToLeftInterfaceDirection(in dataTable: SwiftDataTable) -> Bool? { nil }
 }

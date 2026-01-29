@@ -83,6 +83,9 @@ public extension SwiftDataTable {
         // Store column extractors and data for typed operations
         storeTypedContext(data: data, columns: columns)
 
+        // Refresh header sort types now that typed sortabilities are available
+        refreshHeaderSortTypes()
+
         // Seed identifiers so the first diff doesn't treat all rows as inserts.
         seedRowIdentifiers(data.map { "\($0.id)" })
     }
@@ -294,6 +297,9 @@ extension SwiftDataTable {
     func storeTypedContext<T>(data: [T], columns: [DataTableColumn<T>]) {
         typedData = data
         typedColumns = columns
+
+        // Store type-erased comparators for sorting
+        storeTypedComparators(data: data, columns: columns)
     }
 
     func getStoredData() -> Any? {
@@ -302,5 +308,56 @@ extension SwiftDataTable {
 
     func getStoredColumns() -> Any? {
         return typedColumns
+    }
+
+    /// Stores type-erased comparators for each column that has a compare closure.
+    private func storeTypedComparators<T>(data: [T], columns: [DataTableColumn<T>]) {
+        var comparators = [Int: (Int, Int) -> ComparisonResult]()
+        var sortabilities = [Int: Bool]()
+
+        // Initialize index mapping (identity mapping initially)
+        currentToOriginalDataIndex = Array(0..<data.count)
+
+        for (columnIndex, column) in columns.enumerated() {
+            // Store sortability for each column
+            sortabilities[columnIndex] = column.isSortable
+
+            if let compare = column.compare {
+                // Create a closure that captures the data array and compare function.
+                // Uses currentToOriginalDataIndex to map current row positions to original data indices,
+                // since typedData stays in original order while rows get reordered by sorting.
+                comparators[columnIndex] = { [weak self] currentRowIndex1, currentRowIndex2 in
+                    guard let self = self,
+                          let currentData = self.typedData as? [T],
+                          let indexMap = self.currentToOriginalDataIndex,
+                          currentRowIndex1 < indexMap.count,
+                          currentRowIndex2 < indexMap.count else {
+                        return .orderedSame
+                    }
+                    let originalIndex1 = indexMap[currentRowIndex1]
+                    let originalIndex2 = indexMap[currentRowIndex2]
+                    guard originalIndex1 < currentData.count,
+                          originalIndex2 < currentData.count else {
+                        return .orderedSame
+                    }
+                    return compare(currentData[originalIndex1], currentData[originalIndex2])
+                }
+            }
+        }
+
+        typedComparators = comparators
+        typedColumnSortabilities = sortabilities
+    }
+
+    /// Returns a type-erased comparator for the specified column.
+    /// The comparator takes two row indices and returns a ComparisonResult.
+    func getTypedColumnComparator(for columnIndex: Int) -> ((Int, Int) -> ComparisonResult)? {
+        return typedComparators?[columnIndex]
+    }
+
+    /// Returns whether a typed column is sortable (has extract or compare).
+    /// Returns nil for non-typed columns.
+    func getTypedColumnSortability(for columnIndex: Int) -> Bool? {
+        return typedColumnSortabilities?[columnIndex]
     }
 }
