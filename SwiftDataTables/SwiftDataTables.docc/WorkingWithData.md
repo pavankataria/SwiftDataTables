@@ -1,16 +1,50 @@
 # Working with Data
 
-Learn how to provide data to your table using the type-safe API.
+Learn how to provide data to your table.
 
 ## Overview
 
-SwiftDataTables works directly with your model types. Define columns using KeyPaths, pass your array of models, and the table handles the rest - including animated updates when your data changes.
+SwiftDataTables supports two approaches for providing data:
 
-The key requirement: your models must conform to `Identifiable`. This allows SwiftDataTables to track individual rows and animate only what changed.
+1. **Type-safe API** - Define columns using KeyPaths on your model types. Requires `Identifiable` conformance, enabling animated updates when data changes.
 
-## Making Your Models Identifiable
+2. **Array-based API** - Pass a 2D array of strings for simple static displays. No model required.
 
-If your model already has a unique identifier, conforming to `Identifiable` is straightforward:
+Choose the type-safe API when you have model types and want diffing/animations. Choose the array-based API for quick prototyping or truly static data.
+
+## Static Displays
+
+For simple tables where data doesn't change, use the array-based initializer:
+
+```swift
+let data: [[String]] = [
+    ["Alice", "Engineering", "Senior"],
+    ["Bob", "Marketing", "Manager"],
+    ["Carol", "Sales", "Associate"]
+]
+
+let headers = ["Name", "Department", "Role"]
+
+let dataTable = SwiftDataTable(data: data, headerTitles: headers)
+```
+
+This approach:
+- Requires no model types
+- Displays data exactly as provided
+- Supports sorting and searching
+- Does not support animated updates (full reload on changes)
+
+When you need animated updates or want to work with your own model types, use the type-safe API instead.
+
+## Type-Safe API with Models
+
+The type-safe API works directly with your model types. Define columns using KeyPaths, pass your array of models, and the table handles animated updates when data changes.
+
+The key requirement: models must conform to `Identifiable` so SwiftDataTables can track individual rows.
+
+### Making Models Identifiable
+
+If your model already has a unique identifier, conformance is straightforward:
 
 ```swift
 struct Person: Identifiable {
@@ -32,9 +66,9 @@ struct Product: Identifiable {
 }
 ```
 
-> Important: The `id` property enables diffing. Without it, SwiftDataTables can't determine which rows changed, which means no animated updates and no scroll position preservation.
+> Important: The `id` property enables diffing. Without it, SwiftDataTables can't determine which rows changed, so use the array-based API instead.
 
-## Defining Columns
+### Defining Columns
 
 Use KeyPaths to map model properties to columns:
 
@@ -50,7 +84,7 @@ let dataTable = SwiftDataTable(columns: columns)
 
 The compiler verifies your KeyPaths at build time - typos are caught immediately.
 
-## Loading and Updating Data
+### Loading and Updating Data
 
 Pass your model array to `setData()`:
 
@@ -70,9 +104,9 @@ SwiftDataTables compares the old and new arrays by ID, then:
 - Leaves unchanged rows alone
 - Preserves scroll position
 
-## Data Transformations
+### Data Transformations
 
-### Formatting Values
+#### Formatting Values
 
 Use closures for formatted display:
 
@@ -84,7 +118,7 @@ let columns: [DataTableColumn<Product>] = [
 ]
 ```
 
-### Computed Properties
+#### Computed Properties
 
 Calculate values on the fly:
 
@@ -102,7 +136,7 @@ let columns: [DataTableColumn<Order>] = [
 ]
 ```
 
-### Date Formatting
+#### Date Formatting
 
 ```swift
 let dateFormatter: DateFormatter = {
@@ -117,11 +151,9 @@ let columns: [DataTableColumn<Event>] = [
 ]
 ```
 
-## Dynamic Data Without Models
+## Data Without Predefined Models
 
-Sometimes you're working with data that doesn't have a predefined model - CSV files, JSON responses, or database queries where the schema isn't known at compile time.
-
-For these cases, create a simple wrapper struct:
+When the schema isn't known at compile time - CSV files, JSON responses, or database queries - create a simple wrapper struct that conforms to `Identifiable`:
 
 ### CSV Import
 
