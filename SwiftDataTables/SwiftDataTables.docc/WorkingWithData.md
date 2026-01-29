@@ -4,35 +4,124 @@ Learn how to provide data to your table using the type-safe API.
 
 ## Overview
 
-SwiftDataTables uses a type-safe API with `DataTableColumn<T>` to define your table structure. This approach provides automatic diffing, animated updates, and compile-time safety.
+SwiftDataTables works directly with your model types. Define columns using KeyPaths, pass your array of models, and the table handles the rest - including animated updates when your data changes.
 
-## Basic Usage
+The key requirement: your models must conform to `Identifiable`. This allows SwiftDataTables to track individual rows and animate only what changed.
 
-Define columns using KeyPaths, then pass your model array:
+## Making Your Models Identifiable
+
+If your model already has a unique identifier, conforming to `Identifiable` is straightforward:
 
 ```swift
 struct Person: Identifiable {
-    let id: Int
+    let id: Int        // Already have a unique ID? You're done.
     let name: String
-    let age: Int
-    let city: String
+    let email: String
+    let department: String
 }
+```
 
+For models without a natural ID, add one:
+
+```swift
+struct Product: Identifiable {
+    let id = UUID()    // Generate a unique ID
+    let name: String
+    let price: Double
+    let category: String
+}
+```
+
+> Important: The `id` property enables diffing. Without it, SwiftDataTables can't determine which rows changed, which means no animated updates and no scroll position preservation.
+
+## Defining Columns
+
+Use KeyPaths to map model properties to columns:
+
+```swift
 let columns: [DataTableColumn<Person>] = [
     .init("Name", \.name),
-    .init("Age", \.age),
-    .init("City", \.city)
+    .init("Email", \.email),
+    .init("Department", \.department)
 ]
 
 let dataTable = SwiftDataTable(columns: columns)
-
-// Load data later
-dataTable.setData(people, animatingDifferences: true)
 ```
 
-## Dynamic Data Sources
+The compiler verifies your KeyPaths at build time - typos are caught immediately.
 
-For data without a predefined model (CSV files, JSON responses, database queries), create a wrapper struct:
+## Loading and Updating Data
+
+Pass your model array to `setData()`:
+
+```swift
+// Initial load
+let people = await fetchPeople()
+dataTable.setData(people, animatingDifferences: true)
+
+// Later, when data changes
+let updatedPeople = await fetchPeople()
+dataTable.setData(updatedPeople, animatingDifferences: true)  // Only changed rows animate
+```
+
+SwiftDataTables compares the old and new arrays by ID, then:
+- Animates insertions and deletions
+- Updates changed rows in place
+- Leaves unchanged rows alone
+- Preserves scroll position
+
+## Data Transformations
+
+### Formatting Values
+
+Use closures for formatted display:
+
+```swift
+let columns: [DataTableColumn<Product>] = [
+    .init("Product", \.name),
+    .init("Price") { String(format: "£%.2f", $0.price) },
+    .init("In Stock") { $0.inStock ? "Yes" : "No" }
+]
+```
+
+### Computed Properties
+
+Calculate values on the fly:
+
+```swift
+struct Order: Identifiable {
+    let id: Int
+    let quantity: Int
+    let unitPrice: Double
+}
+
+let columns: [DataTableColumn<Order>] = [
+    .init("Qty") { $0.quantity },
+    .init("Unit Price") { "£\($0.unitPrice)" },
+    .init("Total") { "£\(Double($0.quantity) * $0.unitPrice)" }
+]
+```
+
+### Date Formatting
+
+```swift
+let dateFormatter: DateFormatter = {
+    let f = DateFormatter()
+    f.dateStyle = .medium
+    return f
+}()
+
+let columns: [DataTableColumn<Event>] = [
+    .init("Event", \.name),
+    .init("Date") { dateFormatter.string(from: $0.date) }
+]
+```
+
+## Dynamic Data Without Models
+
+Sometimes you're working with data that doesn't have a predefined model - CSV files, JSON responses, or database queries where the schema isn't known at compile time.
+
+For these cases, create a simple wrapper struct:
 
 ### CSV Import
 
@@ -50,7 +139,7 @@ func loadCSV(from url: URL) {
     // Create columns dynamically
     let columns: [DataTableColumn<CSVRow>] = headers.enumerated().map { index, header in
         .init(header) { row in
-            .string(row.values[index])
+            row.values[index]
         }
     }
 
@@ -72,12 +161,12 @@ struct JSONRow: Identifiable {
     let id: String
     let data: [String: Any]
 
-    func value(for key: String) -> DataTableValueType {
+    func value(for key: String) -> String {
         switch data[key] {
-        case let string as String: return .string(string)
-        case let int as Int: return .int(int)
-        case let double as Double: return .double(double)
-        default: return .string("")
+        case let string as String: return string
+        case let int as Int: return "\(int)"
+        case let double as Double: return "\(double)"
+        default: return ""
         }
     }
 }
@@ -105,7 +194,7 @@ func loadJSON(_ json: [[String: Any]], keys: [String]) {
 /// Wrapper for database result rows
 struct QueryRow: Identifiable {
     let id: Int64         // Primary key or row number
-    let columns: [String: DataTableValueType]
+    let columns: [String: String]
 }
 
 func executeQuery(_ sql: String, columnNames: [String]) async {
@@ -113,7 +202,7 @@ func executeQuery(_ sql: String, columnNames: [String]) async {
 
     let columns: [DataTableColumn<QueryRow>] = columnNames.map { name in
         .init(name) { row in
-            row.columns[name] ?? .string("")
+            row.columns[name] ?? ""
         }
     }
 
@@ -129,9 +218,7 @@ func executeQuery(_ sql: String, columnNames: [String]) async {
 }
 ```
 
-## Why Use a Wrapper?
-
-The typed API requires `Identifiable` conformance for diffing. Wrapping dynamic data provides:
+### Why Use a Wrapper?
 
 | Benefit | Description |
 |---------|-------------|
@@ -156,53 +243,6 @@ if let allPeople: [Person] = dataTable.allModels() {
 if let person: Person = dataTable.model(at: 5) {
     print("Row 5: \(person.name)")
 }
-```
-
-## Data Transformations
-
-### Formatting Values
-
-Use closures for formatted display:
-
-```swift
-let columns: [DataTableColumn<Product>] = [
-    .init("Product", \.name),
-    .init("Price") { "$\(String(format: "%.2f", $0.price))" },
-    .init("In Stock") { $0.inStock ? "Yes" : "No" }
-]
-```
-
-### Computed Properties
-
-Calculate values on the fly:
-
-```swift
-struct Order: Identifiable {
-    let id: Int
-    let quantity: Int
-    let unitPrice: Double
-}
-
-let columns: [DataTableColumn<Order>] = [
-    .init("Qty") { $0.quantity },
-    .init("Unit Price") { "$\($0.unitPrice)" },
-    .init("Total") { "$\(Double($0.quantity) * $0.unitPrice)" }
-]
-```
-
-### Date Formatting
-
-```swift
-let dateFormatter: DateFormatter = {
-    let f = DateFormatter()
-    f.dateStyle = .medium
-    return f
-}()
-
-let columns: [DataTableColumn<Event>] = [
-    .init("Event", \.name),
-    .init("Date") { dateFormatter.string(from: $0.date) }
-]
 ```
 
 ## Empty States
