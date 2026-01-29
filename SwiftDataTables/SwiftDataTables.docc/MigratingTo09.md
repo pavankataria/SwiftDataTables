@@ -25,30 +25,24 @@ The following are deprecated and will be removed in a future version:
 
 | Deprecated | Replacement | Reason |
 |------------|-------------|--------|
-| `init(data:headerTitles:)` | `init(columns:)` | No diffing support, manual array conversion |
 | `SwiftDataTableDataSource` protocol | Direct data pattern | Boilerplate-heavy, no diffing |
 | `reload()` method | `setData(_:animatingDifferences:)` | Resets scroll, no animations |
 | `.largeScale()` | `.automatic(estimated:prefetchWindow:)` | Renamed for clarity |
 | `dataTable(_:highlightedColorForRowIndex:)` | `defaultCellConfiguration` | More flexible per-cell styling |
 | `dataTable(_:unhighlightedColorForRowIndex:)` | `defaultCellConfiguration` | More flexible per-cell styling |
 
-### Array-Based Initializer
+## Choosing an API
 
-The array-based initializer is deprecated because:
-- No automatic diffing (can't track which rows changed)
-- Manual conversion required (model → array)
-- No type safety (easy to mix up column order)
+SwiftDataTables offers two approaches:
 
-**Before (deprecated):**
+| Approach | Best For |
+|----------|----------|
+| **Type-safe API** | Model-backed data, animated updates, dynamic content |
+| **Array-based API** | Static displays, quick prototyping, schema-less data |
 
-```swift
-let data: [[DataTableValueType]] = items.map { item in
-    [.string(item.name), .int(item.age)]
-}
-let table = SwiftDataTable(data: data, headerTitles: ["Name", "Age"])
-```
+### Type-Safe API (Recommended for Dynamic Data)
 
-**After (recommended):**
+Use when you have model types and want animated updates:
 
 ```swift
 let columns: [DataTableColumn<Item>] = [
@@ -59,7 +53,28 @@ let table = SwiftDataTable(columns: columns)
 table.setData(items, animatingDifferences: true)
 ```
 
-For dynamic data (CSV, JSON, database queries), see <doc:WorkingWithData>.
+Benefits:
+- Animated diffing (insertions/deletions animate)
+- Type safety (compiler catches errors)
+- Scroll position preserved on updates
+
+### Array-Based API (Simple Static Displays)
+
+Use for quick prototyping or truly static data:
+
+```swift
+let data = [["Alice", "25"], ["Bob", "30"]]
+let table = SwiftDataTable(data: data, headerTitles: ["Name", "Age"])
+```
+
+Benefits:
+- No model types required
+- Minimal setup for simple cases
+- Works with any data source
+
+Note: Array-based tables don't support animated diffing - updates replace all content.
+
+For dynamic data without predefined models (CSV, JSON, database queries), see <doc:WorkingWithData>.
 
 ## Migration Path
 
