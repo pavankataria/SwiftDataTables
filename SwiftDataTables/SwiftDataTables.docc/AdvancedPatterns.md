@@ -1,244 +1,72 @@
 # Advanced Patterns
 
-Combine SwiftDataTables features for complex real-world scenarios.
+Real-world recipes showing how to build common data table interfaces.
 
 ## Overview
 
-This guide demonstrates advanced patterns that combine multiple features. These examples show how to build sophisticated data table interfaces.
+This guide provides copy-paste recipes for common data table scenarios. Each pattern explains the use case, shows the expected result, and provides working code.
 
-## Dashboard with Fixed ID Column
+## Stock Ticker (Live Updates)
 
-Combine fixed columns, sorting, search, and custom widths:
+**Use case:** Display data that updates frequently from a server - stock prices, sensor readings, live scores, or any real-time feed.
 
-```swift
-struct MetricData: Identifiable {
-    let id: String
-    let name: String
-    let value: Double
-    let change: Double
-    let status: String
-    let lastUpdated: Date
-}
-
-class DashboardVC: UIViewController, SwiftDataTableDelegate {
-    var metrics: [MetricData] = []
-    var dataTable: SwiftDataTable!
-
-    let columns: [DataTableColumn<MetricData>] = [
-        .init("ID", \.id),
-        .init("Metric", \.name),
-        .init("Value") { String(format: "%.2f", $0.value) },
-        .init("Change") { "\($0.change >= 0 ? "+" : "")\(String(format: "%.1f", $0.change))%" },
-        .init("Status", \.status),
-        .init("Updated") { $0.lastUpdated.formatted(date: .abbreviated, time: .shortened) }
-    ]
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        var config = DataTableConfiguration()
-
-        // Fix ID column on left
-        config.fixedColumns = DataTableFixedColumnType(leftColumns: 1)
-
-        // Custom widths per column
-        config.columnWidthModeProvider = { index in
-            switch index {
-            case 0: return .fixed(width: 80)   // ID
-            case 1: return nil                  // Metric (auto)
-            case 2: return .fixed(width: 100)  // Value
-            case 3: return .fixed(width: 90)   // Change
-            case 4: return .fixed(width: 100)  // Status
-            case 5: return nil                  // Updated (auto)
-            default: return nil
-            }
-        }
-
-        // Sort by change descending initially
-        config.defaultOrdering = DataTableColumnOrder(index: 3, order: .descending)
-
-        // Floating search
-        config.shouldSearchHeaderFloat = true
-
-        // Custom colors for positive/negative
-        config.highlightedAlternatingRowColors = [
-            UIColor.systemGreen.withAlphaComponent(0.1),
-            UIColor.systemGreen.withAlphaComponent(0.15)
-        ]
-
-        dataTable = SwiftDataTable(data: metrics, options: config)
-        dataTable.delegate = self
-        setupLayout()
-    }
-
-    func didSelectItem(_ dataTable: SwiftDataTable, indexPath: IndexPath) {
-        let metric = metrics[indexPath.section]
-        showDetail(for: metric)
-    }
-}
-```
-
-## Real-Time Updates with Polling
-
-Update data periodically while preserving scroll position:
+**What you get:** Data refreshes every second. Changed values animate smoothly. Your scroll position stays put even as data updates around you.
 
 ```swift
-class LiveDataVC: UIViewController {
+class StockTickerVC: UIViewController {
     var dataTable: SwiftDataTable!
-    var items: [LiveItem] = []
-    var updateTimer: Timer?
+    var stocks: [Stock] = []
+    var timer: Timer?
 
-    let columns: [DataTableColumn<LiveItem>] = [
+    let columns: [DataTableColumn<Stock>] = [
         .init("Symbol", \.symbol),
-        .init("Price") { .double($0.price) },
-        .init("Volume") { .int($0.volume) }
+        .init("Price") { String(format: "$%.2f", $0.price) },
+        .init("Change") { "\($0.change >= 0 ? "+" : "")\(String(format: "%.2f", $0.change))%" }
     ]
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        dataTable = SwiftDataTable(data: stocks, columns: columns)
+        // ... layout setup ...
 
-        var config = DataTableConfiguration()
-        config.shouldSearchHeaderFloat = true
-        config.rowHeightMode = .fixed(36)  // Compact rows
-
-        dataTable = SwiftDataTable(data: items, options: config)
-        setupLayout()
-
-        // Start polling
-        updateTimer = Timer.scheduledTimer(
-            withTimeInterval: 1.0,
-            repeats: true
-        ) { [weak self] _ in
-            self?.refreshData()
+        // Poll every second
+        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
+            self?.refresh()
         }
     }
 
-    func refreshData() {
+    func refresh() {
         Task {
-            let newItems = await fetchLatestData()
-
+            let latest = await fetchStockPrices()
             await MainActor.run {
-                items = newItems
-                // Animated update preserves scroll position
-                dataTable.setData(items, animatingDifferences: true)
+                stocks = latest
+                dataTable.setData(stocks, animatingDifferences: true)
             }
         }
     }
 
-    deinit {
-        updateTimer?.invalidate()
-    }
+    deinit { timer?.invalidate() }
 }
 ```
 
-## Editable Table with Inline Updates
+> Tip: The `animatingDifferences: true` parameter is key - it calculates what changed and animates only those rows, preserving scroll position.
 
-Handle cell editing and refresh individual rows:
+## Task List with Filters
 
-```swift
-class EditableTableVC: UIViewController, SwiftDataTableDelegate {
-    var dataTable: SwiftDataTable!
-    var records: [EditableRecord] = []
-    var editingIndexPath: IndexPath?
+**Use case:** Let users switch between subsets of data - like iOS Reminders with "All", "Active", and "Completed" tabs.
 
-    func didSelectItem(_ dataTable: SwiftDataTable, indexPath: IndexPath) {
-        let record = records[indexPath.section]
-        let column = indexPath.item
-
-        // Only edit certain columns
-        guard column == 1 || column == 2 else { return }
-
-        showEditor(for: record, column: column) { [weak self] updatedValue in
-            guard let self = self else { return }
-
-            // Update the model
-            switch column {
-            case 1: self.records[indexPath.section].name = updatedValue
-            case 2: self.records[indexPath.section].value = updatedValue
-            default: break
-            }
-
-            // Refresh just that row
-            self.dataTable.reloadRow(at: indexPath.section)
-        }
-    }
-
-    func showEditor(for record: EditableRecord, column: Int, completion: @escaping (String) -> Void) {
-        let alert = UIAlertController(title: "Edit", message: nil, preferredStyle: .alert)
-        alert.addTextField { textField in
-            textField.text = column == 1 ? record.name : record.value
-        }
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-        alert.addAction(UIAlertAction(title: "Save", style: .default) { _ in
-            if let text = alert.textFields?.first?.text {
-                completion(text)
-            }
-        })
-        present(alert, animated: true)
-    }
-}
-```
-
-## Master-Detail with Navigation
-
-Navigate to detail views on row selection:
+**What you get:** Tap a segment, rows animate in/out as the filter changes. No jarring full-table reload.
 
 ```swift
-class MasterVC: UIViewController, SwiftDataTableDelegate {
+class TaskListVC: UIViewController {
     var dataTable: SwiftDataTable!
-    var items: [Item] = []
-
-    let columns: [DataTableColumn<Item>] = [
-        .init("Name", \.name),
-        .init("Category", \.category),
-        .init("Price") { "$\(String(format: "%.2f", $0.price))" }
-    ]
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        var config = DataTableConfiguration()
-        config.shouldShowFooter = false
-
-        dataTable = SwiftDataTable(data: items, options: config)
-        dataTable.delegate = self
-        setupLayout()
-    }
-
-    func didSelectItem(_ dataTable: SwiftDataTable, indexPath: IndexPath) {
-        let item = items[indexPath.section]
-        let detailVC = DetailVC(item: item)
-        detailVC.onUpdate = { [weak self] updatedItem in
-            self?.items[indexPath.section] = updatedItem
-            self?.dataTable.reloadRow(at: indexPath.section)
-        }
-        navigationController?.pushViewController(detailVC, animated: true)
-    }
-}
-```
-
-## Filtered Views with Segmented Control
-
-Switch between data subsets:
-
-```swift
-class FilteredTableVC: UIViewController {
-    var dataTable: SwiftDataTable!
-    var allItems: [Task] = []
+    var allTasks: [Task] = []
 
     let columns: [DataTableColumn<Task>] = [
         .init("Title", \.title),
-        .init("Status", \.status),
+        .init("Status") { $0.isCompleted ? "Done" : "Pending" },
         .init("Due") { $0.dueDate.formatted(date: .abbreviated, time: .omitted) }
     ]
-
-    enum Filter: Int {
-        case all, active, completed
-    }
-
-    var currentFilter: Filter = .all {
-        didSet { applyFilter() }
-    }
 
     lazy var segmentedControl: UISegmentedControl = {
         let control = UISegmentedControl(items: ["All", "Active", "Completed"])
@@ -250,99 +78,139 @@ class FilteredTableVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.titleView = segmentedControl
-
-        dataTable = SwiftDataTable(data: allItems)
-        setupLayout()
+        dataTable = SwiftDataTable(data: allTasks, columns: columns)
+        // ... layout setup ...
     }
 
     @objc func filterChanged() {
-        currentFilter = Filter(rawValue: segmentedControl.selectedSegmentIndex) ?? .all
-    }
-
-    func applyFilter() {
         let filtered: [Task]
-        switch currentFilter {
-        case .all:
-            filtered = allItems
-        case .active:
-            filtered = allItems.filter { !$0.isCompleted }
-        case .completed:
-            filtered = allItems.filter { $0.isCompleted }
+        switch segmentedControl.selectedSegmentIndex {
+        case 1: filtered = allTasks.filter { !$0.isCompleted }
+        case 2: filtered = allTasks.filter { $0.isCompleted }
+        default: filtered = allTasks
         }
-
         dataTable.setData(filtered, animatingDifferences: true)
     }
 }
 ```
 
-## Large Dataset with Background Loading
+## Spreadsheet with Fixed First Column
 
-Load massive datasets without blocking UI:
+**Use case:** Wide tables where you need the identifier column (ID, name, etc.) to stay visible while scrolling horizontally through other columns.
+
+**What you get:** The first column stays pinned on the left. Scroll right to see more columns while always knowing which row you're looking at.
 
 ```swift
-class LargeDatasetVC: UIViewController {
-    var dataTable: SwiftDataTable!
-    var items: [DataPoint] = []
+let columns: [DataTableColumn<Report>] = [
+    .init("ID", \.id),        // This column will be fixed
+    .init("Name", \.name),
+    .init("Q1") { String(format: "$%.0f", $0.q1) },
+    .init("Q2") { String(format: "$%.0f", $0.q2) },
+    .init("Q3") { String(format: "$%.0f", $0.q3) },
+    .init("Q4") { String(format: "$%.0f", $0.q4) },
+    .init("Total") { String(format: "$%.0f", $0.total) }
+]
 
-    let columns: [DataTableColumn<DataPoint>] = [
-        .init("ID") { .int($0.id) },
-        .init("Value") { .double($0.value) },
-        .init("Category", \.category)
+var config = DataTableConfiguration()
+config.fixedColumns = DataTableFixedColumnType(leftColumns: 1)
+
+let dataTable = SwiftDataTable(data: reports, columns: columns, options: config)
+```
+
+> Note: You can also fix columns on the right with `DataTableFixedColumnType(rightColumns: 1)` or both sides.
+
+## Master-Detail Navigation
+
+**Use case:** Tap a row to navigate to a detail screen, edit the item, then return with updates reflected.
+
+**What you get:** Standard iOS navigation pattern. Changes made in the detail screen animate back into the table when you return.
+
+```swift
+class ProductListVC: UIViewController, SwiftDataTableDelegate {
+    var dataTable: SwiftDataTable!
+    var products: [Product] = []
+
+    let columns: [DataTableColumn<Product>] = [
+        .init("Name", \.name),
+        .init("Price") { String(format: "$%.2f", $0.price) },
+        .init("Stock") { "\($0.quantity) units" }
     ]
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        var config = DataTableConfiguration()
-
-        // Optimized for large datasets
-        config.rowHeightMode = .automatic(estimated: 44, prefetchWindow: 20)
-        config.columnWidthMode = .fitContentText(
-            strategy: .hybrid(sampleSize: 500, averageCharWidth: 7)
-        )
-        config.lockColumnWidthsAfterFirstLayout = true
-
-        dataTable = SwiftDataTable(data: [], options: config)
-        setupLayout()
-
-        // Show loading state
-        showLoadingIndicator()
-
-        // Load in background
-        Task.detached(priority: .userInitiated) {
-            let loaded = await self.loadLargeDataset()
-            await MainActor.run {
-                self.hideLoadingIndicator()
-                self.items = loaded
-                self.dataTable.setData(loaded, animatingDifferences: false)
-            }
-        }
+        dataTable = SwiftDataTable(data: products, columns: columns)
+        dataTable.delegate = self
+        // ... layout setup ...
     }
 
-    func loadLargeDataset() async -> [DataPoint] {
-        // Simulate loading 100K rows
-        return (0..<100_000).map { i in
-            DataPoint(
-                id: i,
-                value: Double.random(in: 0...1000),
-                category: ["A", "B", "C"].randomElement()!
-            )
+    func didSelectItem(_ dataTable: SwiftDataTable, indexPath: IndexPath) {
+        let product = products[indexPath.section]
+        let detailVC = ProductDetailVC(product: product)
+
+        detailVC.onSave = { [weak self] updated in
+            guard let self else { return }
+            self.products[indexPath.section] = updated
+            self.dataTable.setData(self.products, animatingDifferences: true)
         }
+
+        navigationController?.pushViewController(detailVC, animated: true)
     }
 }
 ```
 
-## Custom Actions Column
+## Inline Editing
 
-Add action buttons to rows:
+**Use case:** Let users edit cell values directly by tapping them - spreadsheet-style editing without navigating away.
+
+**What you get:** Tap a cell, an alert appears with a text field, save updates just that row.
 
 ```swift
-struct Employee: Identifiable {
-    let id: Int
-    let name: String
-    let role: String
-}
+class EditableTableVC: UIViewController, SwiftDataTableDelegate {
+    var dataTable: SwiftDataTable!
+    var items: [EditableItem] = []
 
+    let columns: [DataTableColumn<EditableItem>] = [
+        .init("ID", \.id),           // Column 0 - not editable
+        .init("Name", \.name),       // Column 1 - editable
+        .init("Value", \.value)      // Column 2 - editable
+    ]
+
+    func didSelectItem(_ dataTable: SwiftDataTable, indexPath: IndexPath) {
+        let column = indexPath.item
+        guard column == 1 || column == 2 else { return }  // Only edit columns 1 and 2
+
+        let item = items[indexPath.section]
+        let currentValue = column == 1 ? item.name : item.value
+
+        let alert = UIAlertController(title: "Edit", message: nil, preferredStyle: .alert)
+        alert.addTextField { $0.text = currentValue }
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Save", style: .default) { [weak self] _ in
+            guard let self, let newValue = alert.textFields?.first?.text else { return }
+
+            if column == 1 {
+                self.items[indexPath.section].name = newValue
+            } else {
+                self.items[indexPath.section].value = newValue
+            }
+            self.dataTable.reloadRow(at: indexPath.section)
+        })
+        present(alert, animated: true)
+    }
+}
+```
+
+> Tip: Use `reloadRow(at:)` for single-row updates instead of `setData()` - it's more efficient when you know exactly which row changed.
+
+## Row Actions via Tap Detection
+
+**Use case:** Add edit/delete actions to each row without using swipe gestures.
+
+**What you get:** An "Actions" column that, when tapped, shows an action sheet with Edit and Delete options.
+
+> Note: SwiftDataTables doesn't support actual buttons in cells. This pattern uses text that looks like actions ("Edit | Delete") and detects which column was tapped to trigger the appropriate behavior.
+
+```swift
 class EmployeeListVC: UIViewController, SwiftDataTableDelegate {
     var dataTable: SwiftDataTable!
     var employees: [Employee] = []
@@ -350,95 +218,90 @@ class EmployeeListVC: UIViewController, SwiftDataTableDelegate {
     let columns: [DataTableColumn<Employee>] = [
         .init("Name", \.name),
         .init("Role", \.role),
-        .init("Actions") { _ in "Edit | Delete" }  // Placeholder
+        .init("Actions") { _ in "Edit | Delete" }  // Text that looks like links
     ]
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         var config = DataTableConfiguration()
+        config.isColumnSortable = { $0 != 2 }  // Actions column not sortable
+        config.columnWidthModeProvider = { $0 == 2 ? .fixed(width: 100) : nil }
 
-        // Actions column not sortable
-        config.isColumnSortable = { $0 != 2 }
-
-        // Fixed width for actions
-        config.columnWidthModeProvider = { index in
-            index == 2 ? .fixed(width: 120) : nil
-        }
-
-        dataTable = SwiftDataTable(data: employees, options: config)
+        dataTable = SwiftDataTable(data: employees, columns: columns, options: config)
         dataTable.delegate = self
-        setupLayout()
+        // ... layout setup ...
     }
 
     func didSelectItem(_ dataTable: SwiftDataTable, indexPath: IndexPath) {
+        guard indexPath.item == 2 else { return }  // Only respond to actions column
+
         let employee = employees[indexPath.section]
-
-        // Check if actions column tapped
-        if indexPath.item == 2 {
-            showActionsSheet(for: employee, at: indexPath.section)
-        } else {
-            showDetail(for: employee)
-        }
-    }
-
-    func showActionsSheet(for employee: Employee, at index: Int) {
         let alert = UIAlertController(title: employee.name, message: nil, preferredStyle: .actionSheet)
 
         alert.addAction(UIAlertAction(title: "Edit", style: .default) { [weak self] _ in
-            self?.editEmployee(at: index)
+            self?.editEmployee(at: indexPath.section)
         })
-
         alert.addAction(UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
-            self?.deleteEmployee(at: index)
+            self?.employees.remove(at: indexPath.section)
+            self?.dataTable.setData(self!.employees, animatingDifferences: true)
         })
-
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
 
         present(alert, animated: true)
     }
-
-    func deleteEmployee(at index: Int) {
-        employees.remove(at: index)
-        dataTable.setData(employees, animatingDifferences: true)
-    }
 }
 ```
 
-## Accessibility Considerations
+## Large Dataset Loading
 
-Ensure your table is accessible:
+**Use case:** Load 10,000+ rows from a database or API without freezing the UI.
+
+**What you get:** A loading indicator while data loads in the background, then the table appears fully populated.
 
 ```swift
-class AccessibleTableVC: UIViewController {
+class LargeDatasetVC: UIViewController {
     var dataTable: SwiftDataTable!
+    var records: [Record] = []
+
+    let columns: [DataTableColumn<Record>] = [
+        .init("ID") { .int($0.id) },
+        .init("Name", \.name),
+        .init("Value") { .double($0.value) }
+    ]
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         var config = DataTableConfiguration()
+        // Optimizations for large datasets
+        config.rowHeightMode = .automatic(estimated: 44, prefetchWindow: 20)
+        config.columnWidthMode = .fitContentText(strategy: .hybrid(sampleSize: 500, averageCharWidth: 7))
+        config.lockColumnWidthsAfterFirstLayout = true
 
-        // Larger tap targets for accessibility
-        config.rowHeightMode = .fixed(56)
-        config.heightForSectionHeader = 56
-        config.heightForSectionFooter = 56
+        dataTable = SwiftDataTable(data: [], columns: columns, options: config)
+        // ... layout setup ...
 
-        // High contrast colors
-        config.unhighlightedAlternatingRowColors = [
-            .systemBackground,
-            UIColor.label.withAlphaComponent(0.05)
-        ]
+        // Show loading state
+        let spinner = UIActivityIndicatorView(style: .large)
+        spinner.startAnimating()
+        view.addSubview(spinner)
+        spinner.center = view.center
 
-        dataTable = SwiftDataTable(columns: columns, options: config)
-
-        // VoiceOver support
-        dataTable.isAccessibilityElement = false
-        dataTable.accessibilityLabel = "Data table with \(myData.count) rows"
-
-        setupLayout()
+        // Load in background
+        Task.detached(priority: .userInitiated) {
+            let loaded = await self.fetchLargeDataset()  // Your data loading
+            await MainActor.run {
+                spinner.removeFromSuperview()
+                self.records = loaded
+                self.dataTable.setData(loaded, animatingDifferences: false)  // No animation for initial load
+            }
+        }
     }
 }
 ```
+
+> Tip: Use `animatingDifferences: false` for initial large data loads - animation overhead isn't needed when the table is empty.
 
 ## See Also
 

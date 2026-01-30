@@ -46,3 +46,6 @@ my-docs/
 Example/Local.xcconfig
 .vscode/
 INSTRUCTIONS.md
+
+# Website docs export (private repo)
+docs/
