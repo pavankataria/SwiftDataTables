@@ -33,9 +33,15 @@ Display grid-like data with sorting, searching, and smooth animations — all in
 
 ---
 
-## Documentation
+## Shape the Roadmap
 
-**[swiftdatatables.pavankataria.com](https://swiftdatatables.pavankataria.com)** — Comprehensive guides, API reference, and examples.
+**[Vote for features](https://swiftdatatables.pavankataria.com/vote)** — your votes decide what gets built next.
+
+---
+
+## Guides & API Reference
+
+**[Explore the docs](https://swiftdatatables.pavankataria.com)** — step-by-step tutorials, real-world patterns, and complete API reference. From first table to production-ready.
 
 ---
 
