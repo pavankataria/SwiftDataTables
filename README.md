@@ -37,11 +37,13 @@ Display grid-like data with sorting, searching, and smooth animations — all in
 
 **[Vote for features](https://swiftdatatables.pavankataria.com/vote)** — your votes decide what gets built next.
 
+**[See the complete documentation →](https://swiftdatatables.pavankataria.com/docs/quick-start)**
+
 ---
 
 ## Guides & API Reference
 
-**[Explore the docs](https://swiftdatatables.pavankataria.com)** — step-by-step tutorials, real-world patterns, and complete API reference. From first table to production-ready.
+**[Explore the docs](https://swiftdatatables.pavankataria.com/docs/quick-start)** — step-by-step tutorials, real-world patterns, and complete API reference. From first table to production-ready.
 
 ---
 
@@ -79,7 +81,7 @@ let dataTable = SwiftDataTable(columns: columns)
 dataTable.setData(employees, animatingDifferences: true)
 ```
 
-**[See the full documentation →](https://swiftdatatables.pavankataria.com)**
+**[See the full documentation →](https://swiftdatatables.pavankataria.com/docs/quick-start)** — step-by-step tutorials, real-world patterns, and complete API reference. From first table to production-ready.
 
 ---
 
